@@ -3,6 +3,25 @@ import numpy as np
 
 class MarkovChain(object):
     """
+    A Markov Chain which changes between states according to the transition
+    matrix.
+
+    args:
+        transition (square array-like) = an n-by-n array representing a
+            right-stochastic matrix where each row sums to 1, n representing
+            the number of states
+        initial (list length n) = a list of probabilities corresponding to
+            the n states of the Markov Chain
+        states (list length n) = a map of aliases for the states of the
+            Markov Chain, if desired
+
+    methods:
+
+    sample
+        args:
+            n (int) = discrete length of sample
+        returns:
+            (list length n) of Markov Chain state values
 
     """
 

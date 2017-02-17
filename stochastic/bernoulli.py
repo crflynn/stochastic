@@ -11,7 +11,7 @@ class Bernoulli(object):
     args:
         p (float) = probability of success (probability of a Bernoulli random
             variable realization of 1)
-        states (list length 2) = a map of aliases for states 0 and 1 if 
+        states (list length 2) = a map of aliases for states 0 and 1 if
             desired (eg ['OFF', 'ON'])
 
     methods:

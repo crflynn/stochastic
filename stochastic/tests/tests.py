@@ -1,7 +1,7 @@
 from unittest import TestCase
 import numpy as np
 
-from .. import Bernoulli, Poisson, RandomWalk, MarkovChain
+from .. import Bernoulli, Poisson, RandomWalk, MarkovChain, Moran
 
 
 class BernoulliTest(TestCase):
@@ -176,4 +176,43 @@ class MarkovChainTest(TestCase):
         np.random.seed(42)
         p = np.all(markovchain.sample(10) ==
                    np.array([0, 1, 1, 1, 0, 0, 0, 1, 1, 1]))
+        self.assertTrue(p)
+
+
+class MoranTest(TestCase):
+
+    def test_create_moran(self):
+        with self.assertRaises(TypeError):
+            moran = Moran(1.4)
+
+        with self.assertRaises(ValueError):
+            moran = Moran(-5)
+
+    def test_sample_moran(self):
+        moran = Moran(20)
+
+        with self.assertRaises(TypeError):
+            moran.sample(5.6)
+
+        with self.assertRaises(ValueError):
+            moran.sample(-1)
+
+        with self.assertRaises(TypeError):
+            moran.sample(20, 5.5)
+
+        with self.assertRaises(ValueError):
+            moran.sample(20, 0)
+
+        np.random.seed(42)
+        p = np.all(moran.sample(10) ==
+                   np.array([10, 10, 11, 11, 11, 10,  9,  8,  9,  9,
+                            9,  8,  9, 10,  9,  8,  7,  7,  7,  7,
+                            7,  7,  6,  6,  6,  6,  6,  5,  5,  5,
+                            4,  4,  4,  3,  4,  5,  5,  5,  4,  4,
+                            4,  3,  3,  2,  2,  2,  2,  2,  2,  2,
+                            2,  3,  3,  4,  5,  5,  6,  5,  5,  4,
+                            4,  4,  4,  4,  4,  4,  4,  3,  3,  2,
+                            3,  3,  3,  2,  2,  2,  2,  2,  1,  1,
+                            1,  1,  1,  1,  1,  1,  1,  1,  1,  1,
+                            1,  1,  1,  1,  1,  1,  1,  1,  1,  0]))
         self.assertTrue(p)
