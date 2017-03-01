@@ -41,7 +41,7 @@ class Moran(object):
         for k in range(1, n):
             p_down = 1.0 * (n - k) / n * k / n
             p_up = 1.0 * k / n * (n - k) / n
-            p_same = 1 - p_down - p_up
+            p_same = 1.0 - p_down - p_up
             p.append([p_down, p_same, p_up])
 
         return p
