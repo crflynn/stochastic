@@ -1,7 +1,8 @@
 from unittest import TestCase
 import numpy as np
 
-from .. import Bernoulli, Poisson, RandomWalk, MarkovChain, Moran
+from .. import Bernoulli, Poisson, RandomWalk, MarkovChain, Moran, \
+    ChineseRestaurant, BrownianMotion
 
 
 class BernoulliTest(TestCase):
@@ -206,13 +207,88 @@ class MoranTest(TestCase):
         np.random.seed(42)
         p = np.all(moran.sample(10) ==
                    np.array([10, 10, 11, 11, 11, 10,  9,  8,  9,  9,
-                            9,  8,  9, 10,  9,  8,  7,  7,  7,  7,
-                            7,  7,  6,  6,  6,  6,  6,  5,  5,  5,
-                            4,  4,  4,  3,  4,  5,  5,  5,  4,  4,
-                            4,  3,  3,  2,  2,  2,  2,  2,  2,  2,
-                            2,  3,  3,  4,  5,  5,  6,  5,  5,  4,
-                            4,  4,  4,  4,  4,  4,  4,  3,  3,  2,
-                            3,  3,  3,  2,  2,  2,  2,  2,  1,  1,
-                            1,  1,  1,  1,  1,  1,  1,  1,  1,  1,
-                            1,  1,  1,  1,  1,  1,  1,  1,  1,  0]))
+                             9,  8,  9, 10,  9,  8,  7,  7,  7,  7,
+                             7,  7,  6,  6,  6,  6,  6,  5,  5,  5,
+                             4,  4,  4,  3,  4,  5,  5,  5,  4,  4,
+                             4,  3,  3,  2,  2,  2,  2,  2,  2,  2,
+                             2,  3,  3,  4,  5,  5,  6,  5,  5,  4,
+                             4,  4,  4,  4,  4,  4,  4,  3,  3,  2,
+                             3,  3,  3,  2,  2,  2,  2,  2,  1,  1,
+                             1,  1,  1,  1,  1,  1,  1,  1,  1,  1,
+                             1,  1,  1,  1,  1,  1,  1,  1,  1,  0]))
         self.assertTrue(p)
+
+
+class ChineseRestaurantTest(TestCase):
+
+    def test_create_chinese_restaurant(self):
+        with self.assertRaises(ValueError):
+            cr = ChineseRestaurant(2)
+
+        with self.assertRaises(TypeError):
+            cr = ChineseRestaurant('hi')
+
+        with self.assertRaises(TypeError):
+            cr = ChineseRestaurant(-1, 'hi')
+
+        with self.assertRaises(ValueError):
+            cr = ChineseRestaurant(-1, 2.6)
+
+        with self.assertRaises(ValueError):
+            cr = ChineseRestaurant(0.5, -1)
+
+    def test_sample_chinese_restaurant(self):
+        cr = ChineseRestaurant()
+
+        with self.assertRaises(TypeError):
+            cr.sample(5.6)
+
+        with self.assertRaises(ValueError):
+            cr.sample(-1)
+
+        np.random.seed(42)
+        p = np.all(cr.sample(20) ==
+                   np.array([[1, 2, 6, 7, 8, 12, 15, 16, 17, 18, 19, 20],
+                             [3, 4, 5, 9, 10, 11, 14], [13]]))
+        self.assertTrue(p)
+
+
+class BrownianTest(TestCase):
+
+    def test_create_brownian_motion(self):
+        with self.assertRaises(TypeError):
+            bm = BrownianMotion('hi')
+
+        with self.assertRaises(ValueError):
+            bm = BrownianMotion(-1)
+
+    def test_sample_brownian_motion(self):
+        bm = BrownianMotion()
+
+        with self.assertRaises(TypeError):
+            bm.sample(5.6)
+
+        with self.assertRaises(ValueError):
+            bm.sample(-1)
+
+        with self.assertRaises(TypeError):
+            bm.sample(10, 1)
+
+        with self.assertRaises(TypeError):
+            bm.times(5.6)
+
+        with self.assertRaises(ValueError):
+            bm.times(-1)
+
+        with self.assertRaises(TypeError):
+            bm.times(10, 1)
+
+        np.random.seed(42)
+        b = bm.sample(10)
+        np.random.seed(42)
+        p = np.all(b ==
+                   np.concatenate(([0], np.cumsum(np.random.normal(scale=1, size=10)))))
+
+        self.assertTrue(p)
+
+        self.assertTrue(np.any(bm.times(20) == np.linspace(0, 1, 21)))
