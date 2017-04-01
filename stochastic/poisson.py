@@ -55,7 +55,7 @@ class Poisson(object):
         otherwise generate a sample up to time t=length if time=True
         """
         if not isinstance(time, bool):
-            raise TypeError('Time must be boolean.')
+            raise TypeError('Time flag must be boolean.')
 
         if time:
 

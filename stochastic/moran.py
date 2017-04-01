@@ -54,8 +54,8 @@ class Moran(object):
 
     def sample(self, start, n_max=1000):
         """
-        Generate a Moran process until absorption (state 0 or n) or provess
-        reaches length n_max
+        Generate a Moran process until absorption (state 0 or n) or length of 
+        process reaches length n_max
         """
         if not isinstance(start, int):
             raise TypeError('Initial state must be a positive integer.')

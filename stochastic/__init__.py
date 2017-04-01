@@ -5,3 +5,4 @@ from random_walk import RandomWalk
 from markov_chain import MarkovChain
 from moran import Moran
 from brownian_motion import BrownianMotion
+from fractional_brownian_motion import FractionalBrownianMotion
