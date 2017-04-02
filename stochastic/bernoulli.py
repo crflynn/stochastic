@@ -1,7 +1,7 @@
 import numpy as np
 
 
-class Bernoulli(object):
+class BernoulliProcess(object):
     """
     A Bernoulli process consists of a sequence of Bernoulli random
     variables. A Bernoulli random variable is

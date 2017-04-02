@@ -2,7 +2,7 @@ import numpy as np
 from numbers import Number
 
 
-class Poisson(object):
+class PoissonProcess(object):
     """
     A Poisson process with rate lambda is a count of occurrences of iid
     exponential random variables with mean 1/lambda. This class generates
@@ -12,19 +12,6 @@ class Poisson(object):
     args:
         rate (float) = the rate of occurrence;  1/rate is the mean of the
             associated exponential random variables
-
-    methods:
-
-    sample
-        args:
-            length (int or float) = int number of occurrences to generate
-                or float end time for sample.
-            time (boolean) = If true length is an end time for the sample, if
-                false length is an integer count at which the sample should
-                end. Default is False
-        returns:
-            (list of len length+1) of cumulative exponentials if time = False
-            or (list of arbitrary len) if time = True
     """
 
     def __init__(self, rate=1):
@@ -53,6 +40,14 @@ class Poisson(object):
         """
         Generate a poisson process sample up to count of length if time=False,
         otherwise generate a sample up to time t=length if time=True
+
+        args:
+            length (int or float) = If time=False, generates a Poisson process
+                sample where length is the number of jumps. If time=True,
+                length is the end time for the sample.
+            time (bool) = Flag for generating a sample where length is number
+                of jumps if False or length is end time of the sample if True.
+                Default: False. 
         """
         if not isinstance(time, bool):
             raise TypeError('Time flag must be boolean.')

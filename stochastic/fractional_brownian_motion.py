@@ -5,7 +5,10 @@ from warnings import warn
 class FractionalBrownianMotion(object):
     """
     A fractional Brownian motion (discretely sampled) has correlated Gaussian
-    increments defined by Hurst parameter H.
+    increments defined by Hurst parameter H. When H == 1/2, the process
+    is a standard Brownian motion. When H > 1/2, the increments are
+    positively correlated. When H < 1/2, the increments are negatively
+    correlated.
 
     args:
         t (float) = end time of process
@@ -44,7 +47,7 @@ class FractionalBrownianMotion(object):
     def __str__(self):
         return 'Fractional Brownian motion on interval [0, {}] and Hurst ' \
                'parameter H = {} using {} method.'.format(
-                   self.t, self.h, self._method)
+                   self.T, self.H, self._method)
 
     def __repr__(self):
         return self.__str__()
@@ -96,6 +99,12 @@ class FractionalBrownianMotion(object):
             raise ValueError('Hurst parameter must be in interval (0, 1).')
         if not isinstance(T, (int, float)) or T <= 0:
             raise ValueError('Length of fbm must be greater than 0.')
+
+    def _check_increments(self, n):
+        if not isinstance(n, int):
+            raise TypeError('Number of increments must be an int.')
+        if n <= 0:
+            raise ValueError('Number of increments must be positive.')
 
     def sample(self, n):
         return self._method(n, self.H, self.T)

@@ -11,18 +11,9 @@ class MarkovChain(object):
             right-stochastic matrix where each row sums to 1, n representing
             the number of states
         initial (list length n) = a list of probabilities corresponding to
-            the n states of the Markov Chain
+            the n states of the Markov Chain. Default is 1/n for each state.
         states (list length n) = a map of aliases for the states of the
             Markov Chain, if desired
-
-    methods:
-
-    sample
-        args:
-            n (int) = discrete length of sample
-        returns:
-            (list length n) of Markov Chain state values
-
     """
 
     def __init__(self, transition=[[0.5, 0.5], [0.5, 0.5]],
@@ -80,6 +71,8 @@ class MarkovChain(object):
             raise ValueError(
                 'Number of states aliases must match quantity of states ' +
                 'given by transition matrix.')
+        if  len(set(values)) != len(values):
+            raise ValueError('State aliases must be distinct.')
         self._states = values
 
     def __str__(self):
@@ -93,6 +86,9 @@ class MarkovChain(object):
     def sample(self, n):
         """
         Generate a Markov chain sample of length n
+
+        args:
+            n (int) = the number of steps in the markov chain
         """
         if not isinstance(n, int):
             raise TypeError('Sample length must be positive integer.')

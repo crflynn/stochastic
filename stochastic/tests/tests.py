@@ -289,7 +289,7 @@ class BrownianTest(TestCase):
         test = np.concatenate(([0], np.cumsum(np.random.normal(scale=np.sqrt(1.0/10), size=10))))
         p = np.all(b == test)
         self.assertTrue(p)
-        
+
         np.random.seed(42)
         b = bm.sample(10, False)
         np.random.seed(42)
@@ -298,6 +298,8 @@ class BrownianTest(TestCase):
         self.assertTrue(p)
 
     def test_sample_brownian_motion_noise(self):
+        bm = BrownianMotion()
+
         np.random.seed(42)
         b = bm.sample_noise(10)
         np.random.seed(42)
@@ -305,7 +307,7 @@ class BrownianTest(TestCase):
         p = np.all(b == test)
         self.assertTrue(p)
 
-    def tset_times_brownian_motion(self):
+    def test_times_brownian_motion(self):
         bm = BrownianMotion()
         self.assertTrue(np.any(bm.times(20) == np.linspace(0, 1, 21)))
         self.assertTrue(np.any(bm.times(20, False) == np.linspace(1.0/20, 1, 20)))

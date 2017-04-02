@@ -2,7 +2,7 @@ import numpy as np
 from numbers import Number
 
 
-class ChineseRestaurant(object):
+class ChineseRestaurantProcess(object):
     """
     A Chinese restaurant process consists of a sequence of arrivals of 
     customers to a Chinese restaurant. Customers may be seated either at an

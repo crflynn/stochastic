@@ -13,20 +13,6 @@ class RandomWalk(object):
         p (list(int or float)): optional, the probabilities
             associated with each of the steps provided. By default the
             probabilities are 1/len(steps).
-
-    methods:
-
-    sample
-        args:
-            n (int): number of steps to generate
-        returns:
-            (list of len n+1) of cumulative step values
-
-    sample_increments
-        args:
-            n (int): number of steps to generate
-        returns:
-            (list of len n+1) of step increment values
     """
 
     def __init__(self, steps=[-1, 1], p=None):
@@ -82,11 +68,20 @@ class RandomWalk(object):
         return self.__str__()
 
     def sample(self, n):
+        """
+        Generate a sample random walk including step at t=0.
+
+        args:
+            n (int) = the number of steps in the random walk
+        """
         return np.array([0] + list(np.cumsum(self.sample_increments(n))))
 
     def sample_increments(self, n):
         """
-        Generate a random walk of n increments.
+        Generate the increments of a random walk.
+
+        args:
+            n (int) = the number of steps in the random walk
         """
         if not isinstance(n, int):
             raise TypeError('Sample length must be int.')

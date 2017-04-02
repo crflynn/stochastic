@@ -75,6 +75,34 @@ class BrownianMotion(object):
         else:
             return np.cumsum(np.random.normal(scale=np.sqrt(delta_t), size=n))
 
+    def sample_at(self, times):
+        """
+        Returns a sample of a Brownian motion at specified times.
+
+        args:
+            times (array of floats) = an array of time values for the
+                sample. Times must be positive and monotonically increasing.
+                May include 0 as a time.
+        """
+
+        increments = np.diff(times)
+        if np.any([t < 0 for t in times]):
+            raise ValueError(' Times must be nonnegative.')
+        if np.any([t <= 0 for t in increments]):
+            raise ValueError(' Times must be strictly monotonically increasing.')
+
+        s = []
+        if times[0] == 0:
+            s.append(0)
+            increments = increments[1:]
+        else:
+            increments = np.concatenate((times[:1], increments))
+
+        for inc in increments:
+            s.append(np.random.normal(scale=np.sqrt(inc)))
+
+        return np.cumsum(s)
+
     def sample_noise(self, n):
         """
         Generate a Gaussian noise sample of n increments
