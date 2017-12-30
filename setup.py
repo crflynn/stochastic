@@ -1,9 +1,12 @@
+"""Setup."""
 from setuptools import setup
 
 
 def readme():
+    """Load the readme."""
     with open('README.md') as f:
         return f.read()
+
 
 setup(name='stochastic',
       version='0.1',

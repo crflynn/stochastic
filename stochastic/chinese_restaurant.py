@@ -1,13 +1,16 @@
+"""Chinese restaurant process."""
 import numpy as np
-from numbers import Number
+
+from stochastic.base import Sequence
 
 
-class ChineseRestaurantProcess(object):
-    """
-    A Chinese restaurant process consists of a sequence of arrivals of 
+class ChineseRestaurantProcess(Sequence):
+    """Chinese restaurant process.
+
+    A Chinese restaurant process consists of a sequence of arrivals of
     customers to a Chinese restaurant. Customers may be seated either at an
-    occupied table or a new table, there being infinitely many customers 
-    and tables. 
+    occupied table or a new table, there being infinitely many customers
+    and tables.
 
     The first customer sits at the first table. The n-th customer
     sits at a new table with probability 1/n, and at each already occupied
@@ -19,22 +22,6 @@ class ChineseRestaurantProcess(object):
     (strength + T * discount) / (n - 1 + strength) to sit at a new table
     and a probability of (t_k - discount) / (n - 1 + strength) of sitting at
     table k. T is the number of occupied tables.
-
-    args:
-        discount (float) = any real-valued number less than 1
-        strength (float) = must be a negative multiple of discount if discount
-            is less than 0 or a value greater than the opposite of discount
-            if discount is non-negative and less than 1
-
-    methods:
-
-    sample
-        args:
-            n (int) = number of customers to simulate
-        returns:
-            (list of lists) representing the partition of customers among 
-                different tables.
-
     """
 
     def __init__(self, discount=0, strength=1):
@@ -43,50 +30,54 @@ class ChineseRestaurantProcess(object):
 
     @property
     def discount(self):
+        """Discount parameter."""
         return self._discount
 
     @discount.setter
     def discount(self, value):
-        if not isinstance(value, Number):
-            raise TypeError(
-                'Discount value must be a number.')
+        self._check_number(value, "Discount")
         if value >= 1:
-            raise ValueError(
-                'Discount value must be less than 1.')
+            raise ValueError("Discount value must be less than 1.")
         self._discount = value
 
     @property
     def strength(self):
+        """Strength parameter."""
         return self._strength
 
     @strength.setter
     def strength(self, value):
-        if not isinstance(value, Number):
-            raise TypeError('Strength value must be a number.')
+        self._check_number(value, "Strength")
         if self.discount < 0:
-            if value / -self.discount <= 0 or (value / -self.discount) % 1 != 0:
+            strength_positive = value / -self.discount <= 0
+            strength_not_multiple = (value / -self.discount) % 1 != 0
+            if strength_positive or strength_not_multiple:
                 raise ValueError(
-                    'When discount is negative, strength value must be equal to a multiple of the discount value.')
+                    "When discount is negative, strength value must be equal "
+                    "to a multiple of the discount value.")
         elif self.discount < 1:
             if value <= -self.discount:
                 raise ValueError(
-                    'When discount is between 0 and 1, strength value must be greater than the negative of the discount')
+                    "When discount is between 0 and 1, strength value must be "
+                    "greater than the negative of the discount")
         self._strength = value
 
     def __str__(self):
-        return 'Chinese restaurant process with discount {discount} and strength {strength}'.format(discount=self.discount, strength=self.strength)
+        return ("Chinese restaurant process with discount {d} "
+                "and strength {s}").format(
+                    d=str(self.discount),
+                    s=str(self.strength)
+        )
 
     def __repr__(self):
-        return self.__str__()
+        return "ChineseRestaurantProcess(discount={d}, strength={s})".format(
+            d=str(self.discount),
+            s=str(self.strength)
+        )
 
-    def sample(self, n):
-        """
-        Generate a Chinese restaurant process with n customers
-        """
-        if not isinstance(n, int):
-            raise TypeError('Sample length must be positive integer.')
-        if n < 1:
-            raise ValueError('Sample length must be at least 1.')
+    def _sample_chinese_restaurant(self, n):
+        """Generate a Chinese restaurant process with n customers."""
+        self._check_increments(n)
 
         s = [[1]]
         num_tables = 1
@@ -105,3 +96,7 @@ class ChineseRestaurantProcess(object):
             s[table].append(k)
 
         return np.array(s)
+
+    def sample(self, n):
+        """Generate a Chinese restaurant process with n customers."""
+        return self._sample_chinese_restaurant(n)
