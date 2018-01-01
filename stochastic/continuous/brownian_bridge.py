@@ -19,7 +19,7 @@ class BrownianBridge(BrownianMotion):
 
     @property
     def b(self):
-        """The right endpoint value."""
+        """Right endpoint value."""
         return self._b
 
     @b.setter

@@ -1,10 +1,10 @@
 """Poisson processes."""
 import numpy as np
 
-from stochastic.base import Sequence
+from stochastic.base import Checks
 
 
-class PoissonProcess(Sequence):
+class PoissonProcess(Checks):
     r"""Poisson process.
 
     A Poisson process with rate :math:`\lambda` is a count of occurrences of

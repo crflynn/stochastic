@@ -2,8 +2,8 @@
 import numpy as np
 
 
-class Sequence(object):
-    """Base class for sequence processes."""
+class Checks(object):
+    """Mix-in class containing input value checking functions."""
 
     def _check_increments(self, n):
         if not isinstance(n, int):
@@ -30,30 +30,12 @@ class Sequence(object):
             raise TypeError("Zero inclusion flag must be a boolean.")
 
 
-class Process(Sequence):
-    """Generic process class."""
+class Continuous(Checks):
+    """Base class to be subclassed to most process classes.
 
-    def _linspace(self, end, n, zero=True):
-        """Generate a linspace from 0 to end for n increments."""
-        if zero:
-            return np.linspace(0, end, n + 1)
-        else:
-            return np.linspace(1.0 * end / n, end, n)
-
-    def times(self, n, zero=True):
-        """Generate times associated with n increments on [0, t].
-
-        :param int n: the number of increments
-        :param bool zero: if True, include :math:`t=0`
-        """
-        self._check_increments(n)
-        self._check_zero(zero)
-
-        return self._linspace(self.t, n, zero)
-
-
-class Continuous(Process):
-    """Continuous stochastic process class to be subclassed."""
+    Contains properties and functions related to times and continuous-time
+    processes.
+    """
 
     def __init__(self, t=1):
         self.t = t
@@ -71,6 +53,24 @@ class Continuous(Process):
             raise ValueError("Time end value must be positive.")
         self._t = float(value)
 
+    def _linspace(self, end, n, zero=True):
+        """Generate a linspace from 0 to end for n increments."""
+        if zero:
+            return np.linspace(0, end, n + 1)
+        else:
+            return np.linspace(1.0 * end / n, end, n)
+
     def sample(self, *args, **kwargs):
         """Sample the process."""
         raise NotImplementedError
+
+    def times(self, n, zero=True):
+        """Generate times associated with n increments on [0, t].
+
+        :param int n: the number of increments
+        :param bool zero: if True, include :math:`t=0`
+        """
+        self._check_increments(n)
+        self._check_zero(zero)
+
+        return self._linspace(self.t, n, zero)

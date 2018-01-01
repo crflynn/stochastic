@@ -28,7 +28,7 @@ class MoranProcess(object):
         if not isinstance(value, int):
             raise TypeError(
                 'Number of states must be an integer.')
-        if value <= 0:
+        if value <= 2:
             raise ValueError(
                 'Number of states must be at least 3.')
         self._n_max = value

@@ -1,10 +1,10 @@
 """Chinese restaurant process."""
 import numpy as np
 
-from stochastic.base import Sequence
+from stochastic.base import Checks
 
 
-class ChineseRestaurantProcess(Sequence):
+class ChineseRestaurantProcess(Checks):
     """Chinese restaurant process.
 
     A Chinese restaurant process consists of a sequence of arrivals of

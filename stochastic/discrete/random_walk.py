@@ -1,10 +1,10 @@
 """Random walk process."""
 import numpy as np
 
-from stochastic.base import Sequence
+from stochastic.base import Checks
 
 
-class RandomWalk(Sequence):
+class RandomWalk(Checks):
     """Random walk.
 
     A random walk is a sequence of random steps taken from a set of step sizes
