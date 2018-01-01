@@ -10,6 +10,8 @@ class BrownianExcursion(BrownianBridge):
     A Brownian excursion is a Brownian bridge from (0, 0) to (t, 0) which is
     conditioned to be nonnegative on the interval [0, 1].
 
+    Generated using method by Vervaat, 1979; Biane, 1986.
+
     :param float t: the right hand endpoint of the time interval :math:`[0,t]`
         for the process
     """
@@ -33,7 +35,11 @@ class BrownianExcursion(BrownianBridge):
         )
 
     def sample(self, n, zero=True):
-        """Generate a Brownian excursion."""
+        """Generate a Brownian excursion.
+
+        :param int n: the number of increments to generate.
+        :param bool zero: if True, include :math:`t=0`
+        """
         return self._sample_brownian_excursion(n)
 
     def sample_at(self, times):

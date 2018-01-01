@@ -8,6 +8,9 @@ from stochastic.continuous.brownian_motion import BrownianMotion
 class BesselProcess(Continuous):
     """Bessel process.
 
+    The Bessel process is the Euclidean norm of an :math:`n`-dimensional
+    Wiener process, e.g. :math:`\|\mathbf{W}_t\|`
+
     Generate Bessel process realizations using :py:attr:`dim` independent
     Brownian motion processes on the interval :math:`[0,t]`
 
@@ -47,7 +50,7 @@ class BesselProcess(Continuous):
         return np.array([np.linalg.norm(coord) for coord in zip(*samples)])
 
     def sample(self, n, zero=True):
-        """Generate a realization of a Bessel process.
+        """Generate a realization.
 
         :param int n: the number of increments to generate
         :param bool zero: if True, include :math:`t=0`

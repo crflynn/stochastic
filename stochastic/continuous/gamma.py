@@ -134,7 +134,7 @@ class GammaProcess(Continuous):
         return np.cumsum(s)
 
     def sample(self, n, zero=True):
-        """Generate a realization of a Gamma process.
+        """Generate a realization.
 
         :param int n: the number of increments to generate
         :param bool zero: if True, include :math:`t=0`
@@ -142,8 +142,8 @@ class GammaProcess(Continuous):
         return self._sample_gamma_process(n, zero)
 
     def sample_at(self, times):
-        """Generate a realization of a Gamma process at specified times.
+        """Generate a realization at specified times.
 
-        :param int times: the number of increments to generate
+        :param int times: the times at which to generate the realization
         """
         return self._sample_gamma_process_at(times)

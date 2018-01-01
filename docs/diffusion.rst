@@ -13,11 +13,20 @@ Euler–Maruyama method.
 .. autoclass:: stochastic.diffusion.ConstantElasticityVarianceProcess
     :members: t, sample, sample_at, times
 
+.. autoclass:: stochastic.diffusion.CEVProcess
+
+
 .. autoclass:: stochastic.diffusion.CoxIngersollRossProcess
     :members: t, sample, sample_at, times
 
+.. autoclass:: stochastic.diffusion.CIRProcess
+
+
 .. autoclass:: stochastic.diffusion.OrnsteinUhlenbeckProcess
     :members: t, sample, sample_at, times
+
+.. autoclass:: stochastic.diffusion.OUProcess
+
 
 .. autoclass:: stochastic.diffusion.VasicekProcess
     :members: t, sample, sample_at, times

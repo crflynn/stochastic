@@ -5,9 +5,12 @@ from stochastic.continuous.bessel import BesselProcess
 
 
 class SquaredBesselProcess(BesselProcess):
-    """Squared Bessel process.
+    r"""Squared Bessel process.
 
-    The square of a Bessel process.
+    The square of a Bessel process: :math:`\|\mathbf{W}_t\|^2`.
+
+    The Bessel process is the Euclidean norm of an :math:`n`-dimensional
+    Wiener process, e.g. :math:`\|\mathbf{W}_t\|`
 
     :param float t: the right hand endpoint of the time interval :math:`[0,t]`
         for the process
@@ -28,7 +31,7 @@ class SquaredBesselProcess(BesselProcess):
         ])
 
     def sample(self, n, zero=True):
-        """Generate a realization of a squared Bessel process.
+        """Generate a realization.
 
         :param int n: the number of increments to generate
         :param bool zero: if True, include :math:`t=0`

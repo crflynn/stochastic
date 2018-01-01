@@ -17,11 +17,3 @@ class WienerProcess(BrownianMotion):
 
     def __repr__(self):
         return "WienerProcess(t={t})".format(t=str(self.t))
-
-    def sample(self, n, zero=True):
-        """Generate a realization of the Wiener process.
-
-        :param int n: the number of increments to generate
-        :param bool zero: if True, include :math:`t=0`
-        """
-        return self._sample_brownian_motion(n, zero)

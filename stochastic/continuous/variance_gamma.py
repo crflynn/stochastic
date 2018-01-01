@@ -83,7 +83,7 @@ class VarianceGammaProcess(Continuous):
             return samples
 
     def sample(self, n, zero=True):
-        """Generate a realization of a variance gamma process.
+        """Generate a realization.
 
         :param int n: the number of increments to generate
         :param bool zero: if True, include :math:`t=0`

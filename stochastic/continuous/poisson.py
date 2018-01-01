@@ -65,7 +65,7 @@ class PoissonProcess(Sequence):
                 "Must provide either process increments or length.")
 
     def sample(self, n=None, length=None):
-        """Generate a realization of a Poisson process.
+        """Generate a realization.
 
         Exactly one of the following parameters must be provided.
 

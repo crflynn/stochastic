@@ -60,7 +60,7 @@ class Continuous(Process):
 
     @property
     def t(self):
-        """Time end."""
+        """End time of the process."""
         return self._t
 
     @t.setter

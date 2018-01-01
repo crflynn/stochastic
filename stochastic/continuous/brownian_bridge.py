@@ -56,10 +56,7 @@ class BrownianBridge(BrownianMotion):
         return bm + times * (b - bm[-1]) / self.t
 
     def sample(self, n, zero=True):
-        """Generate a realization of a Brownian bridge.
-
-        Generate realizations of a Brownian bridge in which the value at time
-        :math:`t` is equal to :math:`b`.
+        """Generate a realization.
 
         :param int n: the number of increments to generate
         :param bool zero: if True, include time :math:`t=0`

@@ -31,7 +31,7 @@ class CauchyProcess(Continuous):
         return self.brownian_motion.sample_at(times, zero=zero)
 
     def sample(self, n, zero=True):
-        """Generate a realization of a Cauchy process.
+        """Generate a realization.
 
         :param int n: the number of increments to generate.
         :param bool zero: if True, include :math:`t=0`

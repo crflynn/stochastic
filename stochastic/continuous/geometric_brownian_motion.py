@@ -19,7 +19,8 @@ class GeometricBrownianMotion(Continuous):
 
     .. math::
 
-        S_t = S_0 \exp \left( \left( \mu - \frac{\sigma^2}{2} \right) t + \sigma W_t \right)
+        S_t = S_0 \exp \left( \left( \mu - \frac{\sigma^2}{2} \right) t +
+        \sigma W_t \right)
 
     :param float t: the right hand endpoint of the time interval :math:`[0,t]`
         for the process
@@ -65,7 +66,7 @@ class GeometricBrownianMotion(Continuous):
         return initial * np.exp(line + noise)
 
     def sample(self, n, initial=1, zero=True):
-        """Generate a realization of geometric Brownian motion.
+        """Generate a realization.
 
         :param int n: the number of increments to generate.
         :param float initial: the initial value of the process :math:`S_0`.

@@ -79,9 +79,7 @@ class BrownianMotion(GaussianNoise):
         return line + bm
 
     def sample(self, n, zero=True):
-        """Generate a realization of Brownian Motion.
-
-        Generate a Brownian motion realization with drift and scale.
+        """Generate a realization.
 
         :param int n: the number of increments to generate
         :param bool zero: if True, include :math:`t=0`
@@ -93,10 +91,10 @@ class BrownianMotion(GaussianNoise):
         return np.cumsum(self._sample_gaussian_noise_at(times, zero))
 
     def sample_at(self, times, zero=True):
-        """Generate a Brownian motion at specified times.
+        """Generate a realization using specified times.
 
         :param times: a vector of increasing time values at which to generate
-            the Brownian motion
+            the realization
         :param bool zero: if True, include :math:`t=0`
         """
         return self._sample_brownian_motion_at(times)

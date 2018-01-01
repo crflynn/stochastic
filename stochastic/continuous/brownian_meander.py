@@ -9,6 +9,8 @@ class BrownianMeander(BrownianBridge):
 
     A Brownian motion conditioned such that the process is nonnegative.
 
+    Generated using method by Williams, 1970; Imhof, 1984.
+
     :param float t: the right hand endpoint of the time interval :math:`[0,t]`
         for the process
     """
@@ -44,10 +46,7 @@ class BrownianMeander(BrownianBridge):
         )
 
     def sample(self, n, b=None, zero=True):
-        """Generate a Brownian meander realization.
-
-        Generage a Brownian meander using the Williams, 1970 / Imhof, 1984
-        algorithm.
+        """Generate a realization.
 
         :param int n: the number of increments to generate
         :param float b: the nonnegative right hand endpoint of the meander

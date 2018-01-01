@@ -3,7 +3,21 @@ from stochastic.diffusion.ornstein_uhlenbeck import OrnsteinUhlenbeckProcess
 
 
 class ConstantElasticityVarianceProcess(OrnsteinUhlenbeckProcess):
-    """Constant elasticity of variance process."""
+    r"""Constant elasticity of variance process.
+
+    The process :math:`X_t` that satisfies the following stochastic
+    differential equation with Wiener process :math:`W_t`:
+
+    .. math::
+
+        dX_t = \mu X_t dt + \sigma X_t^\gamma dW_t
+
+    :param float t: the right hand endpoint of the time interval :math:`[0,t]`
+        for the process
+    :param float mu: the drift coefficient, or :math:`\mu` above
+    :param float sigma: the volatility coefficient, or :math:`\sigma` above
+    :param float gamma: the volatility-price exponent, or :math:`\gamma` above
+    """
 
     def __init__(self, t=1, mu=1, sigma=1, gamma=1):
         super().__init__(t, -mu, 0, sigma)

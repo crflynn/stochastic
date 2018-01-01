@@ -8,10 +8,10 @@ class FractionalBrownianMotion(FractionalGaussianNoise):
     """Fractional Brownian motion process.
 
     A fractional Brownian motion (discretely sampled) has correlated Gaussian
-    increments defined by Hurst parameter H. When H == 1/2, the process
-    is a standard Brownian motion. When H > 1/2, the increments are
-    positively correlated. When H < 1/2, the increments are negatively
-    correlated.
+    increments defined by Hurst parameter :math:`H`. When :math:`H = 1/2`,
+    the process is a standard Brownian motion. When :math:`H > 1/2`, the
+    increments are positively correlated. When :math:`H < 1/2`, the
+    increments are negatively correlated.
 
     :param float t: the right hand endpoint of the time interval :math:`[0,t]`
         for the process
@@ -43,7 +43,7 @@ class FractionalBrownianMotion(FractionalGaussianNoise):
         return fbm
 
     def sample(self, n, zero=True):
-        """Generate a realization of fractional Brownian motion.
+        """Generate a realization.
 
         :param int n: the number of increments to generate
         :param bool zero: if True, include :math:`t=0`
