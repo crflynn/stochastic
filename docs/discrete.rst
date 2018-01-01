@@ -1,5 +1,5 @@
-Discrete Processes
-==================
+Discrete-time Processes
+=======================
 
 The :py:mod:`stochastic.discrete` module provides classes for generating
 discrete stochastic processes.

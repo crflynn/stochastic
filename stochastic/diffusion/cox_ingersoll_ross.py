@@ -16,6 +16,8 @@ class CoxIngersollRossProcess(OrnsteinUhlenbeckProcess):
 
         dX_t = \theta X_t (\mu - t) dt + \sigma \sqrt(X_t)dW_t
 
+    Realizations are generated using the Euler-Maruyama method.
+
     :param float t: the right hand endpoint of the time interval :math:`[0,t]`
         for the process
     :param float speed: the speed of reversion, or :math:`\theta` above

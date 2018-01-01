@@ -12,6 +12,8 @@ class ConstantElasticityVarianceProcess(OrnsteinUhlenbeckProcess):
 
         dX_t = \mu X_t dt + \sigma X_t^\gamma dW_t
 
+    Realizations are generated using the Euler-Maruyama method.
+
     :param float t: the right hand endpoint of the time interval :math:`[0,t]`
         for the process
     :param float mu: the drift coefficient, or :math:`\mu` above
