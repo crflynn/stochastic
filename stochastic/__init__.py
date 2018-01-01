@@ -1,10 +1,22 @@
-from stochastic.bernoulli import BernoulliProcess
-from stochastic.chinese_restaurant import ChineseRestaurantProcess
-from stochastic.poisson import PoissonProcess
-from stochastic.random_walk import RandomWalk
-from stochastic.markov_chain import MarkovChain
-from stochastic.moran import MoranProcess
-from stochastic.brownian_motion import BrownianMotion
-from stochastic.fractional_brownian_motion import FractionalBrownianMotion
-# from stochastic.cauchy import CauchyProcess
-from stochastic.gamma import GammaProcess
+"""Module level accessible objects."""
+from stochastic.__version__ import __version__
+from stochastic.__version__ import __description__
+from stochastic.__version__ import __url__
+from stochastic.__version__ import __title__
+from stochastic.__version__ import __author__
+from stochastic.__version__ import __author_email__
+from stochastic.__version__ import __license__
+from stochastic.__version__ import __copyright__
+from stochastic.__version__ import __docs_copyright__
+
+__all__ = (
+    __version__,
+    __description__,
+    __url__,
+    __title__,
+    __author__,
+    __author_email__,
+    __license__,
+    __copyright__,
+    __docs_copyright__,
+)

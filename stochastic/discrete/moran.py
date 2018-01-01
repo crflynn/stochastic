@@ -1,15 +1,14 @@
+"""Moran process."""
 import numpy as np
 
 
 class MoranProcess(object):
-    """
+    """Moran process.
+
     A neutral drift Moran process, typically used to model populations. At
     each step this process will increase by one, decrease by one, or remain
     at the same value between values of zero and the number of states, n.
     The process ends when its value reaches zero or the maximum valued state.
-
-    args:
-        n (int) = number of states
     """
 
     def __init__(self, n):
@@ -18,6 +17,7 @@ class MoranProcess(object):
 
     @property
     def n(self):
+        """Maximum value."""
         return self._n
 
     @n.setter
@@ -31,6 +31,7 @@ class MoranProcess(object):
         self._n = value
 
     def probabilities(self, n):
+        """Generate the transition probabilities for state n."""
         p = []
         for k in range(1, n):
             p_down = 1.0 * (n - k) / n * k / n
@@ -47,15 +48,10 @@ class MoranProcess(object):
         return self.__str__()
 
     def sample(self, start, n_max=1000):
-        """
+        """Generate a realization of the Moran process.
+
         Generate a Moran process until absorption occurs (state 0 or n) or
         length of process reaches length n_max.
-
-        args:
-            start (int) = the starting state, must be between 0 and n,
-                inclusive
-            n_max (int) = the maximum number of steps for the sample.
-                Default: 1000
         """
         if not isinstance(start, int):
             raise TypeError('Initial state must be a positive integer.')

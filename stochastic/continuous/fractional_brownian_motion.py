@@ -1,6 +1,7 @@
 """Fractional Brownian motion."""
+import logging
+
 import numpy as np
-from warnings import warn
 
 from stochastic.base import Continuous
 
@@ -32,9 +33,9 @@ class FractionalGaussianNoise(Continuous):
     @hurst.setter
     def hurst(self, value):
         if not isinstance(value, float):
-            raise TypeError('Hurst value must be a number.')
+            raise TypeError("Hurst value must be a number.")
         if value <= 0 or value >= 1:
-            raise ValueError('Hurst value must be in interval (0,1).')
+            raise ValueError("Hurst value must be in interval (0,1).")
         self._hurst = value
 
     def _autocovariance(self, k):
@@ -74,9 +75,10 @@ class FractionalGaussianNoise(Continuous):
             # part will be very small)
             eigenvals = np.fft.fft(row).real
             if np.any([ev < 0 for ev in eigenvals]):
-                warn('Combination of increments n and Hurst value H invalid for \
-                      Davies-Harte method. Reverting to Hosking method. Try \
-                      increasing n or decreasing H')
+                logging.warning(
+                    "Combination of increments n and Hurst value "
+                    "H invalid for Davies-Harte method. Reverting to Hosking "
+                    "method. Try increasing n or decreasing H")
                 return self._hosking(n)
 
             # Generate second sequence of i.d.d. standard normals
@@ -109,14 +111,14 @@ class FractionalGaussianNoise(Continuous):
         return fgn
 
     def _hosking(self, n):
-        """Generate fractional Gaussian noise using Hosking's method.
+        """Generate fractional Gaussian noise using Hosking"s method.
 
-        Method of generation is Hosking's method (exact method) from his paper:
+        Method of generation is Hosking"s method (exact method) from his paper:
         Hosking, J. R. (1984). Modeling persistence in hydrological time series
         using fractional differencing. Water resources research, 20(12),
         1898-1908.
 
-        Hosking's method generates a fractional Gaussian noise (fGn)
+        Hosking"s method generates a fractional Gaussian noise (fGn)
         realization. The cumulative sum of this realization gives a fBm.
         """
         # For scaling to interval [0, T]
@@ -126,7 +128,7 @@ class FractionalGaussianNoise(Continuous):
         gn = np.random.normal(0.0, 1.0, n)
 
         # If H = 0.5 then just generate a standard Brownian motion, otherwise
-        # proceed with Hosking's method
+        # proceed with Hosking"s method
         if self.hurst == 0.5:
             fgn = gn
         else:

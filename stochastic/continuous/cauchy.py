@@ -3,7 +3,7 @@ import numpy as np
 from scipy.stats import levy
 
 from stochastic.base import Continuous
-from stochastic import BrownianMotion
+from stochastic.continuous.brownian_motion import BrownianMotion
 
 
 class CauchyProcess(Continuous):

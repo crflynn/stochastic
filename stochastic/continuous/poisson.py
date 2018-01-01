@@ -1,3 +1,4 @@
+"""Poisson processes."""
 import numpy as np
 
 from stochastic.base import Sequence
