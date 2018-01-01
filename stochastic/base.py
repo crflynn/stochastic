@@ -67,11 +67,10 @@ class Continuous(Checks):
             return np.linspace(1.0 * end / n, end, n)
 
     def sample(self, *args, **kwargs):
-        """Sample the process."""
-        raise NotImplementedError
+        """Sample the process.
 
-    def sample_at(self, *args, **kwargs):
-        """Sample the process at specified times."""
+        :raises: NotImplementedError
+        """
         raise NotImplementedError
 
     def times(self, n, zero=True):
