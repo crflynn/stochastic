@@ -17,7 +17,6 @@ class BrownianMeander(BrownianBridge):
 
     def __init__(self, t=1):
         super().__init__(t)
-        self._n = None
 
     def __str__(self):
         return "Brownian meander"""

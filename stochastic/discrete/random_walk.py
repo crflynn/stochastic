@@ -57,13 +57,13 @@ class RandomWalk(Checks):
 
     @steps.setter
     def steps(self, values):
+        for value in values:
+            if not isinstance(value, int) and not isinstance(value, float):
+                raise TypeError("Step values must be numeric.")
         values = np.array(values, copy=True)
         if values.ndim != 1:
             raise TypeError(
                 "Steps must be a sequence of possible step values.")
-        for value in values:
-            if not isinstance(value, (int, float)):
-                raise TypeError("Step values must be numeric.")
         self._steps = values
 
     @property
@@ -73,15 +73,15 @@ class RandomWalk(Checks):
 
     @weights.setter
     def weights(self, values):
-        values = np.array(values, copy=True)
-        if values.ndim != 1:
-            raise TypeError(
-                "Weights must be a sequence of weight values.")
         for value in values:
             if not isinstance(value, (int, float)):
                 raise TypeError("Weight values must be numeric.")
             if value < 0:
                 raise ValueError("Weight values must be nonnegative.")
+        values = np.array(values, copy=True)
+        if values.ndim != 1:
+            raise TypeError(
+                "Weights must be a sequence of weight values.")
 
     def __str__(self):
         return "Random walk steps = {s} and weights = {w}".format(

@@ -16,7 +16,6 @@ class BrownianBridge(BrownianMotion):
     def __init__(self, t=1, b=0):
         super().__init__(t, drift=0, scale=1)
         self.b = b
-        self._n = None
 
     @property
     def b(self):

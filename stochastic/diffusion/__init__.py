@@ -9,11 +9,11 @@ from stochastic.diffusion.vasicek import VasicekProcess
 
 
 __all__ = [
-    CEVProcess,
-    CIRProcess,
-    ConstantElasticityVarianceProcess,
-    CoxIngersollRossProcess,
-    OrnsteinUhlenbeckProcess,
-    OUProcess,
-    VasicekProcess,
+    "CEVProcess",
+    "CIRProcess",
+    "ConstantElasticityVarianceProcess",
+    "CoxIngersollRossProcess",
+    "OrnsteinUhlenbeckProcess",
+    "OUProcess",
+    "VasicekProcess",
 ]

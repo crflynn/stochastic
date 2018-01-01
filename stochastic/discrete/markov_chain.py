@@ -26,6 +26,16 @@ class MarkovChain(object):
             self.initial = initial
         self.num_states = len(self.initial)
 
+    def __str__(self):
+        return "Markov chain with transition matrix = \n{t} ".format(
+            t=str(self.transition)) + \
+            "and initial state probabilities = {p}".format(p=str(self.initial))
+
+    def __repr__(self):
+        return "MarkovChain(transition={t}, initial={i})".format(
+            t=str(self.transition), i=str(self.initial)
+        )
+
     @property
     def transition(self):
         """Transition probability matrix."""
@@ -57,14 +67,6 @@ class MarkovChain(object):
             raise ValueError("Initial state probabilities must sum to 1.")
         self._initial = values
 
-    def __str__(self):
-        return "Markov chain with transition matrix = \n{t}".format(
-            t=str(self.transition)) + \
-            "and initial state probabilities = {p}".format(p=str(self.initial))
-
-    def __repr__(self):
-        return "MarkovChain(transition={t})"
-
     def sample(self, n):
         """Generate a realization of the Markov chain.
 
@@ -77,13 +79,10 @@ class MarkovChain(object):
 
         states = range(self.num_states)
 
-        markovchain = [np.random.choice(states, p=self.initial)]
-        count = 1
-        while count < n:
-            current_transition = self.transition[markovchain[-1]]
-            markovchain.append(
-                np.random.choice(states, p=current_transition)
+        markov_chain = [np.random.choice(states, p=self.initial)]
+        for _ in range(n):
+            markov_chain.append(
+                np.random.choice(states, p=self.transition[markov_chain[-1]])
             )
-            count += 1
 
-        return np.array([self.states[num] for num in markovchain])
+        return np.array(markov_chain)

@@ -4,6 +4,6 @@ from stochastic.noise.gaussian_noise import GaussianNoise
 
 
 __all__ = [
-    FractionalGaussianNoise,
-    GaussianNoise,
+    "FractionalGaussianNoise",
+    "GaussianNoise",
 ]

@@ -33,19 +33,20 @@ class MoranProcess(object):
                 'Number of states must be at least 3.')
         self._n_max = value
 
-    @staticmethod
-    def probabilities(n):
+    def probabilities(self, n):
         """Generate the transition probabilities for state :math:`n`.
 
         :param int n: the current state for which to generate transition
             probabilities.
         """
+        probabilities = []
         for k in range(1, n):
             p_down = 1.0 * (n - k) / n * k / n
             p_up = 1.0 * k / n * (n - k) / n
             p_same = 1.0 - p_down - p_up
+            probabilities.append([p_down, p_same, p_up])
 
-        return [p_down, p_same, p_up]
+        return probabilities
 
     def __str__(self):
         return 'Moran process with %s states' % self._n_max
@@ -75,7 +76,7 @@ class MoranProcess(object):
         for k in range(n):
             if start in [0, self.n_max]:
                 break
-            start = start + np.random.choice(increments, p=self.p[start - 1])
+            start += np.random.choice(increments, p=self.p[start - 1])
             s.append(start)
 
         return np.array(s)

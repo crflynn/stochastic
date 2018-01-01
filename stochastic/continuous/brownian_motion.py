@@ -76,7 +76,7 @@ class BrownianMotion(GaussianNoise):
         self._check_zero(zero)
 
         # Some opt for repeats
-        if self._n != n:
+        if self._line is None or len(self._line) != n:
             self._n = n
             self._line = self._linspace(self.drift, n, zero)
 

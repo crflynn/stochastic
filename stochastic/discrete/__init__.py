@@ -7,9 +7,9 @@ from stochastic.discrete.random_walk import RandomWalk
 
 
 __all__ = [
-    BernoulliProcess,
-    ChineseRestaurantProcess,
-    MarkovChain,
-    MoranProcess,
-    RandomWalk,
+    "BernoulliProcess",
+    "ChineseRestaurantProcess",
+    "MarkovChain",
+    "MoranProcess",
+    "RandomWalk",
 ]

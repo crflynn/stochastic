@@ -39,7 +39,7 @@ class OrnsteinUhlenbeckProcess(Continuous):
 
     @speed.setter
     def speed(self, value):
-        self._check_positive_number(value)
+        self._check_number(value, "Speed")
         self._speed = value
 
     @property
@@ -49,7 +49,7 @@ class OrnsteinUhlenbeckProcess(Continuous):
 
     @mean.setter
     def mean(self, value):
-        self._check_number(value)
+        self._check_number(value, "Mean")
         self._mean = value
 
     @property
@@ -59,7 +59,7 @@ class OrnsteinUhlenbeckProcess(Continuous):
 
     @vol.setter
     def vol(self, value):
-        self._check_positive_number(value)
+        self._check_number(value, "Vol")
         self._vol = value
 
     def _volatility(self, arg):
@@ -70,32 +70,33 @@ class OrnsteinUhlenbeckProcess(Continuous):
         """
         return 1
 
-    def _sample(self, n, start, zero=True):
+    def _sample(self, n, initial=1, zero=True):
         """Generate a realization of a Ornstein-Uhlenbeck process."""
         self._check_increments(n)
         self._check_zero(zero)
-        self._check_number(start)
+        self._check_number(initial, "Initial")
 
         delta_t = 1.0 * self.t / n
         gns = self.gn.sample(n)
 
         s = []
         if zero:
-            s.append(start)
+            s.append(initial)
         for k in range(n):
-            start += self.speed * (self.mean - start) * delta_t + \
-                self.vol * self._volatility * gns[k]
-            s.append(start)
+            initial += self.speed * (self.mean - initial) * delta_t + \
+                self.vol * self._volatility(initial) * gns[k]
+            s.append(initial)
 
         return np.array(s)
 
-    def sample(self, n, start, zero=True):
+    def sample(self, n, initial=1, zero=True):
         """Generate a realization.
 
         :param int n: the number of increments to generate
+        :param float initial: the initial value of the process
         :param bool zero: if True, include :math:`t=0`
         """
-        return self._sample(n, start, zero)
+        return self._sample(n, initial, zero)
 
 
 class OUProcess(OrnsteinUhlenbeckProcess):

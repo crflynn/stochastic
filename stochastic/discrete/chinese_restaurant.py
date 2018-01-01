@@ -102,7 +102,7 @@ class ChineseRestaurantProcess(Checks):
                 s.append([])
             s[table].append(k)
 
-        return np.array(s)
+        return np.array([np.array(t) for t in s])
 
     def sample(self, n):
         """Generate a Chinese restaurant process with :math:`n` customers.

@@ -35,7 +35,7 @@ class PoissonProcess(Checks):
         self._check_nonnegative_number(value, "Arrival rate")
         self._rate = value
 
-    def _sample_poisson_process(self, n=None, length=None):
+    def _sample_poisson_process(self, n=None, length=None, zero=True):
         """Generate a realization of a Poisson process.
 
         Generate a poisson process sample up to count of length if time=False,
@@ -45,26 +45,32 @@ class PoissonProcess(Checks):
             self._check_increments(n)
 
             exponentials = np.random.exponential(
-                scale=1.0 / self.rate, size=length)
+                scale=1.0 / self.rate, size=n)
 
-            return np.array([0] + list(np.cumsum(exponentials)))
+            s = np.array([0] + list(np.cumsum(exponentials)))
+            if zero:
+                return s
+            else:
+                return s[1:]
         elif length is not None:
             self._check_positive_number(length, "Sample length")
 
             t = 0
             times = []
+            if zero:
+                times.append(0)
             exp_rate = 1.0 / self.rate
 
             while t < length:
                 times.append(t)
                 t += np.random.exponential(scale=exp_rate)
 
-            return times
+            return np.array(times)
         else:
             raise ValueError(
-                "Must provide either process increments or length.")
+                "Must provide either argument n or length.")
 
-    def sample(self, n=None, length=None):
+    def sample(self, n=None, length=None, zero=True):
         """Generate a realization.
 
         Exactly one of the following parameters must be provided.
@@ -72,8 +78,9 @@ class PoissonProcess(Checks):
         :param int n: the number of arrivals to simulate
         :param int length: the length of time to simulate; will generate
             arrivals until length is met or exceeded.
+        :param bool zero: if True, include :math:`t=0`
         """
-        self._sample_poisson_process(n, length)
+        return self._sample_poisson_process(n, length, zero)
 
     def times(self, *args, **kwargs):
         """Disallow times for this process."""

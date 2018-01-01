@@ -34,7 +34,7 @@ class ConstantElasticityVarianceProcess(OrnsteinUhlenbeckProcess):
 
     @mu.setter
     def mu(self, value):
-        self._check_number(value)
+        self._check_number(value, "Drift coefficient.")
         self._mu = value
 
     @property
@@ -44,7 +44,7 @@ class ConstantElasticityVarianceProcess(OrnsteinUhlenbeckProcess):
 
     @sigma.setter
     def sigma(self, value):
-        self._check_nonnegative_number(value)
+        self._check_nonnegative_number(value, "Volatility coefficient")
         self._sigma = value
 
     @property
@@ -54,7 +54,7 @@ class ConstantElasticityVarianceProcess(OrnsteinUhlenbeckProcess):
 
     @gamma.setter
     def gamma(self, value):
-        self._check_nonnegative_number(value)
+        self._check_nonnegative_number(value, "Exponent")
         self._gamma = value
 
     def _volatility(self, arg):

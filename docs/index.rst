@@ -37,6 +37,14 @@ Compatibility
 
 Stochastic is tested on Python versions...
 
+Performance
+-----------
+
+This package uses ``numpy`` and ``scipy`` wherever possible for faster
+computation. For improved performance under Monte Carlo simulation, some
+classes will store results of intermediate computations for faster generation
+on subsequent simulations.
+
 Documentation
 -------------
 
