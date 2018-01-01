@@ -50,15 +50,6 @@ The diffusion processes are approximated using the Euler–Maruyama method.
 
 Here are the currently supported processes:
 
-Discrete-time
-~~~~~~~~~~~~~
-
-* Bernoulli process
-* Chinese restaurant process
-* Markov chain
-* Moran process
-* Random walk
-
 Continuous-time
 ~~~~~~~~~~~~~~~
 
@@ -84,6 +75,15 @@ Diffusion models
 * Ornstein-Uhlenbeck (OU) process
 * Vasicek process
 
+Discrete-time
+~~~~~~~~~~~~~
+
+* Bernoulli process
+* Chinese restaurant process
+* Markov chain
+* Moran process
+* Random walk
+
 Noise
 ~~~~~
 
@@ -94,35 +94,35 @@ Noise
 Package Access Structure
 ------------------------
 
-stochastic
-    continuous
-        BesselProcess
-        BrownianBridge
-        BrownianExcursion
-        BrownianMeander
-        BrownianMotion
-        CauchyProcess
-        FractionalBrownianMotion
-        GammaProcess
-        GeometricBrownianMotion
-        PoissonProcess
-        SquaredBesselProcess
-        VarianceGammaProcess
-        WienerProcess
-    diffusion
-        ConstantElasticityVarianceProcess
-        CoxIngersollRossProcess
-        OrnsteinUhlenbeckProcess
-        VasicekProcess
-    discrete
-        BernoulliProcess
-        ChineseRestaurantProcess
-        MarkovChain
-        MoranProcess
-        RandomWalk
-    noise
-        GaussianNoise
-        FractionalGaussianNoise
+* stochastic
+    * continuous
+        * BesselProcess
+        * BrownianBridge
+        * BrownianExcursion
+        * BrownianMeander
+        * BrownianMotion
+        * CauchyProcess
+        * FractionalBrownianMotion
+        * GammaProcess
+        * GeometricBrownianMotion
+        * PoissonProcess
+        * SquaredBesselProcess
+        * VarianceGammaProcess
+        * WienerProcess
+    * diffusion
+        * ConstantElasticityVarianceProcess
+        * CoxIngersollRossProcess
+        * OrnsteinUhlenbeckProcess
+        * VasicekProcess
+    * discrete
+        * BernoulliProcess
+        * ChineseRestaurantProcess
+        * MarkovChain
+        * MoranProcess
+        * RandomWalk
+    * noise
+        * GaussianNoise
+        * FractionalGaussianNoise
 
 Usage
 -----
