@@ -41,7 +41,11 @@ class Process(Sequence):
             return np.linspace(1.0 * end / n, end, n)
 
     def times(self, n, zero=True):
-        """Generate times associated with n increments on [0, t]."""
+        """Generate times associated with n increments on [0, t].
+
+        :param int n: the number of increments
+        :param bool zero: if True, include :math:`t=0`
+        """
         self._check_increments(n)
         self._check_zero(zero)
 

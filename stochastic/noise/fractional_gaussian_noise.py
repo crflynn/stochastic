@@ -7,7 +7,14 @@ from stochastic.base import Continuous
 
 
 class FractionalGaussianNoise(Continuous):
-    """Fractional Gaussian noise process."""
+    """Fractional Gaussian noise process.
+
+    Generate sequences of fractional Gaussian noise.
+
+    :param float t: the right hand endpoint of the time interval :math:`[0,t]`
+        for the process
+    :param float hurst: The Hurst parameter value in :math:`(0,1)`.
+    """
 
     def __init__(self, t=1, hurst=0.5):
         super().__init__(t)
@@ -162,10 +169,19 @@ class FractionalGaussianNoise(Continuous):
 
         return fgn
 
-    def _sample_fractional_gaussian_noise(self, n):
+    def _sample_fractional_gaussian_noise(self, n, algorithm="daviesharte"):
         """Generate a realization of fractional Gaussian noise."""
-        return self._daviesharte(n)
+        if algorithm == "daviesharte":
+            return self._daviesharte(n)
+        elif algorithm == "hosking":
+            return self._hosking(n)
+        else:
+            raise ValueError("Algorithm must be daviesharte or hosking.")
 
-    def sample(self, n):
-        """Generate a realization of fractional Gaussian noise."""
-        return self._sample_fractional_gaussian_noise(n)
+    def sample(self, n, algorithm="daviesharte"):
+        """Generate a realization of fractional Gaussian noise.
+
+        :param int n: number of increments to generate
+        :param str algorithm: either 'daviesharte' or 'hosking' algorithms
+        """
+        return self._sample_fractional_gaussian_noise(n, algorithm)

@@ -7,6 +7,11 @@ class MarkovChain(object):
 
     A Markov Chain which changes between states according to the transition
     matrix.
+
+    :param transition: a square matrix representing the transition
+        probabilities between states.
+    :param initial: a vector representing the initial state probabilities. If
+        not provided, each state has equal initial probability.
     """
 
     def __init__(self,
@@ -23,7 +28,7 @@ class MarkovChain(object):
 
     @property
     def transition(self):
-        """Transition probabilities."""
+        """Transition probability matrix."""
         return self._transition
 
     @transition.setter
@@ -39,7 +44,7 @@ class MarkovChain(object):
 
     @property
     def initial(self):
-        """Get the initial state."""
+        """Vector of initial state probabilities."""
         return self._initial
 
     @initial.setter
@@ -61,7 +66,10 @@ class MarkovChain(object):
         return "MarkovChain(transition={t})"
 
     def sample(self, n):
-        """Generate a realization of the Markov chain."""
+        """Generate a realization of the Markov chain.
+
+        :param int n: the number of steps of the Markov chain to generate.
+        """
         if not isinstance(n, int):
             raise TypeError("Sample length must be positive integer.")
         if n < 1:

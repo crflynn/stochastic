@@ -12,16 +12,23 @@ class ChineseRestaurantProcess(Sequence):
     occupied table or a new table, there being infinitely many customers
     and tables.
 
-    The first customer sits at the first table. The n-th customer
-    sits at a new table with probability 1/n, and at each already occupied
-    table with probability t_k/n, where t_k is the number of customers
-    already seated at table k. This is the canonical process with discount=0
-    and strength=1.
+    The first customer sits at the first table. The :math:`n`-th customer
+    sits at a new table with probability :math:`1/n`, and at each already
+    occupied table with probability :math:`t_k/n`, where :math:`t_k` is the
+    number of customers already seated at table :math:`k`. This is the
+    canonical process with :math:`discount=0` and :math:`strength=1`.
 
-    The generalized process gives the n-th customer a probability of
-    (strength + T * discount) / (n - 1 + strength) to sit at a new table
-    and a probability of (t_k - discount) / (n - 1 + strength) of sitting at
-    table k. T is the number of occupied tables.
+    The generalized process gives the :math:`n`-th customer a probability of
+    :math:`(strength + T * discount) / (n - 1 + strength)` to sit at a new
+    table and a probability of :math:`(t_k - discount) / (n - 1 + strength)`
+    of sitting at table :math:`k`. :math:`T` is the number of occupied tables.
+
+    :param float discount: the discount value of existing tables.
+        Must be strictly less than 1.
+    :param float strength: the strength of a new table. If discount
+        is negative, strength must be a multiple of discount. If discount is
+        nonnegative, strength must be strictly greater than the
+        negative discount.
     """
 
     def __init__(self, discount=0, strength=1):
@@ -98,5 +105,8 @@ class ChineseRestaurantProcess(Sequence):
         return np.array(s)
 
     def sample(self, n):
-        """Generate a Chinese restaurant process with n customers."""
+        """Generate a Chinese restaurant process with :math:`n` customers.
+
+        :param n: the number of customers to simulate.
+        """
         return self._sample_chinese_restaurant(n)

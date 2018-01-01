@@ -5,10 +5,17 @@ from stochastic.continuous.brownian_bridge import BrownianBridge
 
 
 class BrownianExcursion(BrownianBridge):
-    """Brownian excursion."""
+    """Brownian excursion.
 
-    def __init__(self):
-        super().__init__()
+    A Brownian excursion is a Brownian bridge from (0, 0) to (t, 0) which is
+    conditioned to be nonnegative on the interval [0, 1].
+
+    :param float t: the right hand endpoint of the time interval :math:`[0,t]`
+        for the process
+    """
+
+    def __init__(self, t=1):
+        super().__init__(t)
 
     def __str__(self):
         return "Brownian excursion"""
@@ -29,6 +36,6 @@ class BrownianExcursion(BrownianBridge):
         """Generate a Brownian excursion."""
         return self._sample_brownian_excursion(n)
 
-    # TODO
-    # def sample_at(self, times)
-        # pass
+    def sample_at(self, times):
+        """TODO"""
+        raise NotImplementedError

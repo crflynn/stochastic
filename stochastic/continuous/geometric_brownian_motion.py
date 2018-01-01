@@ -6,11 +6,29 @@ from stochastic.continuous.brownian_motion import BrownianMotion
 
 
 class GeometricBrownianMotion(Continuous):
-    """Geometric Brownian motion process."""
+    r"""Geometric Brownian motion process.
+
+    A geometric Brownian motion :math:`S_t` is the analytic solution to the
+    stochastic differential equation with Wiener process :math:`W_t`:
+
+    .. math::
+
+        dS_t = \mu S_t dt + \sigma S_t dW_t
+
+    and can be represented with initial value :math:`S_0` in the form:
+
+    .. math::
+
+        S_t = S_0 \exp \left( \left( \mu - \frac{\sigma^2}{2} \right) t + \sigma W_t \right)
+
+    :param float t: the right hand endpoint of the time interval :math:`[0,t]`
+        for the process
+    :param float drift: the parameter :math:`\mu`
+    :param float volatility: the parameter :math:`\sigma`
+    """
 
     def __init__(self, t=1, drift=0, volatility=1):
         super().__init__(t)
-        # TODO add getter setter to ensure bm is standard
         self._brownian_motion = BrownianMotion(self.t)
         self.drift = drift
         self.volatility = volatility
@@ -47,7 +65,12 @@ class GeometricBrownianMotion(Continuous):
         return initial * np.exp(line + noise)
 
     def sample(self, n, initial=1, zero=True):
-        """Generate a realization of geometric Brownian motion."""
+        """Generate a realization of geometric Brownian motion.
+
+        :param int n: the number of increments to generate.
+        :param float initial: the initial value of the process :math:`S_0`.
+        :param bool zero: if True, include :math:`t=0`
+        """
         return self._sample_geometric_brownian_motion(n, initial, zero)
 
     # TODO

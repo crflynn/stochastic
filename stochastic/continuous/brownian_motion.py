@@ -7,8 +7,15 @@ from stochastic.noise.gaussian_noise import GaussianNoise
 class BrownianMotion(GaussianNoise):
     """Brownian motion.
 
-    A Brownian motion (discretely sampled) has independent and identically
-    distributed Gaussian increments with variance equal to increment length.
+    A standard Brownian motion (discretely sampled) has independent and
+    identically distributed Gaussian increments with variance equal to
+    increment length. Non-standard Brownian motion includes a linear drift
+    parameter and scale factor.
+
+    :param float t: the right hand endpoint of the time interval :math:`[0,t]`
+        for the process
+    :param float drift: rate of change of the expected value
+    :param float scale: scale factor of the Gaussian process
     """
 
     def __init__(self, t=1, drift=0, scale=1):
@@ -74,8 +81,10 @@ class BrownianMotion(GaussianNoise):
     def sample(self, n, zero=True):
         """Generate a realization of Brownian Motion.
 
-        Generate a Brownian motion realization with n increments. If zero is
-        True then include W_0 = 0.
+        Generate a Brownian motion realization with drift and scale.
+
+        :param int n: the number of increments to generate
+        :param bool zero: if True, include :math:`t=0`
         """
         return self._sample_brownian_motion(n, zero)
 
@@ -84,5 +93,10 @@ class BrownianMotion(GaussianNoise):
         return np.cumsum(self._sample_gaussian_noise_at(times, zero))
 
     def sample_at(self, times, zero=True):
-        """Generate a Brownian motion at specified times."""
+        """Generate a Brownian motion at specified times.
+
+        :param times: a vector of increasing time values at which to generate
+            the Brownian motion
+        :param bool zero: if True, include :math:`t=0`
+        """
         return self._sample_brownian_motion_at(times)

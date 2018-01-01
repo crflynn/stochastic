@@ -5,7 +5,13 @@ from stochastic.base import Continuous
 
 
 class GaussianNoise(Continuous):
-    """Gaussian noise process."""
+    """Gaussian noise process.
+
+    Generate a sequence of Gaussian random variables.
+
+    :param float t: the right hand endpoint of the time interval :math:`[0,t]`
+        for the process
+    """
 
     def __init__(self, t=1):
         self.t = t
@@ -57,9 +63,15 @@ class GaussianNoise(Continuous):
         """Generate a realization of Gaussian noise.
 
         Generate a Gaussian noise realization with n increments.
+
+        :param int n: the number of increments to generate.
         """
         return self._sample_gaussian_noise(n)
 
     def sample_at(self, times):
-        """Generate Gaussian noise increments at specified times from zero."""
+        """Generate Gaussian noise increments at specified times from zero.
+
+        :param times: a vector of increasing time values for which to generate
+            noise increments.
+        """
         return self._sample_gaussian_noise_at(times)

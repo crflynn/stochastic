@@ -10,6 +10,10 @@ class RandomWalk(Sequence):
     A random walk is a sequence of random steps taken from a set of step sizes
     with a probability distribution. By default this object defines the steps
     to be [-1, 1] with probability 1/2 for each possibility.
+
+    :param steps: a vector of possible deltas to apply at each step.
+    :param weights: a corresponding vector of weights associated with each
+        step value. If not provided each step has equal weight/probability.
     """
 
     def __init__(self, steps=[-1, 1], weights=None):
@@ -28,7 +32,7 @@ class RandomWalk(Sequence):
 
     @property
     def p(self):
-        """Step probabilities."""
+        """Step probabilities, normalized from :py:attr:`weights`."""
         return self._p
 
     @p.setter
@@ -64,7 +68,7 @@ class RandomWalk(Sequence):
 
     @property
     def weights(self):
-        """Step weights."""
+        """Step weights provided."""
         return self._weights
 
     @weights.setter
@@ -91,25 +95,31 @@ class RandomWalk(Sequence):
             w=str(self.weights)
         )
 
-    def sample(self, n):
-        """
-        Generate a sample random walk including step at t=0.
+    def _sample_random_walk(self, n, zero=True):
+        """Generate a random walk."""
+        if zero:
+            return np.array(
+                [0] + list(np.cumsum(self._sample_random_walk_increments(n)))
+            )
+        else:
+            return np.cumsum(self._sample_random_walk_increments(n))
 
-        args:
-            n (int) = the number of steps in the random walk
+    def sample(self, n, zero=True):
+        """Generate a sample random walk.
+
+        :param int n: the number of steps to generate
+        :param bool zero: if True include the step at :math:`t=0`
         """
-        return np.array([0] + list(np.cumsum(self.sample_increments(n))))
+        return self._sample_random_walk(n)
+
+    def _sample_random_walk_increments(self, n):
+        """Generate a sample of random walk increments."""
+        self._check_increments(n)
+        return np.random.choice(self.steps, p=self.p, size=n)
 
     def sample_increments(self, n):
-        """
-        Generate the increments of a random walk.
+        """Generate a sample of random walk increments.
 
-        args:
-            n (int) = the number of steps in the random walk
+        :param int n: the number of increments to generate.
         """
-        if not isinstance(n, int):
-            raise TypeError("Sample length must be int.")
-        if n < 1:
-            raise ValueError("Sample length must be at least 1.")
-
-        return np.random.choice(self.steps, p=self.p, size=n)
+        return self._sample_random_walk_increments(n)

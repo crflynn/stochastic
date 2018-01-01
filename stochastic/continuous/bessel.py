@@ -6,7 +6,16 @@ from stochastic.continuous.brownian_motion import BrownianMotion
 
 
 class BesselProcess(Continuous):
-    """Bessel process."""
+    """Bessel process.
+
+    Generate Bessel process realizations using :py:attr:`dim` independent
+    Brownian motion processes on the interval :math:`[0,t]`
+
+    :param float t: the right hand endpoint of the time interval :math:`[0,t]`
+        for the process
+    :param int dim: the number of underlying independent Brownian motions to
+        use
+    """
 
     def __init__(self, t=1, dim=1):
         super().__init__(t)
@@ -17,7 +26,7 @@ class BesselProcess(Continuous):
 
     @property
     def dim(self):
-        """Dimensions."""
+        """Dimensions, or independent Brownian motions."""
         return self._dim
 
     @dim.setter
@@ -38,5 +47,9 @@ class BesselProcess(Continuous):
         return np.array([np.linalg.norm(coord) for coord in zip(*samples)])
 
     def sample(self, n, zero=True):
-        """Generate a realization of a Bessel process."""
+        """Generate a realization of a Bessel process.
+
+        :param int n: the number of increments to generate
+        :param bool zero: if True, include :math:`t=0`
+        """
         return self._sample_bessel_process(n, zero)

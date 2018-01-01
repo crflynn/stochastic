@@ -7,8 +7,12 @@ class BernoulliProcess(object):
 
     A Bernoulli process consists of a sequence of Bernoulli random
     variables. A Bernoulli random variable is
-        1 with probability p
-        0 with probaiility 1-p
+
+    * 1 with probability :math:`p`
+    * 0 with probaiility :math:`1-p`
+
+    :param p: in :math:`[0,1]`, the probability of success of each Bernoulli
+        random variable
     """
 
     def __init__(self, p=0.5):
@@ -46,5 +50,8 @@ class BernoulliProcess(object):
                          for trial in np.random.uniform(size=n)])
 
     def sample(self, n):
-        """Generate a Bernoulli process realization."""
+        """Generate a Bernoulli process realization.
+
+        :param int n: the number of steps to simulate.
+        """
         return self._sample_bernoulli(n)

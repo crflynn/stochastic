@@ -9,26 +9,35 @@ class GammaProcess(Continuous):
 
     A Gamma process (discretely sampled) is the summation of stationary
     independent increments which are distributed as gamma random variables.
+    This class supports instantiation using the mean/variance parametrization
+    or the rate/scale parametrization.
 
-    args:
-        T (float) = end time of process
-        mean (float) = mean value of the process at t=1
-        variance (float) = variance of the process at t=1
+    :param float t: the right hand endpoint of the time interval :math:`[0,t]`
+        for the process
+    :param float mean: mean increase per unit time; supply with
+        :py:attr:`variance`
+    :param float variance: variance of increase per unit time; supply with
+        :py:attr:`mean`
+    :param float rate: the rate of jump arrivals; supply with :py:attr:`scale`
+    :param float scale: the size of the jumps; supple with :py:attr:`rate`
     """
 
-    def __init__(self, t=1, mean=1, variance=1, rate=None, scale=None):
+    def __init__(self, t=1, mean=None, variance=None, rate=None, scale=None):
         super().__init__(t)
-        if mean is None or variance is None:
+        if rate is None and scale is None:
+            self.mean = mean
+            self.variance = variance
+            self.rate = mean ** 2.0 / variance
+            self.scale = 1.0 * mean / variance
+        elif mean is None and variance is None:
             self.rate = rate
             self.scale = scale
             self.mean = 1.0 * self.rate / self.scale
             self.variance = 1.0 * self.mean / self.scale
             # self.variance = 1.0 * self.rate / self.scale ** 2
-        if rate is None or scale is None:
-            self.mean = mean
-            self.variance = variance
-            self.rate = mean ** 2.0 / variance
-            self.scale = 1.0 * mean / variance
+        else:
+            raise ValueError("Invalid parametrization. Must provide either "
+                             "mean and variance or rate and scale.")
 
     def __str__(self):
         return ("Gamma process with rate = {r} and "
@@ -67,7 +76,7 @@ class GammaProcess(Continuous):
 
     @property
     def scale(self):
-        """Scale parameter."""
+        """Scale parameter for jump sizes."""
         return self._scale
 
     @scale.setter
@@ -125,5 +134,16 @@ class GammaProcess(Continuous):
         return np.cumsum(s)
 
     def sample(self, n, zero=True):
-        """Generate a realization of a Gamma process."""
+        """Generate a realization of a Gamma process.
+
+        :param int n: the number of increments to generate
+        :param bool zero: if True, include :math:`t=0`
+        """
         return self._sample_gamma_process(n, zero)
+
+    def sample_at(self, times):
+        """Generate a realization of a Gamma process at specified times.
+
+        :param int times: the number of increments to generate
+        """
+        return self._sample_gamma_process_at(times)

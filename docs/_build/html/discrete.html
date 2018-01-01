@@ -1,0 +1,533 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Discrete Processes &mdash; stochastic 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="stochastic 0.1.0 documentation" href="index.html"/>
+        <link rel="next" title="Noise Processes" href="noise.html"/>
+        <link rel="prev" title="Base Classes" href="base.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> stochastic
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="general.html">General Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="base.html">Base Classes</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Discrete Processes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="noise.html">Noise Processes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="continuous.html">Continuous Processes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="diffusion.html">Diffusion Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notes.html">Release Notes</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">stochastic</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Discrete Processes</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/discrete.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="discrete-processes">
+<h1>Discrete Processes<a class="headerlink" href="#discrete-processes" title="Permalink to this headline">¶</a></h1>
+<p>The <code class="xref py py-mod docutils literal"><span class="pre">stochastic.discrete</span></code> module provides classes for generating
+discrete stochastic processes.</p>
+<ul class="simple">
+<li><a class="reference internal" href="#stochastic.discrete.BernoulliProcess" title="stochastic.discrete.BernoulliProcess"><code class="xref py py-class docutils literal"><span class="pre">stochastic.discrete.BernoulliProcess</span></code></a></li>
+<li><a class="reference internal" href="#stochastic.discrete.ChineseRestaurantProcess" title="stochastic.discrete.ChineseRestaurantProcess"><code class="xref py py-class docutils literal"><span class="pre">stochastic.discrete.ChineseRestaurantProcess</span></code></a></li>
+<li><a class="reference internal" href="#stochastic.discrete.MarkovChain" title="stochastic.discrete.MarkovChain"><code class="xref py py-class docutils literal"><span class="pre">stochastic.discrete.MarkovChain</span></code></a></li>
+<li><a class="reference internal" href="#stochastic.discrete.MoranProcess" title="stochastic.discrete.MoranProcess"><code class="xref py py-class docutils literal"><span class="pre">stochastic.discrete.MoranProcess</span></code></a></li>
+<li><a class="reference internal" href="#stochastic.discrete.RandomWalk" title="stochastic.discrete.RandomWalk"><code class="xref py py-class docutils literal"><span class="pre">stochastic.discrete.RandomWalk</span></code></a></li>
+</ul>
+<dl class="class">
+<dt id="stochastic.discrete.BernoulliProcess">
+<em class="property">class </em><code class="descclassname">stochastic.discrete.</code><code class="descname">BernoulliProcess</code><span class="sig-paren">(</span><em>p=0.5</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stochastic/discrete/bernoulli.html#BernoulliProcess"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stochastic.discrete.BernoulliProcess" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bernoulli process.</p>
+<p>A Bernoulli process consists of a sequence of Bernoulli random
+variables. A Bernoulli random variable is</p>
+<ul class="simple">
+<li>1 with probability <span class="math">\(p\)</span></li>
+<li>0 with probaiility <span class="math">\(1-p\)</span></li>
+</ul>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>p</strong> – in <span class="math">\([0,1]\)</span>, the probability of success of each Bernoulli
+random variable</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="stochastic.discrete.BernoulliProcess.p">
+<code class="descname">p</code><a class="headerlink" href="#stochastic.discrete.BernoulliProcess.p" title="Permalink to this definition">¶</a></dt>
+<dd><p>Probability of success.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="stochastic.discrete.BernoulliProcess.sample">
+<code class="descname">sample</code><span class="sig-paren">(</span><em>n</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stochastic/discrete/bernoulli.html#BernoulliProcess.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stochastic.discrete.BernoulliProcess.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a Bernoulli process realization.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>n</strong> (<em>int</em>) – the number of steps to simulate.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="stochastic.discrete.ChineseRestaurantProcess">
+<em class="property">class </em><code class="descclassname">stochastic.discrete.</code><code class="descname">ChineseRestaurantProcess</code><span class="sig-paren">(</span><em>discount=0</em>, <em>strength=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stochastic/discrete/chinese_restaurant.html#ChineseRestaurantProcess"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stochastic.discrete.ChineseRestaurantProcess" title="Permalink to this definition">¶</a></dt>
+<dd><p>Chinese restaurant process.</p>
+<p>A Chinese restaurant process consists of a sequence of arrivals of
+customers to a Chinese restaurant. Customers may be seated either at an
+occupied table or a new table, there being infinitely many customers
+and tables.</p>
+<p>The first customer sits at the first table. The <span class="math">\(n\)</span>-th customer
+sits at a new table with probability <span class="math">\(1/n\)</span>, and at each already
+occupied table with probability <span class="math">\(t_k/n\)</span>, where <span class="math">\(t_k\)</span> is the
+number of customers already seated at table <span class="math">\(k\)</span>. This is the
+canonical process with <span class="math">\(discount=0\)</span> and <span class="math">\(strength=1\)</span>.</p>
+<p>The generalized process gives the <span class="math">\(n\)</span>-th customer a probability of
+<span class="math">\((strength + T * discount) / (n - 1 + strength)\)</span> to sit at a new
+table and a probability of <span class="math">\((t_k - discount) / (n - 1 + strength)\)</span>
+of sitting at table <span class="math">\(k\)</span>. <span class="math">\(T\)</span> is the number of occupied tables.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>discount</strong> (<em>float</em>) – the discount value of existing tables.
+Must be strictly less than 1.</li>
+<li><strong>strength</strong> (<em>float</em>) – the strength of a new table. If discount
+is negative, strength must be a multiple of discount. If discount is
+nonnegative, strength must be strictly greater than the
+negative discount.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="stochastic.discrete.ChineseRestaurantProcess.discount">
+<code class="descname">discount</code><a class="headerlink" href="#stochastic.discrete.ChineseRestaurantProcess.discount" title="Permalink to this definition">¶</a></dt>
+<dd><p>Discount parameter.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="stochastic.discrete.ChineseRestaurantProcess.sample">
+<code class="descname">sample</code><span class="sig-paren">(</span><em>n</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stochastic/discrete/chinese_restaurant.html#ChineseRestaurantProcess.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stochastic.discrete.ChineseRestaurantProcess.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a Chinese restaurant process with <span class="math">\(n\)</span> customers.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>n</strong> – the number of customers to simulate.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="stochastic.discrete.ChineseRestaurantProcess.strength">
+<code class="descname">strength</code><a class="headerlink" href="#stochastic.discrete.ChineseRestaurantProcess.strength" title="Permalink to this definition">¶</a></dt>
+<dd><p>Strength parameter.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="stochastic.discrete.MarkovChain">
+<em class="property">class </em><code class="descclassname">stochastic.discrete.</code><code class="descname">MarkovChain</code><span class="sig-paren">(</span><em>transition=[[0.5, 0.5], [0.5, 0.5]], initial=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stochastic/discrete/markov_chain.html#MarkovChain"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stochastic.discrete.MarkovChain" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finite state Markov chain.</p>
+<p>A Markov Chain which changes between states according to the transition
+matrix.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>transition</strong> – a square matrix representing the transition
+probabilities between states.</li>
+<li><strong>initial</strong> – a vector representing the initial state probabilities. If
+not provided, each state has equal initial probability.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="stochastic.discrete.MarkovChain.initial">
+<code class="descname">initial</code><a class="headerlink" href="#stochastic.discrete.MarkovChain.initial" title="Permalink to this definition">¶</a></dt>
+<dd><p>Vector of initial state probabilities.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="stochastic.discrete.MarkovChain.sample">
+<code class="descname">sample</code><span class="sig-paren">(</span><em>n</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stochastic/discrete/markov_chain.html#MarkovChain.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stochastic.discrete.MarkovChain.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a realization of the Markov chain.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>n</strong> (<em>int</em>) – the number of steps of the Markov chain to generate.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="stochastic.discrete.MarkovChain.transition">
+<code class="descname">transition</code><a class="headerlink" href="#stochastic.discrete.MarkovChain.transition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transition probability matrix.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="stochastic.discrete.MoranProcess">
+<em class="property">class </em><code class="descclassname">stochastic.discrete.</code><code class="descname">MoranProcess</code><span class="sig-paren">(</span><em>n_max</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stochastic/discrete/moran.html#MoranProcess"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stochastic.discrete.MoranProcess" title="Permalink to this definition">¶</a></dt>
+<dd><p>Moran process.</p>
+<p>A neutral drift Moran process, typically used to model populations. At
+each step this process will increase by one, decrease by one, or remain
+at the same value between values of zero and the number of
+states, <span class="math">\(n\)</span>. The process ends when its value reaches zero or the
+maximum valued state.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>n_max</strong> (<em>int</em>) – the maximum possible value for the process.</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="stochastic.discrete.MoranProcess.n_max">
+<code class="descname">n_max</code><a class="headerlink" href="#stochastic.discrete.MoranProcess.n_max" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maximum value.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="stochastic.discrete.MoranProcess.probabilities">
+<em class="property">static </em><code class="descname">probabilities</code><span class="sig-paren">(</span><em>n</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stochastic/discrete/moran.html#MoranProcess.probabilities"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stochastic.discrete.MoranProcess.probabilities" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate the transition probabilities for state <span class="math">\(n\)</span>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>n</strong> (<em>int</em>) – the current state for which to generate transition
+probabilities.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="stochastic.discrete.MoranProcess.sample">
+<code class="descname">sample</code><span class="sig-paren">(</span><em>n</em>, <em>start</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stochastic/discrete/moran.html#MoranProcess.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stochastic.discrete.MoranProcess.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a realization of the Moran process.</p>
+<p>Generate a Moran process until absorption occurs (state 0
+or <a class="reference internal" href="#stochastic.discrete.MoranProcess.n_max" title="stochastic.discrete.MoranProcess.n_max"><code class="xref py py-attr docutils literal"><span class="pre">n_max</span></code></a>) or length of process reaches length <span class="math">\(n\)</span>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>n</strong> (<em>int</em>) – the maximum number of steps to generate assuming
+absorption does not occur.</li>
+<li><strong>start</strong> (<em>int</em>) – the initial state of the process.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="stochastic.discrete.RandomWalk">
+<em class="property">class </em><code class="descclassname">stochastic.discrete.</code><code class="descname">RandomWalk</code><span class="sig-paren">(</span><em>steps=[-1, 1], weights=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stochastic/discrete/random_walk.html#RandomWalk"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stochastic.discrete.RandomWalk" title="Permalink to this definition">¶</a></dt>
+<dd><p>Random walk.</p>
+<p>A random walk is a sequence of random steps taken from a set of step sizes
+with a probability distribution. By default this object defines the steps
+to be [-1, 1] with probability 1/2 for each possibility.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>steps</strong> – a vector of possible deltas to apply at each step.</li>
+<li><strong>weights</strong> – a corresponding vector of weights associated with each
+step value. If not provided each step has equal weight/probability.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="stochastic.discrete.RandomWalk.p">
+<code class="descname">p</code><a class="headerlink" href="#stochastic.discrete.RandomWalk.p" title="Permalink to this definition">¶</a></dt>
+<dd><p>Step probabilities, normalized from <a class="reference internal" href="#stochastic.discrete.RandomWalk.weights" title="stochastic.discrete.RandomWalk.weights"><code class="xref py py-attr docutils literal"><span class="pre">weights</span></code></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="stochastic.discrete.RandomWalk.sample">
+<code class="descname">sample</code><span class="sig-paren">(</span><em>n</em>, <em>zero=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stochastic/discrete/random_walk.html#RandomWalk.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stochastic.discrete.RandomWalk.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a sample random walk.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>n</strong> (<em>int</em>) – the number of steps to generate</li>
+<li><strong>zero</strong> (<em>bool</em>) – if True include the step at <span class="math">\(t=0\)</span></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="stochastic.discrete.RandomWalk.sample_increments">
+<code class="descname">sample_increments</code><span class="sig-paren">(</span><em>n</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stochastic/discrete/random_walk.html#RandomWalk.sample_increments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stochastic.discrete.RandomWalk.sample_increments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a sample of random walk increments.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>n</strong> (<em>int</em>) – the number of increments to generate.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="stochastic.discrete.RandomWalk.steps">
+<code class="descname">steps</code><a class="headerlink" href="#stochastic.discrete.RandomWalk.steps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Possible steps.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="stochastic.discrete.RandomWalk.weights">
+<code class="descname">weights</code><a class="headerlink" href="#stochastic.discrete.RandomWalk.weights" title="Permalink to this definition">¶</a></dt>
+<dd><p>Step weights provided.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="noise.html" class="btn btn-neutral float-right" title="Noise Processes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="base.html" class="btn btn-neutral" title="Base Classes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018 Christopher Flynn.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

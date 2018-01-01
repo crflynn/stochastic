@@ -5,12 +5,15 @@ from stochastic.base import Sequence
 
 
 class PoissonProcess(Sequence):
-    """Poisson process.
+    r"""Poisson process.
 
-    A Poisson process with rate lambda is a count of occurrences of iid
-    exponential random variables with mean 1/lambda. This class generates
-    samples of times for which cumulative exponential random variables
-    occur.
+    A Poisson process with rate :math:`\lambda` is a count of occurrences of
+    i.i.d. exponential random variables with mean :math:`1/\lambda`. This class
+    generates samples of times for which cumulative exponential random
+    variables occur.
+
+    :param float rate: the parameter :math:`\lambda` which defines the rate of
+        occurrences of the process
     """
 
     def __init__(self, rate=1):
@@ -62,7 +65,14 @@ class PoissonProcess(Sequence):
                 "Must provide either process increments or length.")
 
     def sample(self, n=None, length=None):
-        """Generate a realization of a Poisson process."""
+        """Generate a realization of a Poisson process.
+
+        Exactly one of the following parameters must be provided.
+
+        :param int n: the number of arrivals to simulate
+        :param int length: the length of time to simulate; will generate
+            arrivals until length is met or exceeded.
+        """
         self._sample_poisson_process(n, length)
 
     def times(self, *args, **kwargs):

@@ -1,0 +1,1144 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Continuous Processes &mdash; stochastic 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="stochastic 0.1.0 documentation" href="index.html"/>
+        <link rel="next" title="Diffusion Models" href="diffusion.html"/>
+        <link rel="prev" title="Noise Processes" href="noise.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> stochastic
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="general.html">General Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="base.html">Base Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="discrete.html">Discrete Processes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="noise.html">Noise Processes</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Continuous Processes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="diffusion.html">Diffusion Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notes.html">Release Notes</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">stochastic</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Continuous Processes</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/continuous.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="continuous-processes">
+<h1>Continuous Processes<a class="headerlink" href="#continuous-processes" title="Permalink to this headline">¶</a></h1>
+<p>The <code class="xref py py-mod docutils literal"><span class="pre">stochastic.continuous</span></code> module provides classes for generating
+(discretely sampled) continous stochastic processes.</p>
+<ul class="simple">
+<li><a class="reference internal" href="#stochastic.continuous.BesselProcess" title="stochastic.continuous.BesselProcess"><code class="xref py py-class docutils literal"><span class="pre">stochastic.continuous.BesselProcess</span></code></a></li>
+<li><a class="reference internal" href="#stochastic.continuous.BrownianBridge" title="stochastic.continuous.BrownianBridge"><code class="xref py py-class docutils literal"><span class="pre">stochastic.continuous.BrownianBridge</span></code></a></li>
+<li><a class="reference internal" href="#stochastic.continuous.BrownianExcursion" title="stochastic.continuous.BrownianExcursion"><code class="xref py py-class docutils literal"><span class="pre">stochastic.continuous.BrownianExcursion</span></code></a></li>
+<li><a class="reference internal" href="#stochastic.continuous.BrownianMeander" title="stochastic.continuous.BrownianMeander"><code class="xref py py-class docutils literal"><span class="pre">stochastic.continuous.BrownianMeander</span></code></a></li>
+<li><a class="reference internal" href="#stochastic.continuous.BrownianMotion" title="stochastic.continuous.BrownianMotion"><code class="xref py py-class docutils literal"><span class="pre">stochastic.continuous.BrownianMotion</span></code></a></li>
+<li><a class="reference internal" href="#stochastic.continuous.CauchyProcess" title="stochastic.continuous.CauchyProcess"><code class="xref py py-class docutils literal"><span class="pre">stochastic.continuous.CauchyProcess</span></code></a></li>
+<li><a class="reference internal" href="#stochastic.continuous.FractionalBrownianMotion" title="stochastic.continuous.FractionalBrownianMotion"><code class="xref py py-class docutils literal"><span class="pre">stochastic.continuous.FractionalBrownianMotion</span></code></a></li>
+<li><a class="reference internal" href="#stochastic.continuous.GammaProcess" title="stochastic.continuous.GammaProcess"><code class="xref py py-class docutils literal"><span class="pre">stochastic.continuous.GammaProcess</span></code></a></li>
+<li><a class="reference internal" href="#stochastic.continuous.GeometricBrownianMotion" title="stochastic.continuous.GeometricBrownianMotion"><code class="xref py py-class docutils literal"><span class="pre">stochastic.continuous.GeometricBrownianMotion</span></code></a></li>
+<li><code class="xref py py-class docutils literal"><span class="pre">stochastic.continuous.Poisson</span></code></li>
+<li><a class="reference internal" href="#stochastic.continuous.SquaredBesselProcess" title="stochastic.continuous.SquaredBesselProcess"><code class="xref py py-class docutils literal"><span class="pre">stochastic.continuous.SquaredBesselProcess</span></code></a></li>
+<li><a class="reference internal" href="#stochastic.continuous.VarianceGammaProcess" title="stochastic.continuous.VarianceGammaProcess"><code class="xref py py-class docutils literal"><span class="pre">stochastic.continuous.VarianceGammaProcess</span></code></a></li>
+<li><a class="reference internal" href="#stochastic.continuous.WienerProcess" title="stochastic.continuous.WienerProcess"><code class="xref py py-class docutils literal"><span class="pre">stochastic.continuous.WienerProcess</span></code></a></li>
+</ul>
+<dl class="class">
+<dt id="stochastic.continuous.BesselProcess">
+<em class="property">class </em><code class="descclassname">stochastic.continuous.</code><code class="descname">BesselProcess</code><span class="sig-paren">(</span><em>t=1</em>, <em>dim=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stochastic/continuous/bessel.html#BesselProcess"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stochastic.continuous.BesselProcess" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bessel process.</p>
+<p>Generate Bessel process realizations using <code class="xref py py-attr docutils literal"><span class="pre">dim</span></code> independent
+Brownian motion processes on the interval <span class="math">\([0,t]\)</span></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>t</strong> (<em>float</em>) – the right hand endpoint of the time interval <span class="math">\([0,t]\)</span>
+for the process</li>
+<li><strong>dim</strong> (<em>int</em>) – the number of underlying independent Brownian motions to
+use</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="stochastic.continuous.BesselProcess.sample">
+<code class="descname">sample</code><span class="sig-paren">(</span><em>n</em>, <em>zero=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stochastic/continuous/bessel.html#BesselProcess.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stochastic.continuous.BesselProcess.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a realization of a Bessel process.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>n</strong> (<em>int</em>) – the number of increments to generate</li>
+<li><strong>zero</strong> (<em>bool</em>) – if True, include <span class="math">\(t=0\)</span></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="stochastic.continuous.BesselProcess.t">
+<code class="descname">t</code><a class="headerlink" href="#stochastic.continuous.BesselProcess.t" title="Permalink to this definition">¶</a></dt>
+<dd><p>Time end.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="stochastic.continuous.BesselProcess.times">
+<code class="descname">times</code><span class="sig-paren">(</span><em>n</em>, <em>zero=True</em><span class="sig-paren">)</span><a class="headerlink" href="#stochastic.continuous.BesselProcess.times" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate times associated with n increments on [0, t].</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>n</strong> (<em>int</em>) – the number of increments</li>
+<li><strong>zero</strong> (<em>bool</em>) – if True, include <span class="math">\(t=0\)</span></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="stochastic.continuous.BrownianBridge">
+<em class="property">class </em><code class="descclassname">stochastic.continuous.</code><code class="descname">BrownianBridge</code><span class="sig-paren">(</span><em>t=1</em>, <em>b=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stochastic/continuous/brownian_bridge.html#BrownianBridge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stochastic.continuous.BrownianBridge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Brownian bridge.</p>
+<p>A Brownian bridge is a Brownian motion with a conditional value on the
+right endpoint of the process.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>t</strong> (<em>float</em>) – the right hand endpoint of the time interval <span class="math">\([0,t]\)</span>
+for the process</li>
+<li><strong>b</strong> (<em>float</em>) – the right endpoint value of the Brownian bridge at time t</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="stochastic.continuous.BrownianBridge.b">
+<code class="descname">b</code><a class="headerlink" href="#stochastic.continuous.BrownianBridge.b" title="Permalink to this definition">¶</a></dt>
+<dd><p>The right endpoint value.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="stochastic.continuous.BrownianBridge.sample">
+<code class="descname">sample</code><span class="sig-paren">(</span><em>n</em>, <em>zero=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stochastic/continuous/brownian_bridge.html#BrownianBridge.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stochastic.continuous.BrownianBridge.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a realization of a Brownian bridge.</p>
+<p>Generate realizations of a Brownian bridge in which the value at time
+<span class="math">\(t\)</span> is equal to <span class="math">\(b\)</span>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>n</strong> (<em>int</em>) – the number of increments to generate</li>
+<li><strong>zero</strong> (<em>bool</em>) – if True, include time <span class="math">\(t=0\)</span></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="stochastic.continuous.BrownianBridge.sample_at">
+<code class="descname">sample_at</code><span class="sig-paren">(</span><em>times</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stochastic/continuous/brownian_bridge.html#BrownianBridge.sample_at"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stochastic.continuous.BrownianBridge.sample_at" title="Permalink to this definition">¶</a></dt>
+<dd><p>TODO</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="stochastic.continuous.BrownianBridge.t">
+<code class="descname">t</code><a class="headerlink" href="#stochastic.continuous.BrownianBridge.t" title="Permalink to this definition">¶</a></dt>
+<dd><p>Time end.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="stochastic.continuous.BrownianBridge.times">
+<code class="descname">times</code><span class="sig-paren">(</span><em>n</em>, <em>zero=True</em><span class="sig-paren">)</span><a class="headerlink" href="#stochastic.continuous.BrownianBridge.times" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate times associated with n increments on [0, t].</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>n</strong> (<em>int</em>) – the number of increments</li>
+<li><strong>zero</strong> (<em>bool</em>) – if True, include <span class="math">\(t=0\)</span></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="stochastic.continuous.BrownianExcursion">
+<em class="property">class </em><code class="descclassname">stochastic.continuous.</code><code class="descname">BrownianExcursion</code><span class="sig-paren">(</span><em>t=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stochastic/continuous/brownian_excursion.html#BrownianExcursion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stochastic.continuous.BrownianExcursion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Brownian excursion.</p>
+<p>A Brownian excursion is a Brownian bridge from (0, 0) to (t, 0) which is
+conditioned to be nonnegative on the interval [0, 1].</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>t</strong> (<em>float</em>) – the right hand endpoint of the time interval <span class="math">\([0,t]\)</span>
+for the process</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="stochastic.continuous.BrownianExcursion.sample">
+<code class="descname">sample</code><span class="sig-paren">(</span><em>n</em>, <em>zero=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stochastic/continuous/brownian_excursion.html#BrownianExcursion.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stochastic.continuous.BrownianExcursion.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a Brownian excursion.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="stochastic.continuous.BrownianExcursion.sample_at">
+<code class="descname">sample_at</code><span class="sig-paren">(</span><em>times</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stochastic/continuous/brownian_excursion.html#BrownianExcursion.sample_at"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stochastic.continuous.BrownianExcursion.sample_at" title="Permalink to this definition">¶</a></dt>
+<dd><p>TODO</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="stochastic.continuous.BrownianExcursion.t">
+<code class="descname">t</code><a class="headerlink" href="#stochastic.continuous.BrownianExcursion.t" title="Permalink to this definition">¶</a></dt>
+<dd><p>Time end.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="stochastic.continuous.BrownianExcursion.times">
+<code class="descname">times</code><span class="sig-paren">(</span><em>n</em>, <em>zero=True</em><span class="sig-paren">)</span><a class="headerlink" href="#stochastic.continuous.BrownianExcursion.times" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate times associated with n increments on [0, t].</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>n</strong> (<em>int</em>) – the number of increments</li>
+<li><strong>zero</strong> (<em>bool</em>) – if True, include <span class="math">\(t=0\)</span></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="stochastic.continuous.BrownianMeander">
+<em class="property">class </em><code class="descclassname">stochastic.continuous.</code><code class="descname">BrownianMeander</code><span class="sig-paren">(</span><em>t=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stochastic/continuous/brownian_meander.html#BrownianMeander"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stochastic.continuous.BrownianMeander" title="Permalink to this definition">¶</a></dt>
+<dd><p>Brownian meander process.</p>
+<p>A Brownian motion conditioned such that the process is nonnegative.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>t</strong> (<em>float</em>) – the right hand endpoint of the time interval <span class="math">\([0,t]\)</span>
+for the process</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="stochastic.continuous.BrownianMeander.sample">
+<code class="descname">sample</code><span class="sig-paren">(</span><em>n</em>, <em>b=None</em>, <em>zero=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stochastic/continuous/brownian_meander.html#BrownianMeander.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stochastic.continuous.BrownianMeander.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a Brownian meander realization.</p>
+<p>Generage a Brownian meander using the Williams, 1970 / Imhof, 1984
+algorithm.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>n</strong> (<em>int</em>) – the number of increments to generate</li>
+<li><strong>b</strong> (<em>float</em>) – the nonnegative right hand endpoint of the meander</li>
+<li><strong>zero</strong> (<em>bool</em>) – if True, include time <span class="math">\(t=0\)</span></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="stochastic.continuous.BrownianMeander.sample_at">
+<code class="descname">sample_at</code><span class="sig-paren">(</span><em>times</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stochastic/continuous/brownian_meander.html#BrownianMeander.sample_at"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stochastic.continuous.BrownianMeander.sample_at" title="Permalink to this definition">¶</a></dt>
+<dd><p>TODO</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="stochastic.continuous.BrownianMeander.t">
+<code class="descname">t</code><a class="headerlink" href="#stochastic.continuous.BrownianMeander.t" title="Permalink to this definition">¶</a></dt>
+<dd><p>Time end.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="stochastic.continuous.BrownianMeander.times">
+<code class="descname">times</code><span class="sig-paren">(</span><em>n</em>, <em>zero=True</em><span class="sig-paren">)</span><a class="headerlink" href="#stochastic.continuous.BrownianMeander.times" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate times associated with n increments on [0, t].</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>n</strong> (<em>int</em>) – the number of increments</li>
+<li><strong>zero</strong> (<em>bool</em>) – if True, include <span class="math">\(t=0\)</span></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="stochastic.continuous.BrownianMotion">
+<em class="property">class </em><code class="descclassname">stochastic.continuous.</code><code class="descname">BrownianMotion</code><span class="sig-paren">(</span><em>t=1</em>, <em>drift=0</em>, <em>scale=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stochastic/continuous/brownian_motion.html#BrownianMotion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stochastic.continuous.BrownianMotion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Brownian motion.</p>
+<p>A standard Brownian motion (discretely sampled) has independent and
+identically distributed Gaussian increments with variance equal to
+increment length. Non-standard Brownian motion includes a linear drift
+parameter and scale factor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>t</strong> (<em>float</em>) – the right hand endpoint of the time interval <span class="math">\([0,t]\)</span>
+for the process</li>
+<li><strong>drift</strong> (<em>float</em>) – rate of change of the expected value</li>
+<li><strong>scale</strong> (<em>float</em>) – scale factor of the Gaussian process</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="stochastic.continuous.BrownianMotion.drift">
+<code class="descname">drift</code><a class="headerlink" href="#stochastic.continuous.BrownianMotion.drift" title="Permalink to this definition">¶</a></dt>
+<dd><p>Drift parameter.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="stochastic.continuous.BrownianMotion.sample">
+<code class="descname">sample</code><span class="sig-paren">(</span><em>n</em>, <em>zero=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stochastic/continuous/brownian_motion.html#BrownianMotion.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stochastic.continuous.BrownianMotion.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a realization of Brownian Motion.</p>
+<p>Generate a Brownian motion realization with drift and scale.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>n</strong> (<em>int</em>) – the number of increments to generate</li>
+<li><strong>zero</strong> (<em>bool</em>) – if True, include <span class="math">\(t=0\)</span></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="stochastic.continuous.BrownianMotion.sample_at">
+<code class="descname">sample_at</code><span class="sig-paren">(</span><em>times</em>, <em>zero=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stochastic/continuous/brownian_motion.html#BrownianMotion.sample_at"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stochastic.continuous.BrownianMotion.sample_at" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a Brownian motion at specified times.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>times</strong> – a vector of increasing time values at which to generate
+the Brownian motion</li>
+<li><strong>zero</strong> (<em>bool</em>) – if True, include <span class="math">\(t=0\)</span></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="stochastic.continuous.BrownianMotion.scale">
+<code class="descname">scale</code><a class="headerlink" href="#stochastic.continuous.BrownianMotion.scale" title="Permalink to this definition">¶</a></dt>
+<dd><p>Scale parameter.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="stochastic.continuous.BrownianMotion.t">
+<code class="descname">t</code><a class="headerlink" href="#stochastic.continuous.BrownianMotion.t" title="Permalink to this definition">¶</a></dt>
+<dd><p>Time end.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="stochastic.continuous.BrownianMotion.times">
+<code class="descname">times</code><span class="sig-paren">(</span><em>n</em>, <em>zero=True</em><span class="sig-paren">)</span><a class="headerlink" href="#stochastic.continuous.BrownianMotion.times" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate times associated with n increments on [0, t].</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>n</strong> (<em>int</em>) – the number of increments</li>
+<li><strong>zero</strong> (<em>bool</em>) – if True, include <span class="math">\(t=0\)</span></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="stochastic.continuous.CauchyProcess">
+<em class="property">class </em><code class="descclassname">stochastic.continuous.</code><code class="descname">CauchyProcess</code><span class="sig-paren">(</span><em>t=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stochastic/continuous/cauchy.html#CauchyProcess"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stochastic.continuous.CauchyProcess" title="Permalink to this definition">¶</a></dt>
+<dd><p>Symmetric Cauchy process.</p>
+<p>The symmetric Cauchy process is a Brownian motion with a Levy subordinator
+using location parameter 0 and scale parameter <span class="math">\(t^2/2\)</span>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>t</strong> (<em>float</em>) – the right hand endpoint of the time interval <span class="math">\([0,t]\)</span>
+for the process</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="stochastic.continuous.CauchyProcess.sample">
+<code class="descname">sample</code><span class="sig-paren">(</span><em>n</em>, <em>zero=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stochastic/continuous/cauchy.html#CauchyProcess.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stochastic.continuous.CauchyProcess.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a realization of a Cauchy process.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>n</strong> (<em>int</em>) – the number of increments to generate.</li>
+<li><strong>zero</strong> (<em>bool</em>) – if True, include <span class="math">\(t=0\)</span></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="stochastic.continuous.CauchyProcess.t">
+<code class="descname">t</code><a class="headerlink" href="#stochastic.continuous.CauchyProcess.t" title="Permalink to this definition">¶</a></dt>
+<dd><p>Time end.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="stochastic.continuous.CauchyProcess.times">
+<code class="descname">times</code><span class="sig-paren">(</span><em>n</em>, <em>zero=True</em><span class="sig-paren">)</span><a class="headerlink" href="#stochastic.continuous.CauchyProcess.times" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate times associated with n increments on [0, t].</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>n</strong> (<em>int</em>) – the number of increments</li>
+<li><strong>zero</strong> (<em>bool</em>) – if True, include <span class="math">\(t=0\)</span></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="stochastic.continuous.FractionalBrownianMotion">
+<em class="property">class </em><code class="descclassname">stochastic.continuous.</code><code class="descname">FractionalBrownianMotion</code><span class="sig-paren">(</span><em>t=1</em>, <em>hurst=0.5</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stochastic/continuous/fractional_brownian_motion.html#FractionalBrownianMotion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stochastic.continuous.FractionalBrownianMotion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fractional Brownian motion process.</p>
+<p>A fractional Brownian motion (discretely sampled) has correlated Gaussian
+increments defined by Hurst parameter H. When H == 1/2, the process
+is a standard Brownian motion. When H &gt; 1/2, the increments are
+positively correlated. When H &lt; 1/2, the increments are negatively
+correlated.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>t</strong> (<em>float</em>) – the right hand endpoint of the time interval <span class="math">\([0,t]\)</span>
+for the process</li>
+<li><strong>hurst</strong> (<em>float</em>) – the Hurst parameter on the interval (0, 1)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="stochastic.continuous.FractionalBrownianMotion.hurst">
+<code class="descname">hurst</code><a class="headerlink" href="#stochastic.continuous.FractionalBrownianMotion.hurst" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hurst parameter.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="stochastic.continuous.FractionalBrownianMotion.sample">
+<code class="descname">sample</code><span class="sig-paren">(</span><em>n</em>, <em>zero=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stochastic/continuous/fractional_brownian_motion.html#FractionalBrownianMotion.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stochastic.continuous.FractionalBrownianMotion.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a realization of fractional Brownian motion.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>n</strong> (<em>int</em>) – the number of increments to generate</li>
+<li><strong>zero</strong> (<em>bool</em>) – if True, include <span class="math">\(t=0\)</span></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="stochastic.continuous.FractionalBrownianMotion.t">
+<code class="descname">t</code><a class="headerlink" href="#stochastic.continuous.FractionalBrownianMotion.t" title="Permalink to this definition">¶</a></dt>
+<dd><p>Time end.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="stochastic.continuous.FractionalBrownianMotion.times">
+<code class="descname">times</code><span class="sig-paren">(</span><em>n</em>, <em>zero=True</em><span class="sig-paren">)</span><a class="headerlink" href="#stochastic.continuous.FractionalBrownianMotion.times" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate times associated with n increments on [0, t].</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>n</strong> (<em>int</em>) – the number of increments</li>
+<li><strong>zero</strong> (<em>bool</em>) – if True, include <span class="math">\(t=0\)</span></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="stochastic.continuous.GammaProcess">
+<em class="property">class </em><code class="descclassname">stochastic.continuous.</code><code class="descname">GammaProcess</code><span class="sig-paren">(</span><em>t=1</em>, <em>mean=None</em>, <em>variance=None</em>, <em>rate=None</em>, <em>scale=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stochastic/continuous/gamma.html#GammaProcess"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stochastic.continuous.GammaProcess" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gamma process.</p>
+<p>A Gamma process (discretely sampled) is the summation of stationary
+independent increments which are distributed as gamma random variables.
+This class supports instantiation using the mean/variance parametrization
+or the rate/scale parametrization.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>t</strong> (<em>float</em>) – the right hand endpoint of the time interval <span class="math">\([0,t]\)</span>
+for the process</li>
+<li><strong>mean</strong> (<em>float</em>) – mean increase per unit time; supply with
+<a class="reference internal" href="#stochastic.continuous.GammaProcess.variance" title="stochastic.continuous.GammaProcess.variance"><code class="xref py py-attr docutils literal"><span class="pre">variance</span></code></a></li>
+<li><strong>variance</strong> (<em>float</em>) – variance of increase per unit time; supply with
+<a class="reference internal" href="#stochastic.continuous.GammaProcess.mean" title="stochastic.continuous.GammaProcess.mean"><code class="xref py py-attr docutils literal"><span class="pre">mean</span></code></a></li>
+<li><strong>rate</strong> (<em>float</em>) – the rate of jump arrivals; supply with <a class="reference internal" href="#stochastic.continuous.GammaProcess.scale" title="stochastic.continuous.GammaProcess.scale"><code class="xref py py-attr docutils literal"><span class="pre">scale</span></code></a></li>
+<li><strong>scale</strong> (<em>float</em>) – the size of the jumps; supple with <a class="reference internal" href="#stochastic.continuous.GammaProcess.rate" title="stochastic.continuous.GammaProcess.rate"><code class="xref py py-attr docutils literal"><span class="pre">rate</span></code></a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="stochastic.continuous.GammaProcess.mean">
+<code class="descname">mean</code><a class="headerlink" href="#stochastic.continuous.GammaProcess.mean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mean increase per unit time.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="stochastic.continuous.GammaProcess.rate">
+<code class="descname">rate</code><a class="headerlink" href="#stochastic.continuous.GammaProcess.rate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rate of jump arrivals.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="stochastic.continuous.GammaProcess.sample">
+<code class="descname">sample</code><span class="sig-paren">(</span><em>n</em>, <em>zero=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stochastic/continuous/gamma.html#GammaProcess.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stochastic.continuous.GammaProcess.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a realization of a Gamma process.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>n</strong> (<em>int</em>) – the number of increments to generate</li>
+<li><strong>zero</strong> (<em>bool</em>) – if True, include <span class="math">\(t=0\)</span></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="stochastic.continuous.GammaProcess.sample_at">
+<code class="descname">sample_at</code><span class="sig-paren">(</span><em>times</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stochastic/continuous/gamma.html#GammaProcess.sample_at"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stochastic.continuous.GammaProcess.sample_at" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a realization of a Gamma process at specified times.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>times</strong> (<em>int</em>) – the number of increments to generate</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="stochastic.continuous.GammaProcess.scale">
+<code class="descname">scale</code><a class="headerlink" href="#stochastic.continuous.GammaProcess.scale" title="Permalink to this definition">¶</a></dt>
+<dd><p>Scale parameter for jump sizes.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="stochastic.continuous.GammaProcess.t">
+<code class="descname">t</code><a class="headerlink" href="#stochastic.continuous.GammaProcess.t" title="Permalink to this definition">¶</a></dt>
+<dd><p>Time end.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="stochastic.continuous.GammaProcess.times">
+<code class="descname">times</code><span class="sig-paren">(</span><em>n</em>, <em>zero=True</em><span class="sig-paren">)</span><a class="headerlink" href="#stochastic.continuous.GammaProcess.times" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate times associated with n increments on [0, t].</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>n</strong> (<em>int</em>) – the number of increments</li>
+<li><strong>zero</strong> (<em>bool</em>) – if True, include <span class="math">\(t=0\)</span></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="stochastic.continuous.GammaProcess.variance">
+<code class="descname">variance</code><a class="headerlink" href="#stochastic.continuous.GammaProcess.variance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Variance of increase per unit time.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="stochastic.continuous.GeometricBrownianMotion">
+<em class="property">class </em><code class="descclassname">stochastic.continuous.</code><code class="descname">GeometricBrownianMotion</code><span class="sig-paren">(</span><em>t=1</em>, <em>drift=0</em>, <em>volatility=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stochastic/continuous/geometric_brownian_motion.html#GeometricBrownianMotion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stochastic.continuous.GeometricBrownianMotion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Geometric Brownian motion process.</p>
+<p>A geometric Brownian motion <span class="math">\(S_t\)</span> is the analytic solution to the
+stochastic differential equation with Wiener process <span class="math">\(W_t\)</span>:</p>
+<div class="math">
+\[dS_t = \mu S_t dt + \sigma S_t dW_t\]</div>
+<p>and can be represented with initial value <span class="math">\(S_0\)</span> in the form:</p>
+<div class="math">
+\[S_t = S_0 \exp \left( \left( \mu - \frac{\sigma^2}{2} \right) t + \sigma W_t \right)\]</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>t</strong> (<em>float</em>) – the right hand endpoint of the time interval <span class="math">\([0,t]\)</span>
+for the process</li>
+<li><strong>drift</strong> (<em>float</em>) – the parameter <span class="math">\(\mu\)</span></li>
+<li><strong>volatility</strong> (<em>float</em>) – the parameter <span class="math">\(\sigma\)</span></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="stochastic.continuous.GeometricBrownianMotion.drift">
+<code class="descname">drift</code><a class="headerlink" href="#stochastic.continuous.GeometricBrownianMotion.drift" title="Permalink to this definition">¶</a></dt>
+<dd><p>Geometric Brownian motion drift parameter.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="stochastic.continuous.GeometricBrownianMotion.sample">
+<code class="descname">sample</code><span class="sig-paren">(</span><em>n</em>, <em>initial=1</em>, <em>zero=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stochastic/continuous/geometric_brownian_motion.html#GeometricBrownianMotion.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stochastic.continuous.GeometricBrownianMotion.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a realization of geometric Brownian motion.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>n</strong> (<em>int</em>) – the number of increments to generate.</li>
+<li><strong>initial</strong> (<em>float</em>) – the initial value of the process <span class="math">\(S_0\)</span>.</li>
+<li><strong>zero</strong> (<em>bool</em>) – if True, include <span class="math">\(t=0\)</span></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="stochastic.continuous.GeometricBrownianMotion.t">
+<code class="descname">t</code><a class="headerlink" href="#stochastic.continuous.GeometricBrownianMotion.t" title="Permalink to this definition">¶</a></dt>
+<dd><p>Time end.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="stochastic.continuous.GeometricBrownianMotion.times">
+<code class="descname">times</code><span class="sig-paren">(</span><em>n</em>, <em>zero=True</em><span class="sig-paren">)</span><a class="headerlink" href="#stochastic.continuous.GeometricBrownianMotion.times" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate times associated with n increments on [0, t].</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>n</strong> (<em>int</em>) – the number of increments</li>
+<li><strong>zero</strong> (<em>bool</em>) – if True, include <span class="math">\(t=0\)</span></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="stochastic.continuous.GeometricBrownianMotion.volatility">
+<code class="descname">volatility</code><a class="headerlink" href="#stochastic.continuous.GeometricBrownianMotion.volatility" title="Permalink to this definition">¶</a></dt>
+<dd><p>Geometric Brownian motion volatility parameter.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="stochastic.continuous.PoissonProcess">
+<em class="property">class </em><code class="descclassname">stochastic.continuous.</code><code class="descname">PoissonProcess</code><span class="sig-paren">(</span><em>rate=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stochastic/continuous/poisson.html#PoissonProcess"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stochastic.continuous.PoissonProcess" title="Permalink to this definition">¶</a></dt>
+<dd><p>Poisson process.</p>
+<p>A Poisson process with rate <span class="math">\(\lambda\)</span> is a count of occurrences of
+i.i.d. exponential random variables with mean <span class="math">\(1/\lambda\)</span>. This class
+generates samples of times for which cumulative exponential random
+variables occur.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rate</strong> (<em>float</em>) – the parameter <span class="math">\(\lambda\)</span> which defines the rate of
+occurrences of the process</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="stochastic.continuous.PoissonProcess.rate">
+<code class="descname">rate</code><a class="headerlink" href="#stochastic.continuous.PoissonProcess.rate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rate parameter.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="stochastic.continuous.PoissonProcess.sample">
+<code class="descname">sample</code><span class="sig-paren">(</span><em>n=None</em>, <em>length=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stochastic/continuous/poisson.html#PoissonProcess.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stochastic.continuous.PoissonProcess.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a realization of a Poisson process.</p>
+<p>Exactly one of the following parameters must be provided.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>n</strong> (<em>int</em>) – the number of arrivals to simulate</li>
+<li><strong>length</strong> (<em>int</em>) – the length of time to simulate; will generate
+arrivals until length is met or exceeded.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="stochastic.continuous.SquaredBesselProcess">
+<em class="property">class </em><code class="descclassname">stochastic.continuous.</code><code class="descname">SquaredBesselProcess</code><span class="sig-paren">(</span><em>t=1</em>, <em>dim=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stochastic/continuous/squared_bessel.html#SquaredBesselProcess"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stochastic.continuous.SquaredBesselProcess" title="Permalink to this definition">¶</a></dt>
+<dd><p>Squared Bessel process.</p>
+<p>The square of a Bessel process.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>t</strong> (<em>float</em>) – the right hand endpoint of the time interval <span class="math">\([0,t]\)</span>
+for the process</li>
+<li><strong>dim</strong> (<em>int</em>) – the number of underlying independent Brownian motions to
+use</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="stochastic.continuous.SquaredBesselProcess.dim">
+<code class="descname">dim</code><a class="headerlink" href="#stochastic.continuous.SquaredBesselProcess.dim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dimensions, or independent Brownian motions.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="stochastic.continuous.SquaredBesselProcess.sample">
+<code class="descname">sample</code><span class="sig-paren">(</span><em>n</em>, <em>zero=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stochastic/continuous/squared_bessel.html#SquaredBesselProcess.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stochastic.continuous.SquaredBesselProcess.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a realization of a squared Bessel process.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>n</strong> (<em>int</em>) – the number of increments to generate</li>
+<li><strong>zero</strong> (<em>bool</em>) – if True, include <span class="math">\(t=0\)</span></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="stochastic.continuous.SquaredBesselProcess.t">
+<code class="descname">t</code><a class="headerlink" href="#stochastic.continuous.SquaredBesselProcess.t" title="Permalink to this definition">¶</a></dt>
+<dd><p>Time end.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="stochastic.continuous.VarianceGammaProcess">
+<em class="property">class </em><code class="descclassname">stochastic.continuous.</code><code class="descname">VarianceGammaProcess</code><span class="sig-paren">(</span><em>t=1</em>, <em>drift=0</em>, <em>variance=1</em>, <em>scale=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stochastic/continuous/variance_gamma.html#VarianceGammaProcess"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stochastic.continuous.VarianceGammaProcess" title="Permalink to this definition">¶</a></dt>
+<dd><p>Variance Gamma process.</p>
+<p>A variance gamma process has independent increments which follow the
+variance-gamma distribution. It can be represented as a Brownian motion
+with drift subordinated by a Gamma process:</p>
+<div class="math">
+\[\theta \Gamma(t; 1, \nu) + \sigma W(\Gamma(t; 1, \nu))\]</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>t</strong> (<em>float</em>) – the right hand endpoint of the time interval <span class="math">\([0,t]\)</span>
+for the process</li>
+<li><strong>drift</strong> (<em>float</em>) – the drift parameter of the Brownian motion,
+or <span class="math">\(\theta\)</span> above</li>
+<li><strong>variance</strong> (<em>float</em>) – the variance parameter of the Gamma subordinator,
+or <span class="math">\(\nu\)</span> above</li>
+<li><strong>scale</strong> (<em>float</em>) – the scale parameter of the Brownian motion,
+or <span class="math">\(\sigma\)</span> above</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="stochastic.continuous.VarianceGammaProcess.drift">
+<code class="descname">drift</code><a class="headerlink" href="#stochastic.continuous.VarianceGammaProcess.drift" title="Permalink to this definition">¶</a></dt>
+<dd><p>Drift parameter.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="stochastic.continuous.VarianceGammaProcess.sample">
+<code class="descname">sample</code><span class="sig-paren">(</span><em>n</em>, <em>zero=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stochastic/continuous/variance_gamma.html#VarianceGammaProcess.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stochastic.continuous.VarianceGammaProcess.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a realization of a variance gamma process.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>n</strong> (<em>int</em>) – the number of increments to generate</li>
+<li><strong>zero</strong> (<em>bool</em>) – if True, include <span class="math">\(t=0\)</span></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="stochastic.continuous.VarianceGammaProcess.scale">
+<code class="descname">scale</code><a class="headerlink" href="#stochastic.continuous.VarianceGammaProcess.scale" title="Permalink to this definition">¶</a></dt>
+<dd><p>Scale parameter.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="stochastic.continuous.VarianceGammaProcess.t">
+<code class="descname">t</code><a class="headerlink" href="#stochastic.continuous.VarianceGammaProcess.t" title="Permalink to this definition">¶</a></dt>
+<dd><p>Time end.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="stochastic.continuous.VarianceGammaProcess.variance">
+<code class="descname">variance</code><a class="headerlink" href="#stochastic.continuous.VarianceGammaProcess.variance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Variance parameter.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="stochastic.continuous.WienerProcess">
+<em class="property">class </em><code class="descclassname">stochastic.continuous.</code><code class="descname">WienerProcess</code><span class="sig-paren">(</span><em>t=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stochastic/continuous/wiener.html#WienerProcess"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stochastic.continuous.WienerProcess" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wiener process, or standard Brownian motion.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>t</strong> (<em>float</em>) – the right hand endpoint of the time interval <span class="math">\([0,t]\)</span>
+for the process</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="stochastic.continuous.WienerProcess.sample">
+<code class="descname">sample</code><span class="sig-paren">(</span><em>n</em>, <em>zero=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stochastic/continuous/wiener.html#WienerProcess.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stochastic.continuous.WienerProcess.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a realization of the Wiener process.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>n</strong> (<em>int</em>) – the number of increments to generate</li>
+<li><strong>zero</strong> (<em>bool</em>) – if True, include <span class="math">\(t=0\)</span></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="stochastic.continuous.WienerProcess.t">
+<code class="descname">t</code><a class="headerlink" href="#stochastic.continuous.WienerProcess.t" title="Permalink to this definition">¶</a></dt>
+<dd><p>Time end.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="diffusion.html" class="btn btn-neutral float-right" title="Diffusion Models" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="noise.html" class="btn btn-neutral" title="Noise Processes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018 Christopher Flynn.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

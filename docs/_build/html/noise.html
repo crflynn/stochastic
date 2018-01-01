@@ -1,0 +1,361 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Noise Processes &mdash; stochastic 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="stochastic 0.1.0 documentation" href="index.html"/>
+        <link rel="next" title="Continuous Processes" href="continuous.html"/>
+        <link rel="prev" title="Discrete Processes" href="discrete.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> stochastic
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="general.html">General Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="base.html">Base Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="discrete.html">Discrete Processes</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Noise Processes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="continuous.html">Continuous Processes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="diffusion.html">Diffusion Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notes.html">Release Notes</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">stochastic</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Noise Processes</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/noise.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="noise-processes">
+<h1>Noise Processes<a class="headerlink" href="#noise-processes" title="Permalink to this headline">¶</a></h1>
+<p>The <code class="xref py py-mod docutils literal"><span class="pre">stochastic.noise</span></code> module provides classes for generating
+noise processes.</p>
+<ul class="simple">
+<li><a class="reference internal" href="#stochastic.noise.GaussianNoise" title="stochastic.noise.GaussianNoise"><code class="xref py py-class docutils literal"><span class="pre">stochastic.noise.GaussianNoise</span></code></a></li>
+<li><a class="reference internal" href="#stochastic.noise.FractionalGaussianNoise" title="stochastic.noise.FractionalGaussianNoise"><code class="xref py py-class docutils literal"><span class="pre">stochastic.noise.FractionalGaussianNoise</span></code></a></li>
+</ul>
+<dl class="class">
+<dt id="stochastic.noise.GaussianNoise">
+<em class="property">class </em><code class="descclassname">stochastic.noise.</code><code class="descname">GaussianNoise</code><span class="sig-paren">(</span><em>t=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stochastic/noise/gaussian_noise.html#GaussianNoise"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stochastic.noise.GaussianNoise" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gaussian noise process.</p>
+<p>Generate a sequence of Gaussian random variables.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>t</strong> (<em>float</em>) – the right hand endpoint of the time interval <span class="math">\([0,t]\)</span>
+for the process</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="stochastic.noise.GaussianNoise.sample">
+<code class="descname">sample</code><span class="sig-paren">(</span><em>n</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stochastic/noise/gaussian_noise.html#GaussianNoise.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stochastic.noise.GaussianNoise.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a realization of Gaussian noise.</p>
+<p>Generate a Gaussian noise realization with n increments.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>n</strong> (<em>int</em>) – the number of increments to generate.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="stochastic.noise.GaussianNoise.sample_at">
+<code class="descname">sample_at</code><span class="sig-paren">(</span><em>times</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stochastic/noise/gaussian_noise.html#GaussianNoise.sample_at"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stochastic.noise.GaussianNoise.sample_at" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate Gaussian noise increments at specified times from zero.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>times</strong> – a vector of increasing time values for which to generate
+noise increments.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="stochastic.noise.GaussianNoise.t">
+<code class="descname">t</code><a class="headerlink" href="#stochastic.noise.GaussianNoise.t" title="Permalink to this definition">¶</a></dt>
+<dd><p>Time end.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="stochastic.noise.GaussianNoise.times">
+<code class="descname">times</code><span class="sig-paren">(</span><em>n</em>, <em>zero=True</em><span class="sig-paren">)</span><a class="headerlink" href="#stochastic.noise.GaussianNoise.times" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate times associated with n increments on [0, t].</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="stochastic.noise.FractionalGaussianNoise">
+<em class="property">class </em><code class="descclassname">stochastic.noise.</code><code class="descname">FractionalGaussianNoise</code><span class="sig-paren">(</span><em>t=1</em>, <em>hurst=0.5</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stochastic/noise/fractional_gaussian_noise.html#FractionalGaussianNoise"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stochastic.noise.FractionalGaussianNoise" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fractional Gaussian noise process.</p>
+<p>Generate sequences of fractional Gaussian noise.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>t</strong> (<em>float</em>) – the right hand endpoint of the time interval <span class="math">\([0,t]\)</span>
+for the process</li>
+<li><strong>hurst</strong> (<em>float</em>) – The Hurst parameter value in <span class="math">\((0,1)\)</span>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="stochastic.noise.FractionalGaussianNoise.hurst">
+<code class="descname">hurst</code><a class="headerlink" href="#stochastic.noise.FractionalGaussianNoise.hurst" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hurst parameter.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="stochastic.noise.FractionalGaussianNoise.sample">
+<code class="descname">sample</code><span class="sig-paren">(</span><em>n</em>, <em>algorithm='daviesharte'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/stochastic/noise/fractional_gaussian_noise.html#FractionalGaussianNoise.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#stochastic.noise.FractionalGaussianNoise.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a realization of fractional Gaussian noise.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>n</strong> (<em>int</em>) – number of increments to generate</li>
+<li><strong>algorithm</strong> (<em>str</em>) – either ‘daviesharte’ or ‘hosking’ algorithms</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="stochastic.noise.FractionalGaussianNoise.t">
+<code class="descname">t</code><a class="headerlink" href="#stochastic.noise.FractionalGaussianNoise.t" title="Permalink to this definition">¶</a></dt>
+<dd><p>Time end.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="stochastic.noise.FractionalGaussianNoise.times">
+<code class="descname">times</code><span class="sig-paren">(</span><em>n</em>, <em>zero=True</em><span class="sig-paren">)</span><a class="headerlink" href="#stochastic.noise.FractionalGaussianNoise.times" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate times associated with n increments on [0, t].</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="continuous.html" class="btn btn-neutral float-right" title="Continuous Processes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="discrete.html" class="btn btn-neutral" title="Discrete Processes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018 Christopher Flynn.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
