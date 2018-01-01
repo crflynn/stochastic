@@ -128,9 +128,9 @@ Usage
 -----
 
 To use ``stochastic``, import the process you want and instantiate with the
-required parameters. Every process class has a sample method for generating
-realizations. The sample methods accept a parameter ``n`` for the quantity of
-steps in the realization, but others (Poisson, for instance) may take
+required parameters. Every process class has a ``sample`` method for generating
+realizations. The ``sample`` methods accept a parameter ``n`` for the quantity
+of steps in the realization, but others (Poisson, for instance) may take
 additional parameters. Parameters can be accessed as attributes of the
 instance.
 
@@ -146,7 +146,8 @@ instance.
 
 Continuous processes provide a default parameter, ``t``, which indicates the
 maximum time of the process realizations. The default value is 1. The sample
-method will generate n equally spaced increments on the interval ``[0, t]``.
+method will generate ``n`` equally spaced increments on the
+interval ``[0, t]``.
 
 Some continuous processes also provide a ``sample_at()`` method, in which a
 sequence of time values can be passed at which the object will generate a
@@ -165,8 +166,8 @@ instantiation.
 
 
 Continuous processes also provide a method ``times()`` which generates the time
-values (using ``linspace``) corresponding to a realization of ``n`` steps. This
-is particularly useful for plotting your samples.
+values (using ``numpy.linspace``) corresponding to a realization of ``n``
+steps. This is particularly useful for plotting your samples.
 
 
 .. code-block:: python
