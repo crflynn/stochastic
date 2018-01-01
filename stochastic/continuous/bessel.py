@@ -22,10 +22,8 @@ class BesselProcess(Continuous):
 
     def __init__(self, t=1, dim=1):
         super().__init__(t)
-        self.brownian_motions = []
+        self.brownian_motion = BrownianMotion(self.t)
         self.dim = dim
-        for k in range(self.dim):
-            self.brownian_motions.append(BrownianMotion(self.t))
 
     @property
     def dim(self):
@@ -45,7 +43,15 @@ class BesselProcess(Continuous):
         self._check_increments(n)
         self._check_zero(zero)
 
-        samples = [bm.sample(n, zero) for bm in self.brownian_motions]
+        samples = [self.brownian_motion.sample(n, zero)
+                   for _ in range(self.dim)]
+
+        return np.array([np.linalg.norm(coord) for coord in zip(*samples)])
+
+    def _sample_bessel_process_at(self, times):
+        """Generate a realization of a Bessel process."""
+        samples = [self.brownian_motion.sample_at(times)
+                   for _ in range(self.dim)]
 
         return np.array([np.linalg.norm(coord) for coord in zip(*samples)])
 
@@ -56,3 +62,11 @@ class BesselProcess(Continuous):
         :param bool zero: if True, include :math:`t=0`
         """
         return self._sample_bessel_process(n, zero)
+
+    def sample_at(self, times):
+        """Generate a realization using specified times.
+
+        :param times: a vector of increasing time values at which to generate
+            the realization
+        """
+        return self._sample_bessel_process_at(times)

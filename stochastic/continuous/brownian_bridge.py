@@ -47,7 +47,6 @@ class BrownianBridge(BrownianMotion):
 
     def _sample_brownian_bridge(self, n, zero=True, b=None):
         """Generate a realization of a Brownian bridge."""
-        self._check_zero(zero)
         if b is None:
             b = self.b
 
@@ -57,6 +56,15 @@ class BrownianBridge(BrownianMotion):
 
         return bm + self._times * (b - bm[-1]) / self.t
 
+    def _sample_brownian_bridge_at(self, times, b=None):
+        """Generate a realization of a Brownian bridge at times."""
+        if b is None:
+            b = self.b
+
+        bm = self._sample_brownian_motion_at(times)
+
+        return bm + times * (self.b - bm[-1]) / self.t
+
     def sample(self, n, zero=True):
         """Generate a realization.
 
@@ -65,6 +73,11 @@ class BrownianBridge(BrownianMotion):
         """
         return self._sample_brownian_bridge(n, zero)
 
-    def sample_at(self, times):
-        """TODO"""
-        raise NotImplementedError
+    def sample_at(self, times, b=None):
+        """Generate a realization using specified times.
+
+        :param times: a vector of increasing time values at which to generate
+            the realization
+        :param float b: the right endpoint value for :py:attr:`times` [-1]
+        """
+        return self._sample_brownian_bridge_at(times, b)

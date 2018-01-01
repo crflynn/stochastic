@@ -34,7 +34,7 @@ The :py:mod:`stochastic.continuous` module provides classes for generating
     :members: t, drift, scale, sample, sample_at, times
 
 .. autoclass:: stochastic.continuous.CauchyProcess
-    :members: t, sample, times
+    :members: t, sample, sample_at, times
 
 .. autoclass:: stochastic.continuous.FractionalBrownianMotion
     :members: t, hurst, sample, times
@@ -49,10 +49,10 @@ The :py:mod:`stochastic.continuous` module provides classes for generating
     :members: rate, sample
 
 .. autoclass:: stochastic.continuous.SquaredBesselProcess
-    :members: t, dim, sample
+    :members: t, dim, sample, sample_at
 
 .. autoclass:: stochastic.continuous.VarianceGammaProcess
-    :members: t, drift, variance, scale, sample
+    :members: t, drift, variance, scale, sample, sample_at
 
 .. autoclass:: stochastic.continuous.WienerProcess
-    :members: t, sample
+    :members: t, sample, sample_at, times

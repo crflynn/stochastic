@@ -2,6 +2,7 @@
 import numpy as np
 
 from stochastic.base import Continuous
+from stochastic.noise import GaussianNoise
 
 
 class VarianceGammaProcess(Continuous):
@@ -82,6 +83,23 @@ class VarianceGammaProcess(Continuous):
         else:
             return samples
 
+    def _sample_variance_gamma_process_at(self, times):
+        """Generate a realization of a variance gamma process."""
+        if times[0] != 0:
+            times = [0] + list(times)
+
+        shapes = np.diff(times) / self.variance
+        scale = self.variance
+
+        gammas = [np.random.gamma(shape=shape, scale=scale, size=1)
+                  for shape in shapes]
+        gn = GaussianNoise._sample_gaussian_noise_at(times)
+
+        increments = self.drift * gammas + self.scale * np.sqrt(gammas) * gn
+
+        samples = np.cumsum(increments)
+        return samples
+
     def sample(self, n, zero=True):
         """Generate a realization.
 
@@ -89,3 +107,11 @@ class VarianceGammaProcess(Continuous):
         :param bool zero: if True, include :math:`t=0`
         """
         return self._sample_variance_gamma_process(n, zero)
+
+    def sample_at(self, times):
+        """Generate a realization using specified times.
+
+        :param times: a vector of increasing time values at which to generate
+            the realization
+        """
+        return self._sample_variance_gamma_process_at(times)

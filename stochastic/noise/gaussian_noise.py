@@ -38,7 +38,8 @@ class GaussianNoise(Continuous):
 
         return noise
 
-    def _sample_gaussian_noise_at(self, times, zero=False):
+    @staticmethod
+    def _sample_gaussian_noise_at(times, zero=False):
         """Generate Gaussian noise increments at specified times from zero."""
         if np.any([t < 0 for t in times]):
             raise ValueError("Times must be nonnegative.")

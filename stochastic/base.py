@@ -70,6 +70,10 @@ class Continuous(Checks):
         """Sample the process."""
         raise NotImplementedError
 
+    def sample_at(self, *args, **kwargs):
+        """Sample the process at specified times."""
+        raise NotImplementedError
+
     def times(self, n, zero=True):
         """Generate times associated with n increments on [0, t].
 

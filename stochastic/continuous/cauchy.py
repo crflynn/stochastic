@@ -30,6 +30,20 @@ class CauchyProcess(Continuous):
 
         return self.brownian_motion.sample_at(times, zero=zero)
 
+    def _sample_cauchy_process_at(self, times):
+        """Generate a realization of a Cauchy process."""
+        if times[0] == 0:
+            zero = True
+        else:
+            times = [0] + list(times)
+            zero = False
+
+        deltas = np.diff(times)
+        levys = [levy.rvs(loc=0, scale=d ** 2 / 2, size=1) for d in deltas]
+        ts = np.cumsum(levys)
+
+        return self.brownian_motion.sample_at(ts, zero)
+
     def sample(self, n, zero=True):
         """Generate a realization.
 
@@ -37,3 +51,11 @@ class CauchyProcess(Continuous):
         :param bool zero: if True, include :math:`t=0`
         """
         return self._sample_cauchy_process(n, zero)
+
+    def sample_at(self, times):
+        """Generate a realization using specified times.
+
+        :param times: a vector of increasing time values at which to generate
+            the realization
+        """
+        return self._sample_cauchy_process_at(times)

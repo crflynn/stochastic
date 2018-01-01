@@ -23,7 +23,18 @@ class SquaredBesselProcess(BesselProcess):
         self._check_increments(n)
         self._check_zero(zero)
 
-        samples = [bm.sample(n, zero) for bm in self.brownian_motions]
+        samples = [self.brownian_motion.sample(n, zero)
+                   for _ in range(self.dim)]
+
+        return np.array([
+            sum(map(lambda x: x**2, coord))
+            for coord in zip(*samples)
+        ])
+
+    def _sample_squared_bessel_process_at(self, times):
+        """Generate a realization of a squared Bessel process."""
+        samples = [self.brownian_motion.sample_at(times)
+                   for _ in range(self.dim)]
 
         return np.array([
             sum(map(lambda x: x**2, coord))
@@ -37,3 +48,11 @@ class SquaredBesselProcess(BesselProcess):
         :param bool zero: if True, include :math:`t=0`
         """
         return self._sample_squared_bessel_process(n, zero)
+
+    def sample_at(self, times):
+        """Generate a realization using specified times.
+
+        :param times: a vector of increasing time values at which to generate
+            the realization
+        """
+        return self._sample_squared_bessel_process_at(times)

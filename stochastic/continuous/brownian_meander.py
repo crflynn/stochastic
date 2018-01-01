@@ -48,6 +48,27 @@ class BrownianMeander(BrownianBridge):
             bridge_2 ** 2 + bridge_3 ** 2
         )
 
+    def _sample_brownian_meander_at(self, times, b=None):
+        """Generate a Brownian meander realization.
+
+        Williams, 1970, or Imhof, 1984.
+        """
+        if b is None:
+            b = np.sqrt(2 * np.random.exponential())
+        else:
+            self._check_number(b, "Right endpoint")
+            if b < 0:
+                raise ValueError("Right endpoint must be nonnegative.")
+
+        bridge_1 = self._sample_brownian_bridge_at(times)
+        bridge_2 = self._sample_brownian_bridge_at(times)
+        bridge_3 = self._sample_brownian_bridge_at(times)
+
+        return np.sqrt(
+            (b * times / times[-1] + bridge_1) ** 2 +
+            bridge_2 ** 2 + bridge_3 ** 2
+        )
+
     def sample(self, n, b=None, zero=True):
         """Generate a realization.
 
@@ -57,6 +78,11 @@ class BrownianMeander(BrownianBridge):
         """
         return self._sample_brownian_meander(n, b, zero)
 
-    def sample_at(self, times):
-        """TODO"""
-        raise NotImplementedError
+    def sample_at(self, times, b=None):
+        """Generate a realization using specified times.
+
+        :param times: a vector of increasing time values at which to generate
+            the realization
+        :param float b: the right endpoint value for :py:attr:`times` [-1]
+        """
+        return self._sample_brownian_meander_at(times, b)
