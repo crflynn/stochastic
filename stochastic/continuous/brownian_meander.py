@@ -17,6 +17,7 @@ class BrownianMeander(BrownianBridge):
 
     def __init__(self, t=1):
         super().__init__(t)
+        self._n = None
 
     def __str__(self):
         return "Brownian meander"""
@@ -35,13 +36,15 @@ class BrownianMeander(BrownianBridge):
             self._check_number(b, "Right endpoint")
             if b < 0:
                 raise ValueError("Right endpoint must be nonnegative.")
+
+        self._check_times(n, zero)
+
         bridge_1 = self._sample_brownian_bridge(n, zero)
         bridge_2 = self._sample_brownian_bridge(n, zero)
         bridge_3 = self._sample_brownian_bridge(n, zero)
-        times = self.times(n, zero)
 
         return np.sqrt(
-            (b * times / self.t + bridge_1) ** 2 +
+            (b * self._times / self.t + bridge_1) ** 2 +
             bridge_2 ** 2 + bridge_3 ** 2
         )
 

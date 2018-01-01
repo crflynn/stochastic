@@ -16,6 +16,7 @@ class BrownianBridge(BrownianMotion):
     def __init__(self, t=1, b=0):
         super().__init__(t, drift=0, scale=1)
         self.b = b
+        self._n = None
 
     @property
     def b(self):
@@ -50,10 +51,11 @@ class BrownianBridge(BrownianMotion):
         if b is None:
             b = self.b
 
-        bm = self._sample_brownian_motion(n, zero)
-        times = self.times(n, zero)
+        self._check_times(n, zero)
 
-        return bm + times * (b - bm[-1]) / self.t
+        bm = self._sample_brownian_motion(n, zero)
+
+        return bm + self._times * (b - bm[-1]) / self.t
 
     def sample(self, n, zero=True):
         """Generate a realization.

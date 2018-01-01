@@ -33,6 +33,7 @@ class GeometricBrownianMotion(Continuous):
         self._brownian_motion = BrownianMotion(self.t)
         self.drift = drift
         self.volatility = volatility
+        self._n = None
 
     @property
     def drift(self):
@@ -60,10 +61,15 @@ class GeometricBrownianMotion(Continuous):
         self._check_positive_number(initial, "Initial")
         self._check_zero(zero)
 
-        line = self._linspace(self.drift - self.volatility ** 2 / 2.0, n, zero)
+        # Opt for repeated use
+        if self._n != n:
+            self._n = n
+            self._line = self._linspace(
+                self.drift - self.volatility ** 2 / 2.0, n, zero)
+
         noise = self.volatility * self._brownian_motion.sample(n, zero)
 
-        return initial * np.exp(line + noise)
+        return initial * np.exp(self._line + noise)
 
     def sample(self, n, initial=1, zero=True):
         """Generate a realization.

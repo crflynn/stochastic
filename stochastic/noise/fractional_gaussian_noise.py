@@ -19,6 +19,9 @@ class FractionalGaussianNoise(Continuous):
     def __init__(self, t=1, hurst=0.5):
         super().__init__(t)
         self.hurst = hurst
+        self._n = None
+        self._eigenvals = None
+        self._cov = None
 
     def __str__(self):
         return "Fractional Gaussian noise with Hurst {h} on [0, {t}].".format(
@@ -71,17 +74,20 @@ class FractionalGaussianNoise(Continuous):
         if self.hurst == 0.5:
             pass
         else:
-            # Generate first row of circulant matrix
-            row_component = [self._autocovariance(i) for i in range(1, n)]
-            reverse_component = [row_component[-i] for i in range(1, n)]
-            row = [self._autocovariance(0)] + row_component + \
-                [0] + reverse_component
+            if self._n != n:
+                self._n = n
+                # Generate first row of circulant matrix
+                row_component = [self._autocovariance(i) for i in range(1, n)]
+                reverse_component = [row_component[-i] for i in range(1, n)]
+                row = [self._autocovariance(0)] + row_component + \
+                    [0] + reverse_component
 
-            # Get eigenvalues of circulant matrix
-            # Discard imaginary part (should all be zero in theory so imaginary
-            # part will be very small)
-            eigenvals = np.fft.fft(row).real
-            if np.any([ev < 0 for ev in eigenvals]):
+                # Get eigenvalues of circulant matrix
+                # Discard imaginary part (should all be zero in theory so
+                # imaginary part will be very small)
+                self._eigenvals = np.fft.fft(row).real
+
+            if np.any([ev < 0 for ev in self._eigenvals]):
                 logging.warning(
                     "Combination of increments n and Hurst value "
                     "H invalid for Davies-Harte method. Reverting to Hosking "
@@ -97,14 +103,14 @@ class FractionalGaussianNoise(Continuous):
             w = np.zeros(2 * n, dtype=complex)
             for i in range(2 * n):
                 if i == 0:
-                    w[i] = np.sqrt(eigenvals[i] / (2 * n)) * fgn[i]
+                    w[i] = np.sqrt(self._eigenvals[i] / (2 * n)) * fgn[i]
                 elif i < n:
-                    w[i] = np.sqrt(eigenvals[i] / (4 * n)) * \
+                    w[i] = np.sqrt(self._eigenvals[i] / (4 * n)) * \
                         (fgn[i] + 1j * fgn2[i])
                 elif i == n:
-                    w[i] = np.sqrt(eigenvals[i] / (2 * n)) * fgn2[0]
+                    w[i] = np.sqrt(self._eigenvals[i] / (2 * n)) * fgn2[0]
                 else:
-                    w[i] = np.sqrt(eigenvals[i] / (4 * n)) * \
+                    w[i] = np.sqrt(self._eigenvals[i] / (4 * n)) * \
                         (fgn[2 * n - i] - 1j * fgn2[2 * n - i])
 
             # Resulting z is fft of sequence w. Discard small imaginary part (z
@@ -143,7 +149,9 @@ class FractionalGaussianNoise(Continuous):
             fgn = np.zeros(n)
             phi = np.zeros(n)
             psi = np.zeros(n)
-            cov = np.array([self._autocovariance(i) for i in range(n)])
+            if self._n != n or self._cov is None:
+                self._cov = np.array([self._autocovariance(i)
+                                      for i in range(n)])
 
             # First increment from stationary distribution
             fgn[0] = gn[0]
@@ -152,10 +160,10 @@ class FractionalGaussianNoise(Continuous):
 
             # Generates fgn realization with n increments of size 1
             for i in range(1, n):
-                phi[i - 1] = cov[i]
+                phi[i - 1] = self._cov[i]
                 for j in range(i - 1):
                     psi[j] = phi[j]
-                    phi[i - 1] -= psi[j] * cov[i - j - 1]
+                    phi[i - 1] -= psi[j] * self._cov[i - j - 1]
                 phi[i - 1] /= v
                 for j in range(i - 1):
                     phi[j] = psi[j] - phi[i - 1] * psi[i - j - 2]

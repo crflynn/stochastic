@@ -39,6 +39,7 @@ class Continuous(Checks):
 
     def __init__(self, t=1):
         self.t = t
+        self._n = None
 
     @property
     def t(self):
@@ -52,6 +53,11 @@ class Continuous(Checks):
         if value <= 0:
             raise ValueError("Time end value must be positive.")
         self._t = float(value)
+
+    def _check_times(self, n, zero):
+        if self._n != n:
+            self._n = n
+            self._times = self.times(n, zero)
 
     def _linspace(self, end, n, zero=True):
         """Generate a linspace from 0 to end for n increments."""

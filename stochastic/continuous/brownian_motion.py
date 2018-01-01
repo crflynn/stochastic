@@ -22,6 +22,8 @@ class BrownianMotion(GaussianNoise):
         super().__init__(t)
         self.drift = drift
         self.scale = scale
+        self._line = None
+        self._n = None
 
     def __str__(self):
         if self.drift == 0 and self.scale == 1:
@@ -73,10 +75,14 @@ class BrownianMotion(GaussianNoise):
         """
         self._check_zero(zero)
 
-        line = self._linspace(self.drift, n, zero)
+        # Some opt for repeats
+        if self._n != n:
+            self._n = n
+            self._line = self._linspace(self.drift, n, zero)
+
         bm = np.cumsum(self.scale * self._sample_gaussian_noise(n, zero))
 
-        return line + bm
+        return self._line + bm
 
     def sample(self, n, zero=True):
         """Generate a realization.
