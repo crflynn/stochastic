@@ -32,6 +32,24 @@ class OrnsteinUhlenbeckProcess(Continuous):
         self.vol = vol
         self.gn = GaussianNoise(t)
 
+    def __str__(self):
+        return ("Ornstein-Uhlenbeck process with speed={s}, mean={m}, vol={v}"
+                " on [0, {t}]").format(
+                    s=str(self.speed),
+                    m=str(self.mean),
+                    v=str(self.vol),
+                    t=str(self.t),
+        )
+
+    def __repr__(self):
+        return ("OrnsteinUhlenbeckProcess(t={t}, speed={s}, "
+                "mean={m}, vol={v})").format(
+                    s=str(self.speed),
+                    m=str(self.mean),
+                    v=str(self.vol),
+                    t=str(self.t),
+        )
+
     @property
     def speed(self):
         """Speed of reversion."""

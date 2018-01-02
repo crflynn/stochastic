@@ -27,6 +27,24 @@ class ConstantElasticityVarianceProcess(OrnsteinUhlenbeckProcess):
         self.sigma = sigma
         self.gamma = gamma
 
+    def __str__(self):
+        return ("Constant elasticity of variance process with drift={m}, "
+                "volatility={v}, exponent={e} on [0, {t}]").format(
+                    m=str(self.mu),
+                    v=str(self.sigma),
+                    e=str(self.gamma),
+                    t=str(self.t),
+        )
+
+    def __repr__(self):
+        return ("ConstantElasticityVarianceProcess(t={t}, mu={m}, "
+                "sigma={s}, gamma={g})").format(
+                    s=str(self.sigma),
+                    m=str(self.mu),
+                    g=str(self.gamma),
+                    t=str(self.t),
+        )
+
     @property
     def mu(self):
         """Mu."""

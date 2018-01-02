@@ -24,4 +24,20 @@ class VasicekProcess(OrnsteinUhlenbeckProcess):
         above
     """
 
-    pass
+    def __str__(self):
+        return ("Vasicek process with speed={s}, mean={m}, vol={v}"
+                " on [0, {t}]").format(
+                    s=str(self.speed),
+                    m=str(self.mean),
+                    v=str(self.vol),
+                    t=str(self.t),
+        )
+
+    def __repr__(self):
+        return ("VasicekProcess(t={t}, speed={s}, "
+                "mean={m}, vol={v})").format(
+                    s=str(self.speed),
+                    m=str(self.mean),
+                    v=str(self.vol),
+                    t=str(self.t),
+        )
