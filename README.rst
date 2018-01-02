@@ -95,7 +95,9 @@ Package Access Structure
 ------------------------
 
 * stochastic
+
     * continuous
+
         * BesselProcess
         * BrownianBridge
         * BrownianExcursion
@@ -109,18 +111,24 @@ Package Access Structure
         * SquaredBesselProcess
         * VarianceGammaProcess
         * WienerProcess
+
     * diffusion
+
         * ConstantElasticityVarianceProcess
         * CoxIngersollRossProcess
         * OrnsteinUhlenbeckProcess
         * VasicekProcess
+
     * discrete
+
         * BernoulliProcess
         * ChineseRestaurantProcess
         * MarkovChain
         * MoranProcess
         * RandomWalk
+
     * noise
+
         * GaussianNoise
         * FractionalGaussianNoise
 
