@@ -2,7 +2,7 @@ Continuous-time Processes
 =========================
 
 The :py:mod:`stochastic.continuous` module provides classes for generating
-(discretely sampled) continous stochastic processes.
+(discretely sampled) continuous-time stochastic processes.
 
 * :py:class:`stochastic.continuous.BesselProcess`
 * :py:class:`stochastic.continuous.BrownianBridge`

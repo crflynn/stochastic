@@ -2,7 +2,7 @@ Diffusion Models
 ================
 
 The :py:mod:`stochastic.diffusion` module provides classes for generating
-(discretely sampled) continous diffusion processes using the
+(discretely sampled) continous-time diffusion processes using the
 Euler–Maruyama method.
 
 * :py:class:`stochastic.diffusion.ConstantElasticityVarianceProcess`

@@ -43,7 +43,7 @@ class FractionalGaussianNoise(Continuous):
     @hurst.setter
     def hurst(self, value):
         if not isinstance(value, float):
-            raise TypeError("Hurst value must be a number.")
+            raise TypeError("Hurst value must be a number on interval (0,1).")
         if value <= 0 or value >= 1:
             raise ValueError("Hurst value must be in interval (0,1).")
         self._hurst = value

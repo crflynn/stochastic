@@ -14,7 +14,7 @@ class CoxIngersollRossProcess(OrnsteinUhlenbeckProcess):
 
     .. math::
 
-        dX_t = \theta X_t (\mu - t) dt + \sigma \sqrt(X_t)dW_t
+        dX_t = \theta X_t (\mu - t) dt + \sigma \sqrt{X_t}dW_t
 
     Realizations are generated using the Euler-Maruyama method.
 
