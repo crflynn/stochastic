@@ -91,3 +91,16 @@ def volatility(request):
 @pytest.fixture(params=[1])
 def initial(request):
     return request.param
+
+# PoissonProcess
+@pytest.fixture(params=[16, None])
+def n_fixture(request):
+    return request.param
+
+@pytest.fixture(params=[1, None])
+def length(request):
+    return request.param
+
+@pytest.fixture(params=[1])
+def rate(request):
+    return request.param

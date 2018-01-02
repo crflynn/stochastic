@@ -31,6 +31,7 @@ class VarianceGammaProcess(Continuous):
         self.drift = drift
         self.variance = variance
         self.scale = scale
+        self.gn = GaussianNoise(t)
 
     @property
     def drift(self):
@@ -72,7 +73,7 @@ class VarianceGammaProcess(Continuous):
         scale = self.variance
 
         gammas = np.random.gamma(shape=shape, scale=scale, size=n)
-        gn = np.random.normal(size=n)
+        gn = self.gn.sample(n)
 
         increments = self.drift * gammas + self.scale * np.sqrt(gammas) * gn
 
@@ -86,18 +87,23 @@ class VarianceGammaProcess(Continuous):
     def _sample_variance_gamma_process_at(self, times):
         """Generate a realization of a variance gamma process."""
         if times[0] != 0:
-            times = [0] + list(times)
+            zero = False
+            times = np.array([0] + list(times))
+        else:
+            zero = True
 
         shapes = np.diff(times) / self.variance
         scale = self.variance
 
-        gammas = [np.random.gamma(shape=shape, scale=scale, size=1)
-                  for shape in shapes]
-        gn = GaussianNoise._sample_gaussian_noise_at(times)
+        gammas = np.array([np.random.gamma(shape=shape, scale=scale, size=1)[0]
+                           for shape in shapes])
+        gn = self.gn.sample_at(times)
 
         increments = self.drift * gammas + self.scale * np.sqrt(gammas) * gn
 
         samples = np.cumsum(increments)
+        if zero:
+            samples = np.insert(samples, 0, [0])
         return samples
 
     def sample(self, n, zero=True):

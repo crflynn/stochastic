@@ -62,8 +62,8 @@ class PoissonProcess(Checks):
             exp_rate = 1.0 / self.rate
 
             while t < length:
-                times.append(t)
                 t += np.random.exponential(scale=exp_rate)
+                times.append(t)
 
             return np.array(times)
         else:
