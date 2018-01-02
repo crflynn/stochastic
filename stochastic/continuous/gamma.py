@@ -112,18 +112,12 @@ class GammaProcess(Continuous):
 
     def _sample_gamma_process_at(self, times):
         """Sample a Gamma process at specific times."""
-        increments = np.diff(times)
-        if np.any([t < 0 for t in times]):
-            raise ValueError("Times must be nonnegative.")
-        if np.any([t <= 0 for t in increments]):
-            raise ValueError("Times must be strictly increasing.")
-
         s = []
-        if times[0] == 0:
-            s.append(0)
-            increments = increments[1:]
+        if times[0] != 0:
+            times = np.insert(times, 0, [0])
         else:
-            increments = np.concatenate((times[:1], increments))
+            s.append(0)
+        increments = self._check_time_sequence(times)
 
         scale = self.variance / self.mean
         shape_coef = self.mean**2 / self.variance

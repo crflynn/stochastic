@@ -8,7 +8,7 @@ class BrownianExcursion(BrownianBridge):
     """Brownian excursion.
 
     A Brownian excursion is a Brownian bridge from (0, 0) to (t, 0) which is
-    conditioned to be nonnegative on the interval [0, 1].
+    conditioned to be nonnegative on the interval [0, t].
 
     Generated using method by Vervaat, 1979; Biane, 1986.
 
@@ -20,10 +20,10 @@ class BrownianExcursion(BrownianBridge):
         super().__init__(t)
 
     def __str__(self):
-        return "Brownian excursion"""
+        return "Brownian excursion on [0, {t}]""".format(t=str(self.t))
 
     def __repr__(self):
-        return "BrownianExcursion()"
+        return "BrownianExcursion(t={t})".format(t=str(self.t))
 
     def _sample_brownian_excursion(self, n, zero=True):
         """Generate a Brownian excursion."""
@@ -40,13 +40,22 @@ class BrownianExcursion(BrownianBridge):
 
     def _sample_brownian_excursion_at(self, times):
         """Generate a Brownian excursion."""
+        if times[0] != 0:
+            zero = False
+            times = np.array([0] + list(times))
+        else:
+            zero = True
         brownian_bridge = self._sample_brownian_bridge_at(times)
         idx_min = np.argmin(brownian_bridge)
         n = len(brownian_bridge)
-        return np.array(
-            [brownian_bridge[(idx_min + idx) % n] - brownian_bridge[idx_min]
-             for idx in range(n)]
+        s = np.array(
+            [brownian_bridge[(idx_min + idx) % (n - 1)] -
+             brownian_bridge[idx_min] for idx in range(n)]
         )
+        if zero:
+            return s
+        else:
+            return s[1:]
 
     def sample(self, n, zero=True):
         """Generate a realization.
@@ -54,7 +63,7 @@ class BrownianExcursion(BrownianBridge):
         :param int n: the number of increments to generate.
         :param bool zero: if True, include :math:`t=0`
         """
-        return self._sample_brownian_excursion(n)
+        return self._sample_brownian_excursion(n, zero)
 
     def sample_at(self, times):
         """Generate a realization using specified times.

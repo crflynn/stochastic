@@ -40,6 +40,7 @@ class Continuous(Checks):
     def __init__(self, t=1):
         self.t = t
         self._n = None
+        self._times = None
 
     @property
     def t(self):
@@ -48,16 +49,21 @@ class Continuous(Checks):
 
     @t.setter
     def t(self, value):
-        if not isinstance(value, (int, float)):
-            raise TypeError("Time end value must be a number.")
-        if value <= 0:
-            raise ValueError("Time end value must be positive.")
+        self._check_positive_number(value, "Time end")
         self._t = float(value)
 
     def _check_times(self, n, zero):
         if self._n != n:
             self._n = n
             self._times = self.times(n, zero)
+
+    def _check_time_sequence(self, times):
+        increments = np.diff(times)
+        if np.any([t < 0 for t in times]):
+            raise ValueError("Times must be nonnegative.")
+        if np.any([t <= 0 for t in increments]):
+            raise ValueError("Times must be strictly increasing.")
+        return increments
 
     def _linspace(self, end, n, zero=True):
         """Generate a linspace from 0 to end for n increments."""

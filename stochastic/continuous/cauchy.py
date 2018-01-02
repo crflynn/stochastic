@@ -28,21 +28,27 @@ class CauchyProcess(Continuous):
         delta_t = 1.0 * self.t / n
         times = np.cumsum(levy.rvs(loc=0, scale=delta_t ** 2 / 2, size=n))
 
-        return self.brownian_motion.sample_at(times, zero=zero)
+        if zero:
+            times = np.insert(times, 0, [0])
+
+        return self.brownian_motion.sample_at(times)
 
     def _sample_cauchy_process_at(self, times):
         """Generate a realization of a Cauchy process."""
-        if times[0] == 0:
-            zero = True
-        else:
-            times = [0] + list(times)
+        if times[0] != 0:
             zero = False
+            times = np.insert(times, 0, [0])
+        else:
+            zero = True
 
         deltas = np.diff(times)
         levys = [levy.rvs(loc=0, scale=d ** 2 / 2, size=1) for d in deltas]
         ts = np.cumsum(levys)
 
-        return self.brownian_motion.sample_at(ts, zero)
+        if zero:
+            ts = np.insert(ts, 0, [0])
+
+        return self.brownian_motion.sample_at(ts)
 
     def sample(self, n, zero=True):
         """Generate a realization.

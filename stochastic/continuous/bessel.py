@@ -25,6 +25,18 @@ class BesselProcess(Continuous):
         self.brownian_motion = BrownianMotion(self.t)
         self.dim = dim
 
+    def __str__(self):
+        return "Bessel process of {d} Wiener processes on [0, {t}]".format(
+            t=str(self.t),
+            d=str(self.dim)
+        )
+
+    def __repr__(self):
+        return "BesselProcess(t={t}, dim={d})".format(
+            t=str(self.t),
+            d=str(self.dim),
+        )
+
     @property
     def dim(self):
         """Dimensions, or independent Brownian motions."""

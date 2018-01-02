@@ -30,17 +30,16 @@ class BrownianMeander(BrownianBridge):
         Williams, 1970, or Imhof, 1984.
         """
         if b is None:
-            b = np.sqrt(2 * np.random.exponential())
+            b = np.sqrt(2 * self.t * np.random.exponential())
         else:
-            self._check_number(b, "Right endpoint")
-            if b < 0:
-                raise ValueError("Right endpoint must be nonnegative.")
+            self._check_nonnegative_number(b, "Right endpoint")
 
         self._check_times(n, zero)
 
         bridge_1 = self._sample_brownian_bridge(n, zero)
         bridge_2 = self._sample_brownian_bridge(n, zero)
         bridge_3 = self._sample_brownian_bridge(n, zero)
+        print(n, len(bridge_1), zero)
 
         return np.sqrt(
             (b * self._times / self.t + bridge_1) ** 2 +
@@ -53,11 +52,9 @@ class BrownianMeander(BrownianBridge):
         Williams, 1970, or Imhof, 1984.
         """
         if b is None:
-            b = np.sqrt(2 * np.random.exponential())
+            b = np.sqrt(2 * times[-1] * np.random.exponential())
         else:
-            self._check_number(b, "Right endpoint")
-            if b < 0:
-                raise ValueError("Right endpoint must be nonnegative.")
+            self._check_nonnegative_number(b, "Right endpoint")
 
         bridge_1 = self._sample_brownian_bridge_at(times)
         bridge_2 = self._sample_brownian_bridge_at(times)
@@ -69,19 +66,24 @@ class BrownianMeander(BrownianBridge):
         )
 
     def sample(self, n, b=None, zero=True):
-        """Generate a realization.
+        r"""Generate a realization.
 
         :param int n: the number of increments to generate
-        :param float b: the nonnegative right hand endpoint of the meander
+        :param float b: the nonnegative right hand endpoint of the meander. If
+            not provided, one is randomly selected from a :math:`\sqrt{2E}`
+            random variable where :math:`E` is exponential.
         :param bool zero: if True, include time :math:`t=0`
         """
         return self._sample_brownian_meander(n, b, zero)
 
     def sample_at(self, times, b=None):
-        """Generate a realization using specified times.
+        r"""Generate a realization using specified times.
 
         :param times: a vector of increasing time values at which to generate
             the realization
-        :param float b: the right endpoint value for :py:attr:`times` [-1]
+        :param float b: the right endpoint value for :py:attr:`times` [-1]. If
+            not provided, one is randomly selected from a :math:`\sqrt{2tE}`
+            random variable where :math:`E` is exponential and :math:`t` is
+            :py:attr:`times` [-1].
         """
         return self._sample_brownian_meander_at(times, b)

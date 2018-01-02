@@ -76,13 +76,16 @@ class BrownianMotion(GaussianNoise):
         self._check_zero(zero)
 
         # Some opt for repeats
-        if self._line is None or len(self._line) != n:
+        if self.drift != 0 and (self._line is None or len(self._line) != n):
             self._n = n
             self._line = self._linspace(self.drift, n, zero)
 
         bm = np.cumsum(self.scale * self._sample_gaussian_noise(n, zero))
 
-        return self._line + bm
+        if self.drift != 0:
+            return self._line + bm
+        else:
+            return bm
 
     def sample(self, n, zero=True):
         """Generate a realization.
@@ -92,11 +95,15 @@ class BrownianMotion(GaussianNoise):
         """
         return self._sample_brownian_motion(n, zero)
 
-    def _sample_brownian_motion_at(self, times, zero=True):
+    def _sample_brownian_motion_at(self, times):
         """Generate a Brownian motion at specified times."""
-        return np.cumsum(self._sample_gaussian_noise_at(times, zero))
+        s = np.cumsum(self._sample_gaussian_noise_at(times))
+        if times[0] == 0:
+            s = np.insert(s, 0, [0])
 
-    def sample_at(self, times, zero=True):
+        return s
+
+    def sample_at(self, times):
         """Generate a realization using specified times.
 
         :param times: a vector of increasing time values at which to generate
