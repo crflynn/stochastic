@@ -59,3 +59,41 @@ def transition(request):
 @pytest.fixture(params=[[0.25, 0.75], None])
 def initial(request):
     return request.param
+
+# MoranProcess
+@pytest.fixture(params=[0, 0.1])
+def n_max_fixture(request):
+    return request.param
+
+@pytest.fixture(params=[0, 1.1])
+def n_fixture(request):
+    return request.param
+
+@pytest.fixture(params=[-1, 1.1])
+def start_fixture(request):
+    return request.param
+
+@pytest.fixture(params=[1])
+def start(request):
+    return request.param
+
+@pytest.fixture(params=[5])
+def n_max(request):
+    return request.param
+
+# RandomWalk
+@pytest.fixture(params=[[-1, 1]])
+def steps(request):
+    return request.param
+
+@pytest.fixture(params=[[1, 1], None])
+def weights(request):
+    return request.param
+
+@pytest.fixture(params=[[], ["1"], [[1, 2], [3, 4]]])
+def steps_fixture(request):
+    return request.param
+
+@pytest.fixture(params=[[1], [-1, -1], [[1, 2], [3, 4]]])
+def weights_fixture(request):
+    return request.param

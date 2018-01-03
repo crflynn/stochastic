@@ -16,7 +16,13 @@ class MoranProcess(object):
 
     def __init__(self, n_max):
         self.n_max = n_max
-        self.p = self.probabilities(n_max)
+        self.p = self._probabilities(n_max)
+
+    def __str__(self):
+        return 'Moran process with %s states' % self._n_max
+
+    def __repr__(self):
+        return "MoranProcess(n_max={n})".format(n=str(self.n_max))
 
     @property
     def n_max(self):
@@ -33,7 +39,7 @@ class MoranProcess(object):
                 'Number of states must be at least 3.')
         self._n_max = value
 
-    def probabilities(self, n):
+    def _probabilities(self, n):
         """Generate the transition probabilities for state :math:`n`.
 
         :param int n: the current state for which to generate transition
@@ -47,12 +53,6 @@ class MoranProcess(object):
             probabilities.append([p_down, p_same, p_up])
 
         return probabilities
-
-    def __str__(self):
-        return 'Moran process with %s states' % self._n_max
-
-    def __repr__(self):
-        return "MoranProcess(n_max={n})".format(n=str(self.n_max))
 
     def _sample_moran_process(self, n, start):
         """Generate a realization of the Moran process.
@@ -73,7 +73,7 @@ class MoranProcess(object):
 
         s = [start]
         increments = [-1, 0, 1]
-        for k in range(n):
+        for k in range(n - 1):
             if start in [0, self.n_max]:
                 break
             start += np.random.choice(increments, p=self.p[start - 1])
