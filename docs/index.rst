@@ -9,13 +9,6 @@ stochastic
 Stochastic is a python package for generating realizations of
 stochastic processes.
 
-.. warning::
-
-    This package is currently in development and not all functionality
-    may be properly tested or documented. Additionally, some processes use
-    methods which are approximate rather than exact. Use this software package at
-    your own risk.
-
 Installation
 ------------
 

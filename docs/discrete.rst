@@ -2,7 +2,7 @@ Discrete-time Processes
 =======================
 
 The :py:mod:`stochastic.discrete` module provides classes for generating
-discrete stochastic processes.
+discrete-time stochastic processes.
 
 * :py:class:`stochastic.discrete.BernoulliProcess`
 * :py:class:`stochastic.discrete.ChineseRestaurantProcess`
