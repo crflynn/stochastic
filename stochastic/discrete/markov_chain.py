@@ -1,8 +1,10 @@
 """Markov chain."""
 import numpy as np
 
+from stochastic.base import Checks
 
-class MarkovChain(object):
+
+class MarkovChain(Checks):
     """Finite state Markov chain.
 
     A Markov Chain which changes between states according to the transition
@@ -72,15 +74,12 @@ class MarkovChain(object):
 
         :param int n: the number of steps of the Markov chain to generate.
         """
-        if not isinstance(n, int):
-            raise TypeError("Sample length must be positive integer.")
-        if n < 1:
-            raise ValueError("Sample length must be at least 1.")
+        self._check_increments(n)
 
         states = range(self.num_states)
 
         markov_chain = [np.random.choice(states, p=self.initial)]
-        for _ in range(n):
+        for _ in range(n - 1):
             markov_chain.append(
                 np.random.choice(states, p=self.transition[markov_chain[-1]])
             )

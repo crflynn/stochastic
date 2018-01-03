@@ -1,8 +1,10 @@
 """Bernoulli process."""
 import numpy as np
 
+from stochastic.base import Checks
 
-class BernoulliProcess(object):
+
+class BernoulliProcess(Checks):
     """Bernoulli process.
 
     A Bernoulli process consists of a sequence of Bernoulli random
@@ -17,6 +19,12 @@ class BernoulliProcess(object):
 
     def __init__(self, p=0.5):
         self.p = p
+
+    def __str__(self):
+        return "Bernoulli process with p={p}.".format(p=str(self.p))
+
+    def __repr__(self):
+        return "BernoulliProcess({p})".format(p=str(self.p))
 
     @property
     def p(self):
@@ -33,18 +41,9 @@ class BernoulliProcess(object):
                 "Probability of success p must be between 0 and 1.")
         self._p = value
 
-    def __str__(self):
-        return "Bernoulli process with p={p}.".format(p=str(self.p))
-
-    def __repr__(self):
-        return "BernoulliProcess({p})".format(p=str(self.p))
-
     def _sample_bernoulli(self, n):
         """Generate a Bernoulli process realization."""
-        if not isinstance(n, int):
-            raise TypeError("Sample length must be positive integer.")
-        if n < 1:
-            raise ValueError("Sample length must be at least 1.")
+        self._check_increments(n)
 
         return np.array([1 if trial > self.p else 0
                          for trial in np.random.uniform(size=n)])

@@ -35,6 +35,19 @@ class ChineseRestaurantProcess(Checks):
         self.discount = discount
         self.strength = strength
 
+    def __str__(self):
+        return ("Chinese restaurant process with discount {d} "
+                "and strength {s}").format(
+                    d=str(self.discount),
+                    s=str(self.strength)
+        )
+
+    def __repr__(self):
+        return "ChineseRestaurantProcess(discount={d}, strength={s})".format(
+            d=str(self.discount),
+            s=str(self.strength)
+        )
+
     @property
     def discount(self):
         """Discount parameter."""
@@ -56,8 +69,8 @@ class ChineseRestaurantProcess(Checks):
     def strength(self, value):
         self._check_number(value, "Strength")
         if self.discount < 0:
-            strength_positive = value / -self.discount <= 0
-            strength_not_multiple = (value / -self.discount) % 1 != 0
+            strength_positive = 1.0 * value / -self.discount <= 0
+            strength_not_multiple = (1.0 * value / -self.discount) % 1 != 0
             if strength_positive or strength_not_multiple:
                 raise ValueError(
                     "When discount is negative, strength value must be equal "
@@ -68,19 +81,6 @@ class ChineseRestaurantProcess(Checks):
                     "When discount is between 0 and 1, strength value must be "
                     "greater than the negative of the discount")
         self._strength = value
-
-    def __str__(self):
-        return ("Chinese restaurant process with discount {d} "
-                "and strength {s}").format(
-                    d=str(self.discount),
-                    s=str(self.strength)
-        )
-
-    def __repr__(self):
-        return "ChineseRestaurantProcess(discount={d}, strength={s})".format(
-            d=str(self.discount),
-            s=str(self.strength)
-        )
 
     def _sample_chinese_restaurant(self, n):
         """Generate a Chinese restaurant process with n customers."""
