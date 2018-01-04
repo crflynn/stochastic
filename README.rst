@@ -29,7 +29,8 @@ noise process objects for generating realizations of stochastic processes as
 
 The diffusion processes are approximated using the Euler–Maruyama method.
 
-Here are the currently supported processes:
+Here are the currently supported processes and their class references within
+the package.
 
 * stochastic
 
