@@ -3,33 +3,14 @@ stochastic
 
 A python package for generating realizations of common
 (and perhaps some less common) stochastic processes, with some optimization
-for Monte Carlo simulation or repeated generation.
-
-.. warning::
-
-    This package is currently in development and not all functionality
-    may be properly tested or documented. Additionally, some processes use
-    methods which are approximate rather than exact. Use this software package at
-    your own risk.
-
-.. note::
-
-    The purpose of this package is to provide a simple interface for generating
-    realizations of stochastic processes. Not all generation algorithms use
-    exact methods. Consult with the documentation for more details about a
-    specific process or generation algorithm.
-
-.. note::
-
-    If you have additional processes, generalizations, or algorithms
-    that you think would be suitable for this package, please let me know.
+for repeated simulation.
 
 Installation
 ------------
 
 The ``stochastic`` package is available on pypi and can be installed using pip
 
-.. code-block::
+.. code-block:: shell
 
     pip install stochastic
 
