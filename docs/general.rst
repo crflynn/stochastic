@@ -1,6 +1,7 @@
 General Usage
 =============
 
+
 Processes
 ---------
 
@@ -10,51 +11,7 @@ noise process objects for generating realizations of stochastic processes as
 
 The diffusion processes are approximated using the Euler–Maruyama method.
 
-Here are the currently supported processes:
-
-Continuous-time
-~~~~~~~~~~~~~~~
-
-* Bessel process
-* Brownian bridge
-* Brownian excursion
-* Brownian meander
-* Brownian motion
-* Cauchy process
-* Fractional Brownian motion
-* Gamma process
-* Geometric Brownian motion
-* Poisson process
-* Squared Bessel process
-* Variance gamma process
-* Wiener process
-
-Diffusion models
-~~~~~~~~~~~~~~~~
-
-* Constant elasticity of variance (CEV) process
-* Cox-Ingersoll-Ross (CIR) process
-* Ornstein-Uhlenbeck (OU) process
-* Vasicek process
-
-Discrete-time
-~~~~~~~~~~~~~
-
-* Bernoulli process
-* Chinese restaurant process
-* Markov chain
-* Moran process
-* Random walk
-
-Noise
-~~~~~
-
-* Gaussian noise
-* Fractional Gaussian noise
-
-
-Package Access Structure
-------------------------
+Here are the currently supported processes and how to access their classes:
 
 * stochastic
 
@@ -95,8 +52,9 @@ Package Access Structure
     * FractionalGaussianNoise
 
 
-Common Usage
-------------
+Usage patterns
+--------------
+
 
 The sample() method
 ~~~~~~~~~~~~~~~~~~~
@@ -117,11 +75,11 @@ instance.
     s = bp.sample(16)
     success_probability = bp.p
 
-
 Continuous processes provide a default parameter, ``t``, which indicates the
 maximum time of the process realizations. The default value is 1. The sample
 method will generate ``n`` equally spaced increments on the
 interval ``[0, t]``.
+
 
 The sample_at() method
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -145,10 +103,9 @@ instantiation.
 The times() method
 ~~~~~~~~~~~~~~~~~~
 
-Continuous processes also provide a method ``times()`` which generates the time
-values (using ``numpy.linspace``) corresponding to a realization of ``n``
+Continuous-time processes also provide a method ``times()`` which generates the
+time values (using ``numpy.linspace``) corresponding to a realization of ``n``
 steps. This is particularly useful for plotting your samples.
-
 
 .. code-block:: python
 
