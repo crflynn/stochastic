@@ -20,7 +20,7 @@ class BrownianExcursion(BrownianBridge):
     """
 
     def __init__(self, t=1):
-        super().__init__(t)
+        super(BrownianExcursion, self).__init__(t)
 
     def __str__(self):
         return "Brownian excursion on [0, {t}]""".format(t=str(self.t))

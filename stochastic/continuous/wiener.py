@@ -13,7 +13,7 @@ class WienerProcess(BrownianMotion):
     """
 
     def __init__(self, t=1):
-        super().__init__(t, drift=0, scale=1)
+        super(WienerProcess, self).__init__(t, drift=0, scale=1)
 
     def __str__(self):
         return "Wiener process on [0, {t}]".format(t=str(self.t))

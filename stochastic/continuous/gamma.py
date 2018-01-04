@@ -26,7 +26,7 @@ class GammaProcess(Continuous):
     """
 
     def __init__(self, t=1, mean=None, variance=None, rate=None, scale=None):
-        super().__init__(t)
+        super(GammaProcess, self).__init__(t)
         if rate is None and scale is None:
             self.mean = mean
             self.variance = variance

@@ -19,7 +19,7 @@ class BrownianMeander(BrownianBridge):
     """
 
     def __init__(self, t=1):
-        super().__init__(t)
+        super(BrownianMeander, self).__init__(t)
 
     def __str__(self):
         return "Brownian meander"""

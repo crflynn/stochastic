@@ -24,7 +24,7 @@ class BesselProcess(Continuous):
     """
 
     def __init__(self, t=1, dim=1):
-        super().__init__(t)
+        super(BesselProcess, self).__init__(t)
         self.brownian_motion = BrownianMotion(self.t)
         self.dim = dim
 

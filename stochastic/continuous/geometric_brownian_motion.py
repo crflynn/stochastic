@@ -32,7 +32,7 @@ class GeometricBrownianMotion(Continuous):
     """
 
     def __init__(self, t=1, drift=0, volatility=1):
-        super().__init__(t)
+        super(GeometricBrownianMotion, self).__init__(t)
         self._brownian_motion = BrownianMotion(self.t)
         self.drift = drift
         self.volatility = volatility

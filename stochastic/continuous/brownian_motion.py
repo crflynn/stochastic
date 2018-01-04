@@ -22,7 +22,7 @@ class BrownianMotion(GaussianNoise):
     """
 
     def __init__(self, t=1, drift=0, scale=1):
-        super().__init__(t)
+        super(BrownianMotion, self).__init__(t)
         self.drift = drift
         self.scale = scale
         self._line = None

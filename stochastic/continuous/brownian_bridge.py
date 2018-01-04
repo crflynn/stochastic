@@ -19,7 +19,7 @@ class BrownianBridge(BrownianMotion):
     """
 
     def __init__(self, t=1, b=0):
-        super().__init__(t, drift=0, scale=1)
+        super(BrownianBridge, self).__init__(t, drift=0, scale=1)
         self.b = b
 
     def __str__(self):

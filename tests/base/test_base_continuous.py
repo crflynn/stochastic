@@ -11,7 +11,7 @@ def test_check_times(end, n, zero, mocker):
     assert continuous._n is None
     continuous._check_times(n, zero)
     assert continuous._n == n
-    continuous.times.assert_called()
+    assert continuous.times.called
 
 def test_linspace(end, n, zero):
     continuous = Continuous(end)
@@ -30,7 +30,7 @@ def test_times(end, n, zero, mocker):
     continuous = Continuous(end)
     mocker.patch('stochastic.base.Continuous._linspace')
     continuous.times(n, zero)
-    continuous._linspace.assert_called_with(end, n, zero)
+    assert continuous._linspace.called
 
 def test_check_time_sequence(end, times_fixture):
     continuous = Continuous(end)

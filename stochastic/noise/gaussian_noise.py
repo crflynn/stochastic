@@ -17,7 +17,7 @@ class GaussianNoise(Continuous):
     """
 
     def __init__(self, t=1):
-        self.t = t
+        super(GaussianNoise, self).__init__(t)
 
     def __str__(self):
         return "Gaussian noise generator on interval [0, {t}]".format(

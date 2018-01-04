@@ -20,7 +20,7 @@ class FractionalGaussianNoise(Continuous):
     """
 
     def __init__(self, t=1, hurst=0.5):
-        super().__init__(t)
+        super(FractionalGaussianNoise, self).__init__(t)
         self.hurst = hurst
         self._n = None
         self._eigenvals = None

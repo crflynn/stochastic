@@ -22,7 +22,7 @@ class FractionalBrownianMotion(FractionalGaussianNoise):
     """
 
     def __init__(self, t=1, hurst=0.5):
-        super().__init__(t, hurst)
+        super(FractionalBrownianMotion, self).__init__(t, hurst)
 
     def __str__(self):
         return "Fractional Brownian motion with Hurst {h} on [0, {t}].".format(

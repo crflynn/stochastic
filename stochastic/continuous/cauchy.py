@@ -20,7 +20,7 @@ class CauchyProcess(Continuous):
     """
 
     def __init__(self, t=1):
-        super().__init__(t)
+        super(CauchyProcess, self).__init__(t)
         self.brownian_motion = BrownianMotion(t)
 
     def _sample_cauchy_process(self, n, zero=True):

@@ -33,7 +33,7 @@ class RandomWalk(Checks):
                     "Steps and probabilities must have same length.")
             self.weights = weights
             total = sum(weights)
-            self.p = [w / total for w in weights]
+            self.p = [1.0 * w / total for w in weights]
 
     @property
     def p(self):

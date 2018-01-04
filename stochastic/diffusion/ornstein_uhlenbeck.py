@@ -29,7 +29,7 @@ class OrnsteinUhlenbeckProcess(Continuous):
     """
 
     def __init__(self, t=1, speed=1, mean=1, vol=1):
-        super().__init__(t)
+        super(OrnsteinUhlenbeckProcess, self).__init__(t)
         self.speed = speed
         self.mean = mean
         self.vol = vol

@@ -25,7 +25,8 @@ class ConstantElasticityVarianceProcess(OrnsteinUhlenbeckProcess):
     """
 
     def __init__(self, t=1, mu=1, sigma=1, gamma=1):
-        super().__init__(t, -mu, 0, sigma)
+        super(ConstantElasticityVarianceProcess, self).__init__(
+            t, -mu, 0, sigma)
         self.mu = mu
         self.sigma = sigma
         self.gamma = gamma
