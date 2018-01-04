@@ -7,6 +7,9 @@ from stochastic.noise.fractional_gaussian_noise import FractionalGaussianNoise
 class FractionalBrownianMotion(FractionalGaussianNoise):
     """Fractional Brownian motion process.
 
+    .. image:: _static/fractional_brownian_motion.png
+        :scale: 50%
+
     A fractional Brownian motion (discretely sampled) has correlated Gaussian
     increments defined by Hurst parameter :math:`H`. When :math:`H = 1/2`,
     the process is a standard Brownian motion. When :math:`H > 1/2`, the

@@ -7,6 +7,9 @@ class VasicekProcess(OrnsteinUhlenbeckProcess):
 
     A model for instantaneous interest rate.
 
+    .. image:: _static/vasicek_process.png
+        :scale: 50%
+
     The Vasicek process :math:`X_t` that satisfies the following stochastic
     differential equation with Wiener process :math:`W_t`:
 

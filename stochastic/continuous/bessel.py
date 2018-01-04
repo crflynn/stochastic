@@ -8,6 +8,9 @@ from stochastic.continuous.brownian_motion import BrownianMotion
 class BesselProcess(Continuous):
     r"""Bessel process.
 
+    .. image:: _static/bessel_process.png
+        :scale: 50%
+
     The Bessel process is the Euclidean norm of an :math:`n`-dimensional
     Wiener process, e.g. :math:`\|\mathbf{W}_t\|`
 

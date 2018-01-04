@@ -9,6 +9,9 @@ from stochastic.continuous.brownian_motion import BrownianMotion
 class CauchyProcess(Continuous):
     """Symmetric Cauchy process.
 
+    .. image:: _static/cauchy_process.png
+        :scale: 50%
+
     The symmetric Cauchy process is a Brownian motion with a Levy subordinator
     using location parameter 0 and scale parameter :math:`t^2/2`.
 

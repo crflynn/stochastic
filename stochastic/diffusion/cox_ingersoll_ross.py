@@ -7,6 +7,9 @@ from stochastic.diffusion.ornstein_uhlenbeck import OrnsteinUhlenbeckProcess
 class CoxIngersollRossProcess(OrnsteinUhlenbeckProcess):
     r"""Cox-Ingersoll-Ross process.
 
+    .. image:: _static/cox_ingersoll_ross_process.png
+        :scale: 50%
+
     A model for instantaneous interest rate.
 
     The process :math:`X_t` that satisfies the following stochastic

@@ -7,6 +7,9 @@ from stochastic.noise.gaussian_noise import GaussianNoise
 class BrownianMotion(GaussianNoise):
     """Brownian motion.
 
+    .. image:: _static/brownian_motion.png
+        :scale: 50%
+
     A standard Brownian motion (discretely sampled) has independent and
     identically distributed Gaussian increments with variance equal to
     increment length. Non-standard Brownian motion includes a linear drift

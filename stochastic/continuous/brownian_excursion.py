@@ -7,6 +7,9 @@ from stochastic.continuous.brownian_bridge import BrownianBridge
 class BrownianExcursion(BrownianBridge):
     """Brownian excursion.
 
+    .. image:: _static/brownian_excursion.png
+        :scale: 50%
+
     A Brownian excursion is a Brownian bridge from (0, 0) to (t, 0) which is
     conditioned to be nonnegative on the interval [0, t].
 

@@ -14,13 +14,13 @@ discrete-time stochastic processes.
     :members: p, sample
 
 .. autoclass:: stochastic.discrete.ChineseRestaurantProcess
-    :members: discount, strength, sample
+    :members: discount, strength, sample, sample_partition, sequence_to_partition, partition_to_sequence
 
 .. autoclass:: stochastic.discrete.MarkovChain
     :members: transition, initial, sample
 
 .. autoclass:: stochastic.discrete.MoranProcess
-    :members: n_max, probabilities, sample
+    :members: n_max, sample
 
 .. autoclass:: stochastic.discrete.RandomWalk
     :members: steps, weights, p, sample, sample_increments

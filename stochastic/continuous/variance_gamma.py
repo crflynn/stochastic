@@ -8,6 +8,9 @@ from stochastic.noise import GaussianNoise
 class VarianceGammaProcess(Continuous):
     r"""Variance Gamma process.
 
+    .. image:: _static/variance_gamma_process.png
+        :scale: 50%
+
     A variance gamma process has independent increments which follow the
     variance-gamma distribution. It can be represented as a Brownian motion
     with drift subordinated by a Gamma process:

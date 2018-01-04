@@ -11,4 +11,4 @@ noise processes.
     :members: t, sample, sample_at, times
 
 .. autoclass:: stochastic.noise.FractionalGaussianNoise
-    :members: t, hurst, sample, sample_at, times
+    :members: t, hurst, sample, times

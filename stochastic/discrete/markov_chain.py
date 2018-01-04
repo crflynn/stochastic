@@ -7,6 +7,9 @@ from stochastic.base import Checks
 class MarkovChain(Checks):
     """Finite state Markov chain.
 
+    .. image:: _static/markov_chain.png
+        :scale: 50%
+
     A Markov Chain which changes between states according to the transition
     matrix.
 

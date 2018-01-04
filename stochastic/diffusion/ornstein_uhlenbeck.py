@@ -8,6 +8,9 @@ from stochastic.noise.gaussian_noise import GaussianNoise
 class OrnsteinUhlenbeckProcess(Continuous):
     r"""Ornstein-Uhlenbeck process.
 
+    .. image:: _static/ornstein_uhlenbeck_process.png
+        :scale: 50%
+
     The process :math:`X_t` that satisfies the following stochastic
     differential equation with Wiener process :math:`W_t`:
 

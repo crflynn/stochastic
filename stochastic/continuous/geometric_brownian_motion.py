@@ -8,6 +8,9 @@ from stochastic.continuous.brownian_motion import BrownianMotion
 class GeometricBrownianMotion(Continuous):
     r"""Geometric Brownian motion process.
 
+    .. image:: _static/geometric_brownian_motion.png
+        :scale: 50%
+
     A geometric Brownian motion :math:`S_t` is the analytic solution to the
     stochastic differential equation with Wiener process :math:`W_t`:
 

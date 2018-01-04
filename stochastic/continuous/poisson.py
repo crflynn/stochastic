@@ -7,6 +7,9 @@ from stochastic.base import Checks
 class PoissonProcess(Checks):
     r"""Poisson process.
 
+    .. image:: _static/poisson_process.png
+        :scale: 50%
+
     A Poisson process with rate :math:`\lambda` is a count of occurrences of
     i.i.d. exponential random variables with mean :math:`1/\lambda`. This class
     generates samples of times for which cumulative exponential random

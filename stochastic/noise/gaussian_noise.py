@@ -7,6 +7,9 @@ from stochastic.base import Continuous
 class GaussianNoise(Continuous):
     """Gaussian noise process.
 
+    .. image:: _static/gaussian_noise.png
+        :scale: 50%
+
     Generate a sequence of Gaussian random variables.
 
     :param float t: the right hand endpoint of the time interval :math:`[0,t]`

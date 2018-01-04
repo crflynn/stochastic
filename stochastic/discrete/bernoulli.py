@@ -7,6 +7,9 @@ from stochastic.base import Checks
 class BernoulliProcess(Checks):
     """Bernoulli process.
 
+    .. image:: _static/bernoulli_process.png
+        :scale: 50%
+
     A Bernoulli process consists of a sequence of Bernoulli random
     variables. A Bernoulli random variable is
 

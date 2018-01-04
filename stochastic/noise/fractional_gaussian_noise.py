@@ -9,6 +9,9 @@ from stochastic.base import Continuous
 class FractionalGaussianNoise(Continuous):
     """Fractional Gaussian noise process.
 
+    .. image:: _static/fractional_gaussian_noise.png
+        :scale: 50%
+
     Generate sequences of fractional Gaussian noise.
 
     :param float t: the right hand endpoint of the time interval :math:`[0,t]`

@@ -7,6 +7,9 @@ from stochastic.base import Checks
 class RandomWalk(Checks):
     """Random walk.
 
+    .. image:: _static/random_walk.png
+        :scale: 50%
+
     A random walk is a sequence of random steps taken from a set of step sizes
     with a probability distribution. By default this object defines the steps
     to be [-1, 1] with probability 1/2 for each possibility.

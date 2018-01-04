@@ -7,6 +7,9 @@ from stochastic.base import Continuous
 class GammaProcess(Continuous):
     """Gamma process.
 
+    .. image:: _static/gamma_process.png
+        :scale: 50%
+
     A Gamma process (discretely sampled) is the summation of stationary
     independent increments which are distributed as gamma random variables.
     This class supports instantiation using the mean/variance parametrization

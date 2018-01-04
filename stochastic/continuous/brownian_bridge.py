@@ -7,6 +7,9 @@ from stochastic.continuous.brownian_motion import BrownianMotion
 class BrownianBridge(BrownianMotion):
     """Brownian bridge.
 
+    .. image:: _static/brownian_bridge.png
+        :scale: 50%
+
     A Brownian bridge is a Brownian motion with a conditional value on the
     right endpoint of the process.
 

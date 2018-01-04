@@ -7,6 +7,9 @@ from stochastic.continuous.bessel import BesselProcess
 class SquaredBesselProcess(BesselProcess):
     r"""Squared Bessel process.
 
+    .. image:: _static/squared_bessel_process.png
+        :scale: 50%
+
     The square of a Bessel process: :math:`\|\mathbf{W}_t\|^2`.
 
     The Bessel process is the Euclidean norm of an :math:`n`-dimensional

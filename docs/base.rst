@@ -9,4 +9,4 @@ Base classes meant to be subclassed or mixed in.
 .. autoclass:: stochastic.base.Checks
 
 .. autoclass:: stochastic.base.Continuous
-    :members: t, times, sample, sample_at
+    :members: t, times, sample

@@ -7,6 +7,9 @@ from stochastic.base import Checks
 class ChineseRestaurantProcess(Checks):
     """Chinese restaurant process.
 
+    .. image:: _static/chinese_restaurant_process.png
+        :scale: 50%
+
     A Chinese restaurant process consists of a sequence of arrivals of
     customers to a Chinese restaurant. Customers may be seated either at an
     occupied table or a new table, there being infinitely many customers
@@ -22,6 +25,8 @@ class ChineseRestaurantProcess(Checks):
     :math:`(strength + T * discount) / (n - 1 + strength)` to sit at a new
     table and a probability of :math:`(t_k - discount) / (n - 1 + strength)`
     of sitting at table :math:`k`. :math:`T` is the number of occupied tables.
+
+    Samples provide a sequence of tables selected by a sequence of customers.
 
     :param float discount: the discount value of existing tables.
         Must be strictly less than 1.
@@ -82,16 +87,17 @@ class ChineseRestaurantProcess(Checks):
                     "greater than the negative of the discount")
         self._strength = value
 
-    def _sample_chinese_restaurant(self, n):
+    def _sample_chinese_restaurant(self, n, partition=False):
         """Generate a Chinese restaurant process with n customers."""
         self._check_increments(n)
 
-        s = [[1]]
+        c = [[1]]
+        s = [0]
         num_tables = 1
         table_range = [0, 1]
 
         for k in range(2, n + 1):
-            p = [1.0 * (len(s[t]) - self.discount) / (k - 1 + self.strength)
+            p = [1.0 * (len(c[t]) - self.discount) / (k - 1 + self.strength)
                  for t in table_range[:-1]]
             p.append(1.0 * (self.strength + num_tables * self.discount) /
                      (k - 1 + self.strength))
@@ -99,10 +105,14 @@ class ChineseRestaurantProcess(Checks):
             if table == num_tables:
                 num_tables += 1
                 table_range.append(num_tables)
-                s.append([])
-            s[table].append(k)
+                c.append([])
+            c[table].append(k - 1)
+            s.append(table)
 
-        return np.array([np.array(t) for t in s])
+        if partition:
+            return np.array([np.array(t) for t in c])
+        else:
+            return np.array(s)
 
     def sample(self, n):
         """Generate a Chinese restaurant process with :math:`n` customers.
@@ -110,3 +120,40 @@ class ChineseRestaurantProcess(Checks):
         :param n: the number of customers to simulate.
         """
         return self._sample_chinese_restaurant(n)
+
+    def sample_partition(self, n):
+        """Generate a Chinese restaurant process partition.
+
+        :param n: the number of customers to simulate.
+        """
+        return self._sample_chinese_restaurant(n, partition=True)
+
+    def sequence_to_partition(self, sequence):
+        """Create a partition from a sequence.
+
+        :param sequence: a Chinese restaurant sample.
+        """
+        partition = []
+        tables = -1
+        for idx, table in enumerate(sequence):
+            if table > tables:
+                tables = table
+                partition.append([])
+            partition[table].append(idx)
+
+        return np.array([np.array(t) for t in partition])
+
+    def partition_to_sequence(self, partition):
+        """Create a sequence from a partition.
+
+        :param partition: a Chinese restaurant partition.
+        """
+        length = 0
+        for table in partition:
+            length += len(table)
+        sequence = [0] * length
+        for idx, table in enumerate(partition):
+            for c in table:
+                sequence[c] = idx
+
+        return np.array(sequence)

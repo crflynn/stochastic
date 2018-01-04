@@ -5,6 +5,9 @@ import numpy as np
 class MoranProcess(object):
     """Moran process.
 
+    .. image:: _static/moran_process.png
+        :scale: 50%
+
     A neutral drift Moran process, typically used to model populations. At
     each step this process will increase by one, decrease by one, or remain
     at the same value between values of zero and the number of

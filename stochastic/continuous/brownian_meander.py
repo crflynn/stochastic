@@ -7,6 +7,9 @@ from stochastic.continuous.brownian_bridge import BrownianBridge
 class BrownianMeander(BrownianBridge):
     """Brownian meander process.
 
+    .. image:: _static/brownian_meander.png
+        :scale: 50%
+
     A Brownian motion conditioned such that the process is nonnegative.
 
     Generated using method by Williams, 1970; Imhof, 1984.
@@ -39,7 +42,6 @@ class BrownianMeander(BrownianBridge):
         bridge_1 = self._sample_brownian_bridge(n, zero)
         bridge_2 = self._sample_brownian_bridge(n, zero)
         bridge_3 = self._sample_brownian_bridge(n, zero)
-        print(n, len(bridge_1), zero)
 
         return np.sqrt(
             (b * self._times / self.t + bridge_1) ** 2 +
