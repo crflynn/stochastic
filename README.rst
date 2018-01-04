@@ -31,50 +31,6 @@ The diffusion processes are approximated using the Euler–Maruyama method.
 
 Here are the currently supported processes:
 
-Continuous-time
-~~~~~~~~~~~~~~~
-
-* Bessel process
-* Brownian bridge
-* Brownian excursion
-* Brownian meander
-* Brownian motion
-* Cauchy process
-* Fractional Brownian motion
-* Gamma process
-* Geometric Brownian motion
-* Poisson process
-* Squared Bessel process
-* Variance gamma process
-* Wiener process
-
-Diffusion models
-~~~~~~~~~~~~~~~~
-
-* Constant elasticity of variance (CEV) process
-* Cox-Ingersoll-Ross (CIR) process
-* Ornstein-Uhlenbeck (OU) process
-* Vasicek process
-
-Discrete-time
-~~~~~~~~~~~~~
-
-* Bernoulli process
-* Chinese restaurant process
-* Markov chain
-* Moran process
-* Random walk
-
-Noise
-~~~~~
-
-* Gaussian noise
-* Fractional Gaussian noise
-
-
-Package Access Structure
-------------------------
-
 * stochastic
 
     * continuous
@@ -113,8 +69,11 @@ Package Access Structure
         * GaussianNoise
         * FractionalGaussianNoise
 
-Usage
------
+Usage patterns
+--------------
+
+Sampling
+~~~~~~~~
 
 To use ``stochastic``, import the process you want and instantiate with the
 required parameters. Every process class has a ``sample`` method for generating
@@ -138,6 +97,9 @@ maximum time of the process realizations. The default value is 1. The sample
 method will generate ``n`` equally spaced increments on the
 interval ``[0, t]``.
 
+Sampling at specific times
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Some continuous processes also provide a ``sample_at()`` method, in which a
 sequence of time values can be passed at which the object will generate a
 realization. This method ignores the parameter, ``t``, specified on
@@ -153,6 +115,8 @@ instantiation.
     times = [0, 3, 10, 11, 11.2, 20]
     s = sample_at(times)
 
+Sample times
+~~~~~~~~~~~~
 
 Continuous processes also provide a method ``times()`` which generates the time
 values (using ``numpy.linspace``) corresponding to a realization of ``n``
@@ -172,6 +136,9 @@ steps. This is particularly useful for plotting your samples.
     plt.plot(times, s)
     plt.show()
 
+
+Specifying an algorithm
+~~~~~~~~~~~~~~~~~~~~~~~
 
 Some processes provide an optional parameter ``algorithm``, in which one can
 specify which algorithm to use to generate the realization using the
