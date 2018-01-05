@@ -6,6 +6,25 @@
 stochastic
 ==========
 
+|travis| |rtd| |codecov| |pypi| |pyversions|
+
+
+.. |travis| image:: https://img.shields.io/travis/crflynn/stochastic.svg
+    :target: https://travis-ci.org/crflynn/stochastic
+
+.. |rtd| image:: https://img.shields.io/readthedocs/stochastic.svg
+    :target: http://stochastic.readthedocs.io/en/latest/
+
+.. |codecov| image:: https://codecov.io/gh/crflynn/stochastic/branch/master/graphs/badge.svg
+    :target: https://codecov.io/gh/crflynn/stochastic
+
+.. |pypi| image:: https://img.shields.io/pypi/v/stochastic.svg
+    :target: https://pypi.python.org/pypi/stochastic
+
+.. |pyversions| image:: https://img.shields.io/pypi/pyversions/stochastic.svg
+    :target: https://pypi.python.org/pypi/stochastic
+
+
 Stochastic is a python package for generating realizations of
 stochastic processes.
 

@@ -1,6 +1,25 @@
 stochastic
 ==========
 
+|travis| |rtd| |codecov| |pypi| |pyversions|
+
+
+.. |travis| image:: https://img.shields.io/travis/crflynn/celery-slack.svg
+    :target: https://travis-ci.org/crflynn/celery-slack
+
+.. |rtd| image:: https://img.shields.io/readthedocs/celery-slack.svg
+    :target: http://celery-slack.readthedocs.io/en/latest/
+
+.. |codecov| image:: https://codecov.io/gh/crflynn/celery-slack/branch/master/graphs/badge.svg
+    :target: https://codecov.io/gh/crflynn/celery-slack
+
+.. |pypi| image:: https://img.shields.io/pypi/v/celery-slack.svg
+    :target: https://pypi.python.org/pypi/celery-slack
+
+.. |pyversions| image:: https://img.shields.io/pypi/pyversions/celery-slack.svg
+    :target: https://pypi.python.org/pypi/celery-slack
+
+
 A python package for generating realizations of common
 (and perhaps some less common) stochastic processes, with some optimization
 for repeated simulation.
