@@ -4,20 +4,20 @@ stochastic
 |travis| |rtd| |codecov| |pypi| |pyversions|
 
 
-.. |travis| image:: https://img.shields.io/travis/crflynn/celery-slack.svg
-    :target: https://travis-ci.org/crflynn/celery-slack
+.. |travis| image:: https://img.shields.io/travis/crflynn/stochastic.svg
+    :target: https://travis-ci.org/crflynn/stochastic
 
-.. |rtd| image:: https://img.shields.io/readthedocs/celery-slack.svg
-    :target: http://celery-slack.readthedocs.io/en/latest/
+.. |rtd| image:: https://img.shields.io/readthedocs/stochastic.svg
+    :target: http://stochastic.readthedocs.io/en/latest/
 
-.. |codecov| image:: https://codecov.io/gh/crflynn/celery-slack/branch/master/graphs/badge.svg
-    :target: https://codecov.io/gh/crflynn/celery-slack
+.. |codecov| image:: https://codecov.io/gh/crflynn/stochastic/branch/master/graphs/badge.svg
+    :target: https://codecov.io/gh/crflynn/stochastic
 
-.. |pypi| image:: https://img.shields.io/pypi/v/celery-slack.svg
-    :target: https://pypi.python.org/pypi/celery-slack
+.. |pypi| image:: https://img.shields.io/pypi/v/stochastic.svg
+    :target: https://pypi.python.org/pypi/stochastic
 
-.. |pyversions| image:: https://img.shields.io/pypi/pyversions/celery-slack.svg
-    :target: https://pypi.python.org/pypi/celery-slack
+.. |pyversions| image:: https://img.shields.io/pypi/pyversions/stochastic.svg
+    :target: https://pypi.python.org/pypi/stochastic
 
 
 A python package for generating realizations of common
