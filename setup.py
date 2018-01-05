@@ -42,6 +42,10 @@ setup(
     ],
     keywords="stochastic processes",
     packages=["stochastic"],
+    install_requires=[
+        "numpy",
+        "scipy",
+    ],
     include_package_data=True,
     zip_safe=False
 )
