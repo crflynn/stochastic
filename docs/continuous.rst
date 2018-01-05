@@ -18,6 +18,7 @@ The :py:mod:`stochastic.continuous` module provides classes for generating
 * :py:class:`stochastic.continuous.VarianceGammaProcess`
 * :py:class:`stochastic.continuous.WienerProcess`
 
+
 .. autoclass:: stochastic.continuous.BesselProcess
     :members: t, sample, sample_at, times
 
