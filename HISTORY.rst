@@ -6,4 +6,4 @@ Release History
 
 * First release.
 * Support for multiple continuous-time, discrete-time, diffusion, and noise
-  processes.
+  processes. 
