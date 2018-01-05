@@ -47,7 +47,7 @@ certain random variable generation.
 Compatibility
 -------------
 
-Stochastic is tested on Python versions...
+Stochastic is tested on Python versions 2.7, 3.4, 3.5, and 3.6.
 
 Performance
 -----------
