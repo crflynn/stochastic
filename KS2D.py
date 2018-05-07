@@ -98,7 +98,8 @@ def ks2d2s(Arr2D1,Arr2D2):
     prob=Qks(d*sqen/(1.+RR*(0.25-0.75/sqen)))
     # d and prob significance: if d is lowe than you significance level, cannot reject the hypothesis that the 2 datasets come form the same functions. Higher prob is better. From numerical recipes in C: When the indicated probability is > 0.20, its value may not be accurate, but the implication that the data and model (or two data sets) are not significantly different is certainly correct.
     return(d,prob)
-    
+ 
+# Making phony data: 
 testdata1=np.random.uniform(size=(100,2))
 testdata2=np.random.uniform(size=(100,2))
 testdata3=np.random.uniform(0.2,0.5,size=(100,2))
