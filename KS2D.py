@@ -11,7 +11,7 @@ Path2Res=os.path.join(Scriptpath,os.path.splitext(os.path.basename(__file__))[0]
 if not os.path.exists(Path2Res): os.makedirs(Path2Res)
 
 def CountQuads(Arr2D,point,silent=1,plotcheck=0):
-    # This function counts the number of points of Arr2D in each quadrant defined by straight lines crossing point.
+    # Counts the number of points of Arr2D in each 4 quadrant defined by a vertical and horizontal line crossing the point.
     # A bit of checking. if Arr2D and point are not lists or ndarray, exit.
     if isinstance(point, list):
         if not silent: print('point is a list')
@@ -50,7 +50,6 @@ def CountQuads(Arr2D,point,silent=1,plotcheck=0):
         plt.plot(point[0],point[1],'.r')
         plt.savefig(os.path.join(Path2Res,'QuadCheck.png'), bbox_inches='tight',dpi=500, edgecolor='w')
         plt.close('all')
-    
     # Normalized fractions:
     ff=1./len(Arr2D)
     fpp=len(Qpp)*ff
@@ -60,6 +59,8 @@ def CountQuads(Arr2D,point,silent=1,plotcheck=0):
     return(fpp,fmp,fpm,fmm)
     
 def Qks(alam,iter=101,prec=1e-6):
+    # Computes the value of the KS probability function. Complicated. 
+    # From Numerical recipes in C page 623: '[...] the K–S statistic useful is that its distribution in the case of the null hypothesis (data sets drawn from the same distribution) can be calculated, at least to useful approximation, thus giving the significance of any observed nonzero value of D.' (D being thet maximum value of the absolute difference between two cumulative distribution functions)
     toadd=[1]
     qks=0.
     j=1
@@ -72,6 +73,8 @@ def Qks(alam,iter=101,prec=1e-6):
     return(qks)
 
 def ks2d2s(Arr2D1,Arr2D2):
+    # ks2d2s: ks stands for Kolmogorov-smirnov, 2dfor  2 dimensional, 2s for 2 samples.
+    # Executes the KS test for goodness-of-fit on two samples in a 2D plane: tests if the hypothesis that the two samples are from the same distribution can be rejected.
     d1,d2=0.,0.
     for point1 in Arr2D1:
         fpp1,fmp1,fpm1,fmm1=CountQuads(Arr2D1,point1)
