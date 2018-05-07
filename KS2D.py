@@ -10,12 +10,6 @@ Scriptpath=os.path.dirname(os.path.abspath(__file__)) # Path of this script
 Path2Res=os.path.join(Scriptpath,os.path.splitext(os.path.basename(__file__))[0])
 if not os.path.exists(Path2Res): os.makedirs(Path2Res)
 
-testdata1=np.random.uniform(size=(100,2))
-testdata2=np.random.uniform(size=(100,2))
-testdata3=np.random.uniform(0.2,0.5,size=(100,2))
-testlist1=np.random.uniform(size=(100,2)).tolist()
-testlist2=np.random.uniform(size=(100,2)).T.tolist()
-
 def CountQuads(Arr2D,point,silent=1,plotcheck=0):
     # This function counts the number of points of Arr2D in each quadrant defined by straight lines crossing point.
     # A bit of checking. if Arr2D and point are not lists or ndarray, exit.
@@ -65,7 +59,7 @@ def CountQuads(Arr2D,point,silent=1,plotcheck=0):
     fmm=len(Qmm)*ff
     return(fpp,fmp,fpm,fmm)
     
-def Qks(alam,iter=100,prec=1e-6):
+def Qks(alam,iter=101,prec=1e-6):
     toadd=[1]
     qks=0.
     j=1
@@ -77,11 +71,6 @@ def Qks(alam,iter=100,prec=1e-6):
         return(1.0)
     return(qks)
 
-
-sys.exit()
-R1=scipy.stats.pearsonr(testdata1[:,0],testdata1[:,1])[0]
-R2=scipy.stats.pearsonr(testdata2[:,0],testdata2[:,1])[0]
-R3=scipy.stats.pearsonr(testdata3[:,0],testdata3[:,1])[0]
 def ks2d2s(Arr2D1,Arr2D2):
     d1,d2=0.,0.
     for point1 in Arr2D1:
@@ -98,17 +87,21 @@ def ks2d2s(Arr2D1,Arr2D2):
         d2=max(d2,abs(fpm1-fpm2))
         d2=max(d2,abs(fmp1-fmp2))
         d2=max(d2,abs(fmm1-fmm2))
-    print(d1,d2)
     d=(d1+d2)/2.
     sqen=np.sqrt(len(Arr2D1)*len(Arr2D2)/(len(Arr2D1)+len(Arr2D2)))
     R1=scipy.stats.pearsonr(Arr2D1[:,0],Arr2D1[:,1])[0]
     R2=scipy.stats.pearsonr(Arr2D2[:,0],Arr2D2[:,1])[0]
     RR=np.sqrt(1.-(R1*R1+R2*R2)/2.)
-    sys.exit()
-    return()
-ks2d2s(testdata1,testdata2)
-print(R1,R2,R3)
-
+    prob=Qks(d*sqen/(1.+RR*(0.25-0.75/sqen)))
+    # d and prob significance: if d is lowe than you significance level, cannot reject the hypothesis that the 2 datasets come form the same functions. Higher prob is better. From numerical recipes in C: When the indicated probability is > 0.20, its value may not be accurate, but the implication that the data and model (or two data sets) are not significantly different is certainly correct.
+    return(d,prob)
+    
+testdata1=np.random.uniform(size=(100,2))
+testdata2=np.random.uniform(size=(100,2))
+testdata3=np.random.uniform(0.2,0.5,size=(100,2))
+testlist1=np.random.uniform(size=(100,2)).tolist()
+testlist2=np.random.uniform(size=(100,2)).T.tolist()    
+    
 # Test list:
 CountQuads(testdata1,[0.1,0.5]) 
 CountQuads(testdata1,'a') 
@@ -123,3 +116,6 @@ print(Qks(0))
 print(Qks(0.01))
 print(Qks(0.1))
 print(Qks(.5))
+# Test the actual algo.
+print(ks2d2s(testdata1,testdata2))
+print(ks2d2s(testdata1,testdata3))
