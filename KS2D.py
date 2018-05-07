@@ -64,6 +64,21 @@ def CountQuads(Arr2D,point,silent=1,plotcheck=0):
     fpm=len(Qpm)*ff
     fmm=len(Qmm)*ff
     return(fpp,fmp,fpm,fmm)
+    
+def Qks(alam,iter=100,prec=1e-6):
+    toadd=[1]
+    qks=0.
+    j=1
+    while (j<iter) & (abs(toadd[-1])>prec):
+        toadd.append(2.*(-1.)**(j-1.)*np.exp(-2.*j**2.*alam**2.))
+        qks+=toadd[-1]
+        j+=1
+    if j==iter:
+        return(1.0)
+    return(qks)
+
+
+sys.exit()
 R1=scipy.stats.pearsonr(testdata1[:,0],testdata1[:,1])[0]
 R2=scipy.stats.pearsonr(testdata2[:,0],testdata2[:,1])[0]
 R3=scipy.stats.pearsonr(testdata3[:,0],testdata3[:,1])[0]
@@ -85,6 +100,10 @@ def ks2d2s(Arr2D1,Arr2D2):
         d2=max(d2,abs(fmm1-fmm2))
     print(d1,d2)
     d=(d1+d2)/2.
+    sqen=np.sqrt(len(Arr2D1)*len(Arr2D2)/(len(Arr2D1)+len(Arr2D2)))
+    R1=scipy.stats.pearsonr(Arr2D1[:,0],Arr2D1[:,1])[0]
+    R2=scipy.stats.pearsonr(Arr2D2[:,0],Arr2D2[:,1])[0]
+    RR=np.sqrt(1.-(R1*R1+R2*R2)/2.)
     sys.exit()
     return()
 ks2d2s(testdata1,testdata2)
@@ -99,3 +118,8 @@ CountQuads(testlist2,[0.1,0.5])
 # Test ndarray
 CountQuads(testdata1,np.array([0.1,0.5])) 
 CountQuads(testdata1.T,np.array([[0.1],[0.5]])) 
+# Test Qks
+print(Qks(0))
+print(Qks(0.01))
+print(Qks(0.1))
+print(Qks(.5))
