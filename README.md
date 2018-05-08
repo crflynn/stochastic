@@ -15,6 +15,6 @@ Based on the idea by Peacock (1983), an upgrade by Fasano and Franceschin (1987)
 much guidance from Numerical recipes in C by Press and Teukolsky.
 
 # References
-Peacock, J. A. (1983). Two-dimensional goodness-of-fit testing in astronomy. **Monthly Notices of the Royal Astronomical Society**, 202(3), 615-627.
-Fasano, G., & Franceschini, A. (1987). A multidimensional version of the Kolmogorov–Smirnov test. **Monthly Notices of the Royal Astronomical Society**, 225(1), 155-170.
-Press, W. H., Teukolsky, S. A., Vetterling, W. T., & Flannery, B. P. (1996). Numerical recipes in C (Vol. 2). Cambridge: Cambridge university press.
+Peacock, J. A. (1983). Two-dimensional goodness-of-fit testing in astronomy. *Monthly Notices of the Royal Astronomical Society*, 202(3), 615-627.
+Fasano, G., & Franceschini, A. (1987). A multidimensional version of the Kolmogorov–Smirnov test. *Monthly Notices of the Royal Astronomical Society*, 225(1), 155-170.
+Press, W. H., Teukolsky, S. A., Vetterling, W. T., & Flannery, B. P. (1996). *Numerical recipes in C (Vol. 2).* Cambridge: Cambridge university press.
