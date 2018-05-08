@@ -10,7 +10,7 @@ Scriptpath=os.path.dirname(os.path.abspath(__file__)) # Path of this script
 Path2Res=os.path.join(Scriptpath,os.path.splitext(os.path.basename(__file__))[0])
 if not os.path.exists(Path2Res): os.makedirs(Path2Res)
 
-def CountQuads(Arr2D,point,silent=1,plotcheck=0):
+def CountQuads(Arr2D,point,silent=1):
     # Counts the number of points of Arr2D in each 4 quadrant defined by a vertical and horizontal line crossing the point.
     # A bit of checking. if Arr2D and point are not lists or ndarray, exit.
     if isinstance(point, list):
@@ -40,16 +40,6 @@ def CountQuads(Arr2D,point,silent=1,plotcheck=0):
     Qpm=Arr2D[(Arr2D[:,0]>=point[0])&(Arr2D[:,1]<=point[1]),:]
     Qmm=Arr2D[(Arr2D[:,0]<=point[0])&(Arr2D[:,1]<=point[1]),:]
     if not silent: print('Same number of points in Arr2D as in all Quadrants: '+str((len(Qpp)+len(Qmp)+len(Qpm)+len(Qmm))==len(Arr2D)))
-    if plotcheck:
-        plt.plot(Arr2D[:,0],Arr2D[:,1],'.k')
-        plt.savefig(os.path.join(Path2Res,'QuadCheckArr2D.png'), bbox_inches='tight',dpi=500, edgecolor='w')
-        plt.plot(Qpp[:,0],Qpp[:,1],'.b')
-        plt.plot(Qmp[:,0],Qmp[:,1],'.g')
-        plt.plot(Qpm[:,0],Qpm[:,1],'.c')
-        plt.plot(Qmm[:,0],Qmm[:,1],'.y')
-        plt.plot(point[0],point[1],'.r')
-        plt.savefig(os.path.join(Path2Res,'QuadCheck.png'), bbox_inches='tight',dpi=500, edgecolor='w')
-        plt.close('all')
     # Normalized fractions:
     ff=1./len(Arr2D)
     fpp=len(Qpp)*ff
