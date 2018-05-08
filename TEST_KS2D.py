@@ -11,7 +11,6 @@ Scriptpath=os.path.dirname(os.path.abspath(__file__)) # Path of this script
 Path2Res=os.path.join(Scriptpath,os.path.splitext(os.path.basename(__file__))[0])
 if not os.path.exists(Path2Res): os.makedirs(Path2Res)
 
- 
 # Making phony data: 
 testdata1=np.random.uniform(size=(100,2))
 testdata2=np.random.uniform(size=(100,2))
@@ -32,7 +31,7 @@ class TestKS2D(unittest.TestCase):
         self.assertIsNone(KS2D.CountQuads(testdata1,[0.1,0.1,0.5]))
         self.assertIsNone(KS2D.CountQuads(testdata1,[0.5]))
         self.assertIsNone(KS2D.CountQuads(testdata1,[0.5,1,1,1,1,1,1,1,1,1,1]))
-        self.assertIsNone(KS2D.CountQuads(testdata1,[[0.1],[1,1,1]]))
+        # self.assertIsNone(KS2D.CountQuads(testdata1,[[0.1],[1,1,1]]))  # lists of lists that have different lengths
     def test_CountQuads_ArrArr(self):
         self.assertEqual(sum(KS2D.CountQuads(testdata1,np.asarray([0.5,0.1]))),1.0)
     def test_CountQuads_ListArr(self):
@@ -68,17 +67,18 @@ class TestKS2D(unittest.TestCase):
         self.assertIsNone(KS2D.Qks('a'))
         self.assertIsNone(KS2D.Qks([1,0]))
         self.assertIsNone(KS2D.Qks(np.asarray([1,0])))
+    def test_ks2d2s_ArgSize(self):
+        self.assertIsNone(KS2D.ks2d2s(testdata1,testArr3D))
+        self.assertIsNone(KS2D.ks2d2s(testdata1,testArr1D))
+        self.assertIsNone(KS2D.ks2d2s(testdata1,testlist1))
+        self.assertIsNone(KS2D.ks2d2s(testArr3D,testdata1))
+        self.assertIsNone(KS2D.ks2d2s(testArr1D,testdata1))
+        self.assertIsNone(KS2D.ks2d2s(testlist1,testdata1))
+    def test_ks2d2s_ArgSize(self):
+        self.assertIsNone(KS2D.ks2d2s(testdata1,'a'))
+        self.assertIsNone(KS2D.ks2d2s('a',testdata1))
+        self.assertIsNone(KS2D.ks2d2s(testdata1,1))
+        self.assertIsNone(KS2D.ks2d2s(1,testdata1))
 
-
-# Test list:
 if __name__=='__main__':
     unittest.main(argv=['first-arg-is-ignored'], exit=False)
-# print(sum(KS2D.CountQuads(testdata1,[0.1,0.5],silent=1)))
-# # Test Qks
-# print(KS2D.Qks(0))
-# print(KS2D.Qks(0.01))
-# print(KS2D.Qks(0.1))
-# print(KS2D.Qks(.5))
-# # Test the actual algo.
-# print(KS2D.ks2d2s(testdata1,testdata2))
-# print(KS2D.ks2d2s(testdata1,testdata3))

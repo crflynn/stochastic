@@ -8,13 +8,11 @@ import sys, os, numpy as np, scipy.stats
 
 def CountQuads(Arr2D,point,silent=1):
     # Counts the number of points of Arr2D in each 4 quadrant defined by a vertical and horizontal line crossing the point.
-    # A bit of checking. if Arr2D and point are not lists or ndarray, exit.
-    print(len(point))
+    # Then computes the proportion of points in each quadrant.
+    # A bit of checking. If Arr2D and point are not lists or ndarray, exit.
     if isinstance(point, list):
         if not silent: print('point is a list')
-        
         point=np.asarray((np.ravel(point)))
-
         pass
     elif type(point).__module__+type(point).__name__=='numpyndarray':
         point=np.ravel(point.copy())
@@ -33,9 +31,9 @@ def CountQuads(Arr2D,point,silent=1):
     else:
         if not silent: print('Arr2D is neither a list not a numpy.ndarray. Exiting.')
         return
-    if Arr2D.shape[1]>Arr2D.shape[0]:
+    if Arr2D.shape[1]>Arr2D.shape[0]: # Reshape so that A[row,column] is achieved.
         Arr2D=Arr2D.copy().T
-    if Arr2D.shape[1]!=2:
+    if Arr2D.shape[1]!=2: 
         if not silent: print('2 columns should be in Arr2D. Exiting.')
         return
     # The pp of Qpp refer to p for 'positive' and m for 'negative' quadrants. In order. first subscript is x, second is y.
@@ -50,10 +48,63 @@ def CountQuads(Arr2D,point,silent=1):
     fmp=len(Qmp)*ff
     fpm=len(Qpm)*ff
     fmm=len(Qmm)*ff
-    # NOTE:  all the f's are supposed to sum to 1.0. Sometimes, cause of float representation, they SOMETIMES sum to 1.000000002 or something. I don't know how to test for that reliably, OR what to do about it yet. Keep in mind.
+    # NOTE:  all the f's are supposed to sum to 1.0. Float representation cause SOMETIMES sum to 1.000000002 or something. I don't know how to test for that reliably, OR what to do about it yet. Keep in mind.
     return(fpp,fmp,fpm,fmm)
     
-# CountQuads(testArr3D,[1,1])
+def FuncQuads(func2D,point,xlim,ylim,silent=1):
+    # Computes the proportion of func2D in each 4 quadrant defined by a vertical and horizontal lines crossing the point.
+    # func2D must be a function that takes 2 arguments.
+    # uses numerical integration based on scipy to compute the fpp's
+    # A bit of checking. If Arr2D and point are not lists or ndarray, exit.
+    totInt=scipy.integrate.dblquad(func2D,*xlim, lambda x: np.amin(ylim),  lambda x: np.amax(ylim))[0]
+    Qpp=scipy.integrate.dblquad(func2D,point[0],np.amax(xlim), lambda x: point[1],  lambda x: np.amax(ylim))[0]
+    Qpm=scipy.integrate.dblquad(func2D,point[0],np.amax(xlim), lambda x: np.amin(ylim),  lambda x: point[1])[0]
+    Qmp=scipy.integrate.dblquad(func2D,np.amin(xlim),point[0], lambda x: point[1],  lambda x: np.amax(ylim))[0]
+    Qmm=scipy.integrate.dblquad(func2D,np.amin(xlim),point[0], lambda x: np.amin(ylim),  lambda x: point[1])[0]
+    fpp=round(Qpp/totInt,4)
+    fmp=round(Qmp/totInt,4)
+    fpm=round(Qpm/totInt,4)
+    fmm=round(Qmm/totInt,4)    
+    return(fpp,fmp,fpm,fmm)
+def f2d(x,y):
+    return(x**2+y)
+FuncQuads(f2d,[0.5,0.5],[0,1],[0,1])  
+sys.exit()
+# def FuncQuadsympy(Func2D,point,silent=1):
+    # # Computes the proportion of func2D in each 4 quadrant defined by a vertical and horizontal lines crossing the point.
+    # # OR: take a x*y matrix and computes the probabilities of having each point in each quadrant.
+    # # A bit of checking. If Arr2D and point are not lists or ndarray, exit.
+    # ArgNum=len(inspect.getfullargspec(Func2D)[0])
+    # if (ArgNum-1)!=Interval.shape[0]:
+        # raise NameError('func arguments-1 not equal Interval numbers.')
+    # i=1
+    # while i<=ArgNum:
+        # symlist.append('x'+str(i))
+        # i+=1
+    # symlist=sp.symbols(symlist)
+    # Num=func(*symlist)
+    # if not silent: print( 'Inital function: '+ str(Num)+' Note: indefinite integral on the func\'s first arg.')
+    # strtoprint=' '
+    # for Int in Interval: strtoprint+=(str(Int)+' ')
+    # if not silent: print('Intervals (rightmost is nth Interval):'+strtoprint)
+    # FIndices=[]
+    # for i in np.arange(1,ArgNum):
+        # FIndices.append(np.arange(i,ArgNum))
+    # print(FIndices)
+    # sys.exit()
+    # FnSymDict={}
+    
+    # for Finf in FIndices:
+        # Num=func(*symlist)
+        # for IndtoInteg in reversed(Finf):
+            # if IndtoInteg==list(reversed(Finf))[-1]:
+                # Denom=sp.integrate(Num,(symlist[IndtoInteg],Interval[IndtoInteg-1]))
+                # Num=sp.integrate(Num,symlist[IndtoInteg])
+            # else:
+                # Num=sp.integrate(Num,(symlist[IndtoInteg],Interval[IndtoInteg-1]))
+        # FnSymDict['F'+str(len(FIndices)+2-len(Finf))]= Num/Denom
+    # return
+
 def Qks(alam,iter=101,prec=1e-6,silent=1):
     # Computes the value of the KS probability function, as a function of alam, a float. What is this function? Complicated: 
     # From Numerical recipes in C page 623: '[...] the K–S statistic useful is that its distribution in the case of the null hypothesis (data sets drawn from the same distribution) can be calculated, at least to useful approximation, thus giving the significance of any observed nonzero value of D.' (D being the maximum value of the absolute difference between two cumulative distribution functions)
@@ -81,26 +132,27 @@ def Qks(alam,iter=101,prec=1e-6,silent=1):
 def ks2d2s(Arr2D1,Arr2D2,silent=1):
     # ks2d2s: ks stands for Kolmogorov-smirnov, 2dfor  2 dimensional, 2s for 2 samples.
     # Executes the KS test for goodness-of-fit on two samples in a 2D plane: tests if the hypothesis that the two samples are from the same distribution can be rejected.
-    if isinstance(point, list):
-        if not silent: print('point is a list')
-        pass
-    elif type(point).__module__+type(point).__name__=='numpyndarray':
-        point=np.ravel(point.copy())
-        if not silent: print('point is a numpy.ndarray')
-    else:
-        if not silent: print('point is neither a list not a numpy.ndarray. Exiting.')
-        return
-    if isinstance(Arr2D, list):
-        if not silent: print('Arr2D is a list')
-        Arr2D=np.asarray((Arr2D))
-    elif type(Arr2D).__module__+type(Arr2D).__name__=='numpyndarray':
-        if not silent: print('Arr2D is a ndarray')
+    if type(Arr2D1).__module__+type(Arr2D1).__name__=='numpyndarray':
+        if not silent: print('Arr2D1 is a ndarray')
     else:
         if not silent: print('Arr2D is neither a list not a numpy.ndarray. Exiting.')
         return
-    if Arr2D.shape[1]>Arr2D.shape[0]:
-        Arr2D=Arr2D.copy().T
-    
+    if Arr2D1.shape[1]>Arr2D1.shape[0]:
+        Arr2D1=Arr2D1.copy().T
+        
+    if type(Arr2D2).__module__+type(Arr2D2).__name__=='numpyndarray':
+        if not silent: print('Arr2D1 is a ndarray')
+    else:
+        if not silent: print('Arr2D is neither a list not a numpy.ndarray. Exiting.')
+        return
+    if Arr2D2.shape[1]>Arr2D2.shape[0]:
+        Arr2D2=Arr2D2.copy().T   
+    if Arr2D1.shape[1]!=2:
+        if not silent: print('2 columns should be in Arr2D1. Exiting.')
+        return
+    if Arr2D2.shape[1]!=2:
+        if not silent: print('2 columns should be in Arr2D2. Exiting.')
+        return
     d1,d2=0.,0.
     for point1 in Arr2D1:
         fpp1,fmp1,fpm1,fmm1=CountQuads(Arr2D1,point1)
