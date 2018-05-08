@@ -51,6 +51,7 @@ def CountQuads(Arr2D,point,silent=1):
     fmm=len(Qmm)*ff
     # NOTE:  all the f's are supposed to sum to 1.0. Float representation cause SOMETIMES sum to 1.000000002 or something. I don't know how to test for that reliably, OR what to do about it yet. Keep in mind.
     return(fpp,fmp,fpm,fmm)
+    
 def FuncQuads(func2D,point,xlim,ylim,rounddig=4,silent=1):
     # Computes the proportion of func2D in each 4 quadrant defined by a vertical and horizontal lines crossing the point.
     # func2D must be a function that takes 2 arguments.
@@ -82,10 +83,10 @@ def FuncQuads(func2D,point,xlim,ylim,rounddig=4,silent=1):
         return
     if isinstance(xlim, list):
         if not silent: print('xlim is a list')
-        xlim=np.asarray((np.ravel(xlim)))
+        xlim=np.asarray((np.sort(np.ravel(xlim))))
         pass
     elif type(xlim).__module__+type(xlim).__name__=='numpyndarray':
-        xlim=np.ravel(xlim.copy())
+        xlim=np.sort(np.ravel(xlim.copy()))
         if not silent: print('xlim is a numpy.ndarray')
     else:
         if not silent: print('xlim is neither a list not a numpy.ndarray. Exiting.')
@@ -93,18 +94,24 @@ def FuncQuads(func2D,point,xlim,ylim,rounddig=4,silent=1):
     if len(xlim)!=2:
         if not silent: print('2 elements should be in xlim. Exiting.')
         return
+    if xlim[0]==xlim[1]:
+        if not silent: print('limits in xlim should not be the same. Exiting.')
+        return
     if isinstance(ylim, list):
         if not silent: print('ylim is a list')
-        ylim=np.asarray((np.ravel(ylim)))
+        ylim=np.asarray((np.sort(np.ravel(ylim))))
         pass
     elif type(ylim).__module__+type(ylim).__name__=='numpyndarray':
-        ylim=np.ravel(ylim.copy())
+        ylim=np.sort(np.ravel(ylim.copy()))
         if not silent: print('ylim is a numpy.ndarray')
     else:
         if not silent: print('ylim is neither a list not a numpy.ndarray. Exiting.')
         return
     if len(ylim)!=2:
         if not silent: print('2 elements should be in ylim. Exiting.')
+        return
+    if ylim[0]==ylim[1]:
+        if not silent: print('limits in ylim should not be the same. Exiting.')
         return
     # Numerical integration to find the quadrant probabilities.
     totInt=scipy.integrate.dblquad(func2D,*xlim, lambda x: np.amin(ylim),  lambda x: np.amax(ylim))[0]
@@ -117,10 +124,6 @@ def FuncQuads(func2D,point,xlim,ylim,rounddig=4,silent=1):
     fpm=round(Qpm/totInt,rounddig)
     fmm=round(Qmm/totInt,rounddig)    
     return(fpp,fmp,fpm,fmm)
-def f2d(x,y,k):
-    return(x**2+y)
-print(FuncQuads(f2d,[0.5,0.5,0],[0,1,1],[0,1,1],silent=0))
-sys.exit()
 
 def Qks(alam,iter=101,prec=1e-6,silent=1):
     # Computes the value of the KS probability function, as a function of alam, a float. What is this function? Complicated: 
@@ -194,3 +197,6 @@ def ks2d2s(Arr2D1,Arr2D2,silent=1):
     # d and prob significance: if d is lowe than you significance level, cannot reject the hypothesis that the 2 datasets come form the same functions. Higher prob is better. From numerical recipes in C: When the indicated probability is > 0.20, its value may not be accurate, but the implication that the data and model (or two data sets) are not significantly different is certainly correct.
     return(d,prob)
     
+def ks2d1s(Arr2D,func2D,silent=1):   
+ 
+    return

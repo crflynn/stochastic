@@ -19,7 +19,33 @@ testlist1=np.random.uniform(size=(100,2)).tolist()
 testlist2=np.random.uniform(size=(100,2)).T.tolist()
 testArr3D=np.random.uniform(size=(100,3))
 testArr1D=np.random.uniform(size=(100,1))
+def f2d3arg(x,y,k): return(x**2+y)
+def f2d2arg(x,y): return(x**2+y)
+def f2d1arg(x): return(x**2)
+def f2d1(x,y): return(x+y)
+def f2d2(x,y): return(x**2)
+def f2d3(x,y): return(y**2)
+def f2d4(x,y): return(y)
+def f2d5(x,y): return(x)
 class TestKS2D(unittest.TestCase):
+    def test_FuncQuads_funcargs(self):
+        self.assertIsNone(KS2D.FuncQuads(f2d3arg,[0.1,0.1],[0,1],[0,1]))
+        self.assertIsNone(KS2D.FuncQuads(f2d1arg,[0.1,0.1],[0,1],[0,1]))
+        self.assertEqual(sum(KS2D.FuncQuads(f2d2arg,[0.1,0.1],[0,1],[0,1])),1.0)
+    def test_FuncQuads_limargs(self):
+        self.assertEqual(sum(KS2D.FuncQuads(f2d2arg,[0.1,0.1],[1,0],[0,1])),1.0)
+        self.assertEqual(sum(KS2D.FuncQuads(f2d2arg,[0.1,0.1],[0,1],[1,0])),1.0)
+        self.assertIsNone(KS2D.FuncQuads(f2d2arg,[0.1,0.1],[1,0],[1,1]))
+        self.assertIsNone(KS2D.FuncQuads(f2d2arg,[0.1,0.1],[1,1],[1,0]))
+        self.assertIsNone(KS2D.FuncQuads(f2d2arg,[0.1,0.1],[1,0,1],[1,0]))
+        self.assertIsNone(KS2D.FuncQuads(f2d2arg,[0.1,0.1],[1,0],[1,0,1]))
+    def test_FuncQuads_manyfuncs(self):
+        self.assertEqual(sum(KS2D.FuncQuads(f2d1,[0.5,0.1],[0,1],[1,0])),1.0)
+        self.assertEqual(round(sum(KS2D.FuncQuads(f2d2,[0.5,0.1],[0,1],[1,0])),4),1.0)
+        # This test consistently presents floating point error with 0,9999999... Rounding seems to solve most problems.
+        self.assertEqual(sum(KS2D.FuncQuads(f2d3,[0.5,0.1],[0,1],[1,0])),1.0)
+        self.assertEqual(sum(KS2D.FuncQuads(f2d4,[0.5,0.1],[0,1],[1,0])),1.0)
+        self.assertEqual(sum(KS2D.FuncQuads(f2d5,[0.5,0.1],[0,1],[1,0])),1.0)
     def test_CountQuads_ArrList(self):
         self.assertEqual(sum(KS2D.CountQuads(testdata1,[0.1,0.5])),1.0)
     def test_CountQuads_ArrWrongDim(self):
