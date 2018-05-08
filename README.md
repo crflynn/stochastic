@@ -25,7 +25,7 @@ Prerequisites: *scipy*, *numpy*.
 Keywords: Kolmogoro-smirnov test, multi-dimensional, two-dimensional, KS test, hypothesis testing, statistics, probability theory.
 
 Based on the idea by Peacock (1983), an upgrade by Fasano and Franceschin (1987) with
-much guidance from Numerical recipes in C by Press and Teukolsky.
+much guidance from Numerical recipes in C by Press and Teukolsky (1996).
 
 # References
 [1] Peacock, J. A. (1983). Two-dimensional goodness-of-fit testing in astronomy. *Monthly Notices of the Royal Astronomical Society*, 202(3), 615-627.
