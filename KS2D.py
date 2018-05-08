@@ -9,9 +9,12 @@ import sys, os, numpy as np, scipy.stats
 def CountQuads(Arr2D,point,silent=1):
     # Counts the number of points of Arr2D in each 4 quadrant defined by a vertical and horizontal line crossing the point.
     # A bit of checking. if Arr2D and point are not lists or ndarray, exit.
+    print(len(point))
     if isinstance(point, list):
         if not silent: print('point is a list')
+        
         point=np.asarray((np.ravel(point)))
+
         pass
     elif type(point).__module__+type(point).__name__=='numpyndarray':
         point=np.ravel(point.copy())

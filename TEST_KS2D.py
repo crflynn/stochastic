@@ -28,6 +28,11 @@ class TestKS2D(unittest.TestCase):
         self.assertIsNone(KS2D.CountQuads(testArr1D.T,[0.1,0.5]))
         self.assertIsNone(KS2D.CountQuads(testArr3D,[0.1,0.5]))
         self.assertIsNone(KS2D.CountQuads(testArr3D.T,[0.1,0.5]))
+    def test_CountQuads_PointWrongDim(self):
+        self.assertIsNone(KS2D.CountQuads(testdata1,[0.1,0.1,0.5]))
+        self.assertIsNone(KS2D.CountQuads(testdata1,[0.5]))
+        self.assertIsNone(KS2D.CountQuads(testdata1,[0.5,1,1,1,1,1,1,1,1,1,1]))
+        self.assertIsNone(KS2D.CountQuads(testdata1,[[0.1],[1,1,1]]))
     def test_CountQuads_ArrArr(self):
         self.assertEqual(sum(KS2D.CountQuads(testdata1,np.asarray([0.5,0.1]))),1.0)
     def test_CountQuads_ListArr(self):
