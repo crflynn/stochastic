@@ -1,5 +1,5 @@
 # Code créé par Gabriel Taillon le 7 Mai 2018
-#  2D Kolmogorov-Smyrnov Test. Exclusively Data-Data for now.
+#  2D Kolmogorov-Smyrnov Test.
 # References: 
 #  [1] Peacock, J. A. (1983). Two-dimensional goodness-of-fit testing in astronomy. Monthly Notices of the Royal Astronomical Society, 202(3), 615-627.
 #  [2] Fasano, G., & Franceschini, A. (1987). A multidimensional version of the Kolmogorov–Smirnov test. Monthly Notices of the Royal Astronomical Society, 225(1), 155-170.
@@ -155,15 +155,15 @@ def ks2d2s(Arr2D1,Arr2D2,silent=1):
     if type(Arr2D1).__module__+type(Arr2D1).__name__=='numpyndarray':
         if not silent: print('Arr2D1 is a ndarray')
     else:
-        if not silent: print('Arr2D is neither a list not a numpy.ndarray. Exiting.')
+        if not silent: print('Arr2D1 is neither a list not a numpy.ndarray. Exiting.')
         return
     if Arr2D1.shape[1]>Arr2D1.shape[0]:
         Arr2D1=Arr2D1.copy().T
         
     if type(Arr2D2).__module__+type(Arr2D2).__name__=='numpyndarray':
-        if not silent: print('Arr2D1 is a ndarray')
+        if not silent: print('Arr2D2 is a ndarray')
     else:
-        if not silent: print('Arr2D is neither a list not a numpy.ndarray. Exiting.')
+        if not silent: print('Arr2D2 is neither a list not a numpy.ndarray. Exiting.')
         return
     if Arr2D2.shape[1]>Arr2D2.shape[0]:
         Arr2D2=Arr2D2.copy().T   
@@ -197,6 +197,50 @@ def ks2d2s(Arr2D1,Arr2D2,silent=1):
     # d and prob significance: if d is lowe than you significance level, cannot reject the hypothesis that the 2 datasets come form the same functions. Higher prob is better. From numerical recipes in C: When the indicated probability is > 0.20, its value may not be accurate, but the implication that the data and model (or two data sets) are not significantly different is certainly correct.
     return(d,prob)
     
-def ks2d1s(Arr2D,func2D,silent=1):   
- 
-    return
+def ks2d1s(Arr2D,func2D,xlim=[],ylim=[],silent=1):   
+    if callable(func2D):
+        if not silent:print('func2D is a function')
+        if len(inspect.getfullargspec(func2D)[0])!=2:
+            if not silent:print('func2D function has not 2 arguments. Exiting.')
+            return
+        pass
+    else:
+        if not silent:print('func2D is not a function. Exiting.')
+        return  
+    if type(Arr2D).__module__+type(Arr2D).__name__=='numpyndarray':
+        if not silent: print('Arr2D is a ndarray')
+    else:
+        if not silent: print('Arr2D is neither a list not a numpy.ndarray. Exiting.')
+        return
+    if Arr2D.shape[1]>Arr2D.shape[0]:
+        Arr2D=Arr2D.copy().T   
+    if Arr2D.shape[1]!=2:
+        if not silent: print('2 columns should be in Arr2D1. Exiting.')
+        return
+    if xlim==[]:
+        xlim.append(np.amin(Arr2D[:,0]))
+        xlim.append(np.amax(Arr2D[:,0]))
+        xlim[0]=xlim[0]-(abs(xlim[1]-xlim[0]))/10
+        xlim[1]=xlim[1]+(abs(xlim[1]-xlim[0]))/10
+    if ylim==[]:
+        ylim.append(np.amin(Arr2D[:,1]))
+        ylim.append(np.amax(Arr2D[:,1]))
+        ylim[0]=ylim[0]-(abs(ylim[1]-ylim[0]))/10
+        ylim[1]=ylim[1]+(abs(ylim[1]-ylim[0]))/10
+    d=0
+    for point in Arr2D:
+        fpp1,fmp1,fpm1,fmm1=FuncQuads(func2D,point,xlim,ylim)
+        fpp2,fmp2,fpm2,fmm2=CountQuads(Arr2D,point)
+        d=max(d,abs(fpp1-fpp2))
+        d=max(d,abs(fpm1-fpm2))
+        d=max(d,abs(fmp1-fmp2))
+        d=max(d,abs(fmm1-fmm2))
+    sqen=np.sqrt(len(Arr2D))
+    R1=scipy.stats.pearsonr(Arr2D[:,0],Arr2D[:,1])[0]
+    RR=np.sqrt(1.0-R1**2)
+    prob=Qks(d*sqen/(1.+RR*(0.25-0.75/sqen)))
+    return(d,prob)
+testdata2=np.random.uniform(size=(100,2))
+def f2d2arg(x,y): return(x+y)    
+print(ks2d1s(testdata2,f2d2arg,silent=0))
+    
