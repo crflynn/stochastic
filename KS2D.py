@@ -5,10 +5,6 @@
 #  [2] Fasano, G., & Franceschini, A. (1987). A multidimensional version of the Kolmogorov–Smirnov test. Monthly Notices of the Royal Astronomical Society, 225(1), 155-170.
 #  [3]  Flannery, B. P., Press, W. H., Teukolsky, S. A., & Vetterling, W. (1992). Numerical recipes in C. Press Syndicate of the University of Cambridge, New York, 24, 78.
 import sys, os, numpy as np, scipy.stats
-import matplotlib.pyplot as plt
-Scriptpath=os.path.dirname(os.path.abspath(__file__)) # Path of this script
-Path2Res=os.path.join(Scriptpath,os.path.splitext(os.path.basename(__file__))[0])
-if not os.path.exists(Path2Res): os.makedirs(Path2Res)
 
 def CountQuads(Arr2D,point,silent=1):
     # Counts the number of points of Arr2D in each 4 quadrant defined by a vertical and horizontal line crossing the point.
@@ -22,7 +18,6 @@ def CountQuads(Arr2D,point,silent=1):
     else:
         if not silent: print('point is neither a list not a numpy.ndarray. Exiting.')
         return
-        
     if isinstance(Arr2D, list):
         if not silent: print('Arr2D is a list')
         Arr2D=np.asarray((Arr2D))
@@ -33,7 +28,6 @@ def CountQuads(Arr2D,point,silent=1):
         return
     if Arr2D.shape[1]>Arr2D.shape[0]:
         Arr2D=Arr2D.copy().T
-    
     # The pp of Qpp refer to p for 'positive' and m for 'negative' quadrants. In order. first subscript is x, second is y.
     Qpp=Arr2D[(Arr2D[:,0]>=point[0])&(Arr2D[:,1]>=point[1]),:]
     Qmp=Arr2D[(Arr2D[:,0]<=point[0])&(Arr2D[:,1]>=point[1]),:]
@@ -88,28 +82,3 @@ def ks2d2s(Arr2D1,Arr2D2):
     prob=Qks(d*sqen/(1.+RR*(0.25-0.75/sqen)))
     # d and prob significance: if d is lowe than you significance level, cannot reject the hypothesis that the 2 datasets come form the same functions. Higher prob is better. From numerical recipes in C: When the indicated probability is > 0.20, its value may not be accurate, but the implication that the data and model (or two data sets) are not significantly different is certainly correct.
     return(d,prob)
- 
-# Making phony data: 
-testdata1=np.random.uniform(size=(100,2))
-testdata2=np.random.uniform(size=(100,2))
-testdata3=np.random.uniform(0.2,0.5,size=(100,2))
-testlist1=np.random.uniform(size=(100,2)).tolist()
-testlist2=np.random.uniform(size=(100,2)).T.tolist()    
-    
-# Test list:
-CountQuads(testdata1,[0.1,0.5]) 
-CountQuads(testdata1,'a') 
-CountQuads('1',[0.1,0.5]) 
-CountQuads(testlist1,[0.1,0.5]) 
-CountQuads(testlist2,[0.1,0.5]) 
-# Test ndarray
-CountQuads(testdata1,np.array([0.1,0.5])) 
-CountQuads(testdata1.T,np.array([[0.1],[0.5]])) 
-# Test Qks
-print(Qks(0))
-print(Qks(0.01))
-print(Qks(0.1))
-print(Qks(.5))
-# Test the actual algo.
-print(ks2d2s(testdata1,testdata2))
-print(ks2d2s(testdata1,testdata3))
