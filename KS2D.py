@@ -4,7 +4,8 @@
 #  [1] Peacock, J. A. (1983). Two-dimensional goodness-of-fit testing in astronomy. Monthly Notices of the Royal Astronomical Society, 202(3), 615-627.
 #  [2] Fasano, G., & Franceschini, A. (1987). A multidimensional version of the Kolmogorov–Smirnov test. Monthly Notices of the Royal Astronomical Society, 225(1), 155-170.
 #  [3]  Flannery, B. P., Press, W. H., Teukolsky, S. A., & Vetterling, W. (1992). Numerical recipes in C. Press Syndicate of the University of Cambridge, New York, 24, 78.
-import sys, os, numpy as np, scipy.stats
+import sys, os, inspect
+import numpy as np, scipy.stats
 
 def CountQuads(Arr2D,point,silent=1):
     # Counts the number of points of Arr2D in each 4 quadrant defined by a vertical and horizontal line crossing the point.
@@ -50,60 +51,76 @@ def CountQuads(Arr2D,point,silent=1):
     fmm=len(Qmm)*ff
     # NOTE:  all the f's are supposed to sum to 1.0. Float representation cause SOMETIMES sum to 1.000000002 or something. I don't know how to test for that reliably, OR what to do about it yet. Keep in mind.
     return(fpp,fmp,fpm,fmm)
-    
-def FuncQuads(func2D,point,xlim,ylim,silent=1):
+def FuncQuads(func2D,point,xlim,ylim,rounddig=4,silent=1):
     # Computes the proportion of func2D in each 4 quadrant defined by a vertical and horizontal lines crossing the point.
     # func2D must be a function that takes 2 arguments.
     # uses numerical integration based on scipy to compute the fpp's
-    # A bit of checking. If Arr2D and point are not lists or ndarray, exit.
+    # A bit of checking. 
+    # If func2D is not a function with 2 arguments, exit.
+    if callable(func2D):
+        if not silent:print('func2D is a function')
+        if len(inspect.getfullargspec(func2D)[0])!=2:
+            if not silent:print('func2D function has not 2 arguments. Exiting.')
+            return
+        pass
+    else:
+        if not silent:print('func2D is not a function. Exiting.')
+        return
+    # If xlim, ylim and point are not lists or ndarray, exit.
+    if isinstance(point, list):
+        if not silent: print('point is a list')
+        point=np.asarray((np.ravel(point)))
+        pass
+    elif type(point).__module__+type(point).__name__=='numpyndarray':
+        point=np.ravel(point.copy())
+        if not silent: print('point is a numpy.ndarray')
+    else:
+        if not silent: print('point is neither a list not a numpy.ndarray. Exiting.')
+        return
+    if len(point)!=2:
+        if not silent: print('2 elements should be in point. Exiting.')
+        return
+    if isinstance(xlim, list):
+        if not silent: print('xlim is a list')
+        xlim=np.asarray((np.ravel(xlim)))
+        pass
+    elif type(xlim).__module__+type(xlim).__name__=='numpyndarray':
+        xlim=np.ravel(xlim.copy())
+        if not silent: print('xlim is a numpy.ndarray')
+    else:
+        if not silent: print('xlim is neither a list not a numpy.ndarray. Exiting.')
+        return
+    if len(xlim)!=2:
+        if not silent: print('2 elements should be in xlim. Exiting.')
+        return
+    if isinstance(ylim, list):
+        if not silent: print('ylim is a list')
+        ylim=np.asarray((np.ravel(ylim)))
+        pass
+    elif type(ylim).__module__+type(ylim).__name__=='numpyndarray':
+        ylim=np.ravel(ylim.copy())
+        if not silent: print('ylim is a numpy.ndarray')
+    else:
+        if not silent: print('ylim is neither a list not a numpy.ndarray. Exiting.')
+        return
+    if len(ylim)!=2:
+        if not silent: print('2 elements should be in ylim. Exiting.')
+        return
+    # Numerical integration to find the quadrant probabilities.
     totInt=scipy.integrate.dblquad(func2D,*xlim, lambda x: np.amin(ylim),  lambda x: np.amax(ylim))[0]
     Qpp=scipy.integrate.dblquad(func2D,point[0],np.amax(xlim), lambda x: point[1],  lambda x: np.amax(ylim))[0]
     Qpm=scipy.integrate.dblquad(func2D,point[0],np.amax(xlim), lambda x: np.amin(ylim),  lambda x: point[1])[0]
     Qmp=scipy.integrate.dblquad(func2D,np.amin(xlim),point[0], lambda x: point[1],  lambda x: np.amax(ylim))[0]
     Qmm=scipy.integrate.dblquad(func2D,np.amin(xlim),point[0], lambda x: np.amin(ylim),  lambda x: point[1])[0]
-    fpp=round(Qpp/totInt,4)
-    fmp=round(Qmp/totInt,4)
-    fpm=round(Qpm/totInt,4)
-    fmm=round(Qmm/totInt,4)    
+    fpp=round(Qpp/totInt,rounddig)
+    fmp=round(Qmp/totInt,rounddig)
+    fpm=round(Qpm/totInt,rounddig)
+    fmm=round(Qmm/totInt,rounddig)    
     return(fpp,fmp,fpm,fmm)
-def f2d(x,y):
+def f2d(x,y,k):
     return(x**2+y)
-FuncQuads(f2d,[0.5,0.5],[0,1],[0,1])  
+print(FuncQuads(f2d,[0.5,0.5,0],[0,1,1],[0,1,1],silent=0))
 sys.exit()
-# def FuncQuadsympy(Func2D,point,silent=1):
-    # # Computes the proportion of func2D in each 4 quadrant defined by a vertical and horizontal lines crossing the point.
-    # # OR: take a x*y matrix and computes the probabilities of having each point in each quadrant.
-    # # A bit of checking. If Arr2D and point are not lists or ndarray, exit.
-    # ArgNum=len(inspect.getfullargspec(Func2D)[0])
-    # if (ArgNum-1)!=Interval.shape[0]:
-        # raise NameError('func arguments-1 not equal Interval numbers.')
-    # i=1
-    # while i<=ArgNum:
-        # symlist.append('x'+str(i))
-        # i+=1
-    # symlist=sp.symbols(symlist)
-    # Num=func(*symlist)
-    # if not silent: print( 'Inital function: '+ str(Num)+' Note: indefinite integral on the func\'s first arg.')
-    # strtoprint=' '
-    # for Int in Interval: strtoprint+=(str(Int)+' ')
-    # if not silent: print('Intervals (rightmost is nth Interval):'+strtoprint)
-    # FIndices=[]
-    # for i in np.arange(1,ArgNum):
-        # FIndices.append(np.arange(i,ArgNum))
-    # print(FIndices)
-    # sys.exit()
-    # FnSymDict={}
-    
-    # for Finf in FIndices:
-        # Num=func(*symlist)
-        # for IndtoInteg in reversed(Finf):
-            # if IndtoInteg==list(reversed(Finf))[-1]:
-                # Denom=sp.integrate(Num,(symlist[IndtoInteg],Interval[IndtoInteg-1]))
-                # Num=sp.integrate(Num,symlist[IndtoInteg])
-            # else:
-                # Num=sp.integrate(Num,(symlist[IndtoInteg],Interval[IndtoInteg-1]))
-        # FnSymDict['F'+str(len(FIndices)+2-len(Finf))]= Num/Denom
-    # return
 
 def Qks(alam,iter=101,prec=1e-6,silent=1):
     # Computes the value of the KS probability function, as a function of alam, a float. What is this function? Complicated: 
