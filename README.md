@@ -6,9 +6,10 @@ or if two datasets were created with the same underlying probability distributio
 *Note*: the test only rejects the hypothesis that the data fits with the probability distribution, or does not reject it
 for a certain significance level. It cannot confirm, only 'not-reject'.
 
-For now, only the two sample 2D KS test is implemented.
+Mainly intened to be interacted with using functions `ks2d1s` and `ks2d2s`, which take as inputs 
+one 2 column matrix and one 2D function or two two column matrices respectively.
 
-Prerequisites: scipy for the pearsonR, numpy for the ndarray.
+Prerequisites: *scipy*, *numpy*.
 
 Based on the idea by Peacock (1983), an upgrade by Fasano and Franceschin (1987) with
 much guidance from Numerical recipes in C by Press and Teukolsky.
