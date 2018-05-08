@@ -1,6 +1,10 @@
 # Code créé par Gabriel Taillon le 7 Mai 2018
 #  Test bench for the 2D Kolmogorov-Smyrnov Test.
-import sys, os, numpy as np, scipy.stats
+import unittest
+import sys
+import os
+import numpy as np
+import scipy.stats
 import KS2D
 
 Scriptpath=os.path.dirname(os.path.abspath(__file__)) # Path of this script
@@ -13,23 +17,55 @@ testdata1=np.random.uniform(size=(100,2))
 testdata2=np.random.uniform(size=(100,2))
 testdata3=np.random.uniform(0.2,0.5,size=(100,2))
 testlist1=np.random.uniform(size=(100,2)).tolist()
-testlist2=np.random.uniform(size=(100,2)).T.tolist()    
-    
-# Test list:
-print(KS2D.CountQuads(testdata1,[0.1,0.5],silent=1))
+testlist2=np.random.uniform(size=(100,2)).T.tolist()
+class TestKS2D(unittest.TestCase):
+    def test_CountQuads_ArrList(self):
+        self.assertEqual(sum(KS2D.CountQuads(testdata1,[0.1,0.5])),1.0)
+    def test_CountQuads_ArrArr(self):
+        self.assertEqual(sum(KS2D.CountQuads(testdata1,np.asarray([0.5,0.1]))),1.0)
+    def test_CountQuads_ListArr(self):
+        self.assertEqual(sum(KS2D.CountQuads(testlist1,np.asarray([0.9,0.9]))),1.0)
+    def test_CountQuads_ListList(self):
+        self.assertEqual(sum(KS2D.CountQuads(testlist1,[0.1,0.01])),1.0)
+    def test_CountQuads_StrArr(self):
+        self.assertIsNone(KS2D.CountQuads('arr',[0.1,0.01]))
+    def test_CountQuads_ArrStr(self):
+        self.assertIsNone(KS2D.CountQuads(testdata1,'arr'))
+    def test_CountQuads_Arrfunc(self):
+        self.assertIsNone(KS2D.CountQuads(testdata1,KS2D.ks2d2s))
+    def test_CountQuads_funcArr(self):
+        self.assertIsNone(KS2D.CountQuads(KS2D.ks2d2s,np.asarray([0.9,0.4])))
+    def test_Qks_Edge0(self):
+        self.assertEqual(KS2D.Qks(0.),1.0)
+        self.assertEqual(KS2D.Qks(0.01),1.0)
+        self.assertEqual(KS2D.Qks(0.0001),1.0)
+        self.assertEqual(KS2D.Qks(0.000001),1.0)
+    def test_Qks_EdgeInf(self):
+        self.assertEqual(KS2D.Qks(10),0.)
+        self.assertEqual(KS2D.Qks(10.),0.)
+        self.assertEqual(KS2D.Qks(100.),0.)
+        self.assertEqual(KS2D.Qks(100000),0.)
+    def test_Qks_ManyValues(self):
+        self.assertTrue(1>=KS2D.Qks(0.01)>=0)
+        self.assertTrue(1>=KS2D.Qks(0.1)>=0)
+        self.assertTrue(1>=KS2D.Qks(0.2)>=0)
+        self.assertTrue(1>=KS2D.Qks(0.4)>=0)
+        self.assertTrue(1>=KS2D.Qks(0.8)>=0)
+        self.assertTrue(1>=KS2D.Qks(2)>=0)
+    def test_Qks_str(self):
+        self.assertIsNone(KS2D.Qks('a'))
+        self.assertIsNone(KS2D.Qks([1,0]))
 
-print(KS2D.CountQuads(testdata1,'a',silent=0))
-print(KS2D.CountQuads('1',[0.1,0.5],silent=0)) 
-print(KS2D.CountQuads(testlist1,[0.1,0.5],silent=0)) 
-print(KS2D.CountQuads(testlist2,[0.1,0.5],silent=0)) 
-# Test ndarray
-print(KS2D.CountQuads(testdata1,np.array([0.1,0.5]),silent=0)) 
-print(KS2D.CountQuads(testdata1.T,np.array([[0.1],[0.5]]),silent=0))
-# Test Qks
-print(KS2D.Qks(0))
-print(KS2D.Qks(0.01))
-print(KS2D.Qks(0.1))
-print(KS2D.Qks(.5))
-# Test the actual algo.
-print(KS2D.ks2d2s(testdata1,testdata2))
-print(KS2D.ks2d2s(testdata1,testdata3))
+
+# Test list:
+if __name__=='__main__':
+    unittest.main(argv=['first-arg-is-ignored'], exit=False)
+# print(sum(KS2D.CountQuads(testdata1,[0.1,0.5],silent=1)))
+# # Test Qks
+# print(KS2D.Qks(0))
+# print(KS2D.Qks(0.01))
+# print(KS2D.Qks(0.1))
+# print(KS2D.Qks(.5))
+# # Test the actual algo.
+# print(KS2D.ks2d2s(testdata1,testdata2))
+# print(KS2D.ks2d2s(testdata1,testdata3))

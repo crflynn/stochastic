@@ -40,22 +40,33 @@ def CountQuads(Arr2D,point,silent=1):
     fmp=len(Qmp)*ff
     fpm=len(Qpm)*ff
     fmm=len(Qmm)*ff
+    # NOTE:  all the f's are supposed to sum to 1.0. Sometimes, cause of float representation, they SOMETIMES sum to 1.000000002 or something. I don't know how to test for that reliably, OR what to do about it yet. Keep in mind.
     return(fpp,fmp,fpm,fmm)
     
-def Qks(alam,iter=101,prec=1e-6):
-    # Computes the value of the KS probability function. Complicated. 
-    # From Numerical recipes in C page 623: '[...] the K–S statistic useful is that its distribution in the case of the null hypothesis (data sets drawn from the same distribution) can be calculated, at least to useful approximation, thus giving the significance of any observed nonzero value of D.' (D being thet maximum value of the absolute difference between two cumulative distribution functions)
+def Qks(alam,iter=101,prec=1e-6,silent=1):
+    # Computes the value of the KS probability function, as a function of alam, a float. What is this function? Complicated: 
+    # From Numerical recipes in C page 623: '[...] the K–S statistic useful is that its distribution in the case of the null hypothesis (data sets drawn from the same distribution) can be calculated, at least to useful approximation, thus giving the significance of any observed nonzero value of D.' (D being the maximum value of the absolute difference between two cumulative distribution functions)
+    # Anyhow, the equation is pretty straightforward: sum of terms as defined below.
+    # 100 iterations are more than sufficient to converge. No convergence here: if j iterations are performed, meaning that toadd is still 2 times larger than the precision.
+    if isinstance(alam,int)|isinstance(alam,float):
+        pass
+    else:
+        if not silent: print('alam is not an integer or float. Exiting.')
+        return
     toadd=[1]
     qks=0.
     j=1
-    while (j<iter) & (abs(toadd[-1])>prec):
+    while (j<iter) & (abs(toadd[-1])>prec*2):
         toadd.append(2.*(-1.)**(j-1.)*np.exp(-2.*j**2.*alam**2.))
         qks+=toadd[-1]
         j+=1
-    if j==iter:
+    if (j==iter) | (qks>1): #  If no convergence after the j iterations, return 1.0.
         return(1.0)
-    return(qks)
-
+    if qks<prec:    
+        return(0.)
+    else:
+        return(qks)
+    
 def ks2d2s(Arr2D1,Arr2D2):
     # ks2d2s: ks stands for Kolmogorov-smirnov, 2dfor  2 dimensional, 2s for 2 samples.
     # Executes the KS test for goodness-of-fit on two samples in a 2D plane: tests if the hypothesis that the two samples are from the same distribution can be rejected.
@@ -82,3 +93,4 @@ def ks2d2s(Arr2D1,Arr2D2):
     prob=Qks(d*sqen/(1.+RR*(0.25-0.75/sqen)))
     # d and prob significance: if d is lowe than you significance level, cannot reject the hypothesis that the 2 datasets come form the same functions. Higher prob is better. From numerical recipes in C: When the indicated probability is > 0.20, its value may not be accurate, but the implication that the data and model (or two data sets) are not significantly different is certainly correct.
     return(d,prob)
+    
