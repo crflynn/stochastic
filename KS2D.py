@@ -11,12 +11,16 @@ def CountQuads(Arr2D,point,silent=1):
     # A bit of checking. if Arr2D and point are not lists or ndarray, exit.
     if isinstance(point, list):
         if not silent: print('point is a list')
+        point=np.asarray((np.ravel(point)))
         pass
     elif type(point).__module__+type(point).__name__=='numpyndarray':
         point=np.ravel(point.copy())
         if not silent: print('point is a numpy.ndarray')
     else:
         if not silent: print('point is neither a list not a numpy.ndarray. Exiting.')
+        return
+    if len(point)!=2:
+        if not silent: print('2 elements should be in point. Exiting.')
         return
     if isinstance(Arr2D, list):
         if not silent: print('Arr2D is a list')
@@ -28,6 +32,9 @@ def CountQuads(Arr2D,point,silent=1):
         return
     if Arr2D.shape[1]>Arr2D.shape[0]:
         Arr2D=Arr2D.copy().T
+    if Arr2D.shape[1]!=2:
+        if not silent: print('2 columns should be in Arr2D. Exiting.')
+        return
     # The pp of Qpp refer to p for 'positive' and m for 'negative' quadrants. In order. first subscript is x, second is y.
     Qpp=Arr2D[(Arr2D[:,0]>=point[0])&(Arr2D[:,1]>=point[1]),:]
     Qmp=Arr2D[(Arr2D[:,0]<=point[0])&(Arr2D[:,1]>=point[1]),:]
@@ -43,6 +50,7 @@ def CountQuads(Arr2D,point,silent=1):
     # NOTE:  all the f's are supposed to sum to 1.0. Sometimes, cause of float representation, they SOMETIMES sum to 1.000000002 or something. I don't know how to test for that reliably, OR what to do about it yet. Keep in mind.
     return(fpp,fmp,fpm,fmm)
     
+# CountQuads(testArr3D,[1,1])
 def Qks(alam,iter=101,prec=1e-6,silent=1):
     # Computes the value of the KS probability function, as a function of alam, a float. What is this function? Complicated: 
     # From Numerical recipes in C page 623: '[...] the K–S statistic useful is that its distribution in the case of the null hypothesis (data sets drawn from the same distribution) can be calculated, at least to useful approximation, thus giving the significance of any observed nonzero value of D.' (D being the maximum value of the absolute difference between two cumulative distribution functions)
@@ -66,10 +74,30 @@ def Qks(alam,iter=101,prec=1e-6,silent=1):
         return(0.)
     else:
         return(qks)
-    
-def ks2d2s(Arr2D1,Arr2D2):
+        
+def ks2d2s(Arr2D1,Arr2D2,silent=1):
     # ks2d2s: ks stands for Kolmogorov-smirnov, 2dfor  2 dimensional, 2s for 2 samples.
     # Executes the KS test for goodness-of-fit on two samples in a 2D plane: tests if the hypothesis that the two samples are from the same distribution can be rejected.
+    if isinstance(point, list):
+        if not silent: print('point is a list')
+        pass
+    elif type(point).__module__+type(point).__name__=='numpyndarray':
+        point=np.ravel(point.copy())
+        if not silent: print('point is a numpy.ndarray')
+    else:
+        if not silent: print('point is neither a list not a numpy.ndarray. Exiting.')
+        return
+    if isinstance(Arr2D, list):
+        if not silent: print('Arr2D is a list')
+        Arr2D=np.asarray((Arr2D))
+    elif type(Arr2D).__module__+type(Arr2D).__name__=='numpyndarray':
+        if not silent: print('Arr2D is a ndarray')
+    else:
+        if not silent: print('Arr2D is neither a list not a numpy.ndarray. Exiting.')
+        return
+    if Arr2D.shape[1]>Arr2D.shape[0]:
+        Arr2D=Arr2D.copy().T
+    
     d1,d2=0.,0.
     for point1 in Arr2D1:
         fpp1,fmp1,fpm1,fmm1=CountQuads(Arr2D1,point1)

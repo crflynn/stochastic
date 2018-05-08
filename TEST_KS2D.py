@@ -18,9 +18,16 @@ testdata2=np.random.uniform(size=(100,2))
 testdata3=np.random.uniform(0.2,0.5,size=(100,2))
 testlist1=np.random.uniform(size=(100,2)).tolist()
 testlist2=np.random.uniform(size=(100,2)).T.tolist()
+testArr3D=np.random.uniform(size=(100,3))
+testArr1D=np.random.uniform(size=(100,1))
 class TestKS2D(unittest.TestCase):
     def test_CountQuads_ArrList(self):
         self.assertEqual(sum(KS2D.CountQuads(testdata1,[0.1,0.5])),1.0)
+    def test_CountQuads_ArrWrongDim(self):
+        self.assertIsNone(KS2D.CountQuads(testArr1D,[0.1,0.5]))
+        self.assertIsNone(KS2D.CountQuads(testArr1D.T,[0.1,0.5]))
+        self.assertIsNone(KS2D.CountQuads(testArr3D,[0.1,0.5]))
+        self.assertIsNone(KS2D.CountQuads(testArr3D.T,[0.1,0.5]))
     def test_CountQuads_ArrArr(self):
         self.assertEqual(sum(KS2D.CountQuads(testdata1,np.asarray([0.5,0.1]))),1.0)
     def test_CountQuads_ListArr(self):
@@ -55,6 +62,7 @@ class TestKS2D(unittest.TestCase):
     def test_Qks_str(self):
         self.assertIsNone(KS2D.Qks('a'))
         self.assertIsNone(KS2D.Qks([1,0]))
+        self.assertIsNone(KS2D.Qks(np.asarray([1,0])))
 
 
 # Test list:
