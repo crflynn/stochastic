@@ -16,8 +16,6 @@ The computed KS statistic remains untested.
 
 ks2d1s: only inputs functions, only numerical integration method.
 
-`ks2d1s` not yet  fully implemented.
-
 ## MISC
 
 Prerequisites: *scipy*, *numpy*.
