@@ -5,10 +5,10 @@ A KS test is a non parametric method from hypothesis testing. It checks wether d
 *Note*: the test only rejects the hypothesis that the data fits with the probability distribution, or does not reject it for a certain significance level. It cannot confirm, only 'not-reject'.
 
 Mainly intened to be interacted with using functions `ks2d1s` and `ks2d2s`, which take as inputs one 2 column matrix and one 2D function or two two column matrices respectively. 
-These algorithms compute the relative probabilities of finding data in orthonormal quadrants that surround each point in the data set, then uses those to compute the K-S statistic with its distribution function (`Qks`). Look around 14.3.7 and 14.7.1 in [3] for detailed arcane mathemagics explanations. 
+These algorithms compute the relative probabilities of finding data in orthonormal quadrants that surround each point in the data set, then uses those to compute the K-S statistic with its distribution function (`Qks`). Look around 14.3.7 and 14.7.1 in [3] for detailed arcane mathemagic explanations. 
 
 ## Issues
-Float number representation and rounding. There are still issues around this that arise: probabiliies expected to sum to 1.0 return 0.99999999 instead, etc...  No plans to implement any kind of solution to this. This test is not exact, rounding to a relatively low number of digits seem reasonable to me.
+Float number representation and rounding. There are still issues around this that arise: probabiliies expected to sum to 1.0 return 0.99999999 instead, etc...  No plans to implement any kind of solution to this: it sounds much more trouble than it is worth. This test is theoretically just an approximation, rounding to a couple digits seem reasonable to me.
 
 Prerequisites: *scipy*, *numpy*.
 
