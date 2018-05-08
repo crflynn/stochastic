@@ -8,6 +8,7 @@ for a certain significance level. It cannot confirm, only 'not-reject'.
 
 Mainly intened to be interacted with using functions `ks2d1s` and `ks2d2s`, which take as inputs 
 one 2 column matrix and one 2D function or two two column matrices respectively.
+The algorithm finds the relative probabilities of finding data in the 4 quadrants that surround points in the data set, then uses those to compute the K-S statistic with its distribution function. See 14.3.7 and 14.7.1 in [3] for more detailed explanations of the mathemagics. 
 
 Prerequisites: *scipy*, *numpy*.
 
