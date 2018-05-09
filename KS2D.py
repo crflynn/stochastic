@@ -6,6 +6,7 @@
 #  [3]  Flannery, B. P., Press, W. H., Teukolsky, S. A., & Vetterling, W. (1992). Numerical recipes in C. Press Syndicate of the University of Cambridge, New York, 24, 78.
 import sys, os, inspect
 import numpy as np, scipy.stats
+import matplotlib.pyplot as plt
 
 def CountQuads(Arr2D,point,silent=1):
     # Counts the number of points of Arr2D in each 4 quadrant defined by a vertical and horizontal line crossing the point.
@@ -197,7 +198,9 @@ def ks2d2s(Arr2D1,Arr2D2,silent=1):
     # d and prob significance: if d is lowe than you significance level, cannot reject the hypothesis that the 2 datasets come form the same functions. Higher prob is better. From numerical recipes in C: When the indicated probability is > 0.20, its value may not be accurate, but the implication that the data and model (or two data sets) are not significantly different is certainly correct.
     return(d,prob)
     
-def ks2d1s(Arr2D,func2D,xlim=[],ylim=[],silent=1):   
+def ks2d1s(Arr2D,func2D,xlim=[],ylim=[],silent=1):
+    # ks2d1s: ks stands for Kolmogorov-smirnov, 2dfor  2 dimensional, 1s for 1 samples, compared to a function.
+    # Executes the KS test for goodness-of-fit on one samples in a 2D plane: tests if the hypothesis that the sample is from the given distribution can be rejected.
     if callable(func2D):
         if not silent:print('func2D is a function')
         if len(inspect.getfullargspec(func2D)[0])!=2:
@@ -240,7 +243,57 @@ def ks2d1s(Arr2D,func2D,xlim=[],ylim=[],silent=1):
     RR=np.sqrt(1.0-R1**2)
     prob=Qks(d*sqen/(1.+RR*(0.25-0.75/sqen)))
     return(d,prob)
+# while len(Thinned)<Samples:
+def MultiVarNHPPThinSamples(lambdaa,Intervals,Samples=100,blocksize=1000,silent=0): 
+    # Utility function: genreate spatial data by thinning. Intervals is a np array of 2 lenght lists. lambdaa is a function or 2d matrix.Iterate over blocksize uniformlly generated points until Samples number of samples are created.
+    if not silent: print('NHPP samples in space by thinning. lambda can be a 2D matrix or function')
+    # This algorithm acts as if events do not happen outside the Intervals.
+    if callable(lambdaa):
+        boundstuple=[]
+        for i in Intervals: boundstuple+=(tuple(i),)
+        max = scipy.optimize.minimize(lambda x: -lambdaa(*x),x0=[np.mean(i) for i in Intervals],bounds = boundstuple)
+        lmax=lambdaa(*max.x)
+    else:
+        lmax=np.amax(lambdaa)
+    Thinned=[]
+    while len(Thinned)<Samples:
+        for i in Intervals:
+            if 'Unthin' not in locals():
+                Unthin=np.random.uniform(*i,size=(blocksize))
+            else:
+                Unthin=np.vstack((Unthin,np.random.uniform(*i,size=(blocksize))))
+        Unthin.T
+        U=np.random.uniform(size=(blocksize))
+        if callable(lambdaa): 
+            Criteria=lambdaa(*Unthin)/lmax
+        else:
+            Criteria2D=lambdaa/lmax
+            Indx=(Unthinx*lambdaa.shape[0]).astype(int)
+            Indy=(Unthiny*lambdaa.shape[1]).astype(int)
+            Criteria=Criteria2D[Indx,Indy]
+            Unthin=np.transpose(np.vstack((Unthinx,Unthiny)))
+        if Thinned==[]: 
+            Thinned=Unthin.T[U<Criteria,:]
+        else:
+            Thinned=np.vstack((Thinned,Unthin.T[U<Criteria,:]))
+        del Unthin
+    Thinned=Thinned[:Samples,:]
+    return(Thinned)
+def f2d2arg(x,y): return(x**2+y)
+dim=500
+sidex=np.linspace(0,2,dim)
+sidey=np.linspace(0,1,dim)
+x,y = np.meshgrid(sidex,sidey)
+thin=MultiVarNHPPThinSamples(f2d2arg,np.array([[0,2],[0,1]]))
+plt.contourf(x,y,f2d2arg(x,y))
+plt.plot(thin[:,0],thin[:,1],'.b')
+plt.show()
+sys.exit()  
 testdata2=np.random.uniform(size=(100,2))
 def f2d2arg(x,y): return(x+y)    
 print(ks2d1s(testdata2,f2d2arg,silent=0))
+
+
+
+
     
