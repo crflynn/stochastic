@@ -279,16 +279,20 @@ def MultiVarNHPPThinSamples(lambdaa,Intervals,Samples=100,blocksize=1000,silent=
         del Unthin
     Thinned=Thinned[:Samples,:]
     return(Thinned)
-def f2d2arg(x,y): return(x**2+y)
+def f2d2arg(x,y): return(x*y)
+testdata1=np.random.uniform(size=(100,2))
 dim=500
 sidex=np.linspace(0,2,dim)
 sidey=np.linspace(0,1,dim)
 x,y = np.meshgrid(sidex,sidey)
-thin=MultiVarNHPPThinSamples(f2d2arg,np.array([[0,2],[0,1]]))
+thin=MultiVarNHPPThinSamples(f2d2arg,np.array([[0,2],[0,1]]),1000)
+print(ks2d1s(thin,f2d2arg,xlim=[0,2],ylim=[0,1]))
+print(ks2d2s(thin,testdata1))
 plt.contourf(x,y,f2d2arg(x,y))
 plt.plot(thin[:,0],thin[:,1],'.b')
 plt.show()
 sys.exit()  
+
 testdata2=np.random.uniform(size=(100,2))
 def f2d2arg(x,y): return(x+y)    
 print(ks2d1s(testdata2,f2d2arg,silent=0))
