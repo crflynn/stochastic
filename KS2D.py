@@ -6,16 +6,16 @@
 import sys, os, inspect, logging
 import numpy as np, scipy.stats
 import matplotlib.pyplot as plt
+logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',datefmt='%Y/%m/%d %H:%M:%S', filename='example.log',level=logging.DEBUG)
 
 def CountQuads(Arr2D,point):
     # Counts the number of points of Arr2D in each 4 quadrant defined by a vertical and horizontal line crossing the point.
     # Then computes the proportion of points in each quadrant.
-    
+    logging.info('CountQuads. Counts points in quadrants that surround a point using with an array of 2D points.')
     # A bit of checking. If Arr2D and point are not lists or ndarray, exit.
     if isinstance(point, list):
         logging.info('point is a list')
         point=np.asarray((np.ravel(point)))
-        pass
     elif type(point).__module__+type(point).__name__=='numpyndarray':
         point=np.ravel(point.copy())
         logging.info('point is a numpy.ndarray')
@@ -44,16 +44,17 @@ def CountQuads(Arr2D,point):
     Qpn=Arr2D[(Arr2D[:,0]>=point[0])&(Arr2D[:,1]<=point[1]),:]
     Qnn=Arr2D[(Arr2D[:,0]<=point[0])&(Arr2D[:,1]<=point[1]),:]
     logging.info('Same number of points in Arr2D as in all Quadrants: '+str((len(Qpp)+len(Qnp)+len(Qpn)+len(Qnn))==len(Arr2D)))
-    logging.info('Number of points in each quadrant: Qpp='+str(Qpp)+'Qnp='+str(Qnp)+'Qpn='+str(Qpn)+'Qnn='+str(Qnn))
+    logging.debug('Number of points in each quadrant: Qpp='+str(len(Qpp))+'Qnp='+str(len(Qnp))+'Qpn='+str(len(Qpn))+'Qnn='+str(len(Qnn)))
     # Normalized fractions:
     ff=1./len(Arr2D)
     fpp=len(Qpp)*ff
     fnp=len(Qnp)*ff
     fpn=len(Qpn)*ff
     fnn=len(Qnn)*ff
-    logging.info('Probabilities of finding points in each quadrant: fpp='+str(fpp)+'fnp='+str(fnp)+'fpn='+str(fpn)+'fnn='+str(fnn))
+    logging.debug('Probabilities of finding points in each quadrant: fpp='+str(fpp)+'fnp='+str(fnp)+'fpn='+str(fpn)+'fnn='+str(fnn))
     logging.debug('Total probability, which should be equal to one:'+str(fpp+fnp+fpn+fnn))
     # NOTE:  all the f's are supposed to sum to 1.0. Float representation cause SOMETIMES sum to 1.000000002 or something. I don't know how to test for that reliably, OR what to do about it yet. Keep in mind.
+    sys.exit()
     return(fpp,fnp,fpn,fnn)
     
 def FuncQuads(func2D,point,xlim,ylim,rounddig=4,silent=1):
@@ -61,6 +62,7 @@ def FuncQuads(func2D,point,xlim,ylim,rounddig=4,silent=1):
     # func2D must be a function that takes 2 arguments.
     # uses numerical integration based on scipy to compute the fpp's
     # A bit of checking. 
+    logging.info('FuncQuads. Computes the probability of finding points in quadrants around a point using a 2D density function.')   
     # If func2D is not a function with 2 arguments, exit.
     if callable(func2D):
         logging.info('func2D is a function')
@@ -75,7 +77,6 @@ def FuncQuads(func2D,point,xlim,ylim,rounddig=4,silent=1):
     if isinstance(point, list):
         logging.info('point is a list')
         point=np.asarray((np.ravel(point)))
-        pass
     elif type(point).__module__+type(point).__name__=='numpyndarray':
         point=np.ravel(point.copy())
         logging.info('point is a numpy.ndarray')
@@ -86,9 +87,8 @@ def FuncQuads(func2D,point,xlim,ylim,rounddig=4,silent=1):
         logging.error('2 elements should be in point. Exiting.')
         return
     if isinstance(xlim, list):
-        logging.error('xlim is a list')
+        logging.info('xlim is a list')
         xlim=np.asarray((np.sort(np.ravel(xlim))))
-        pass
     elif type(xlim).__module__+type(xlim).__name__=='numpyndarray':
         xlim=np.sort(np.ravel(xlim.copy()))
         logging.info('xlim is a numpy.ndarray')
@@ -119,14 +119,17 @@ def FuncQuads(func2D,point,xlim,ylim,rounddig=4,silent=1):
     # Numerical integration to find the quadrant probabilities.
     totInt=scipy.integrate.dblquad(func2D,*xlim, lambda x: np.amin(ylim),  lambda x: np.amax(ylim))[0]
     Qpp=scipy.integrate.dblquad(func2D,point[0],np.amax(xlim), lambda x: point[1],  lambda x: np.amax(ylim))[0]
-    Qpm=scipy.integrate.dblquad(func2D,point[0],np.amax(xlim), lambda x: np.amin(ylim),  lambda x: point[1])[0]
-    Qmp=scipy.integrate.dblquad(func2D,np.amin(xlim),point[0], lambda x: point[1],  lambda x: np.amax(ylim))[0]
-    Qmm=scipy.integrate.dblquad(func2D,np.amin(xlim),point[0], lambda x: np.amin(ylim),  lambda x: point[1])[0]
+    Qpn=scipy.integrate.dblquad(func2D,point[0],np.amax(xlim), lambda x: np.amin(ylim),  lambda x: point[1])[0]
+    Qnp=scipy.integrate.dblquad(func2D,np.amin(xlim),point[0], lambda x: point[1],  lambda x: np.amax(ylim))[0]
+    Qnn=scipy.integrate.dblquad(func2D,np.amin(xlim),point[0], lambda x: np.amin(ylim),  lambda x: point[1])[0]
     fpp=round(Qpp/totInt,rounddig)
-    fmp=round(Qmp/totInt,rounddig)
-    fpm=round(Qpm/totInt,rounddig)
-    fmm=round(Qmm/totInt,rounddig)    
-    return(fpp,fmp,fpm,fmm)
+    fnp=round(Qnp/totInt,rounddig)
+    fpn=round(Qpn/totInt,rounddig)
+    fnn=round(Qnn/totInt,rounddig)    
+    logging.info('Probabilities of finding points in each quadrant: fpp='+str(fpp)+' fnp='+str(fnp)+' fpn='+str(fpn)+' fnn='+str(fnn))
+    logging.debug('Total probability, which should be equal to one: '+str(fpp+fnp+fpn+fnn))
+    sys.exit('a')
+    return(fpp,fnp,fpn,fnn)
 
 def Qks(alam,iter=101,prec=1e-6,silent=1):
     # Computes the value of the KS probability function, as a function of alam, a float. What is this function? Complicated: 
@@ -281,6 +284,7 @@ def MultiVarNHPPThinSamples(lambdaa,Intervals,Samples=100,blocksize=1000,silent=
         del Unthin
     Thinned=Thinned[:Samples,:]
     return(Thinned)
+
 def f2d2arg(x,y): return(x*y)
 testdata1=np.random.uniform(size=(100,2))
 dim=500
@@ -289,6 +293,7 @@ sidey=np.linspace(0,1,dim)
 x,y = np.meshgrid(sidex,sidey)
 thin=MultiVarNHPPThinSamples(f2d2arg,np.array([[0,2],[0,1]]),1000)
 print(ks2d1s(thin,f2d2arg,xlim=[0,2],ylim=[0,1]))
+sys.exit()
 print(ks2d2s(thin,testdata1))
 plt.contourf(x,y,f2d2arg(x,y))
 plt.plot(thin[:,0],thin[:,1],'.b')
