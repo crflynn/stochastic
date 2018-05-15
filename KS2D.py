@@ -52,8 +52,9 @@ def CountQuads(Arr2D,point):
     fpn=len(Qpn)*ff
     fnn=len(Qnn)*ff
     logging.info('Probabilities of finding points in each quadrant: fpp='+str(fpp)+'fnp='+str(fnp)+'fpn='+str(fpn)+'fnn='+str(fnn))
+    logging.debug('Total probability, which should be equal to one:'+str(fpp+fnp+fpn+fnn))
     # NOTE:  all the f's are supposed to sum to 1.0. Float representation cause SOMETIMES sum to 1.000000002 or something. I don't know how to test for that reliably, OR what to do about it yet. Keep in mind.
-    return(fpp,fmp,fpm,fmm)
+    return(fpp,fnp,fpn,fnn)
     
 def FuncQuads(func2D,point,xlim,ylim,rounddig=4,silent=1):
     # Computes the proportion of func2D in each 4 quadrant defined by a vertical and horizontal lines crossing the point.
@@ -62,59 +63,58 @@ def FuncQuads(func2D,point,xlim,ylim,rounddig=4,silent=1):
     # A bit of checking. 
     # If func2D is not a function with 2 arguments, exit.
     if callable(func2D):
-        if not silent:print('func2D is a function')
+        logging.info('func2D is a function')
         if len(inspect.getfullargspec(func2D)[0])!=2:
-            if not silent:print('func2D function has not 2 arguments. Exiting.')
+            logging.error('func2D function has not 2 arguments. Exiting.')
             return
         pass
     else:
-        if not silent:print('func2D is not a function. Exiting.')
+        logging.error('func2D is not a function. Exiting.')
         return
     # If xlim, ylim and point are not lists or ndarray, exit.
     if isinstance(point, list):
-        if not silent: print('point is a list')
+        logging.info('point is a list')
         point=np.asarray((np.ravel(point)))
         pass
     elif type(point).__module__+type(point).__name__=='numpyndarray':
         point=np.ravel(point.copy())
-        if not silent: print('point is a numpy.ndarray')
+        logging.info('point is a numpy.ndarray')
     else:
-        if not silent: print('point is neither a list not a numpy.ndarray. Exiting.')
+        logging.error('point is neither a list not a numpy.ndarray. Exiting.')
         return
     if len(point)!=2:
-        if not silent: print('2 elements should be in point. Exiting.')
+        logging.error('2 elements should be in point. Exiting.')
         return
     if isinstance(xlim, list):
-        if not silent: print('xlim is a list')
+        logging.error('xlim is a list')
         xlim=np.asarray((np.sort(np.ravel(xlim))))
         pass
     elif type(xlim).__module__+type(xlim).__name__=='numpyndarray':
         xlim=np.sort(np.ravel(xlim.copy()))
-        if not silent: print('xlim is a numpy.ndarray')
+        logging.info('xlim is a numpy.ndarray')
     else:
-        if not silent: print('xlim is neither a list not a numpy.ndarray. Exiting.')
+        logging.info('xlim is neither a list not a numpy.ndarray. Exiting.')
         return
     if len(xlim)!=2:
-        if not silent: print('2 elements should be in xlim. Exiting.')
+        logging.error('2 elements should be in xlim. Exiting.')
         return
     if xlim[0]==xlim[1]:
-        if not silent: print('limits in xlim should not be the same. Exiting.')
+        logging.error('limits in xlim should not be the same. Exiting.')
         return
     if isinstance(ylim, list):
-        if not silent: print('ylim is a list')
+        logging.info('ylim is a list')
         ylim=np.asarray((np.sort(np.ravel(ylim))))
-        pass
     elif type(ylim).__module__+type(ylim).__name__=='numpyndarray':
         ylim=np.sort(np.ravel(ylim.copy()))
-        if not silent: print('ylim is a numpy.ndarray')
+        logging.info('ylim is a numpy.ndarray')
     else:
-        if not silent: print('ylim is neither a list not a numpy.ndarray. Exiting.')
+        logging.error('ylim is neither a list not a numpy.ndarray. Exiting.')
         return
     if len(ylim)!=2:
-        if not silent: print('2 elements should be in ylim. Exiting.')
+        logging.error('2 elements should be in ylim. Exiting.')
         return
     if ylim[0]==ylim[1]:
-        if not silent: print('limits in ylim should not be the same. Exiting.')
+        logging.error('limits in ylim should not be the same. Exiting.')
         return
     # Numerical integration to find the quadrant probabilities.
     totInt=scipy.integrate.dblquad(func2D,*xlim, lambda x: np.amin(ylim),  lambda x: np.amax(ylim))[0]
