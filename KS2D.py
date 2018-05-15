@@ -1,26 +1,26 @@
 # Code créé par Gabriel Taillon le 7 Mai 2018
 #  2D Kolmogorov-Smyrnov Test.
-# References: 
-#  [1] Peacock, J. A. (1983). Two-dimensional goodness-of-fit testing in astronomy. Monthly Notices of the Royal Astronomical Society, 202(3), 615-627.
+# References: #  [1] Peacock, J. A. (1983). Two-dimensional goodness-of-fit testing in astronomy. Monthly Notices of the Royal Astronomical Society, 202(3), 615-627.
 #  [2] Fasano, G., & Franceschini, A. (1987). A multidimensional version of the Kolmogorov–Smirnov test. Monthly Notices of the Royal Astronomical Society, 225(1), 155-170.
 #  [3]  Flannery, B. P., Press, W. H., Teukolsky, S. A., & Vetterling, W. (1992). Numerical recipes in C. Press Syndicate of the University of Cambridge, New York, 24, 78.
-import sys, os, inspect
+import sys, os, inspect, logging
 import numpy as np, scipy.stats
 import matplotlib.pyplot as plt
 
 def CountQuads(Arr2D,point,silent=1):
     # Counts the number of points of Arr2D in each 4 quadrant defined by a vertical and horizontal line crossing the point.
     # Then computes the proportion of points in each quadrant.
+    
     # A bit of checking. If Arr2D and point are not lists or ndarray, exit.
     if isinstance(point, list):
-        if not silent: print('point is a list')
+        logging.info('point is a list')
         point=np.asarray((np.ravel(point)))
         pass
     elif type(point).__module__+type(point).__name__=='numpyndarray':
         point=np.ravel(point.copy())
-        if not silent: print('point is a numpy.ndarray')
+        logging.info('point is a numpy.ndarray')
     else:
-        if not silent: print('point is neither a list not a numpy.ndarray. Exiting.')
+        logging.error('point is neither a list not a numpy.ndarray. Exiting.')
         return
     if len(point)!=2:
         if not silent: print('2 elements should be in point. Exiting.')
@@ -195,7 +195,7 @@ def ks2d2s(Arr2D1,Arr2D2,silent=1):
     R2=scipy.stats.pearsonr(Arr2D2[:,0],Arr2D2[:,1])[0]
     RR=np.sqrt(1.-(R1*R1+R2*R2)/2.)
     prob=Qks(d*sqen/(1.+RR*(0.25-0.75/sqen)))
-    # d and prob significance: if d is lowe than you significance level, cannot reject the hypothesis that the 2 datasets come form the same functions. Higher prob is better. From numerical recipes in C: When the indicated probability is > 0.20, its value may not be accurate, but the implication that the data and model (or two data sets) are not significantly different is certainly correct.
+    # d and prob :two-sample K-S statistic as d, and its significance level as prob Small values of prob show that the two samples are significantly different
     return(d,prob)
     
 def ks2d1s(Arr2D,func2D,xlim=[],ylim=[],silent=1):
