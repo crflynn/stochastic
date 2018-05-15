@@ -11,7 +11,7 @@ logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',datefmt='%Y/
 def CountQuads(Arr2D,point):
     # Counts the number of points of Arr2D in each 4 quadrant defined by a vertical and horizontal line crossing the point.
     # Then computes the proportion of points in each quadrant.
-    logging.info('CountQuads. Counts points in quadrants that surround a point using with an array of 2D points.')
+    logging.info('CountQuads function. Counts points in quadrants that surround a point using with an array of 2D points.')
     # A bit of checking. If Arr2D and point are not lists or ndarray, exit.
     if isinstance(point, list):
         logging.info('point is a list')
@@ -54,6 +54,7 @@ def CountQuads(Arr2D,point):
     logging.debug('Probabilities of finding points in each quadrant: fpp='+str(fpp)+'fnp='+str(fnp)+'fpn='+str(fpn)+'fnn='+str(fnn))
     logging.debug('Total probability, which should be equal to one:'+str(fpp+fnp+fpn+fnn))
     # NOTE:  all the f's are supposed to sum to 1.0. Float representation cause SOMETIMES sum to 1.000000002 or something. I don't know how to test for that reliably, OR what to do about it yet. Keep in mind.
+    logging.debug('CountQuads: exiting')
     sys.exit()
     return(fpp,fnp,fpn,fnn)
     
@@ -62,7 +63,7 @@ def FuncQuads(func2D,point,xlim,ylim,rounddig=4,silent=1):
     # func2D must be a function that takes 2 arguments.
     # uses numerical integration based on scipy to compute the fpp's
     # A bit of checking. 
-    logging.info('FuncQuads. Computes the probability of finding points in quadrants around a point using a 2D density function.')   
+    logging.info('FuncQuads function. Computes the probability of finding points in quadrants around a point using a 2D density function.')   
     # If func2D is not a function with 2 arguments, exit.
     if callable(func2D):
         logging.info('func2D is a function')
@@ -128,7 +129,7 @@ def FuncQuads(func2D,point,xlim,ylim,rounddig=4,silent=1):
     fnn=round(Qnn/totInt,rounddig)    
     logging.info('Probabilities of finding points in each quadrant: fpp='+str(fpp)+' fnp='+str(fnp)+' fpn='+str(fpn)+' fnn='+str(fnn))
     logging.debug('Total probability, which should be equal to one: '+str(fpp+fnp+fpn+fnn))
-    sys.exit('a')
+    logging.debug('FuncQuads: exiting')
     return(fpp,fnp,fpn,fnn)
 
 def Qks(alam,iter=101,prec=1e-6,silent=1):
@@ -136,10 +137,11 @@ def Qks(alam,iter=101,prec=1e-6,silent=1):
     # From Numerical recipes in C page 623: '[...] the K–S statistic useful is that its distribution in the case of the null hypothesis (data sets drawn from the same distribution) can be calculated, at least to useful approximation, thus giving the significance of any observed nonzero value of D.' (D being the maximum value of the absolute difference between two cumulative distribution functions)
     # Anyhow, the equation is pretty straightforward: sum of terms as defined below.
     # 100 iterations are more than sufficient to converge. No convergence here: if j iterations are performed, meaning that toadd is still 2 times larger than the precision.
+    logging.info('Qks function. Value of the KS probability function using a float.')
     if isinstance(alam,int)|isinstance(alam,float):
         pass
     else:
-        if not silent: print('alam is not an integer or float. Exiting.')
+        logging.error('alam is not an integer or float. Exiting.')
         return
     toadd=[1]
     qks=0.
@@ -149,35 +151,38 @@ def Qks(alam,iter=101,prec=1e-6,silent=1):
         qks+=toadd[-1]
         j+=1
     if (j==iter) | (qks>1): #  If no convergence after the j iterations, return 1.0.
+        logging.info('No convergence. Returning 1.')
         return(1.0)
     if qks<prec:    
+        logging.info('Computed value lower than precision. returning 0.')
         return(0.)
     else:
+        logging.info('Qks: Returning computed value qks= '+str(qks))
         return(qks)
         
 def ks2d2s(Arr2D1,Arr2D2,silent=1):
     # ks2d2s: ks stands for Kolmogorov-smirnov, 2dfor  2 dimensional, 2s for 2 samples.
     # Executes the KS test for goodness-of-fit on two samples in a 2D plane: tests if the hypothesis that the two samples are from the same distribution can be rejected.
+    logging.info('ks2d2s function: Computes the KS statistic on a 2D plane for two samples of points.')
     if type(Arr2D1).__module__+type(Arr2D1).__name__=='numpyndarray':
-        if not silent: print('Arr2D1 is a ndarray')
+        logging.info('Arr2D1 is a ndarray')
     else:
-        if not silent: print('Arr2D1 is neither a list not a numpy.ndarray. Exiting.')
+        logging.error('Arr2D1 is neither a list not a numpy.ndarray. Exiting.')
         return
     if Arr2D1.shape[1]>Arr2D1.shape[0]:
         Arr2D1=Arr2D1.copy().T
-        
     if type(Arr2D2).__module__+type(Arr2D2).__name__=='numpyndarray':
-        if not silent: print('Arr2D2 is a ndarray')
+        logging.info('Arr2D2 is a ndarray')
     else:
-        if not silent: print('Arr2D2 is neither a list not a numpy.ndarray. Exiting.')
+        logging.error('Arr2D2 is neither a list not a numpy.ndarray. Exiting.')
         return
     if Arr2D2.shape[1]>Arr2D2.shape[0]:
         Arr2D2=Arr2D2.copy().T   
     if Arr2D1.shape[1]!=2:
-        if not silent: print('2 columns should be in Arr2D1. Exiting.')
+        logging.error('2 columns should be in Arr2D1. Exiting.')
         return
     if Arr2D2.shape[1]!=2:
-        if not silent: print('2 columns should be in Arr2D2. Exiting.')
+        logging.error('2 columns should be in Arr2D2. Exiting.')
         return
     d1,d2=0.,0.
     for point1 in Arr2D1:
@@ -195,46 +200,53 @@ def ks2d2s(Arr2D1,Arr2D2,silent=1):
         d2=max(d2,abs(fmp1-fmp2))
         d2=max(d2,abs(fmm1-fmm2))
     d=(d1+d2)/2.
+    logging.debug('d='+str(d))
     sqen=np.sqrt(len(Arr2D1)*len(Arr2D2)/(len(Arr2D1)+len(Arr2D2)))
+    logging.debug('sqen='+str(sqen))
     R1=scipy.stats.pearsonr(Arr2D1[:,0],Arr2D1[:,1])[0]
+    logging.debug('R1='+str(R1))
     R2=scipy.stats.pearsonr(Arr2D2[:,0],Arr2D2[:,1])[0]
+    logging.debug('R2='+str(R2))
     RR=np.sqrt(1.-(R1*R1+R2*R2)/2.)
+    logging.debug('RR='+str(RR))
     prob=Qks(d*sqen/(1.+RR*(0.25-0.75/sqen)))
     # d and prob :two-sample K-S statistic as d, and its significance level as prob Small values of prob show that the two samples are significantly different
+    logging.debug(' ks2d2s, exiting: Output=d, prob= '+str(d)+', '+str(prob))
     return(d,prob)
-    
+     
 def ks2d1s(Arr2D,func2D,xlim=[],ylim=[],silent=1):
     # ks2d1s: ks stands for Kolmogorov-smirnov, 2dfor  2 dimensional, 1s for 1 samples, compared to a function.
     # Executes the KS test for goodness-of-fit on one samples in a 2D plane: tests if the hypothesis that the sample is from the given distribution can be rejected.
+    logging.info('ks2d1s function: Computes the KS statistic on a 2D plane for one sample and one density function.')
     if callable(func2D):
-        if not silent:print('func2D is a function')
+        logging.info('func2D is a function')
         if len(inspect.getfullargspec(func2D)[0])!=2:
-            if not silent:print('func2D function has not 2 arguments. Exiting.')
+            logging.error('func2D function has not 2 arguments. Exiting.')
             return
         pass
     else:
-        if not silent:print('func2D is not a function. Exiting.')
+        logging.error('func2D is not a function. Exiting.')
         return  
     if type(Arr2D).__module__+type(Arr2D).__name__=='numpyndarray':
-        if not silent: print('Arr2D is a ndarray')
+        logging.info('Arr2D is a ndarray')
     else:
-        if not silent: print('Arr2D is neither a list not a numpy.ndarray. Exiting.')
+        logging.error('Arr2D is neither a list not a numpy.ndarray. Exiting.')
         return
     if Arr2D.shape[1]>Arr2D.shape[0]:
         Arr2D=Arr2D.copy().T   
     if Arr2D.shape[1]!=2:
-        if not silent: print('2 columns should be in Arr2D1. Exiting.')
+        logging.error('2 columns should be in Arr2D1. Exiting.')
         return
     if xlim==[]:
-        xlim.append(np.amin(Arr2D[:,0]))
-        xlim.append(np.amax(Arr2D[:,0]))
-        xlim[0]=xlim[0]-(abs(xlim[1]-xlim[0]))/10
-        xlim[1]=xlim[1]+(abs(xlim[1]-xlim[0]))/10
+        logging.debug('No xlim given. Computing xlim using given data.')
+        xlim.append(np.amin(Arr2D[:,0])-abs(np.amin(Arr2D[:,0])-np.amax(Arr2D[:,0]))/10)
+        xlim.append(np.amax(Arr2D[:,0])-abs(np.amin(Arr2D[:,0])-np.amax(Arr2D[:,0]))/10)
+        logging.debug('Computed xlim: '+str(xlim))
     if ylim==[]:
-        ylim.append(np.amin(Arr2D[:,1]))
-        ylim.append(np.amax(Arr2D[:,1]))
-        ylim[0]=ylim[0]-(abs(ylim[1]-ylim[0]))/10
-        ylim[1]=ylim[1]+(abs(ylim[1]-ylim[0]))/10
+        logging.debug('No ylim given. Computing ylim using given data.')
+        ylim.append(np.amin(Arr2D[:,1])-abs(np.amin(Arr2D[:,1])-np.amax(Arr2D[:,1]))/10)
+        ylim.append(np.amax(Arr2D[:,1])-abs(np.amin(Arr2D[:,1])-np.amax(Arr2D[:,1]))/10)
+        logging.debug('Computed ylim: '+str(ylim))
     d=0
     for point in Arr2D:
         fpp1,fmp1,fpm1,fmm1=FuncQuads(func2D,point,xlim,ylim)
@@ -244,13 +256,17 @@ def ks2d1s(Arr2D,func2D,xlim=[],ylim=[],silent=1):
         d=max(d,abs(fmp1-fmp2))
         d=max(d,abs(fmm1-fmm2))
     sqen=np.sqrt(len(Arr2D))
+    logging.debug('sqen= 'str(sqen))
     R1=scipy.stats.pearsonr(Arr2D[:,0],Arr2D[:,1])[0]
+    logging.debug('R1= 'str(R1))
     RR=np.sqrt(1.0-R1**2)
+    logging.debug('RR= 'str(RR))
     prob=Qks(d*sqen/(1.+RR*(0.25-0.75/sqen)))
+    logging.debug(' ks2d2s, exiting: Output=d, prob= '+str(d)+', '+str(prob))
     return(d,prob)
 # while len(Thinned)<Samples:
 def MultiVarNHPPThinSamples(lambdaa,Intervals,Samples=100,blocksize=1000,silent=0): 
-    # Utility function: genreate spatial data by thinning. Intervals is a np array of 2 lenght lists. lambdaa is a function or 2d matrix.Iterate over blocksize uniformlly generated points until Samples number of samples are created.
+    # Utility function: generate spatial data by thinning. Intervals is a np array of 2 lenght lists. lambdaa is a function or 2d matrix.Iterate over blocksize uniformlly generated points until Samples number of samples are created.
     if not silent: print('NHPP samples in space by thinning. lambda can be a 2D matrix or function')
     # This algorithm acts as if events do not happen outside the Intervals.
     if callable(lambdaa):
