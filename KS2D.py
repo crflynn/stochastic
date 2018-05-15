@@ -7,7 +7,7 @@ import sys, os, inspect, logging
 import numpy as np, scipy.stats
 import matplotlib.pyplot as plt
 
-def CountQuads(Arr2D,point,silent=1):
+def CountQuads(Arr2D,point):
     # Counts the number of points of Arr2D in each 4 quadrant defined by a vertical and horizontal line crossing the point.
     # Then computes the proportion of points in each quadrant.
     
@@ -23,33 +23,35 @@ def CountQuads(Arr2D,point,silent=1):
         logging.error('point is neither a list not a numpy.ndarray. Exiting.')
         return
     if len(point)!=2:
-        if not silent: print('2 elements should be in point. Exiting.')
+        logging.error('2 elements should be in point. Exiting.')
         return
     if isinstance(Arr2D, list):
-        if not silent: print('Arr2D is a list')
+        logging.info('Arr2D is a list')
         Arr2D=np.asarray((Arr2D))
     elif type(Arr2D).__module__+type(Arr2D).__name__=='numpyndarray':
-        if not silent: print('Arr2D is a ndarray')
+        logging.info('Arr2D is a ndarray')
     else:
-        if not silent: print('Arr2D is neither a list not a numpy.ndarray. Exiting.')
+        logging.error('Arr2D is neither a list not a numpy.ndarray. Exiting.')
         return
     if Arr2D.shape[1]>Arr2D.shape[0]: # Reshape so that A[row,column] is achieved.
         Arr2D=Arr2D.copy().T
     if Arr2D.shape[1]!=2: 
-        if not silent: print('2 columns should be in Arr2D. Exiting.')
+        logging.error('2 columns should be in Arr2D. Exiting.')
         return
-    # The pp of Qpp refer to p for 'positive' and m for 'negative' quadrants. In order. first subscript is x, second is y.
+    # The pp of Qpp refer to p for 'positive' and n for 'negative' quadrants. In order. first subscript is x, second is y.
     Qpp=Arr2D[(Arr2D[:,0]>=point[0])&(Arr2D[:,1]>=point[1]),:]
-    Qmp=Arr2D[(Arr2D[:,0]<=point[0])&(Arr2D[:,1]>=point[1]),:]
-    Qpm=Arr2D[(Arr2D[:,0]>=point[0])&(Arr2D[:,1]<=point[1]),:]
-    Qmm=Arr2D[(Arr2D[:,0]<=point[0])&(Arr2D[:,1]<=point[1]),:]
-    if not silent: print('Same number of points in Arr2D as in all Quadrants: '+str((len(Qpp)+len(Qmp)+len(Qpm)+len(Qmm))==len(Arr2D)))
+    Qnp=Arr2D[(Arr2D[:,0]<=point[0])&(Arr2D[:,1]>=point[1]),:]
+    Qpn=Arr2D[(Arr2D[:,0]>=point[0])&(Arr2D[:,1]<=point[1]),:]
+    Qnn=Arr2D[(Arr2D[:,0]<=point[0])&(Arr2D[:,1]<=point[1]),:]
+    logging.info('Same number of points in Arr2D as in all Quadrants: '+str((len(Qpp)+len(Qnp)+len(Qpn)+len(Qnn))==len(Arr2D)))
+    logging.info('Number of points in each quadrant: Qpp='+str(Qpp)+'Qnp='+str(Qnp)+'Qpn='+str(Qpn)+'Qnn='+str(Qnn))
     # Normalized fractions:
     ff=1./len(Arr2D)
     fpp=len(Qpp)*ff
-    fmp=len(Qmp)*ff
-    fpm=len(Qpm)*ff
-    fmm=len(Qmm)*ff
+    fnp=len(Qnp)*ff
+    fpn=len(Qpn)*ff
+    fnn=len(Qnn)*ff
+    logging.info('Probabilities of finding points in each quadrant: fpp='+str(fpp)+'fnp='+str(fnp)+'fpn='+str(fpn)+'fnn='+str(fnn))
     # NOTE:  all the f's are supposed to sum to 1.0. Float representation cause SOMETIMES sum to 1.000000002 or something. I don't know how to test for that reliably, OR what to do about it yet. Keep in mind.
     return(fpp,fmp,fpm,fmm)
     
