@@ -55,7 +55,6 @@ def CountQuads(Arr2D,point):
     logging.debug('Total probability, which should be equal to one:'+str(fpp+fnp+fpn+fnn))
     # NOTE:  all the f's are supposed to sum to 1.0. Float representation cause SOMETIMES sum to 1.000000002 or something. I don't know how to test for that reliably, OR what to do about it yet. Keep in mind.
     logging.debug('CountQuads: exiting')
-    sys.exit()
     return(fpp,fnp,fpn,fnn)
     
 def FuncQuads(func2D,point,xlim,ylim,rounddig=4,silent=1):
@@ -210,7 +209,9 @@ def ks2d2s(Arr2D1,Arr2D2,silent=1):
     RR=np.sqrt(1.-(R1*R1+R2*R2)/2.)
     logging.debug('RR='+str(RR))
     prob=Qks(d*sqen/(1.+RR*(0.25-0.75/sqen)))
-    # d and prob :two-sample K-S statistic as d, and its significance level as prob Small values of prob show that the two samples are significantly different
+    # d and prob :two-sample K-S statistic as d, and its significance level as prob 
+    # Small values of prob show that the two samples are significantly different. Prob is the significance level of an observed value of d.
+    # prob(D>observed)
     logging.debug(' ks2d2s, exiting: Output=d, prob= '+str(d)+', '+str(prob))
     return(d,prob)
      
@@ -256,18 +257,18 @@ def ks2d1s(Arr2D,func2D,xlim=[],ylim=[],silent=1):
         d=max(d,abs(fmp1-fmp2))
         d=max(d,abs(fmm1-fmm2))
     sqen=np.sqrt(len(Arr2D))
-    logging.debug('sqen= 'str(sqen))
+    logging.debug('sqen= '+str(sqen))
     R1=scipy.stats.pearsonr(Arr2D[:,0],Arr2D[:,1])[0]
-    logging.debug('R1= 'str(R1))
+    logging.debug('R1= '+str(R1))
     RR=np.sqrt(1.0-R1**2)
-    logging.debug('RR= 'str(RR))
+    logging.debug('RR= '+str(RR))
     prob=Qks(d*sqen/(1.+RR*(0.25-0.75/sqen)))
     logging.debug(' ks2d2s, exiting: Output=d, prob= '+str(d)+', '+str(prob))
     return(d,prob)
-# while len(Thinned)<Samples:
-def MultiVarNHPPThinSamples(lambdaa,Intervals,Samples=100,blocksize=1000,silent=0): 
+
+def MultiVarNHPPThinSamples(lambdaa,Intervals,Samples=100,blocksize=1000): 
     # Utility function: generate spatial data by thinning. Intervals is a np array of 2 lenght lists. lambdaa is a function or 2d matrix.Iterate over blocksize uniformlly generated points until Samples number of samples are created.
-    if not silent: print('NHPP samples in space by thinning. lambda can be a 2D matrix or function')
+    logging.info('NHPP samples in space by thinning. lambda can be a 2D matrix or function')
     # This algorithm acts as if events do not happen outside the Intervals.
     if callable(lambdaa):
         boundstuple=[]
@@ -300,27 +301,4 @@ def MultiVarNHPPThinSamples(lambdaa,Intervals,Samples=100,blocksize=1000,silent=
         del Unthin
     Thinned=Thinned[:Samples,:]
     return(Thinned)
-
-def f2d2arg(x,y): return(x*y)
-testdata1=np.random.uniform(size=(100,2))
-dim=500
-sidex=np.linspace(0,2,dim)
-sidey=np.linspace(0,1,dim)
-x,y = np.meshgrid(sidex,sidey)
-thin=MultiVarNHPPThinSamples(f2d2arg,np.array([[0,2],[0,1]]),1000)
-print(ks2d1s(thin,f2d2arg,xlim=[0,2],ylim=[0,1]))
-sys.exit()
-print(ks2d2s(thin,testdata1))
-plt.contourf(x,y,f2d2arg(x,y))
-plt.plot(thin[:,0],thin[:,1],'.b')
-plt.show()
-sys.exit()  
-
-testdata2=np.random.uniform(size=(100,2))
-def f2d2arg(x,y): return(x+y)    
-print(ks2d1s(testdata2,f2d2arg,silent=0))
-
-
-
-
     

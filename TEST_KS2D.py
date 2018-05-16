@@ -1,10 +1,7 @@
 # Code créé par Gabriel Taillon le 7 Mai 2018
 #  Test bench for the 2D Kolmogorov-Smyrnov Test.
-import unittest
-import sys
-import os
-import numpy as np
-import scipy.stats
+import unittest, sys, os
+import numpy as np, scipy.stats
 import KS2D
 
 Scriptpath=os.path.dirname(os.path.abspath(__file__)) # Path of this script
@@ -21,12 +18,29 @@ testArr3D=np.random.uniform(size=(100,3))
 testArr1D=np.random.uniform(size=(100,1))
 def f2d3arg(x,y,k): return(x**2+y)
 def f2d2arg(x,y): return(x**2+y)
+def f2d2arg2(x,y): return(x*y)
+def f2d2arg3(x,y): return(x+y)    
 def f2d1arg(x): return(x**2)
 def f2d1(x,y): return(x+y)
 def f2d2(x,y): return(x**2)
 def f2d3(x,y): return(y**2)
 def f2d4(x,y): return(y)
 def f2d5(x,y): return(x)
+dim=500
+sidex=np.linspace(0,2,dim)
+sidey=np.linspace(0,1,dim)
+x,y = np.meshgrid(sidex,sidey)
+thin=KS2D.MultiVarNHPPThinSamples(f2d2arg,np.array([[0,2],[0,1]]),1000)
+
+
+plt.contourf(x,y,f2d2arg(x,y))
+plt.plot(thin[:,0],thin[:,1],'.k')
+
+print(KS2D.ks2d1s(testdata2,f2d2arg2,silent=0))
+print(KS2D.ks2d1s(thin,KS2D.f2d2arg3,xlim=[0,2],ylim=[0,1]))
+print(KS2D.ks2d2s(thin,testdata1))
+plt.show()
+
 class TestKS2D(unittest.TestCase):
     def test_FuncQuads_funcargs(self):
         self.assertIsNone(KS2D.FuncQuads(f2d3arg,[0.1,0.1],[0,1],[0,1]))
@@ -105,6 +119,8 @@ class TestKS2D(unittest.TestCase):
         self.assertIsNone(KS2D.ks2d2s('a',testdata1))
         self.assertIsNone(KS2D.ks2d2s(testdata1,1))
         self.assertIsNone(KS2D.ks2d2s(1,testdata1))
+    def test_ks2d1s_Output(self):
+    def test_ks2d2s_Output(self):
 
 if __name__=='__main__':
     unittest.main(argv=['first-arg-is-ignored'], exit=False)
