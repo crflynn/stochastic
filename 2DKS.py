@@ -5,7 +5,7 @@
 #  [3]  Flannery, B. P., Press, W. H., Teukolsky, S. A., & Vetterling, W. (1992). Numerical recipes in C. Press Syndicate of the University of Cambridge, New York, 24, 78.
 import sys, os, inspect, logging
 import numpy as np, scipy.stats
-import matplotlib.pyplot as plt
+
 logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',datefmt='%Y/%m/%d %H:%M:%S', filename='example.log',level=logging.DEBUG)
 
 def CountQuads(Arr2D,point):
@@ -57,11 +57,20 @@ def CountQuads(Arr2D,point):
     logging.debug('CountQuads: exiting')
     return(fpp,fnp,fpn,fnn)
     
-def FuncQuads(func2D,point,xlim,ylim,rounddig=4,silent=1):
-    # Computes the proportion of func2D in each 4 quadrant defined by a vertical and horizontal lines crossing the point.
-    # func2D must be a function that takes 2 arguments.
-    # uses numerical integration based on scipy to compute the fpp's
-    # A bit of checking. 
+def FuncQuads(func2D,point,xlim,ylim,rounddig=4):
+    """ Computes the proportion of func2D in each 4 quadrant defined by a vertical and horizontal lines crossing the point.
+    
+    **Arguments:**  
+        func2D : list or ndarray
+            A function that takes 2 arguments.
+        point : list or ndarray
+            A 2 element list, point, which is the center of 4 square quadrants.
+        xlim, ylim : list or ndarray
+            Domain of numerical integration necessary to compute the quadrant probabilities.
+    **Returns:**
+        fpp,fnp,fpn,fnn : float
+            The probabilities of finding a point in each quadrants, with point as the origin.  p stands for positive, n for negative, with the first and second positions meaning the x and y directions respectively.
+    """
     logging.info('FuncQuads function. Computes the probability of finding points in quadrants around a point using a 2D density function.')   
     # If func2D is not a function with 2 arguments, exit.
     if callable(func2D):
@@ -131,7 +140,7 @@ def FuncQuads(func2D,point,xlim,ylim,rounddig=4,silent=1):
     logging.debug('FuncQuads: exiting')
     return(fpp,fnp,fpn,fnn)
 
-def Qks(alam,iter=101,prec=1e-6,silent=1):
+def Qks(alam,iter=101,prec=1e-6):
     # Computes the value of the KS probability function, as a function of alam, a float. What is this function? Complicated: 
     # From Numerical recipes in C page 623: '[...] the K–S statistic useful is that its distribution in the case of the null hypothesis (data sets drawn from the same distribution) can be calculated, at least to useful approximation, thus giving the significance of any observed nonzero value of D.' (D being the maximum value of the absolute difference between two cumulative distribution functions)
     # Anyhow, the equation is pretty straightforward: sum of terms as defined below.
@@ -159,9 +168,21 @@ def Qks(alam,iter=101,prec=1e-6,silent=1):
         logging.info('Qks: Returning computed value qks= '+str(qks))
         return(qks)
         
-def ks2d2s(Arr2D1,Arr2D2,silent=1):
-    # ks2d2s: ks stands for Kolmogorov-smirnov, 2dfor  2 dimensional, 2s for 2 samples.
-    # Executes the KS test for goodness-of-fit on two samples in a 2D plane: tests if the hypothesis that the two samples are from the same distribution can be rejected.
+def ks2d2s(Arr2D1,Arr2D2):
+    """ ks stands for Kolmogorov-Smirnov, 2d for 2 dimensional, 2s for 2 samples.
+    Executes the KS test for goodness-of-fit on two samples on a 2D plane. Tests if the hypothesis that the two samples are from the same distribution can be rejected.
+    
+    **Arguments:**  
+        Arr2D1 : list or ndarray
+            2D array of points/samples
+        Arr2D2 : list or ndarray
+            2D array of points/samples
+    **Returns:**
+        d : float
+            The two-sample K-S statistic. If this value is higher than the significance level of the hypothesis, it is rejected.
+        prob : float
+            The significance level of *d*. Small values of prob show that the two samples are significantly different.
+    """
     logging.info('ks2d2s function: Computes the KS statistic on a 2D plane for two samples of points.')
     if type(Arr2D1).__module__+type(Arr2D1).__name__=='numpyndarray':
         logging.info('Arr2D1 is a ndarray')
@@ -209,15 +230,27 @@ def ks2d2s(Arr2D1,Arr2D2,silent=1):
     RR=np.sqrt(1.-(R1*R1+R2*R2)/2.)
     logging.debug('RR='+str(RR))
     prob=Qks(d*sqen/(1.+RR*(0.25-0.75/sqen)))
-    # d and prob :two-sample K-S statistic as d, and its significance level as prob 
     # Small values of prob show that the two samples are significantly different. Prob is the significance level of an observed value of d. NOT the same as the significance level that ou set and compare to D.
-    # prob(D>observed)
     logging.debug(' ks2d2s, exiting: Output=d, prob= '+str(d)+', '+str(prob))
     return(d,prob)
      
-def ks2d1s(Arr2D,func2D,xlim=[],ylim=[],silent=1):
-    # ks2d1s: ks stands for Kolmogorov-smirnov, 2dfor  2 dimensional, 1s for 1 samples, compared to a function.
-    # Executes the KS test for goodness-of-fit on one samples in a 2D plane: tests if the hypothesis that the sample is from the given distribution can be rejected.
+def ks2d1s(Arr2D,func2D,xlim=[],ylim=[]):
+    """ ks stands for Kolmogorov-Smirnov, 2d for 2 dimensional, 1s for 1 sample.
+    Executes the KS test for goodness-of-fit on one sample and one density distribution on a 2D plane. Tests if the hypothesis that the two samples are from the same distribution can be rejected.
+    
+    **Arguments:**  
+        Arr2D : list or ndarray
+            2D array of points/samples
+        func2D : function, list or ndarray
+            Density distribution. Either a square array or function.
+        xlim, ylim : list or ndarray
+            Defines the domain for the numerical integration necessary to compute the quadrant probabilities.
+    **Returns:**
+        d : float
+            The two-sample K-S statistic. If this value is higher than the significance level of the hypothesis, it is rejected.
+        prob : float
+            The significance level of *d*. Small values of prob show that the two samples are significantly different.
+    """
     logging.info('ks2d1s function: Computes the KS statistic on a 2D plane for one sample and one density function.')
     if callable(func2D):
         logging.info('func2D is a function')
@@ -268,6 +301,8 @@ def ks2d1s(Arr2D,func2D,xlim=[],ylim=[],silent=1):
 
 def MultiVarNHPPThinSamples(lambdaa,Intervals,Samples=100,blocksize=1000): 
     # Utility function: generate spatial data by thinning. Intervals is a np array of 2 lenght lists. lambdaa is a function or 2d matrix.Iterate over blocksize uniformlly generated points until Samples number of samples are created.
+    
+
     logging.info('NHPP samples in space by thinning. lambda can be a 2D matrix or function')
     # This algorithm acts as if events do not happen outside the Intervals.
     if callable(lambdaa):
