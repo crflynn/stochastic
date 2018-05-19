@@ -1,5 +1,5 @@
 # Code créé par Gabriel Taillon le 7 Mai 2018
-#  2D Kolmogorov-Smyrnov Test.
+#  Kolmogorov-Smyrnov Test extended to two dimensions.
 # References: #  [1] Peacock, J. A. (1983). Two-dimensional goodness-of-fit testing in astronomy. Monthly Notices of the Royal Astronomical Society, 202(3), 615-627.
 #  [2] Fasano, G., & Franceschini, A. (1987). A multidimensional version of the Kolmogorov–Smirnov test. Monthly Notices of the Royal Astronomical Society, 225(1), 155-170.
 #  [3]  Flannery, B. P., Press, W. H., Teukolsky, S. A., & Vetterling, W. (1992). Numerical recipes in C. Press Syndicate of the University of Cambridge, New York, 24, 78.
@@ -210,7 +210,7 @@ def ks2d2s(Arr2D1,Arr2D2,silent=1):
     logging.debug('RR='+str(RR))
     prob=Qks(d*sqen/(1.+RR*(0.25-0.75/sqen)))
     # d and prob :two-sample K-S statistic as d, and its significance level as prob 
-    # Small values of prob show that the two samples are significantly different. Prob is the significance level of an observed value of d.
+    # Small values of prob show that the two samples are significantly different. Prob is the significance level of an observed value of d. NOT the same as the significance level that ou set and compare to D.
     # prob(D>observed)
     logging.debug(' ks2d2s, exiting: Output=d, prob= '+str(d)+', '+str(prob))
     return(d,prob)
