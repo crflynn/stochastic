@@ -1,9 +1,6 @@
 LICENSE
 KS2D/
 TEST_KS2D/
-_build/
-_static/
-_templates/
 example.log
 make.bat
 Makefile

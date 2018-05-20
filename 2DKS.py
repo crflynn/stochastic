@@ -71,7 +71,7 @@ def FuncQuads(func2D,point,xlim,ylim,rounddig=4):
     
     **Arguments:**  
         func2D : list or ndarray
-            Density function that takes 2 arguments.
+            Density function that takes 2 arguments: x and y.
         point : list or ndarray
             A 2 element list, point, which is the center of 4 square quadrants.
         xlim, ylim : list or ndarray
@@ -149,11 +149,21 @@ def FuncQuads(func2D,point,xlim,ylim,rounddig=4):
     logging.debug('FuncQuads: exiting')
     return(fpp,fnp,fpn,fnn)
 
-def Qks(alam,iter=101,prec=1e-6):
-    # Computes the value of the KS probability function, as a function of alam, a float. What is this function? Complicated: 
-    # From Numerical recipes in C page 623: '[...] the K–S statistic useful is that its distribution in the case of the null hypothesis (data sets drawn from the same distribution) can be calculated, at least to useful approximation, thus giving the significance of any observed nonzero value of D.' (D being the maximum value of the absolute difference between two cumulative distribution functions)
-    # Anyhow, the equation is pretty straightforward: sum of terms as defined below.
-    # 100 iterations are more than sufficient to converge. No convergence here: if j iterations are performed, meaning that toadd is still 2 times larger than the precision.
+def Qks(alam,iter=100,prec=1e-6):
+    """ Computes the value of the KS probability function, as a function of alam, the D statistic. From *Numerical recipes in C* page 623: '[...] the K–S statistic useful is that its distribution in the case of the null hypothesis (data sets drawn from the same distribution) can be calculated, at least to useful approximation, thus giving the significance of any observed nonzero value of D.' (D being the KS statistic).
+      
+    **Arguments:**  
+        alam : float
+            D statistic. 
+        iter:
+            Number of iterations to be perfomed. On non-convergence, returns 1.0.
+        prec:
+            Convergence criteria of the qks. Stops converging if that precision is attained.
+    **Returns:**
+        qks : float
+            The significance level of the observed D statistic.
+    """
+    # If j iterations are performed, meaning that toadd is still 2 times larger than the precision.
     logging.info('Qks function. Value of the KS probability function using a float.')
     if isinstance(alam,int)|isinstance(alam,float):
         pass
@@ -179,13 +189,13 @@ def Qks(alam,iter=101,prec=1e-6):
         
 def ks2d2s(Arr2D1,Arr2D2):
     """ ks stands for Kolmogorov-Smirnov, 2d for 2 dimensional, 2s for 2 samples.
-    Executes the KS test for goodness-of-fit on two samples on a 2D plane. Tests if the hypothesis that the two samples are from the same distribution can be rejected.
+    KS test for goodness-of-fit on two 2D samples. Tests the hypothesis that the two samples are from the same distribution.
     
     **Arguments:**  
         Arr2D1 : list or ndarray
-            2D array of points/samples
+            2D array of points/samples.
         Arr2D2 : list or ndarray
-            2D array of points/samples
+            2D array of points/samples.
     **Returns:**
         d : float
             The two-sample K-S statistic. If this value is higher than the significance level of the hypothesis, it is rejected.
@@ -245,11 +255,11 @@ def ks2d2s(Arr2D1,Arr2D2):
      
 def ks2d1s(Arr2D,func2D,xlim=[],ylim=[]):
     """ ks stands for Kolmogorov-Smirnov, 2d for 2 dimensional, 1s for 1 sample.
-    Executes the KS test for goodness-of-fit on one sample and one density distribution on a 2D plane. Tests if the hypothesis that the two samples are from the same distribution can be rejected.
+    KS test for goodness-of-fit on one 2D sample and one 2D density distribution. Tests the hypothesis that the data was generated from the density distribution.
     
     **Arguments:**  
         Arr2D : list or ndarray
-            2D array of points/samples
+            2D array of points/samples.
         func2D : function, list or ndarray
             Density distribution. Either a square array or function.
         xlim, ylim : list or ndarray
@@ -310,8 +320,6 @@ def ks2d1s(Arr2D,func2D,xlim=[],ylim=[]):
 
 def MultiVarNHPPThinSamples(lambdaa,Intervals,Samples=100,blocksize=1000): 
     # Utility function: generate spatial data by thinning. Intervals is a np array of 2 lenght lists. lambdaa is a function or 2d matrix.Iterate over blocksize uniformlly generated points until Samples number of samples are created.
-    
-
     logging.info('NHPP samples in space by thinning. lambda can be a 2D matrix or function')
     # This algorithm acts as if events do not happen outside the Intervals.
     if callable(lambdaa):

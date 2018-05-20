@@ -1,0 +1,160 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Testing algorithms &#8212; 2DKS 1.0 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Other functions" href="utilityfunctions.html" />
+    <link rel="prev" title="Tutorial" href="tutorial.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="utilityfunctions.html" title="Other functions"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="tutorial.html" title="Tutorial"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">2DKS 1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="testing-algorithms">
+<h1>Testing algorithms<a class="headerlink" href="#testing-algorithms" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="2DKS.ks2d2s">
+<code class="descclassname">2DKS.</code><code class="descname">ks2d2s</code><span class="sig-paren">(</span><em>Arr2D1</em>, <em>Arr2D2</em><span class="sig-paren">)</span><a class="headerlink" href="#2DKS.ks2d2s" title="Permalink to this definition">¶</a></dt>
+<dd><p>ks stands for Kolmogorov-Smirnov, 2d for 2 dimensional, 2s for 2 samples.
+KS test for goodness-of-fit on two 2D samples. Tests the hypothesis that the two samples are from the same distribution.</p>
+<dl class="docutils">
+<dt><strong>Arguments:</strong>  </dt>
+<dd><dl class="first last docutils">
+<dt>Arr2D1 <span class="classifier-delimiter">:</span> <span class="classifier">list or ndarray</span></dt>
+<dd>2D array of points/samples.</dd>
+<dt>Arr2D2 <span class="classifier-delimiter">:</span> <span class="classifier">list or ndarray</span></dt>
+<dd>2D array of points/samples.</dd>
+</dl>
+</dd>
+<dt><strong>Returns:</strong></dt>
+<dd><dl class="first last docutils">
+<dt>d <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>The two-sample K-S statistic. If this value is higher than the significance level of the hypothesis, it is rejected.</dd>
+<dt>prob <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>The significance level of <em>d</em>. Small values of prob show that the two samples are significantly different.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="2DKS.ks2d1s">
+<code class="descclassname">2DKS.</code><code class="descname">ks2d1s</code><span class="sig-paren">(</span><em>Arr2D</em>, <em>func2D</em>, <em>xlim=[]</em>, <em>ylim=[]</em><span class="sig-paren">)</span><a class="headerlink" href="#2DKS.ks2d1s" title="Permalink to this definition">¶</a></dt>
+<dd><p>ks stands for Kolmogorov-Smirnov, 2d for 2 dimensional, 1s for 1 sample.
+KS test for goodness-of-fit on one 2D sample and one 2D density distribution. Tests the hypothesis that the data was generated from the density distribution.</p>
+<dl class="docutils">
+<dt><strong>Arguments:</strong>  </dt>
+<dd><dl class="first last docutils">
+<dt>Arr2D <span class="classifier-delimiter">:</span> <span class="classifier">list or ndarray</span></dt>
+<dd>2D array of points/samples.</dd>
+<dt>func2D <span class="classifier-delimiter">:</span> <span class="classifier">function, list or ndarray</span></dt>
+<dd>Density distribution. Either a square array or function.</dd>
+<dt>xlim, ylim <span class="classifier-delimiter">:</span> <span class="classifier">list or ndarray</span></dt>
+<dd>Defines the domain for the numerical integration necessary to compute the quadrant probabilities.</dd>
+</dl>
+</dd>
+<dt><strong>Returns:</strong></dt>
+<dd><dl class="first last docutils">
+<dt>d <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>The two-sample K-S statistic. If this value is higher than the significance level of the hypothesis, it is rejected.</dd>
+<dt>prob <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>The significance level of <em>d</em>. Small values of prob show that the two samples are significantly different.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="index.html">Table Of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Testing algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilityfunctions.html">Other functions</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="tutorial.html"
+                        title="previous chapter">Tutorial</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="utilityfunctions.html"
+                        title="next chapter">Other functions</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/testalgos.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="utilityfunctions.html" title="Other functions"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="tutorial.html" title="Tutorial"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">2DKS 1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Gabriel Taillon.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.4.
+    </div>
+  </body>
+</html>
