@@ -1,7 +1,9 @@
 # 2DKS
 ## 2 Dimensional Kolmogorov-Smirnov test for goodness-of-fit.
 
-KS tests are non-parametric methods made to test the hypothesis that data fits a certain probability distribution, or to see if the distribution function of two datasets differs. 
+2DKS is a two-dimensional extension to the Kolmogorov-Smyrnov test for goodness-of-fit.
+It is used to compare datasets of points to a distributions, or two datasets of points, and either rejects or not rejects the hypothesis that the sample was derived from the distribution, or that the two samples are derived from the same distribution.
+ 
 *Note*: the test only rejects the hypothesis that the data fits with the probability distribution, or does not reject it for a certain significance level. It cannot confirm, only 'not-reject'.
 
 In this case, we check if two-dimensional data fits a particular distribution. The extension to higher dimensions is non-trivial and requires on the order of N2 operations i.e. slow for large datasets.
