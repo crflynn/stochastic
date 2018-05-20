@@ -9,8 +9,17 @@ import numpy as np, scipy.stats
 logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',datefmt='%Y/%m/%d %H:%M:%S', filename='example.log',level=logging.DEBUG)
 
 def CountQuads(Arr2D,point):
-    # Counts the number of points of Arr2D in each 4 quadrant defined by a vertical and horizontal line crossing the point.
-    # Then computes the proportion of points in each quadrant.
+    """ Computes the probabilities of finding points in each 4 quadrant defined by a vertical and horizontal lines crossing the point, by counting the proportion of points in Arr2D in each quadrant.
+    
+    **Arguments:**  
+        Arr2D : list or ndarray
+            Array of points to be counted.
+        point : list or ndarray
+            A 2 element list, point, which is the center of 4 square quadrants.
+    **Returns:**
+        fpp,fnp,fpn,fnn : float
+            The probabilities of finding a point in each quadrants, with point as the origin.  p stands for positive, n for negative, with the first and second positions meaning the x and y directions respectively.
+    """ 
     logging.info('CountQuads function. Counts points in quadrants that surround a point using with an array of 2D points.')
     # A bit of checking. If Arr2D and point are not lists or ndarray, exit.
     if isinstance(point, list):
@@ -58,11 +67,11 @@ def CountQuads(Arr2D,point):
     return(fpp,fnp,fpn,fnn)
     
 def FuncQuads(func2D,point,xlim,ylim,rounddig=4):
-    """ Computes the proportion of func2D in each 4 quadrant defined by a vertical and horizontal lines crossing the point.
+    """ Computes the probabilities of finding points in each 4 quadrant defined by a vertical and horizontal lines crossing the point, by integrating the density function func2D in each quadrant.
     
     **Arguments:**  
         func2D : list or ndarray
-            A function that takes 2 arguments.
+            Density function that takes 2 arguments.
         point : list or ndarray
             A 2 element list, point, which is the center of 4 square quadrants.
         xlim, ylim : list or ndarray
