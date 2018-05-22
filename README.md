@@ -14,7 +14,7 @@ These algorithms compute the relative probabilities of finding data in orthonorm
 `ks2d1s` and `ks2d2s` ouptputs the KS statistic *D*, and the significance level *prob* of that observed value of *D*, respectively. If *D* is lower than your significance level, you cannot reject the null hypothesis. As for the *prob*, the lower the better. I have not yet a full grasp on the significance of this number.
 
 ## Issues
-Float number representation and rounding: probabilities expected to sum to 1.0 return 0.99999999 instead, etc...  No plans to implement any kind of solution to this: it sounds much more trouble than it is worth. This test is theoretically just an approximation, rounding to a couple digits seem reasonable.
+Float number representation and rounding: probabilities expected to sum to 1.0 return 0.99999999 instead, etc...  No plans to implement any kind of solution to this: it sounds much more trouble than it is worth. This test is theoretically just an approximation, rounding to a couple digits seems reasonable.
 
 ks2d1s: Input: no 2D XxY density matrices, 
     Integration method: only numerical.
