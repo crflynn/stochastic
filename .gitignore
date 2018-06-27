@@ -6,3 +6,4 @@ make.bat
 Makefile
 __pycache__/
 *.rst
+build/
