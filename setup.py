@@ -12,7 +12,7 @@ with io.open(path.join(here, "README.rst"), encoding="utf-8") as f:
 
 # import __version__ attributes
 about = {}
-with open(path.join(here, "stochastic", "__version__.py")) as f:
+with open(path.join(here, "NHPPy", "__version__.py")) as f:
     exec(f.read(), about)
 
 setup(
@@ -41,7 +41,7 @@ setup(
         "Topic :: Scientific/Engineering :: Physics",
     ],
     keywords="stochastic processes",
-    packages=["stochastic"],
+    packages=["NHPPy"],
     install_requires=[
         "numpy",
         "scipy",
