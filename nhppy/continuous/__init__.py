@@ -9,6 +9,7 @@ from nhppy.continuous.fractional_brownian_motion import FractionalBrownianMotion
 from nhppy.continuous.gamma import GammaProcess
 from nhppy.continuous.geometric_brownian_motion import GeometricBrownianMotion
 from nhppy.continuous.poisson import PoissonProcess
+from nhppy.continuous.mixedpoisson import MixedPoissonProcess
 from nhppy.continuous.squared_bessel import SquaredBesselProcess
 from nhppy.continuous.variance_gamma import VarianceGammaProcess
 from nhppy.continuous.wiener import WienerProcess
