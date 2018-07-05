@@ -26,6 +26,7 @@ __all__ = [
     "GammaProcess",
     "GeometricBrownianMotion",
     "PoissonProcess",
+    "MixedPoissonProcess",
     "SquaredBesselProcess",
     "VarianceGammaProcess",
     "WienerProcess",

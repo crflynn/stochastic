@@ -3,6 +3,44 @@ import numpy as np
 
 from stochastic.base import Checks
 
+def MixedPPSamples(Samples,Realizations,RateDist,RateDistParams,silent=0): 
+    """ Computes samples of a mixed poisson process: a poisson process with an information process. The information process is generally an univariate continuous distribution.
+    
+    **Arguments:**  
+        Samples : integer
+            Number of samples to generate.
+        Realizations : integer
+            Number of realizations/repetitions of the Samples taken.
+        RateDist : function
+            Information process. Univariate distrubition from with the rate parameter is taken.        
+        RateDistParams : floats or list of floats
+            Parameters of the information process.
+            
+    **Returns:**
+        AllRates : 1D list of floats
+            All generated random rates.
+        AllCumul : 2D matrix of floats
+            Cumulative event times in a 2D array.
+        AllRealTimes.shape==(Samples,Realizations) : 2D matrix of floats
+            All event intervals.
+            
+    Source: An Introduction to simulation of risk processes, by Burnecki et al.
+    """ 
+    if not silent:  print('Taking '+str(Samples)+' samples for '+str(Realizations)+ ' Realizations.')
+    if not silent: print(str(RateDist.__name__)+' rate distribution')
+    AllRealTimes=[]
+    AllRates=[]
+    for RandRate in RateDist(*RateDistParams,Realizations):
+        AllRates.append(RandRate)
+        if AllRealTimes==[]:
+            Intervals, Time, Cumul=HPPSamples(Samples, RandRate)
+            AllRealTimes=np.reshape(Time,(len(Time),1))
+        else:
+            Intervals, Time, Cumul=HPPSamples(Samples, RandRate)
+            AllRealTimes=np.hstack((AllRealTimes,np.reshape( Time,(len(Time),1))))
+    AllCumul=np.repeat(np.reshape(np.arange(1,Samples+1),(len(np.arange(1,Samples+1)),1)),Realizations,axis=1)
+    return(AllRates, AllCumul, AllRealTimes)
+
 class MixedPoissonProcess(Checks):
     r"""Mixed Poisson process.
 
