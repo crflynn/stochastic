@@ -47,11 +47,10 @@ class MixedPoissonProcess(Checks):
     # .. image:: _static/poisson_process.png
         # :scale: 50%
     A mixed poisson process is a Poisson process for which the rate is a random variate, 
-    a sample taken from a random distribution.
+    a sample taken from a random distribution. On every call of the sample, a new random rate is generated.
     A Poisson process with rate :math:`\lambda` is a count of occurrences of
     i.i.d. exponential random variables with mean :math:`1/\lambda`. This class
-    generates samples of times for which cumulative exponential random
-    variables occur. 
+    generates samples of times for which cumulative exponential random     variables occur. 
 
     :param function RateDist: random distribution of the rate :math:`\lambda` which defines the rate of
         occurrences of the process
@@ -71,17 +70,19 @@ class MixedPoissonProcess(Checks):
 
     @property
     def rate(self):
-        """Current rate parameter."""
+        """Current rate."""
         return self._rate
+        """Current rate random distribution and parameters."""
+        
 
     @rate.setter
-    def rate(self, RateDist,RateDistParams):
+    def rate(self, RateDist, RateDistParams):
         self._rate = RateDist(*RateDistParams)
         self._check_nonnegative_number(self._rate, "Arrival rate")
 
 
     def _sample_poisson_process(self, n=None, length=None, zero=True):
-        """Generate a realization of a Poisson process.
+        """Generate a realization of a Mixed Poisson process.
 
         Generate a poisson process sample up to count of length if time=False,
         otherwise generate a sample up to time t=length if time=True
@@ -130,9 +131,4 @@ class MixedPoissonProcess(Checks):
 
     def times(self, *args, **kwargs):
         """Disallow times for this process."""
-        raise AttributeError("PoissonProcess object has no attribute times.")
-RateDistParams=[0,100]
-RateDist=np.random.uniform
-A=MixedPoissonProcess(RateDist,RateDistParams)
-print(A.rate)
-print(A.sample(100,1000,0))
+        raise AttributeError("MixedPoissonProcess object has no attribute times.")
