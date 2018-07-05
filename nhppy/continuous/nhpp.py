@@ -3,70 +3,82 @@ import numpy as np
 
 from stochastic.base import Checks
 
-def MixedPPSamples(Samples,Realizations,RateDist,RateDistParams,silent=0): 
-    """ Computes samples of a mixed poisson process: a poisson process with an information process. The information process is generally an univariate continuous distribution.
+def MultiVarNHPPThinSamples(lambdaa,Boundaries,Samples=100,blocksize=1000,silent=0): 
+    """ Computes sample random points in a multidimensional space, using a multidimensional rate function/rate matrix. Use the thinning/acceptance-rejection algorithm.
     
     **Arguments:**  
-        Samples : integer
-            Number of samples to generate.
-        Realizations : integer
-            Number of realizations/repetitions of the Samples taken.
-        RateDist : function
-            Information process. Univariate distrubition from with the rate parameter is taken.        
-        RateDistParams : floats or list of floats
-            Parameters of the information process.
-            
+        lambdaa : function or n-d matrix
+            Rate function. For now, the multidimensional rate cannot be constant.
+        Boundaries : (2,n) matrix
+            Contains the spatial boundaries in which to generate the points. Data space boundaries.
+        Samples: integer
+            Number of samples to generate
+        blocksize: integer
+            Number of points to generate before thinning, rejection. Instead of generating points one by one, a blocksize length array is generated. I think this makes the algo faster.
+        silent: bool
+            Prints debug if equal to one. TO BE REMOVED. REPLACED WITH CORRECT LOGGING.
     **Returns:**
-        AllRates : 1D list of floats
-            All generated random rates.
-        AllCumul : 2D matrix of floats
-            Cumulative event times in a 2D array.
-        AllRealTimes.shape==(Samples,Realizations) : 2D matrix of floats
-            All event intervals.
-            
-    Source: An Introduction to simulation of risk processes, by Burnecki et al.
+        Thinned : (samples,n) matrix
+            Generated samples.
     """ 
-    if not silent:  print('Taking '+str(Samples)+' samples for '+str(Realizations)+ ' Realizations.')
-    if not silent: print(str(RateDist.__name__)+' rate distribution')
-    AllRealTimes=[]
-    AllRates=[]
-    for RandRate in RateDist(*RateDistParams,Realizations):
-        AllRates.append(RandRate)
-        if AllRealTimes==[]:
-            Intervals, Time, Cumul=HPPSamples(Samples, RandRate)
-            AllRealTimes=np.reshape(Time,(len(Time),1))
+    if not silent: print('NHPP samples in space by thinning. lambda can be a 2D matrix or function')
+    # This algorithm acts as if events do not happen outside the Boundaries.
+    if callable(lambdaa):
+        boundstuple=[]
+        for i in Boundaries: boundstuple+=(tuple(i),)
+        max = scipy.optimize.minimize(lambda x: -lambdaa(*x),x0=[np.mean(i) for i in Boundaries],bounds = boundstuple)
+        lmax=lambdaa(*max.x)
+    else:
+        lmax=np.amax(lambdaa)
+    Thinned=[]
+    while len(Thinned)<Samples:
+        for i in Boundaries:
+            if 'Unthin' not in locals():
+                Unthin=np.random.uniform(*i,size=(blocksize))
+            else:
+                Unthin=np.vstack((Unthin,np.random.uniform(*i,size=(blocksize))))
+        Unthin.T
+        U=np.random.uniform(size=(blocksize))
+        if callable(lambdaa): 
+            Criteria=lambdaa(*Unthin)/lmax
         else:
-            Intervals, Time, Cumul=HPPSamples(Samples, RandRate)
-            AllRealTimes=np.hstack((AllRealTimes,np.reshape( Time,(len(Time),1))))
-    AllCumul=np.repeat(np.reshape(np.arange(1,Samples+1),(len(np.arange(1,Samples+1)),1)),Realizations,axis=1)
-    return(AllRates, AllCumul, AllRealTimes)
+            Criteria2D=lambdaa/lmax
+            Indx=(Unthinx*lambdaa.shape[0]).astype(int)
+            Indy=(Unthiny*lambdaa.shape[1]).astype(int)
+            Criteria=Criteria2D[Indx,Indy]
+            Unthin=np.transpose(np.vstack((Unthinx,Unthiny)))
+        if Thinned==[]: 
+            Thinned=Unthin.T[U<Criteria,:]
+        else:
+            Thinned=np.vstack((Thinned,Unthin.T[U<Criteria,:]))
+        del Unthin
+    Thinned=Thinned[:Samples,:]
+    return(Thinned)
 
-class MixedPoissonProcess(Checks):
-    r"""Mixed Poisson process.
+
+class NHPP(Checks):
+    r"""Non-homogeneous Poisson process.
 
     # .. image:: _static/poisson_process.png
         # :scale: 50%
-    A mixed poisson process is a Poisson process for which the rate is a random variate, 
-    a sample taken from a random distribution. On every call of the sample, a new random rate is generated.
-    A Poisson process with rate :math:`\lambda` is a count of occurrences of
-    i.i.d. exponential random variables with mean :math:`1/\lambda`. This class
-    generates samples of times for which cumulative exponential random     variables occur. 
+    A Poisson process whose rate function varies with time/the underlying data space. Can also be used to generate multidimensional points.
 
     :param function RateDist: random distribution of the rate :math:`\lambda` which defines the rate of
         occurrences of the process
     :param list of floats RateDistParams: Parameters to input into the RateDistFunction
     """
 
-    def __init__(self, RateDist,RateDistParams):
-        self.RateDist = RateDist
-        self.RateDistParams = RateDistParams
-        self._rate=RateDist(*RateDistParams)
-
-    def __str__(self):
-        return "Mixed Poisson process with rate {r}.".format(r=str(self.rate))
-
-    def __repr__(self):
-        return "PoissonProcess(rate={r})".format(r=str(self.rate))
+    def __init__(self, lambdaa,Boundaries):
+        self.lambdaa=lambdaa
+        self.Boundaries=Boundaries
+        if callable(lambdaa):
+            boundstuple=[]
+            for i in Boundaries: boundstuple+=(tuple(i),)
+            max = scipy.optimize.minimize(lambda x: -lambdaa(*x),x0=[np.mean(i) for i in Boundaries],bounds = boundstuple)
+            self.lmax=lambdaa(*max.x)
+        else:
+            self.lmax=np.amax(lambdaa)
+         
 
     @property
     def rate(self):
@@ -76,13 +88,12 @@ class MixedPoissonProcess(Checks):
         
 
     @rate.setter
-    def rate(self, RateDist, RateDistParams):
-        self._rate = RateDist(*RateDistParams)
-        self._check_nonnegative_number(self._rate, "Arrival rate")
+    def rate(self, lambdaa,Boundaries):
+        self.__init__(lambdaa,Boundaries)
 
 
     def _sample_poisson_process(self, n=None, length=None, zero=True):
-        """Generate a realization of a Mixed Poisson process.
+        """Generate a realization of a Non-homogeneous Poisson process using the Thinning/acceptance-rejection algorithm.
 
         Generate a poisson process sample up to count of length if time=False,
         otherwise generate a sample up to time t=length if time=True
