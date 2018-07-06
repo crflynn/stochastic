@@ -68,28 +68,30 @@ class NHPP(Checks):
     :param matrix of shape (dim,2) Boundaries: Parameters to input into the RateDistFunction
     """
 
-    def __init__(self, lambdaa,Boundaries):
-        self.lambdaa=lambdaa
-        self.Boundaries=Boundaries
+    def __init__(self,):
+        # self.lmax(lambdaa,Boundaries)
+        pass
+        
+    @property
+    def lmax(self):
+        """Current rate."""
+        print('property')
+        return self._lmax
+        """Current rate random distribution and parameters."""
+
+    @lmax.setter
+    def lmax(self, value):
+        lambdaa,Boundaries =value 
         if callable(lambdaa):
+            print('callable')
             boundstuple=[]
             for i in Boundaries: boundstuple+=(tuple(i),)
             max = scipy.optimize.minimize(lambda x: -lambdaa(*x),x0=[np.mean(i) for i in Boundaries],bounds = boundstuple)
-            self.lmax=lambdaa(*max.x)
+            self._lmax=lambdaa(*max.x)
         else:
-            self.lmax=np.amax(lambdaa)
+            self._lmax=np.amax(lambdaa)
          
-
-    @property
-    def rate(self):
-        """Current rate."""
-        return self._rate
-        """Current rate random distribution and parameters."""
-        
-
-    @rate.setter
-    def rate(self, lambdaa,Boundaries):
-        self.__init__(lambdaa,Boundaries)
+        # self.__init__(lambdaa,Boundaries)
 
 
     def _sample_poisson_process(self, n=None, length=None, zero=True):
@@ -143,3 +145,12 @@ class NHPP(Checks):
     def times(self, *args, **kwargs):
         """Disallow times for this process."""
         raise AttributeError("MixedPoissonProcess object has no attribute times.")
+
+def lambdatest2D(x1,x2):
+    return(6.*x1*x2**2.)
+Intervals2D=np.array([[0,3],[0,2]])
+def lambdatest3D(x1,x2,x3):
+    return(x1+2*x2**2+3*x3**3)
+Intervals3D=np.array([[0,1],[0,2],[0,3]])
+A=NHPP()
+print(NHPP.lmax(lambdatest3D,Intervals3D))

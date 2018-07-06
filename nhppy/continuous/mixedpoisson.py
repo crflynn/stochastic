@@ -14,15 +14,15 @@ class MixedPoissonProcess(Checks):
     i.i.d. exponential random variables with mean :math:`1/\lambda`. This class
     generates samples of times for which cumulative exponential random     variables occur. 
 
-    :param function RateDist: random distribution of the rate :math:`\lambda` which defines the rate of
+    :param function ratedist: random distribution of the rate :math:`\lambda` which defines the rate of
         occurrences of the process
-    :param list of floats RateDistParams: Parameters to input into the RateDistFunction
+    :param list of floats ratedistparams: Parameters to input into the ratedistFunction
     """
 
-    def __init__(self, RateDist,RateDistParams):
-        self.RateDist = RateDist
-        self.RateDistParams = RateDistParams
-        self._rate=RateDist(*RateDistParams)
+    def __init__(self, ratedist,ratedistparams):
+        self.ratedist = ratedist
+        self.ratedistparams = ratedistparams
+        self.rate=(ratedist,ratedistparams)
 
     def __str__(self):
         return "Mixed Poisson process with rate {r}.".format(r=str(self.rate))
@@ -31,17 +31,41 @@ class MixedPoissonProcess(Checks):
         return "PoissonProcess(rate={r})".format(r=str(self.rate))
 
     @property
+    def ratedist(self):
+        """Current rate distribution."""
+        return self._ratedist
+        
+    @ratedist.setter
+    def ratedist(self, value):
+        self._ratedist = value
+        # self._check_nonnegative_number(self._rate, "Arrival rate")
+
+    @property
+    def ratedistparams(self):
+        """Parameters for rate generation."""
+        return self._ratedistparams
+        
+    @ratedistparams.setter
+    def ratedistparams(self, value):
+        self._ratedistparams = value
+        # self._check_nonnegative_number(self._rate, "Arrival rate")        
+        
+    @property
     def rate(self):
         """Current rate."""
         return self._rate
         """Current rate random distribution and parameters."""
         
-
     @rate.setter
-    def rate(self, RateDist, RateDistParams):
-        self._rate = RateDist(*RateDistParams)
-        self._check_nonnegative_number(self._rate, "Arrival rate")
-
+    def rate(self, value):
+        ratedist, ratedistparams= value 
+        self._ratedist=ratedist
+        self._ratedistparams=ratedistparams
+        self._rate = ratedist(*ratedistparams)
+        # self._check_nonnegative_number(self._rate, "Arrival rate")
+        
+    def genrate(self):
+        self._rate=self.ratedist(*self.ratedistparams)
 
     def _sample_poisson_process(self, n=None, length=None, zero=True):
         """Generate a realization of a Mixed Poisson process.
@@ -89,8 +113,20 @@ class MixedPoissonProcess(Checks):
             arrivals until length is met or exceeded.
         :param bool zero: if True, include :math:`t=0`
         """
+        self.genrate()
         return self._sample_poisson_process(n, length, zero)
 
     def times(self, *args, **kwargs):
         """Disallow times for this process."""
         raise AttributeError("MixedPoissonProcess object has no attribute times.")
+        
+
+InfoProcessparams=[0,100]
+InfoProcess=np.random.uniform
+A=MixedPoissonProcess(InfoProcess,InfoProcessparams)
+print(A.rate)
+A.rate=(InfoProcess,[0,10])
+print(A.rate)
+A.genrate()
+print(A.rate)
+# print(A._rate((InfoProcess,[0,10])))
