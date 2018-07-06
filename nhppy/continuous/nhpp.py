@@ -63,9 +63,9 @@ class NHPP(Checks):
         # :scale: 50%
     A Poisson process whose rate function varies with time/the underlying data space. Can also be used to generate multidimensional points.
 
-    :param function RateDist: random distribution of the rate :math:`\lambda` which defines the rate of
-        occurrences of the process
+    :param function or nd Matrix lambda: n-dimensional rate function, or n-dimensional matrix representing the rate function in the data space.
     :param list of floats RateDistParams: Parameters to input into the RateDistFunction
+    :param matrix of shape (dim,2) Boundaries: Parameters to input into the RateDistFunction
     """
 
     def __init__(self, lambdaa,Boundaries):
