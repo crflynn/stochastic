@@ -83,7 +83,8 @@ class NHPP(Checks):
     def lambdaa(self, value):
         self._lambdaa = value
         if (hasattr(self,'_lambdaa')) & (hasattr(self,'_boundaries')) : 
-            print('changelmax')
+            self.lmax=self.lambdaa,self.boundaries
+            self._check_nonnegative_number(self._lmax, "Maximal rate")
         # if (hasattr(self,'_rate')) : self._check_nonnegative_number(self._rate, "Arrival rate")
 
     @property
@@ -96,14 +97,12 @@ class NHPP(Checks):
         self._boundaries = value
         if (hasattr(self,'_lambdaa')) & (hasattr(self,'_boundaries')) : 
             self.lmax=self.lambdaa,self.boundaries
-            print('changelmax')
+            self._check_nonnegative_number(self._lmax, "Maximal rate")
 
     @property
     def lmax(self):
         """Current rate."""
-        print('property')
-        self._check_nonnegative_number(self._lmax, "Maximal rate")
-        print(self._lmax)
+
         return self._lmax
         """Maximal rate."""
 
@@ -111,15 +110,13 @@ class NHPP(Checks):
     def lmax(self, value):
         lambdaa,boundaries = value 
         if callable(lambdaa):
-            print('callable')
             boundstuple=[]
             for i in boundaries: boundstuple+=(tuple(i),)
             max = scipy.optimize.minimize(lambda x: -lambdaa(*x),x0=[np.mean(i) for i in boundaries],bounds = boundstuple)
             self._lmax=lambdaa(*max.x)
-            print(self._lmax)
         else:
             self._lmax=np.amax(lambdaa)
-            print(np.amax(lambdaa))
+        self._check_nonnegative_number(self._lmax, "Maximal rate")
          
         # self.__init__(lambdaa,boundaries)
 
@@ -179,13 +176,18 @@ import sys
 def lambdatest2D(x1,x2):
     return(6.*x1*x2**2.)
 Intervals2D=np.array([[0,3],[0,2]])
-def lambdatest3D(x1,x2,x3):
+def lambdatest3D1(x1,x2,x3):
     return(x1+2*x2**2+3*x3**3)
+def lambdatest3D2(x1,x2,x3):
+    return(x1+x2**2-x3**3)
 Intervals3D1=np.array([[0,1],[0,2],[0,3]])
-Intervals3D2=np.array([[0,2],[0,1],[0,1]])
-A=NHPP(lambdatest3D,Intervals3D1)
+Intervals3D2=np.array([[0,2],[0,2],[0,5]])
+A=NHPP(lambdatest3D1,Intervals3D1)
 print(A.lmax)
 A.boundaries=Intervals3D2
+print(A.lmax)
+A.lambdaa=lambdatest3D2
+print(A.lmax)
 sys.exit()
 NHPP.lmax=lambdatest3D,Intervals3D1
 print(NHPP.lmax)
