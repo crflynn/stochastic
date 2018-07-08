@@ -38,7 +38,8 @@ class MixedPoissonProcess(Checks):
     @ratedist.setter
     def ratedist(self, value):
         self._ratedist = value
-        if (hasattr(self,'_ratedistparams')) & (hasattr(self,'_ratedist')) : self._rate = self._ratedist(*self._ratedistparams)  
+        if (hasattr(self,'_ratedistparams')) & (hasattr(self,'_ratedist')) : 
+            self.rate = self._ratedist,self._ratedistparams
         if (hasattr(self,'_rate')) : self._check_nonnegative_number(self._rate, "Arrival rate")
 
     @property
@@ -49,7 +50,8 @@ class MixedPoissonProcess(Checks):
     @ratedistparams.setter
     def ratedistparams(self, value):
         self._ratedistparams = value
-        if (hasattr(self,'_ratedistparams')) & (hasattr(self,'_ratedist')) : self._rate = self._ratedist(*self._ratedistparams) 
+        if (hasattr(self,'_ratedistparams')) & (hasattr(self,'_ratedist')) : 
+            self.rate = self._ratedist,self._ratedistparams
         if (hasattr(self,'_rate')) : self._check_nonnegative_number(self._rate, "Arrival rate")
         
     @property
@@ -118,6 +120,7 @@ class MixedPoissonProcess(Checks):
         out=self._sample_poisson_process(n, length, zero)
         self._rate = self._ratedist(*self._ratedistparams) 
         """Generate a new random rate upon each realization."""
+        self._check_nonnegative_number(self._rate, "Arrival rate")
         return out
 
     def times(self, *args, **kwargs):

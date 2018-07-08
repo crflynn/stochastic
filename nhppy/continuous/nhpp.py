@@ -1,15 +1,16 @@
 """Poisson processes."""
 import numpy as np
+import scipy.optimize
 
 from stochastic.base import Checks
 
-def MultiVarNHPPThinSamples(lambdaa,Boundaries,Samples=100,blocksize=1000,silent=0): 
+def MultiVarNHPPThinSamples(lambdaa,boundaries,Samples=100,blocksize=1000,silent=0): 
     """ Computes sample random points in a multidimensional space, using a multidimensional rate function/rate matrix. Use the thinning/acceptance-rejection algorithm.
     
     **Arguments:**  
         lambdaa : function or n-d matrix
             Rate function. For now, the multidimensional rate cannot be constant.
-        Boundaries : (2,n) matrix
+        boundaries : (2,n) matrix
             Contains the spatial boundaries in which to generate the points. Data space boundaries.
         Samples: integer
             Number of samples to generate
@@ -22,17 +23,17 @@ def MultiVarNHPPThinSamples(lambdaa,Boundaries,Samples=100,blocksize=1000,silent
             Generated samples.
     """ 
     if not silent: print('NHPP samples in space by thinning. lambda can be a 2D matrix or function')
-    # This algorithm acts as if events do not happen outside the Boundaries.
+    # This algorithm acts as if events do not happen outside the boundaries.
     if callable(lambdaa):
         boundstuple=[]
-        for i in Boundaries: boundstuple+=(tuple(i),)
-        max = scipy.optimize.minimize(lambda x: -lambdaa(*x),x0=[np.mean(i) for i in Boundaries],bounds = boundstuple)
+        for i in boundaries: boundstuple+=(tuple(i),)
+        max = scipy.optimize.minimize(lambda x: -lambdaa(*x),x0=[np.mean(i) for i in boundaries],bounds = boundstuple)
         lmax=lambdaa(*max.x)
     else:
         lmax=np.amax(lambdaa)
     Thinned=[]
     while len(Thinned)<Samples:
-        for i in Boundaries:
+        for i in boundaries:
             if 'Unthin' not in locals():
                 Unthin=np.random.uniform(*i,size=(blocksize))
             else:
@@ -65,33 +66,62 @@ class NHPP(Checks):
 
     :param function or nd Matrix lambda: n-dimensional rate function, or n-dimensional matrix representing the rate function in the data space.
     :param list of floats RateDistParams: Parameters to input into the RateDistFunction
-    :param matrix of shape (dim,2) Boundaries: Parameters to input into the RateDistFunction
+    :param matrix of shape (dim,2) boundaries: Parameters to input into the RateDistFunction
     """
 
-    def __init__(self,):
-        # self.lmax(lambdaa,Boundaries)
-        pass
+    def __init__(self,lambdaa,boundaries):
+        self.lambdaa=lambdaa
+        self.boundaries=boundaries
+        self.lmax=(lambdaa,boundaries)
         
+    @property
+    def lambdaa(self):
+        """Rate function, or n-dimensional matrix."""
+        return self._lambdaa
+
+    @lambdaa.setter
+    def lambdaa(self, value):
+        self._lambdaa = value
+        if (hasattr(self,'_lambdaa')) & (hasattr(self,'_boundaries')) : 
+            print('changelmax')
+        # if (hasattr(self,'_rate')) : self._check_nonnegative_number(self._rate, "Arrival rate")
+
+    @property
+    def boundaries(self):
+        """boundaries of the rate function."""
+        return self._boundaries
+
+    @boundaries.setter
+    def boundaries(self, value):
+        self._boundaries = value
+        if (hasattr(self,'_lambdaa')) & (hasattr(self,'_boundaries')) : 
+            self.lmax=self.lambdaa,self.boundaries
+            print('changelmax')
+
     @property
     def lmax(self):
         """Current rate."""
         print('property')
+        self._check_nonnegative_number(self._lmax, "Maximal rate")
+        print(self._lmax)
         return self._lmax
-        """Current rate random distribution and parameters."""
+        """Maximal rate."""
 
     @lmax.setter
     def lmax(self, value):
-        lambdaa,Boundaries =value 
+        lambdaa,boundaries = value 
         if callable(lambdaa):
             print('callable')
             boundstuple=[]
-            for i in Boundaries: boundstuple+=(tuple(i),)
-            max = scipy.optimize.minimize(lambda x: -lambdaa(*x),x0=[np.mean(i) for i in Boundaries],bounds = boundstuple)
+            for i in boundaries: boundstuple+=(tuple(i),)
+            max = scipy.optimize.minimize(lambda x: -lambdaa(*x),x0=[np.mean(i) for i in boundaries],bounds = boundstuple)
             self._lmax=lambdaa(*max.x)
+            print(self._lmax)
         else:
             self._lmax=np.amax(lambdaa)
+            print(np.amax(lambdaa))
          
-        # self.__init__(lambdaa,Boundaries)
+        # self.__init__(lambdaa,boundaries)
 
 
     def _sample_poisson_process(self, n=None, length=None, zero=True):
@@ -145,12 +175,17 @@ class NHPP(Checks):
     def times(self, *args, **kwargs):
         """Disallow times for this process."""
         raise AttributeError("MixedPoissonProcess object has no attribute times.")
-
+import sys
 def lambdatest2D(x1,x2):
     return(6.*x1*x2**2.)
 Intervals2D=np.array([[0,3],[0,2]])
 def lambdatest3D(x1,x2,x3):
     return(x1+2*x2**2+3*x3**3)
-Intervals3D=np.array([[0,1],[0,2],[0,3]])
-A=NHPP()
-print(NHPP.lmax=lambdatest3D,Intervals3D)
+Intervals3D1=np.array([[0,1],[0,2],[0,3]])
+Intervals3D2=np.array([[0,2],[0,1],[0,1]])
+A=NHPP(lambdatest3D,Intervals3D1)
+print(A.lmax)
+A.boundaries=Intervals3D2
+sys.exit()
+NHPP.lmax=lambdatest3D,Intervals3D1
+print(NHPP.lmax)
