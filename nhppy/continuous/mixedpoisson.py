@@ -1,6 +1,7 @@
 """Poisson processes."""
 import numpy as np
 
+
 from stochastic.base import Checks
 
 class MixedPoissonProcess(Checks):
@@ -38,7 +39,7 @@ class MixedPoissonProcess(Checks):
     @ratedist.setter
     def ratedist(self, value):
         self._ratedist = value
-        # self._check_nonnegative_number(self._rate, "Arrival rate")
+        if (hasattr(self,'_ratedistparams')) & (hasattr(self,'_ratedist')) : self._rate = self._ratedist(*self._ratedistparams)  
 
     @property
     def ratedistparams(self):
@@ -48,7 +49,7 @@ class MixedPoissonProcess(Checks):
     @ratedistparams.setter
     def ratedistparams(self, value):
         self._ratedistparams = value
-        # self._check_nonnegative_number(self._rate, "Arrival rate")        
+        if (hasattr(self,'_ratedistparams')) & (hasattr(self,'_ratedist')) : self._rate = self._ratedist(*self._ratedistparams)  
         
     @property
     def rate(self):
@@ -58,10 +59,11 @@ class MixedPoissonProcess(Checks):
         
     @rate.setter
     def rate(self, value):
+        print('setter')
         ratedist, ratedistparams= value 
         self._ratedist=ratedist
         self._ratedistparams=ratedistparams
-        self._rate = ratedist(*ratedistparams)
+        self._rate = self._ratedist(*self._ratedistparams)
         # self._check_nonnegative_number(self._rate, "Arrival rate")
         
     def genrate(self):
@@ -122,10 +124,22 @@ class MixedPoissonProcess(Checks):
         
 
 InfoProcessparams=[0,100]
-InfoProcess=np.random.uniform
-A=MixedPoissonProcess(InfoProcess,InfoProcessparams)
+InfoProcess1=np.random.uniform
+InfoProcess2=np.random.normal
+A=MixedPoissonProcess(InfoProcess2,InfoProcessparams)
+import sys
 print(A.rate)
-A.rate=(InfoProcess,[0,10])
+print(A.ratedist)
+print(A.ratedistparams)
+A.ratedist=InfoProcess1
+print(A.rate)
+print(A.ratedist)
+print(A.ratedistparams)
+sys.exit()
+# A.rate()
+
+print(A.rate)
+A.rate=(InfoProcess1,[0,10])
 print(A.rate)
 A.genrate()
 print(A.rate)

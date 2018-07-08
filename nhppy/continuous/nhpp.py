@@ -153,4 +153,4 @@ def lambdatest3D(x1,x2,x3):
     return(x1+2*x2**2+3*x3**3)
 Intervals3D=np.array([[0,1],[0,2],[0,3]])
 A=NHPP()
-print(NHPP.lmax(lambdatest3D,Intervals3D))
+print(NHPP.lmax=lambdatest3D,Intervals3D)
