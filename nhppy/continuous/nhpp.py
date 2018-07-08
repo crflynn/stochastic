@@ -128,35 +128,29 @@ class NHPP(Checks):
         otherwise generate a sample up to time t=length if time=True
         """
         
-        if n is not None:
-            self._check_increments(n)
-
-            exponentials = np.random.exponential(
-                scale=1.0 / self.rate, size=n)
-
-            s = np.array([0] + list(np.cumsum(exponentials)))
-            if zero:
-                return s
+        Thinned=[]
+        while len(Thinned)<Samples:
+            for i in boundaries:
+                if 'Unthin' not in locals():
+                    Unthin=np.random.uniform(*i,size=(blocksize))
+                else:
+                    Unthin=np.vstack((Unthin,np.random.uniform(*i,size=(blocksize))))
+            Unthin.T
+            U=np.random.uniform(size=(blocksize))
+            if callable(lambdaa): 
+                Criteria=lambdaa(*Unthin)/lmax
             else:
-                return s[1:]
-        elif length is not None:
-            self._check_positive_number(length, "Sample length")
-
-            t = 0
-            times = []
-            if zero:
-                times.append(0)
-            exp_rate = 1.0 / self.rate
-
-            while t < length:
-                t += np.random.exponential(scale=exp_rate)
-                times.append(t)
-            return np.array(times)
-            
-        else:
-            raise ValueError(
-                "Must provide either argument n or length.")
-
+                Criteria2D=lambdaa/lmax
+                Indx=(Unthinx*lambdaa.shape[0]).astype(int)
+                Indy=(Unthiny*lambdaa.shape[1]).astype(int)
+                Criteria=Criteria2D[Indx,Indy]
+                Unthin=np.transpose(np.vstack((Unthinx,Unthiny)))
+            if Thinned==[]: 
+                Thinned=Unthin.T[U<Criteria,:]
+            else:
+                Thinned=np.vstack((Thinned,Unthin.T[U<Criteria,:]))
+            del Unthin
+        Thinned=Thinned[:Samples,:]
     def sample(self, n=None, length=None, zero=True):
         """Generate a realization.
 
