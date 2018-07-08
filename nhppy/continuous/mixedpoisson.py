@@ -1,7 +1,6 @@
 """Poisson processes."""
 import numpy as np
 
-
 from stochastic.base import Checks
 
 class MixedPoissonProcess(Checks):
@@ -33,7 +32,7 @@ class MixedPoissonProcess(Checks):
 
     @property
     def ratedist(self):
-        """Current rate distribution."""
+        """Current rate's random distribution."""
         return self._ratedist
         
     @ratedist.setter
@@ -43,19 +42,18 @@ class MixedPoissonProcess(Checks):
 
     @property
     def ratedistparams(self):
-        """Parameters for rate generation."""
+        """Parameters for rate generation using given random distribution."""
         return self._ratedistparams
         
     @ratedistparams.setter
     def ratedistparams(self, value):
         self._ratedistparams = value
-        if (hasattr(self,'_ratedistparams')) & (hasattr(self,'_ratedist')) : self._rate = self._ratedist(*self._ratedistparams)  
+        if (hasattr(self,'_ratedistparams')) & (hasattr(self,'_ratedist')) : self._rate = self._ratedist(*self._ratedistparams) 
         
     @property
     def rate(self):
         """Current rate."""
         return self._rate
-        """Current rate random distribution and parameters."""
         
     @rate.setter
     def rate(self, value):
@@ -64,7 +62,7 @@ class MixedPoissonProcess(Checks):
         self._ratedist=ratedist
         self._ratedistparams=ratedistparams
         self._rate = self._ratedist(*self._ratedistparams)
-        # self._check_nonnegative_number(self._rate, "Arrival rate")
+        self._check_nonnegative_number(self._rate, "Arrival rate")
         
     def genrate(self):
         self._rate=self.ratedist(*self.ratedistparams)
@@ -115,8 +113,10 @@ class MixedPoissonProcess(Checks):
             arrivals until length is met or exceeded.
         :param bool zero: if True, include :math:`t=0`
         """
-        self.genrate()
-        return self._sample_poisson_process(n, length, zero)
+        out=self._sample_poisson_process(n, length, zero)
+        self._rate = self._ratedist(*self._ratedistparams) 
+        """Generate a new random rate upon each realization."""
+        return out
 
     def times(self, *args, **kwargs):
         """Disallow times for this process."""
@@ -126,7 +126,7 @@ class MixedPoissonProcess(Checks):
 InfoProcessparams=[0,100]
 InfoProcess1=np.random.uniform
 InfoProcess2=np.random.normal
-A=MixedPoissonProcess(InfoProcess2,InfoProcessparams)
+A=MixedPoissonProcess(InfoProcess1,InfoProcessparams)
 import sys
 print(A.rate)
 print(A.ratedist)
@@ -135,12 +135,12 @@ A.ratedist=InfoProcess1
 print(A.rate)
 print(A.ratedist)
 print(A.ratedistparams)
-sys.exit()
-# A.rate()
+A.ratedistparams=[0,10]
+print(A.rate)
+print(A.ratedist)
+print(A.ratedistparams)
 
 print(A.rate)
-A.rate=(InfoProcess1,[0,10])
+A.sample(n=100)
 print(A.rate)
-A.genrate()
-print(A.rate)
-# print(A._rate((InfoProcess,[0,10])))
+sys.exit()
