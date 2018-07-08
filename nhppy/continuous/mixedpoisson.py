@@ -39,6 +39,7 @@ class MixedPoissonProcess(Checks):
     def ratedist(self, value):
         self._ratedist = value
         if (hasattr(self,'_ratedistparams')) & (hasattr(self,'_ratedist')) : self._rate = self._ratedist(*self._ratedistparams)  
+        if (hasattr(self,'_rate')) : self._check_nonnegative_number(self._rate, "Arrival rate")
 
     @property
     def ratedistparams(self):
@@ -49,6 +50,7 @@ class MixedPoissonProcess(Checks):
     def ratedistparams(self, value):
         self._ratedistparams = value
         if (hasattr(self,'_ratedistparams')) & (hasattr(self,'_ratedist')) : self._rate = self._ratedist(*self._ratedistparams) 
+        if (hasattr(self,'_rate')) : self._check_nonnegative_number(self._rate, "Arrival rate")
         
     @property
     def rate(self):
