@@ -3,8 +3,8 @@
 # References: #  [1] Peacock, J. A. (1983). Two-dimensional goodness-of-fit testing in astronomy. Monthly Notices of the Royal Astronomical Society, 202(3), 615-627.
 #  [2] Fasano, G., & Franceschini, A. (1987). A multidimensional version of the Kolmogorov–Smirnov test. Monthly Notices of the Royal Astronomical Society, 225(1), 155-170.
 #  [3]  Flannery, B. P., Press, W. H., Teukolsky, S. A., & Vetterling, W. (1992). Numerical recipes in C. Press Syndicate of the University of Cambridge, New York, 24, 78.
-import sys, os, inspect, logging
-import numpy as np, scipy.stats
+import sys, os, inspect, logging # standard library.
+import numpy as np, scipy.stats # Non standard packages. 
 
 logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',datefmt='%Y/%m/%d %H:%M:%S', filename='example.log',level=logging.DEBUG)
 
