@@ -1,0 +1,65 @@
+* [1;34me05f95e[m - [1;32m(2 minutes ago)[m [37mNo idea what im doing[m [2;37m- Gabriel Taillon[m[1;33m (HEAD -> dev)[m
+[31m|[m * [1;34m7f338ab[m - [1;32m(44 minutes ago)[m [37mAdding KS2D as a submodule for now. Experimenting with submodule features.[m [2;37m- Gabriel Taillon[m[1;33m (origin/dev)[m
+[31m|[m * [1;34m2597c5b[m - [1;32m(70 minutes ago)[m [37mNHPP is implemented using the rejection-acceptance/thinning algorithm. Multidimensional as well.[m [2;37m- Gabriel Taillon[m[1;33m[m
+[31m|[m * [1;34mac35ab0[m - [1;32m(2 hours ago)[m [37mImplementing the acceptance-rejection algorithm NHPP generation method.[m [2;37m- Gabriel Taillon[m[1;33m[m
+[31m|[m[31m/[m  
+* [1;34m757256c[m - [1;32m(20 hours ago)[m [37mNHPP in development.[m [2;37m- Gabriel Taillon[m[1;33m[m
+* [1;34m51cfbed[m - [1;32m(20 hours ago)[m [37mnhpp can compute the lmax in the boundaries for a function.[m [2;37m- Gabriel Taillon[m[1;33m[m
+* [1;34mdd0d833[m - [1;32m(21 hours ago)[m [37mAdded a better way to set the rate when changing any property of the class.[m [2;37m- Gabriel Taillon[m[1;33m[m
+* [1;34m74b18ba[m - [1;32m(26 hours ago)[m [37mAdded more rate checkers whenever the rate is set.[m [2;37m- Gabriel Taillon[m[1;33m[m
+* [1;34mc97fb53[m - [1;32m(26 hours ago)[m [37mMixedPoissonProcess class functional.[m [2;37m- Gabriel Taillon[m[1;33m[m
+* [1;34mdf248a9[m - [1;32m(26 hours ago)[m [37mDiscovered how to update other properties when setting another property. Implemented in mixedpoisson.py[m [2;37m- Gabriel Taillon[m[1;33m[m
+* [1;34md239298[m - [1;32m(3 days ago)[m [37mHad probelms with the setters of mixedpoisson.[m [2;37m- Gabriel Taillon[m[1;33m[m
+* [1;34mad57d9d[m - [1;32m(3 days ago)[m [37mAdding comments to nhpp.py[m [2;37m- Gabriel Taillon[m[1;33m[m
+* [1;34m47d3864[m - [1;32m(4 days ago)[m [37mworking on NHPP now.[m [2;37m- Gabriel Taillon[m[1;33m[m
+* [1;34m1b81e73[m - [1;32m(4 days ago)[m [37mRemoved useless things added to mixedpoisson.[m [2;37m- Gabriel Taillon[m[1;33m[m
+* [1;34m62e2e11[m - [1;32m(4 days ago)[m [37mMixedPoissonProcess in __init__.py[m [2;37m- Gabriel Taillon[m[1;33m[m
+* [1;34m211325a[m - [1;32m(4 days ago)[m [37mmixedpoisson.py runs fine. To include in init.[m [2;37m- Gabriel Taillon[m[1;33m[m
+* [1;34m2b477c7[m - [1;32m(4 days ago)[m [37mAdded a MixedPoissonProcess class. Already in working order it seems![m [2;37m- Gabriel Taillon[m[1;33m[m
+* [1;34m6be6f48[m - [1;32m(4 days ago)[m [37mAdded new branch, started modifyin the __init__ files and working on putting my new code structure to logical use[m [2;37m- Gabriel Taillon[m[1;33m[m
+* [1;34mef713a7[m - [1;32m(4 days ago)[m [37mStarted modiying a few things: the licencing, the __version__.py file.[m [2;37m- Gabriel Taillon[m[1;33m (origin/master, master)[m
+* [1;34m652191c[m - [1;32m(6 days ago)[m [37mFUTURE PLAN: get tid of the Checks clase in base.py. Remove all checks. Currently checking on how to combined all poisson processes class into one: The MixedPP, the NHPP, etc....[m [2;37m- Gabriel Taillon[m[1;33m[m
+* [1;34m918903b[m - [1;32m(6 months ago)[m [37madd test versions to docs [ci skip][m [2;37m- crflynn[m[1;33m[m
+* [1;34m76aca50[m - [1;32m(6 months ago)[m [37mtry scipy reqs-dev [ci skip][m [2;37m- crflynn[m[1;33m[m
+* [1;34mda0d589[m - [1;32m(6 months ago)[m [37madd reqs for rtd [ci skip][m [2;37m- crflynn[m[1;33m[m
+* [1;34mbfced54[m - [1;32m(6 months ago)[m [37mfix badges [ci skip][m [2;37m- crflynn[m[1;33m[m
+* [1;34ma1a0da4[m - [1;32m(6 months ago)[m [37madd badges [ci skip][m [2;37m- crflynn[m[1;33m[m
+* [1;34meefc4ef[m - [1;32m(6 months ago)[m [37mtest travis[m [2;37m- crflynn[m[1;33m[m
+* [1;34me6257f1[m - [1;32m(6 months ago)[m [37madd twine to pip[m [2;37m- crflynn[m[1;33m[m
+* [1;34md7cabb2[m - [1;32m(6 months ago)[m [37madd setup.cfg[m [2;37m- crflynn[m[1;33m[m
+* [1;34m2f6fc52[m - [1;32m(6 months ago)[m [37madd required packages to setup[m [2;37m- crflynn[m[1;33m[m
+* [1;34md81553c[m - [1;32m(6 months ago)[m [37mreadme small fix[m [2;37m- crflynn[m[1;33m[m
+* [1;34m863c501[m - [1;32m(6 months ago)[m [37mfix compat in setup; add travis.yml[m [2;37m- crflynn[m[1;33m[m
+* [1;34m0356e59[m - [1;32m(6 months ago)[m [37mclean up readme more[m [2;37m- crflynn[m[1;33m[m
+* [1;34mc22e66a[m - [1;32m(6 months ago)[m [37mclean up readme[m [2;37m- crflynn[m[1;33m[m
+* [1;34m5653e39[m - [1;32m(6 months ago)[m [37mtox; tox-pyenv; py2 compat changes to super(); py2/py3 compat changes to assert called[m [2;37m- crflynn[m[1;33m[m
+* [1;34m3087dd5[m - [1;32m(6 months ago)[m [37mupdate docs[m [2;37m- crflynn[m[1;33m[m
+* [1;34ma1f2b6a[m - [1;32m(6 months ago)[m [37mimage generator; doc images; made chinese restaurant more logical[m [2;37m- crflynn[m[1;33m[m
+* [1;34me94e91f[m - [1;32m(6 months ago)[m [37medit docs and setup license[m [2;37m- crflynn[m[1;33m[m
+* [1;34m98ad9b0[m - [1;32m(6 months ago)[m [37mfinish unit tests[m [2;37m- crflynn[m[1;33m[m
+* [1;34m8739048[m - [1;32m(6 months ago)[m [37mtests for bernoulli, chinese restuarant, markov chain[m [2;37m- crflynn[m[1;33m[m
+* [1;34m160cfa3[m - [1;32m(6 months ago)[m [37mfix readme[m [2;37m- crflynn[m[1;33m[m
+* [1;34m22fde04[m - [1;32m(6 months ago)[m [37madd tests for noise processes[m [2;37m- crflynn[m[1;33m[m
+* [1;34m97f89fc[m - [1;32m(6 months ago)[m [37mstub out remaining test files[m [2;37m- crflynn[m[1;33m[m
+* [1;34mbb29c63[m - [1;32m(6 months ago)[m [37mtests and bugfixes for diffusion processes[m [2;37m- crflynn[m[1;33m[m
+* [1;34mc4add26[m - [1;32m(6 months ago)[m [37mfinish tests for continuous-time processes[m [2;37m- crflynn[m[1;33m[m
+* [1;34mf03496d[m - [1;32m(6 months ago)[m [37msample/sample_at bugfixes; gitignore ds_store; check times sequence method in base class; start writing pytests[m [2;37m- crflynn[m[1;33m[m
+* [1;34mf35fe3e[m - [1;32m(6 months ago)[m [37minitial bug fixing[m [2;37m- crflynn[m[1;33m[m
+* [1;34mf4bf143[m - [1;32m(6 months ago)[m [37mfix sample method in base class[m [2;37m- crflynn[m[1;33m[m
+* [1;34m27af4ac[m - [1;32m(6 months ago)[m [37madd more sample_at functionality[m [2;37m- crflynn[m[1;33m[m
+* [1;34m7f23357[m - [1;32m(6 months ago)[m [37madd optimizations for monte carlo sims[m [2;37m- crflynn[m[1;33m[m
+* [1;34m0b950a4[m - [1;32m(6 months ago)[m [37madd euler-maruyama note to diffusions; update title for continuous and discrete time processes[m [2;37m- crflynn[m[1;33m[m
+* [1;34m17a974d[m - [1;32m(6 months ago)[m [37mrefactor base classes; add base class docs[m [2;37m- crflynn[m[1;33m[m
+* [1;34me0bb199[m - [1;32m(6 months ago)[m [37mupdate sample docstrings; add diffusion processes docs[m [2;37m- crflynn[m[1;33m[m
+* [1;34m7dd254f[m - [1;32m(6 months ago)[m [37msetup sphinx-docs; set up most of documentation so far[m [2;37m- crflynn[m[1;33m[m
+* [1;34md76ab77[m - [1;32m(6 months ago)[m [37mupdate manifest; create history.rst; readme fixes[m [2;37m- crflynn[m[1;33m[m
+* [1;34meca23a4[m - [1;32m(6 months ago)[m [37mreformat readme[m [2;37m- crflynn[m[1;33m[m
+* [1;34md3bfe2d[m - [1;32m(6 months ago)[m [37mprocess organization; setup metafiles; update readme; added diffusions[m [2;37m- crflynn[m[1;33m[m
+* [1;34m408d915[m - [1;32m(6 months ago)[m [37mrefactored old code; pipfile; prep docs and tests; added a bunch more processes[m [2;37m- crflynn[m[1;33m[m
+* [1;34m0821c9b[m - [1;32m(1 year, 3 months ago)[m [37mupdate some docstrings and add gamma process[m [2;37m- crf204[m[1;33m[m
+* [1;34m097a946[m - [1;32m(1 year, 3 months ago)[m [37madd generalizations of bm and add fbm[m [2;37m- crf204[m[1;33m[m
+* [1;34mf1e36fd[m - [1;32m(1 year, 3 months ago)[m [37madd brownian motion[m [2;37m- crf204[m[1;33m[m
+* [1;34m58d9c44[m - [1;32m(1 year, 4 months ago)[m [37mwrote chinese restaurant process[m [2;37m- crf204[m[1;33m[m
+* [1;34m20be974[m - [1;32m(1 year, 5 months ago)[m [37madd moran process with neutral drift and tests[m [2;37m- crf204[m[1;33m[m
+* [1;34m2b614de[m - [1;32m(1 year, 5 months ago)[m [37mfix gitignore[m [2;37m- crf204[m[1;33m[m
+* [1;34mbb3f7cf[m - [1;32m(1 year, 5 months ago)[m [37mfirst few processes[m [2;37m- crf204[m[1;33m[m
