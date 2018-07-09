@@ -5,7 +5,7 @@ from stochastic.base import Checks
 
 
 class PoissonProcess(Checks):
-    r"""Poisson process.
+    r"""Poisson process. Also known as homogeneous Poisson Process (HPP).
 
     .. image:: _static/poisson_process.png
         :scale: 50%

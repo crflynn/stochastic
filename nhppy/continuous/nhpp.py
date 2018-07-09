@@ -11,7 +11,9 @@ class NHPP(Checks):
         # :scale: 50%
     A Poisson process whose rate function varies with time/the underlying data space. Can also be used to generate multidimensional points.
     A Poisson process whose rate function varies with time/the underlying data space. Can also be used to generate multidimensional points, if multidimensional parameters are inputted.
-    NOTE: dim is not an input parameter, but this class crashes unless the number of input argument of the function lambdaa, or the number of dimensions of the matrix lambdaa is not equal to the dim of the boundaries parameters.
+    NOTE 1: dim is not an input parameter, but this class crashes unless the number of input argument of the function 
+    lambdaa, or the number of dimensions of the matrix lambdaa is not equal to the dim of the boundaries parameters.
+    NOTE 2: This class can be used to create a Cox process by injecting a lambdaa created from a stochastic process.
     :param function or nd Matrix lambda: function with dim arguments representing a multidimensional equation, or dim-dimensional matrix representing the rate function in the data space.
     :param matrix of shape (dim,2) boundaries: dim number of boundaries (temporal/spatial) between which to generate random points.
     """
