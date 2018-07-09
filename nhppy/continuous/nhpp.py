@@ -63,10 +63,10 @@ class NHPP(Checks):
     # .. image:: _static/poisson_process.png
         # :scale: 50%
     A Poisson process whose rate function varies with time/the underlying data space. Can also be used to generate multidimensional points.
-
-    :param function or nd Matrix lambda: n-dimensional rate function, or n-dimensional matrix representing the rate function in the data space.
+    NOTE: dim is not an input parameter, but this class crashes unless the number of input argument of the function lambdaa, or the number of dimensions of the matrix lambdaa is not equal to dim of the boundaries parameters,
+    :param function or nd Matrix lambda: dim-dimensional rate function, or dim-dimensional matrix representing the rate function in the data space.
     :param list of floats RateDistParams: Parameters to input into the RateDistFunction
-    :param matrix of shape (dim,2) boundaries: Parameters to input into the RateDistFunction
+    :param matrix of shape (dim,2) boundaries: Boundaries (temporal/spatial) on which to generate
     """
 
     def __init__(self,lambdaa,boundaries):
@@ -120,38 +120,47 @@ class NHPP(Checks):
          
         # self.__init__(lambdaa,boundaries)
 
-
-    def _sample_poisson_process(self, n=None, length=None, zero=True):
+    def _sample_poisson_process(self, n=None,blocksize=1000):
         """Generate a realization of a Non-homogeneous Poisson process using the Thinning/acceptance-rejection algorithm.
 
         Generate a poisson process sample up to count of length if time=False,
         otherwise generate a sample up to time t=length if time=True
         """
-        
         Thinned=[]
-        while len(Thinned)<Samples:
-            for i in boundaries:
-                if 'Unthin' not in locals():
-                    Unthin=np.random.uniform(*i,size=(blocksize))
+        if n is not None:
+            self._check_increments(n)
+            while len(Thinned)<n:
+                for i in self.boundaries:
+                    if 'Unthin' not in locals():
+                        Unthin=np.random.uniform(*i,size=(blocksize))
+                    else:
+                        Unthin=np.vstack((Unthin,np.random.uniform(*i,size=(blocksize))))
+                Unthin.T
+                U=np.random.uniform(size=(blocksize))
+                if callable(self.lambdaa): 
+                    Criteria=self.lambdaa(*Unthin)/self.lmax
                 else:
-                    Unthin=np.vstack((Unthin,np.random.uniform(*i,size=(blocksize))))
-            Unthin.T
-            U=np.random.uniform(size=(blocksize))
-            if callable(lambdaa): 
-                Criteria=lambdaa(*Unthin)/lmax
-            else:
-                Criteria2D=lambdaa/lmax
-                Indx=(Unthinx*lambdaa.shape[0]).astype(int)
-                Indy=(Unthiny*lambdaa.shape[1]).astype(int)
-                Criteria=Criteria2D[Indx,Indy]
-                Unthin=np.transpose(np.vstack((Unthinx,Unthiny)))
-            if Thinned==[]: 
-                Thinned=Unthin.T[U<Criteria,:]
-            else:
-                Thinned=np.vstack((Thinned,Unthin.T[U<Criteria,:]))
-            del Unthin
-        Thinned=Thinned[:Samples,:]
-    def sample(self, n=None, length=None, zero=True):
+                    Criteria2D=self.lambdaa/self.lmax
+                    Indx=(Unthinx*self.lambdaa.shape[0]).astype(int)
+                    Indy=(Unthiny*self.lambdaa.shape[1]).astype(int)
+                    Criteria=Criteria2D[Indx,Indy]
+                    Unthin=np.transpose(np.vstack((Unthinx,Unthiny)))
+                if Thinned==[]: 
+                    Thinned=Unthin.T[U<Criteria,:]
+                else:
+                    print(len(Thinned))
+                    print(len(Unthin))
+                    print(len(Unthin.T[U<Criteria,:]))
+                    Thinned=np.vstack((Thinned,Unthin.T[U<Criteria,:]))
+                del Unthin
+            return Thinned[:n,:]
+        else:
+            raise ValueError(
+                "Must provide either argument n.")
+                
+                
+        
+    def sample(self, n=None):
         """Generate a realization.
 
         Exactly one of the following parameters must be provided.
@@ -161,7 +170,7 @@ class NHPP(Checks):
             arrivals until length is met or exceeded.
         :param bool zero: if True, include :math:`t=0`
         """
-        return self._sample_poisson_process(n, length, zero)
+        return self._sample_poisson_process(n)
 
     def times(self, *args, **kwargs):
         """Disallow times for this process."""
@@ -182,6 +191,8 @@ A.boundaries=Intervals3D2
 print(A.lmax)
 A.lambdaa=lambdatest3D2
 print(A.lmax)
+print(A.sample(n=20))
+print(len(A.sample(n=20)))
 sys.exit()
 NHPP.lmax=lambdatest3D,Intervals3D1
 print(NHPP.lmax)
