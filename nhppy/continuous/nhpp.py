@@ -63,10 +63,17 @@ class NHPP(Checks):
     # .. image:: _static/poisson_process.png
         # :scale: 50%
     A Poisson process whose rate function varies with time/the underlying data space. Can also be used to generate multidimensional points.
+<<<<<<< HEAD
 
     :param function or nd Matrix lambda: n-dimensional rate function, or n-dimensional matrix representing the rate function in the data space.
     :param list of floats RateDistParams: Parameters to input into the RateDistFunction
     :param matrix of shape (dim,2) boundaries: Parameters to input into the RateDistFunction
+=======
+    NOTE: dim is not an input parameter, but this class crashes unless the number of input argument of the function lambdaa, or the number of dimensions of the matrix lambdaa is not equal to dim of the boundaries parameters,
+    :param function or nd Matrix lambda: dim-dimensional rate function, or dim-dimensional matrix representing the rate function in the data space.
+    :param list of floats RateDistParams: Parameters to input into the RateDistFunction
+    :param matrix of shape (dim,2) boundaries: Boundaries (temporal/spatial) on which to generate
+>>>>>>> parent of 2597c5b... NHPP is implemented using the rejection-acceptance/thinning algorithm. Multidimensional as well.
     """
 
     def __init__(self,lambdaa,boundaries):
@@ -134,6 +141,7 @@ class NHPP(Checks):
                 if 'Unthin' not in locals():
                     Unthin=np.random.uniform(*i,size=(blocksize))
                 else:
+<<<<<<< HEAD
                     Unthin=np.vstack((Unthin,np.random.uniform(*i,size=(blocksize))))
             Unthin.T
             U=np.random.uniform(size=(blocksize))
@@ -152,6 +160,21 @@ class NHPP(Checks):
             del Unthin
         Thinned=Thinned[:Samples,:]
     def sample(self, n=None, length=None, zero=True):
+=======
+                    print(len(Thinned))
+                    print(len(Unthin))
+                    print(len(Unthin.T[U<Criteria,:]))
+                    Thinned=np.vstack((Thinned,Unthin.T[U<Criteria,:]))
+                del Unthin
+            return Thinned[:n,:]
+        else:
+            raise ValueError(
+                "Must provide either argument n.")
+                
+                
+        
+    def sample(self, n=None):
+>>>>>>> parent of 2597c5b... NHPP is implemented using the rejection-acceptance/thinning algorithm. Multidimensional as well.
         """Generate a realization.
 
         Exactly one of the following parameters must be provided.
