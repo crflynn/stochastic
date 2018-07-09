@@ -1,3 +1,4 @@
+
 # pytest
 .cache
 
@@ -26,3 +27,11 @@ _build
 
 # macosx
 .DS_Store
+LICENSE
+TEST_KS2D/
+example.log
+make.bat
+Makefile
+__pycache__/
+*.rst
+_build/
