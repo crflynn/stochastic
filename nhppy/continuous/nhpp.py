@@ -4,69 +4,15 @@ import scipy.optimize
 
 from stochastic.base import Checks
 
-def MultiVarNHPPThinSamples(lambdaa,boundaries,Samples=100,blocksize=1000,silent=0): 
-    """ Computes sample random points in a multidimensional space, using a multidimensional rate function/rate matrix. Use the thinning/acceptance-rejection algorithm.
-    
-    **Arguments:**  
-        lambdaa : function or n-d matrix
-            Rate function. For now, the multidimensional rate cannot be constant.
-        boundaries : (2,n) matrix
-            Contains the spatial boundaries in which to generate the points. Data space boundaries.
-        Samples: integer
-            Number of samples to generate
-        blocksize: integer
-            Number of points to generate before thinning, rejection. Instead of generating points one by one, a blocksize length array is generated. I think this makes the algo faster.
-        silent: bool
-            Prints debug if equal to one. TO BE REMOVED. REPLACED WITH CORRECT LOGGING.
-    **Returns:**
-        Thinned : (samples,n) matrix
-            Generated samples.
-    """ 
-    if not silent: print('NHPP samples in space by thinning. lambda can be a 2D matrix or function')
-    # This algorithm acts as if events do not happen outside the boundaries.
-    if callable(lambdaa):
-        boundstuple=[]
-        for i in boundaries: boundstuple+=(tuple(i),)
-        max = scipy.optimize.minimize(lambda x: -lambdaa(*x),x0=[np.mean(i) for i in boundaries],bounds = boundstuple)
-        lmax=lambdaa(*max.x)
-    else:
-        lmax=np.amax(lambdaa)
-    Thinned=[]
-    while len(Thinned)<Samples:
-        for i in boundaries:
-            if 'Unthin' not in locals():
-                Unthin=np.random.uniform(*i,size=(blocksize))
-            else:
-                Unthin=np.vstack((Unthin,np.random.uniform(*i,size=(blocksize))))
-        Unthin.T
-        U=np.random.uniform(size=(blocksize))
-        if callable(lambdaa): 
-            Criteria=lambdaa(*Unthin)/lmax
-        else:
-            Criteria2D=lambdaa/lmax
-            Indx=(Unthinx*lambdaa.shape[0]).astype(int)
-            Indy=(Unthiny*lambdaa.shape[1]).astype(int)
-            Criteria=Criteria2D[Indx,Indy]
-            Unthin=np.transpose(np.vstack((Unthinx,Unthiny)))
-        if Thinned==[]: 
-            Thinned=Unthin.T[U<Criteria,:]
-        else:
-            Thinned=np.vstack((Thinned,Unthin.T[U<Criteria,:]))
-        del Unthin
-    Thinned=Thinned[:Samples,:]
-    return(Thinned)
-
-
 class NHPP(Checks):
     r"""Non-homogeneous Poisson process.
 
     # .. image:: _static/poisson_process.png
         # :scale: 50%
-    A Poisson process whose rate function varies with time/the underlying data space. Can also be used to generate multidimensional points.
-    NOTE: dim is not an input parameter, but this class crashes unless the number of input argument of the function lambdaa, or the number of dimensions of the matrix lambdaa is not equal to dim of the boundaries parameters,
-    :param function or nd Matrix lambda: dim-dimensional rate function, or dim-dimensional matrix representing the rate function in the data space.
-    :param list of floats RateDistParams: Parameters to input into the RateDistFunction
-    :param matrix of shape (dim,2) boundaries: Boundaries (temporal/spatial) on which to generate
+    A Poisson process whose rate function varies with time/the underlying data space. Can also be used to generate multidimensional points, if multidimensional parameters are inputted.
+    NOTE: dim is not an input parameter, but this class crashes unless the number of input argument of the function lambdaa, or the number of dimensions of the matrix lambdaa is not equal to the dim of the boundaries parameters.
+    :param function or nd Matrix lambda: function with dim arguments representing a multidimensional equation, or dim-dimensional matrix representing the rate function in the data space.
+    :param matrix of shape (dim,2) boundaries: dim number of boundaries (temporal/spatial) between which to generate random points.
     """
 
     def __init__(self,lambdaa,boundaries):
@@ -155,20 +101,12 @@ class NHPP(Checks):
                 del Unthin
             return Thinned[:n,:]
         else:
-            raise ValueError(
-                "Must provide either argument n.")
-                
-                
+            raise ValueError("Must provide argument n.")
         
     def sample(self, n=None):
         """Generate a realization.
 
-        Exactly one of the following parameters must be provided.
-
-        :param int n: the number of arrivals to simulate
-        :param int length: the length of time to simulate; will generate
-            arrivals until length is met or exceeded.
-        :param bool zero: if True, include :math:`t=0`
+        :param int n: the number of points to simulate
         """
         return self._sample_poisson_process(n)
 
