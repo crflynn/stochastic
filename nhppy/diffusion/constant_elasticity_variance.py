@@ -1,5 +1,5 @@
 """Constant elasticity of variance (CEV) process."""
-from stochastic.diffusion.ornstein_uhlenbeck import OrnsteinUhlenbeckProcess
+from nhppy.diffusion.ornstein_uhlenbeck import OrnsteinUhlenbeckProcess
 
 
 class ConstantElasticityVarianceProcess(OrnsteinUhlenbeckProcess):

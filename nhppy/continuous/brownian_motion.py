@@ -1,7 +1,7 @@
 """Brownian motion and derivative processes."""
 import numpy as np
 
-from stochastic.noise.gaussian_noise import GaussianNoise
+from nhppy.noise.gaussian_noise import GaussianNoise
 
 
 class BrownianMotion(GaussianNoise):

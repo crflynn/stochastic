@@ -3,7 +3,6 @@ import numpy as np
 
 from nhppy.base import Checks
 
-
 class PoissonProcess(Checks):
     r"""Poisson process. Also known as homogeneous Poisson Process (HPP).
 
@@ -89,22 +88,4 @@ class PoissonProcess(Checks):
     def times(self, *args, **kwargs):
         """Disallow times for this process."""
         raise AttributeError("PoissonProcess object has no attribute times.")
-class test(object):
-    def __init__(self):
-        self.pants = 'pants'
-    @property
-    def p(self):
-        return self.pants
-    @p.setter
-    def p(self, value):
-        self.pants = value * 2
-t=test()
-print(t.p)
-t.p=10
-print(t.p)
-        
-A=PoissonProcess(1)
-print(A.rate)
-A.rate=2
-print(A.rate)
-# A.rate(2)
+

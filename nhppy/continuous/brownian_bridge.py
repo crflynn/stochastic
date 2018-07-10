@@ -1,7 +1,7 @@
 """Brownian bridge."""
 import numpy as np
 
-from stochastic.continuous.brownian_motion import BrownianMotion
+from nhppy.continuous.brownian_motion import BrownianMotion
 
 
 class BrownianBridge(BrownianMotion):

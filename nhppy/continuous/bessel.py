@@ -1,8 +1,8 @@
 """Bessel process."""
 import numpy as np
 
-from stochastic.base import Continuous
-from stochastic.continuous.brownian_motion import BrownianMotion
+from nhppy.base import Continuous
+from nhppy.continuous.brownian_motion import BrownianMotion
 
 
 class BesselProcess(Continuous):

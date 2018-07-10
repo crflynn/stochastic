@@ -1,7 +1,7 @@
 """Poisson processes."""
 import numpy as np
 
-from stochastic.base import Checks
+from nhppy.base import Checks
 
 class MixedPoissonProcess(Checks):
     r"""Mixed Poisson process.
@@ -126,26 +126,3 @@ class MixedPoissonProcess(Checks):
     def times(self, *args, **kwargs):
         """Disallow times for this process."""
         raise AttributeError("MixedPoissonProcess object has no attribute times.")
-        
-
-InfoProcessparams=[0,100]
-InfoProcess1=np.random.uniform
-InfoProcess2=np.random.normal
-A=MixedPoissonProcess(InfoProcess1,InfoProcessparams)
-import sys
-print(A.rate)
-print(A.ratedist)
-print(A.ratedistparams)
-A.ratedist=InfoProcess1
-print(A.rate)
-print(A.ratedist)
-print(A.ratedistparams)
-A.ratedistparams=[0,10]
-print(A.rate)
-print(A.ratedist)
-print(A.ratedistparams)
-
-print(A.rate)
-A.sample(n=100)
-print(A.rate)
-sys.exit()

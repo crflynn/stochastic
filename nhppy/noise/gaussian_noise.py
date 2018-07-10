@@ -1,7 +1,7 @@
 """Gaussian Noise."""
 import numpy as np
 
-from stochastic.base import Continuous
+from nhppy.base import Continuous
 
 
 class GaussianNoise(Continuous):

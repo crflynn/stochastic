@@ -1,5 +1,5 @@
 """Wiener process."""
-from stochastic.continuous.brownian_motion import BrownianMotion
+from nhppy.continuous.brownian_motion import BrownianMotion
 
 
 class WienerProcess(BrownianMotion):

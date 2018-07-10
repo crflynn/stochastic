@@ -1,7 +1,7 @@
 """Gamma process."""
 import numpy as np
 
-from stochastic.base import Continuous
+from nhppy.base import Continuous
 
 
 class GammaProcess(Continuous):

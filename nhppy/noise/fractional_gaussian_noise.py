@@ -3,7 +3,7 @@ import logging
 
 import numpy as np
 
-from stochastic.base import Continuous
+from nhppy.base import Continuous
 
 
 class FractionalGaussianNoise(Continuous):

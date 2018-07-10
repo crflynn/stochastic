@@ -1,7 +1,7 @@
 """Cox-Ingersoll-Ross process."""
 import numpy as np
 
-from stochastic.diffusion.ornstein_uhlenbeck import OrnsteinUhlenbeckProcess
+from nhppy.diffusion.ornstein_uhlenbeck import OrnsteinUhlenbeckProcess
 
 
 class CoxIngersollRossProcess(OrnsteinUhlenbeckProcess):

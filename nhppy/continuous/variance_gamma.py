@@ -1,8 +1,8 @@
 """Variance gamma process."""
 import numpy as np
 
-from stochastic.base import Continuous
-from stochastic.noise import GaussianNoise
+from nhppy.base import Continuous
+from nhppy.noise import GaussianNoise
 
 
 class VarianceGammaProcess(Continuous):

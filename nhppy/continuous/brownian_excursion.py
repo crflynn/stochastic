@@ -1,7 +1,7 @@
 """Brownian excursion."""
 import numpy as np
 
-from stochastic.continuous.brownian_bridge import BrownianBridge
+from nhppy.continuous.brownian_bridge import BrownianBridge
 
 
 class BrownianExcursion(BrownianBridge):

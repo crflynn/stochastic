@@ -1,7 +1,7 @@
 """Bernoulli process."""
 import numpy as np
 
-from stochastic.base import Checks
+from nhppy.base import Checks
 
 
 class BernoulliProcess(Checks):

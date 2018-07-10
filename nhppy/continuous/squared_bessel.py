@@ -1,7 +1,7 @@
 """Squared Bessel process."""
 import numpy as np
 
-from stochastic.continuous.bessel import BesselProcess
+from nhppy.continuous.bessel import BesselProcess
 
 
 class SquaredBesselProcess(BesselProcess):

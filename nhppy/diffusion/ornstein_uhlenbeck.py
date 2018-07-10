@@ -1,8 +1,8 @@
 """Ornstein-Uhlenbeck process."""
 import numpy as np
 
-from stochastic.base import Continuous
-from stochastic.noise.gaussian_noise import GaussianNoise
+from nhppy.base import Continuous
+from nhppy.noise.gaussian_noise import GaussianNoise
 
 
 class OrnsteinUhlenbeckProcess(Continuous):

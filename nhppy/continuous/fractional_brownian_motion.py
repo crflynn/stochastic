@@ -1,7 +1,7 @@
 """Fractional Brownian motion."""
 import numpy as np
 
-from stochastic.noise.fractional_gaussian_noise import FractionalGaussianNoise
+from nhppy.noise.fractional_gaussian_noise import FractionalGaussianNoise
 
 
 class FractionalBrownianMotion(FractionalGaussianNoise):

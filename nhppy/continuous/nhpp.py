@@ -2,7 +2,7 @@
 import numpy as np
 import scipy.optimize
 
-from stochastic.base import Checks
+from nhppy.base import Checks
 
 class NHPP(Checks):
     r"""Non-homogeneous Poisson process.
