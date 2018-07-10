@@ -25,7 +25,7 @@ __all__ = [
     "FractionalBrownianMotion",
     "GammaProcess",
     "GeometricBrownianMotion",
-    "PoissonProcess",
+    # "PoissonProcess",
     "MixedPoissonProcess",
     "SquaredBesselProcess",
     "VarianceGammaProcess",

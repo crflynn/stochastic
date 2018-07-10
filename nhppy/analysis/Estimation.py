@@ -1,7 +1,6 @@
 # Code créé par Gabriel Taillon le 7 Mai 2018
 import numpy as np
 
-
 def NHPPLeemisEst(AllRealizations):
     """ Non parametric estimation of the rate function of a NHPP.
     

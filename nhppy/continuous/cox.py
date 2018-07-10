@@ -1,23 +1,24 @@
-"""Poisson processes."""
+"""Cox processes. Doubly stochastic poisson processes."""
+import sys
 import numpy as np
 
-from stochastic.base import Checks
+from nhppy.base import Checks
 
 class CoxProcess(Checks):
     r"""Cox process, or doubly stochastic Poisson process (DSPP).
 
     # .. image:: _static/poisson_process.png
         # :scale: 50%
-    A Poisson process whose rate function is another stochastic process. If lambdaa is a NHPPy/stochastic class, it automatically creates a new lambdaa on every sample generation. Otherwise, if lambda is a matrix, it has to be generated manually every iteration. and this class would be functionally identical to the NHPP class.
+    A Poisson process whose rate function is another stochastic process. If lambdaa is a NHPPy/stochastic class, it automatically creates a new lambdaa on every sample generation. Otherwise, if lambda is a list, it has to be generated manually every iteration. and this class would be functionally identical to the NHPP class.
 
     :param class infoprocess: class from the NHPPy/stochastic that enables the sampling of a stochastic process. Normally, one that outputs
-    :param list of floats infoprocessparams: Parameters to input into the information process
+    :param list of floats infoparams: Parameters to input into the information process
     """
 
-    def __init__(self, ratedist,ratedistparams):
-        self.ratedist = ratedist
-        self.ratedistparams = ratedistparams
-        self.rate=(ratedist,ratedistparams)
+    def __init__(self, infoprocess,infoparams):
+        self._check_zero
+        self._check_child(infoprocess)
+        sys.exit()
 
     def __str__(self):
         return "Mixed Poisson process with rate {r}.".format(r=str(self.rate))
@@ -121,26 +122,20 @@ class CoxProcess(Checks):
     def times(self, *args, **kwargs):
         """Disallow times for this process."""
         raise AttributeError("MixedPoissonProcess object has no attribute times.")
-        
-
-InfoProcessparams=[0,100]
-InfoProcess1=np.random.uniform
-InfoProcess2=np.random.normal
-A=MixedPoissonProcess(InfoProcess1,InfoProcessparams)
-import sys
-print(A.rate)
-print(A.ratedist)
-print(A.ratedistparams)
-A.ratedist=InfoProcess1
-print(A.rate)
-print(A.ratedist)
-print(A.ratedistparams)
-A.ratedistparams=[0,10]
-print(A.rate)
-print(A.ratedist)
-print(A.ratedistparams)
-
-print(A.rate)
-A.sample(n=100)
-print(A.rate)
+# logic to checking if the passed instance to the cox process is legit: Checks OR continuous are parents of all process. Checks is parents of all processes. So just checking isinstance of checks SHOULD be enough.
+# hat to do about instances of non continuous processes
+from poisson import PoissonProcess
+from nhppy.base import Continuous
+A=CoxProcess(PoissonProcess)
+sys.exit()
+A=PoissonProcess(2)
+print(isinstance(A,Continuous))
+print(isinstance(A,Checks))
+print(isinstance(A,Checks))
+print(issubclass(A.__class__,Continuous))
+print(issubclass(A.__class__,Checks))
+print(issubclass(PoissonProcess,Continuous))
+print(issubclass(PoissonProcess,Checks))
+print(issubclass(Continuous,Checks))
+print(isinstance(A,PoissonProcess))
 sys.exit()

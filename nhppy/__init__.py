@@ -8,6 +8,8 @@ from nhppy.__version__ import __author_email__
 from nhppy.__version__ import __license__
 from nhppy.__version__ import __copyright__
 from nhppy.__version__ import __docs_copyright__
+from nhppy.base import Checks
+from nhppy.base import Continuous
 
 __all__ = (
     __version__,
@@ -19,4 +21,5 @@ __all__ = (
     __license__,
     __copyright__,
     __docs_copyright__,
+    'base'
 )

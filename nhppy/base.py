@@ -1,7 +1,6 @@
 """Base classes."""
 import numpy as np
 
-
 class Checks(object):
     """Mix-in class containing input value checking functions."""
 
@@ -28,8 +27,11 @@ class Checks(object):
     def _check_zero(self, zero):
         if not isinstance(zero, bool):
             raise TypeError("Zero inclusion flag must be a boolean.")
-
-
+            
+    def _check_child(self, instance):
+        if not isinstance(instance, Checks):
+            raise TypeError("Given class instance must be part of the NHPPy/stochastic package.")        
+     
 class Continuous(Checks):
     """Base class to be subclassed to most process classes.
 
