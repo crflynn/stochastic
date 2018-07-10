@@ -3,10 +3,10 @@ Base Classes
 
 Base classes meant to be subclassed or mixed in.
 
-* :py:class:`stochastic.base.Checks`
-* :py:class:`stochastic.base.Continuous`
+* :py:class:`nhppy.base.Checks`
+* :py:class:`nhppy.base.Continuous`
 
-.. autoclass:: stochastic.base.Checks
+.. autoclass:: nhppy.base.Checks
 
-.. autoclass:: stochastic.base.Continuous
+.. autoclass:: nhppy.base.Continuous
     :members: t, times, sample

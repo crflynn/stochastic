@@ -1,26 +1,26 @@
 Discrete-time Processes
 =======================
 
-The :py:mod:`stochastic.discrete` module provides classes for generating
-discrete-time stochastic processes.
+The :py:mod:`nhppy.discrete` module provides classes for generating
+discrete-time nhppy processes.
 
-* :py:class:`stochastic.discrete.BernoulliProcess`
-* :py:class:`stochastic.discrete.ChineseRestaurantProcess`
-* :py:class:`stochastic.discrete.MarkovChain`
-* :py:class:`stochastic.discrete.MoranProcess`
-* :py:class:`stochastic.discrete.RandomWalk`
+* :py:class:`nhppy.discrete.BernoulliProcess`
+* :py:class:`nhppy.discrete.ChineseRestaurantProcess`
+* :py:class:`nhppy.discrete.MarkovChain`
+* :py:class:`nhppy.discrete.MoranProcess`
+* :py:class:`nhppy.discrete.RandomWalk`
 
-.. autoclass:: stochastic.discrete.BernoulliProcess
+.. autoclass:: nhppy.discrete.BernoulliProcess
     :members: p, sample
 
-.. autoclass:: stochastic.discrete.ChineseRestaurantProcess
+.. autoclass:: nhppy.discrete.ChineseRestaurantProcess
     :members: discount, strength, sample, sample_partition, sequence_to_partition, partition_to_sequence
 
-.. autoclass:: stochastic.discrete.MarkovChain
+.. autoclass:: nhppy.discrete.MarkovChain
     :members: transition, initial, sample
 
-.. autoclass:: stochastic.discrete.MoranProcess
+.. autoclass:: nhppy.discrete.MoranProcess
     :members: n_max, sample
 
-.. autoclass:: stochastic.discrete.RandomWalk
+.. autoclass:: nhppy.discrete.RandomWalk
     :members: steps, weights, p, sample, sample_increments
