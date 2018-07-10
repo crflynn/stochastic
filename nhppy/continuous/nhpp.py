@@ -125,24 +125,3 @@ class NHPP(Checks):
     def times(self, *args, **kwargs):
         """Disallow times for this process."""
         raise AttributeError("MixedPoissonProcess object has no attribute times.")
-import sys
-def lambdatest2D(x1,x2):
-    return(6.*x1*x2**2.)
-Intervals2D=np.array([[0,3],[0,2]])
-def lambdatest3D1(x1,x2,x3):
-    return(x1+2*x2**2+3*x3**3)
-def lambdatest3D2(x1,x2,x3):
-    return(x1+x2**2-x3**3)
-Intervals3D1=np.array([[0,1],[0,2],[0,3]])
-Intervals3D2=np.array([[0,2],[0,2],[0,5]])
-A=NHPP(lambdatest3D1,Intervals3D1)
-print(A.lmax)
-A.boundaries=Intervals3D2
-print(A.lmax)
-A.lambdaa=lambdatest3D2
-print(A.lmax)
-print(A.sample(n=20))
-print(len(A.sample(n=20)))
-sys.exit()
-NHPP.lmax=lambdatest3D,Intervals3D1
-print(NHPP.lmax)
