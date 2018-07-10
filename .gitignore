@@ -15,7 +15,9 @@ __pycache__
 *.egg-info
 build/
 dist/
+.doctrees
 .doctree
+
 
 # tox
 .tox
@@ -34,5 +36,9 @@ example.log
 make.bat
 Makefile
 __pycache__/
+_static/
+_modules/
+_images/
+_sources/
 *.rst
 _build/
