@@ -15,6 +15,7 @@ __pycache__
 *.egg-info
 build/
 dist/
+.doctree
 
 # tox
 .tox
