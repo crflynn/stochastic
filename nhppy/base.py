@@ -1,4 +1,5 @@
 """Base classes."""
+import inspect
 import numpy as np
 
 class Checks(object):
@@ -28,10 +29,13 @@ class Checks(object):
         if not isinstance(zero, bool):
             raise TypeError("Zero inclusion flag must be a boolean.")
             
-    def _check_child(self, instance):
-        if not isinstance(instance, Checks):
-            raise TypeError("Given class instance must be part of the NHPPy/stochastic package.")        
-     
+    def _check_child(self, classorinstance):
+        if inspect.isclass(classorinstance) :   
+            if (not issubclass(classorinstance,Checks)) & (not issubclass(classorinstance,Continuous))  :
+                raise TypeError("Given class instance must be part of the NHPPy/stochastic package.")        
+        else: 
+            if not isinstance(classorinstance, Checks):
+                raise TypeError("Given class instance must be part of the NHPPy/stochastic package.")  
 class Continuous(Checks):
     """Base class to be subclassed to most process classes.
 

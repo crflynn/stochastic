@@ -1,4 +1,5 @@
 """Cox processes. Doubly stochastic poisson processes."""
+import inspect
 import sys
 import numpy as np
 
@@ -16,53 +17,47 @@ class CoxProcess(Checks):
     """
 
     def __init__(self, infoprocess,infoparams):
-        self._check_zero
-        self._check_child(infoprocess)
-        sys.exit()
-
-    def __str__(self):
-        return "Mixed Poisson process with rate {r}.".format(r=str(self.rate))
-
-    def __repr__(self):
-        return "PoissonProcess(rate={r})".format(r=str(self.rate))
+        self.infoprocess=infoprocess
+        self.infoparams=infoparams
+        self._check_child(self.infoprocess)
 
     @property
-    def ratedist(self):
+    def infoprocess(self):
         """Current rate's random distribution."""
-        return self._ratedist
+        return self._infoprocess
         
-    @ratedist.setter
-    def ratedist(self, value):
-        self._ratedist = value
-        if (hasattr(self,'_ratedistparams')) & (hasattr(self,'_ratedist')) : 
-            self.rate = self._ratedist,self._ratedistparams
-        if (hasattr(self,'_rate')) : self._check_nonnegative_number(self._rate, "Arrival rate")
+    @infoprocess.setter
+    def infoprocess(self, value):
+        self._infoprocess = value
+        if (hasattr(self,'_infoprocess')) & (hasattr(self,'_infoparams')) : 
+            currentprocess=self._infoprocess(self._infoparams)
+            self.lambdaa =currentprocess.sample(n)
 
     @property
-    def ratedistparams(self):
+    def infoparams(self):
         """Parameters for rate generation using given random distribution."""
         return self._ratedistparams
         
-    @ratedistparams.setter
-    def ratedistparams(self, value):
-        self._ratedistparams = value
-        if (hasattr(self,'_ratedistparams')) & (hasattr(self,'_ratedist')) : 
-            self.rate = self._ratedist,self._ratedistparams
-            self._check_nonnegative_number(self._rate, "Arrival rate")
+    @infoparams.setter
+    def infoparams(self, value):
+        self._infoparams = value
+        if (hasattr(self,'_infoprocess')) & (hasattr(self,'_infoparams')) : 
+            if inspect.isclass(self._infoprocess):
+                self._infoprocess=self._infoprocess(self._infoparams)
+            else:
+                self.lambdaa =self._infoprocess(self._infoparams).sample(n)
         
     @property
-    def rate(self):
-        """Current rate."""
-        return self._rate
+    def lambdaa(self):
+        """Current stochastically generated rate."""
+        return self._lambdaa
         
-    @rate.setter
-    def rate(self, value):
-        print('setter')
-        ratedist, ratedistparams= value 
-        self._ratedist=ratedist
-        self._ratedistparams=ratedistparams
-        self._rate = self._ratedist(*self._ratedistparams)
-        self._check_nonnegative_number(self._rate, "Arrival rate")
+    @lambdaa.setter
+    def lambdaa(self, value):
+        infoprocess, infoparams= value 
+        self._infoprocess= infoprocess
+        currentprocess=self._infoprocess(self._infoparams)
+        self.lambdaa =currentprocess.sample(n)
         
     def genrate(self):
         self._rate=self.ratedist(*self.ratedistparams)
@@ -124,11 +119,17 @@ class CoxProcess(Checks):
         raise AttributeError("MixedPoissonProcess object has no attribute times.")
 # logic to checking if the passed instance to the cox process is legit: Checks OR continuous are parents of all process. Checks is parents of all processes. So just checking isinstance of checks SHOULD be enough.
 # hat to do about instances of non continuous processes
+class MyClass:
+    """A simple example class"""
+    i = 12345
+
+    def f(self):
+        return 'hello world'
 from poisson import PoissonProcess
 from nhppy.base import Continuous
-A=CoxProcess(PoissonProcess)
+A=CoxProcess(PoissonProcess,1)
 sys.exit()
-A=PoissonProcess(2)
+# A=PoissonProcess(2)
 print(isinstance(A,Continuous))
 print(isinstance(A,Checks))
 print(isinstance(A,Checks))
