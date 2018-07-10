@@ -201,6 +201,10 @@ def ks2d2s(Arr2D1,Arr2D2):
             The two-sample K-S statistic. If this value is higher than the significance level of the hypothesis, it is rejected.
         prob : float
             The significance level of *d*. Small values of prob show that the two samples are significantly different.
+    **References:**
+        [1] Peacock, J. A. (1983). Two-dimensional goodness-of-fit testing in astronomy. Monthly Notices of the Royal Astronomical Society, 202(3), 615-627.
+        [2] Fasano, G., & Franceschini, A. (1987). A multidimensional version of the Kolmogorov–Smirnov test. Monthly Notices of the Royal Astronomical Society, 225(1), 155-170.
+        [3]  Flannery, B. P., Press, W. H., Teukolsky, S. A., & Vetterling, W. (1992). Numerical recipes in C. Press Syndicate of the University of Cambridge, New York, 24, 78.
     """
     logging.info('ks2d2s function: Computes the KS statistic on a 2D plane for two samples of points.')
     if type(Arr2D1).__module__+type(Arr2D1).__name__=='numpyndarray':
@@ -269,6 +273,10 @@ def ks2d1s(Arr2D,func2D,xlim=[],ylim=[]):
             The two-sample K-S statistic. If this value is higher than the significance level of the hypothesis, it is rejected.
         prob : float
             The significance level of *d*. Small values of prob show that the two samples are significantly different.
+    **References:**
+        [1] Peacock, J. A. (1983). Two-dimensional goodness-of-fit testing in astronomy. Monthly Notices of the Royal Astronomical Society, 202(3), 615-627.
+        [2] Fasano, G., & Franceschini, A. (1987). A multidimensional version of the Kolmogorov–Smirnov test. Monthly Notices of the Royal Astronomical Society, 225(1), 155-170.
+        [3]  Flannery, B. P., Press, W. H., Teukolsky, S. A., & Vetterling, W. (1992). Numerical recipes in C. Press Syndicate of the University of Cambridge, New York, 24, 78.
     """
     logging.info('ks2d1s function: Computes the KS statistic on a 2D plane for one sample and one density function.')
     if callable(func2D):
