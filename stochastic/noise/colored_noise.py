@@ -17,8 +17,8 @@ class ColoredNoise(Continuous):
 
     Uses the algorithm from:
 
-    Timmer, J., and M. Koenig. "On generating power law noise."
-    Astronomy and Astrophysics 300 (1995): 707.
+    * Timmer, J., and M. Koenig. "On generating power law noise."
+      Astronomy and Astrophysics 300 (1995): 707.
 
     Generates a normalized power-law spectral noise.
 

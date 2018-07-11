@@ -13,6 +13,7 @@ The :py:mod:`stochastic.continuous` module provides classes for generating
 * :py:class:`stochastic.continuous.FractionalBrownianMotion`
 * :py:class:`stochastic.continuous.GammaProcess`
 * :py:class:`stochastic.continuous.GeometricBrownianMotion`
+* :py:class:`stochastic.continuous.MultifractionalBrownianMotion`
 * :py:class:`stochastic.continuous.Poisson`
 * :py:class:`stochastic.continuous.SquaredBesselProcess`
 * :py:class:`stochastic.continuous.VarianceGammaProcess`
@@ -45,6 +46,9 @@ The :py:mod:`stochastic.continuous` module provides classes for generating
 
 .. autoclass:: stochastic.continuous.GeometricBrownianMotion
     :members: t, drift, volatility, sample, sample_at, times
+
+.. autoclass:: stochastic.continuous.MultifractionalBrownianMotion
+    :members: t, hurst, sample, times
 
 .. autoclass:: stochastic.continuous.PoissonProcess
     :members: rate, sample

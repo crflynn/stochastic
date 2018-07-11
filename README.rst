@@ -64,6 +64,7 @@ the package.
         * FractionalBrownianMotion
         * GammaProcess
         * GeometricBrownianMotion
+        * MultifractionalBrownianMotion
         * PoissonProcess
         * SquaredBesselProcess
         * VarianceGammaProcess
@@ -86,7 +87,13 @@ the package.
 
     * noise
 
-        * ColoredNoise (and subclasses)
+        * BlueNoise
+        * BrownianNoise
+        * ColoredNoise
+        * PinkNoise
+        * RedNoise
+        * VioletNoise
+        * WhiteNoise
         * FractionalGaussianNoise
         * GaussianNoise
 

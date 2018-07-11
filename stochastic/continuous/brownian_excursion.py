@@ -5,7 +5,7 @@ from stochastic.continuous.brownian_bridge import BrownianBridge
 
 
 class BrownianExcursion(BrownianBridge):
-    """Brownian excursion.
+    r"""Brownian excursion.
 
     .. image:: _static/brownian_excursion.png
         :scale: 50%
@@ -13,7 +13,13 @@ class BrownianExcursion(BrownianBridge):
     A Brownian excursion is a Brownian bridge from (0, 0) to (t, 0) which is
     conditioned to be nonnegative on the interval [0, t].
 
-    Generated using method by Vervaat, 1979; Biane, 1986.
+    Generated using method by
+
+    * Biane, Philippe. "Relations entre pont et excursion du mouvement
+      Brownien reel." Ann. Inst. Henri Poincare 22, no. 1 (1986): 1-7.
+
+    * Vervaat, Wim. "A relation between Brownian bridge and Brownian
+      excursion." The Annals of Probability (1979): 143-149.
 
     :param float t: the right hand endpoint of the time interval :math:`[0,t]`
         for the process

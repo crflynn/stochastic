@@ -70,6 +70,7 @@ Documentation
    noise
    continuous
    diffusion
+   sources
    notes
 
 

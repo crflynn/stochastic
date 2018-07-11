@@ -14,6 +14,16 @@ class FractionalGaussianNoise(Continuous):
 
     Generate sequences of fractional Gaussian noise.
 
+    Hosking's method:
+
+    * Hosking, Jonathan RM. "Modeling persistence in hydrological time series
+      using fractional differencing." Water resources research 20, no. 12 (1984): 1898-1908.
+
+    Davies Harte method:
+
+    * Davies, Robert B., and D. S. Harte. "Tests for Hurst effect." Biometrika
+      74, no. 1 (1987): 95-101.
+
     :param float t: the right hand endpoint of the time interval :math:`[0,t]`
         for the process
     :param float hurst: The Hurst parameter value in :math:`(0,1)`.
