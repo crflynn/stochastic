@@ -117,7 +117,7 @@ class PinkNoise(ColoredNoise):
     """
 
     def __init__(self, t=1):
-        super(PinkNoise).__init__(1, t)
+        super(PinkNoise, self).__init__(1, t)
 
 class WhiteNoise(ColoredNoise):
     r"""White noise.
@@ -133,7 +133,7 @@ class WhiteNoise(ColoredNoise):
     """
 
     def __init__(self, t=1):
-        super(WhiteNoise).__init__(0, t)
+        super(WhiteNoise, self).__init__(0, t)
 
 class RedNoise(ColoredNoise):
     r"""Red (Brownian) noise.
@@ -149,7 +149,7 @@ class RedNoise(ColoredNoise):
     """
 
     def __init__(self, t=1):
-        super(BrownianNoise).__init__(2, t)
+        super(RedNoise, self).__init__(2, t)
 
 class BrownianNoise(RedNoise):
     r"""Brownian (red) noise.
@@ -180,7 +180,7 @@ class BlueNoise(ColoredNoise):
     """
 
     def __init__(self, t=1):
-        super(BlueNoise).__init__(-1, t)
+        super(BlueNoise, self).__init__(-1, t)
 
 class VioletNoise(ColoredNoise):
     r"""Violet noise.
@@ -196,4 +196,4 @@ class VioletNoise(ColoredNoise):
     """
 
     def __init__(self, t=1):
-        super(VioletNoise).__init__(-2, t)
+        super(VioletNoise, self).__init__(-2, t)
