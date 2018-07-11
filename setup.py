@@ -1,6 +1,7 @@
 """Setup."""
 import io
 from os import path
+from setuptools import find_packages
 from setuptools import setup
 
 
@@ -42,6 +43,7 @@ setup(
     ],
     keywords="stochastic processes",
     packages=["stochastic"],
+    package_dir={"stochastic": "stochastic"},
     install_requires=[
         "numpy",
         "scipy",
