@@ -61,9 +61,9 @@ class ColoredNoise(Continuous):
     def _sample_colored_noise(self, n):
         """Generate colored noise increments at specified times from zero."""
         self._check_increments(n)
+        n = n + 1
         if self._n != n:
             self._n = n
-            n = n + 1
             half = (n+1)//2
 
             frequencies = np.fft.fftfreq(n, self.t)

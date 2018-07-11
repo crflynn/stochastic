@@ -16,7 +16,7 @@ def threshold(request):
 def t(request):
     return request.param
 
-@pytest.fixture(params=[16])
+@pytest.fixture(params=[16, 17])  # even and odd for colored noise fft
 def n(request):
     return request.param
 
