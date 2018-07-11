@@ -11,14 +11,9 @@ logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',datefmt='%Y/
 def CountQuads(Arr2D,point):
     """ Computes the probabilities of finding points in each 4 quadrant defined by a vertical and horizontal lines crossing the point, by counting the proportion of points in Arr2D in each quadrant.
     
-    **Arguments:**  
-        Arr2D : list or ndarray
-            Array of points to be counted.
-        point : list or ndarray
-            A 2 element list, point, which is the center of 4 square quadrants.
-    **Returns:**
-        fpp,fnp,fpn,fnn : float
-            The probabilities of finding a point in each quadrants, with point as the origin.  p stands for positive, n for negative, with the first and second positions meaning the x and y directions respectively.
+    :param list Arr2D: Array of points to be counted.
+    :param array point: A 2 element list, point, which is the center of 4 square quadrants.
+    :returns: a tuple of 4 floats.  The probabilities of finding a point in each quadrants, with point as the origin.  p stands for positive, n for negative, with the first and second positions meaning the x and y directions respectively.
     """ 
     logging.info('CountQuads function. Counts points in quadrants that surround a point using with an array of 2D points.')
     # A bit of checking. If Arr2D and point are not lists or ndarray, exit.
@@ -69,16 +64,10 @@ def CountQuads(Arr2D,point):
 def FuncQuads(func2D,point,xlim,ylim,rounddig=4):
     """ Computes the probabilities of finding points in each 4 quadrant defined by a vertical and horizontal lines crossing the point, by integrating the density function func2D in each quadrant.
     
-    **Arguments:**  
-        func2D : list or ndarray
-            Density function that takes 2 arguments: x and y.
-        point : list or ndarray
-            A 2 element list, point, which is the center of 4 square quadrants.
-        xlim, ylim : list or ndarray
-            Domain of numerical integration necessary to compute the quadrant probabilities.
-    **Returns:**
-        fpp,fnp,fpn,fnn : float
-            The probabilities of finding a point in each quadrants, with point as the origin.  p stands for positive, n for negative, with the first and second positions meaning the x and y directions respectively.
+    :param array func2D: Density function that takes 2 arguments: x and y.
+    :param list point: A 2 element list, point, which is the center of 4 square quadrants.
+    :param array xlim,ylim: Domain of numerical integration necessary to compute the quadrant probabilities.
+    :returns: a tuple of 4 floats. The probabilities of finding a point in each quadrants, with point as the origin.  p stands for positive, n for negative, with the first and second positions meaning the x and y directions respectively.
     """
     logging.info('FuncQuads function. Computes the probability of finding points in quadrants around a point using a 2D density function.')   
     # If func2D is not a function with 2 arguments, exit.
@@ -152,16 +141,10 @@ def FuncQuads(func2D,point,xlim,ylim,rounddig=4):
 def Qks(alam,iter=100,prec=1e-6):
     """ Computes the value of the KS probability function, as a function of alam, the D statistic. From *Numerical recipes in C* page 623: '[...] the K–S statistic useful is that its distribution in the case of the null hypothesis (data sets drawn from the same distribution) can be calculated, at least to useful approximation, thus giving the significance of any observed nonzero value of D.' (D being the KS statistic).
       
-    **Arguments:**  
-        alam : float
-            D statistic. 
-        iter:
-            Number of iterations to be perfomed. On non-convergence, returns 1.0.
-        prec:
-            Convergence criteria of the qks. Stops converging if that precision is attained.
-    **Returns:**
-        qks : float
-            The significance level of the observed D statistic.
+    :param float alam: D statistic. 
+    :param int iter: Number of iterations to be perfomed. On non-convergence, returns 1.0.
+    :param float prec: Convergence criteria of the qks. Stops converging if that precision is attained.
+    :returns: a float. The significance level of the observed D statistic.
     """
     # If j iterations are performed, meaning that toadd is still 2 times larger than the precision.
     logging.info('Qks function. Value of the KS probability function using a float.')
@@ -191,16 +174,9 @@ def ks2d2s(Arr2D1,Arr2D2):
     """ ks stands for Kolmogorov-Smirnov, 2d for 2 dimensional, 2s for 2 samples.
     KS test for goodness-of-fit on two 2D samples. Tests the hypothesis that the two samples are from the same distribution.
     
-    **Arguments:**  
-        Arr2D1 : list or ndarray
-            2D array of points/samples.
-        Arr2D2 : list or ndarray
-            2D array of points/samples.
-    **Returns:**
-        d : float
-            The two-sample K-S statistic. If this value is higher than the significance level of the hypothesis, it is rejected.
-        prob : float
-            The significance level of *d*. Small values of prob show that the two samples are significantly different.
+    :param array Arr2D1: 2D array of points/samples.
+    :param array Arr2D2: 2D array of points/samples.
+    :returns: a tuple of two floats. First, the two-sample K-S statistic. If this value is higher than the significance level of the hypothesis, it is rejected. Second, the significance level of *d*. Small values of prob show that the two samples are significantly different.
     """
     logging.info('ks2d2s function: Computes the KS statistic on a 2D plane for two samples of points.')
     if type(Arr2D1).__module__+type(Arr2D1).__name__=='numpyndarray':
@@ -257,18 +233,10 @@ def ks2d1s(Arr2D,func2D,xlim=[],ylim=[]):
     """ ks stands for Kolmogorov-Smirnov, 2d for 2 dimensional, 1s for 1 sample.
     KS test for goodness-of-fit on one 2D sample and one 2D density distribution. Tests the hypothesis that the data was generated from the density distribution.
     
-    **Arguments:**  
-        Arr2D : list or ndarray
-            2D array of points/samples.
-        func2D : function, list or ndarray
-            Density distribution. Either a square array or function.
-        xlim, ylim : list or ndarray
-            Defines the domain for the numerical integration necessary to compute the quadrant probabilities.
-    **Returns:**
-        d : float
-            The two-sample K-S statistic. If this value is higher than the significance level of the hypothesis, it is rejected.
-        prob : float
-            The significance level of *d*. Small values of prob show that the two samples are significantly different.
+    :param array Arr2D: 2D array of points/samples.
+    :param func2D: Density distribution. Either a square array or function.
+    :param array xlim, ylim: Defines the domain for the numerical integration necessary to compute the quadrant probabilities.
+    :returns: tuple of two floats. First, the two-sample K-S statistic. If this value is higher than the significance level of the hypothesis, it is rejected. Second, the significance level of *d*. Small values of prob show that the two samples are significantly different.
     """
     logging.info('ks2d1s function: Computes the KS statistic on a 2D plane for one sample and one density function.')
     if callable(func2D):

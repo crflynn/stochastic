@@ -4,17 +4,9 @@ import numpy as np
 def NHPPLeemisEst(AllRealizations):
     r""" Non parametric estimation of the rate function of a NHPP.
     
-    **Arguments:**  
-        AllRealizations: 2d array
-            'jagged' array containing all realizations, as columns of a 2d matrix. Contains all cumulative event occurences in time, padded with zeros to make columns of length equal to the realizations with the most events.
-             
-    **Returns:**
-        AllEventsT: list
-            All times where the estimated rate function was evaluated
-        GammaEst: list
-            All values of the estimated rate function evaluated between 0 and the maximal 
-    Reference: 
-    Leemis, L. M. (1991). Nonparametric estimation of the cumulative intensity function for a nonhomogeneous Poisson process. Management Science, 37(7), 886-900.
+    :param array AllRealizations: 2d array 'jagged' array containing all realizations, as columns of a 2d matrix. Contains all cumulative event occurences in time, padded with zeros to make columns of length equal to the realizations with the most events.
+            
+    :returns: a tuple of two lists: all times where the estimated rate function was evaluated and all values of the estimated rate function evaluated between 0 and the maximal.
     """
     SortedTimes=np.sort(AllRealizations[AllRealizations!=0])
     n=len(SortedTimes)
@@ -34,16 +26,9 @@ def NHPPLeemisEst(AllRealizations):
 def NHPPMangkuEst(AllEventsT, LowerEstBound=40e-6, UpperEstBound=60e-6,silent=0):
     """ Parametric estimation of the rate function of a NHPP.
     
-    **Arguments:**  
-        AllEventsT: 2d array
-            'jagged' array containing all realizations, as columns of a 2d matrix. Contains all cumulative event occurences in time, padded with zeros to make columns of length equal to the realizations with the most events.
+    :param array AllEventsT: 'jagged' array containing all realizations, as columns of a 2d matrix. Contains all cumulative event occurrences in time, padded with zeros to make columns of length equal to the realizations with the most events.
              
-    **Returns:**
-        periodest: float
-            Estimation of the period.
-    Reference: 
-    Helmers, R., Mangku, I. W., & Zitikis, R. (2003). Consistent estimation of the intensity function of a cyclic Poisson process. Journal of Multivariate Analysis, 84(1), 19-39.
-    Belitser, E., Serra, P., & ZANTEN, H. V. (2013). Estimating the Period of a Cyclic Non‐Homogeneous Poisson Process. Scandinavian Journal of Statistics, 40(2), 204-218.
+    :returns:  a float, the estimation of the period.
     """
     AllEventsT=Dataa[:,0]*TimeStep
     AllHarmonics=np.linspace(1, 10, 10)  # Also known as a harmonic spectrum.
