@@ -65,6 +65,8 @@ the package.
         * GammaProcess
         * GeometricBrownianMotion
         * PoissonProcess
+        * MixedPoissonProcess
+        * NHPP
         * SquaredBesselProcess
         * VarianceGammaProcess
         * WienerProcess
@@ -88,6 +90,14 @@ the package.
 
         * GaussianNoise
         * FractionalGaussianNoise
+        
+    * analysis
+
+        * ks2d1s
+        * ks2d2s
+        * NHPPLeemisEst
+        * NHPPMangkuEst
+
 
 Usage patterns
 --------------
