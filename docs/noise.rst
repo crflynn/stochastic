@@ -5,13 +5,11 @@ The :py:mod:`stochastic.noise` module provides classes for generating
 noise processes.
 
 Gaussian increments
-~~~~~~~~~~~~~~~~~~~
 
 * :py:class:`stochastic.noise.GaussianNoise`
 * :py:class:`stochastic.noise.FractionalGaussianNoise`
 
 Colored noise
-~~~~~~~~~~~~~
 
 * :py:class:`stochastic.noise.BlueNoise`
 * :py:class:`stochastic.noise.BrownianNoise`
