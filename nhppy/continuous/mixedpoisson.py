@@ -1,22 +1,19 @@
-"""Poisson processes."""
+"""Mixed poisson processes."""
 import numpy as np
 
 from nhppy.base import Checks
 
 class MixedPoissonProcess(Checks):
-    r"""Mixed Poisson process.
+    r"""Mixed poisson process.
 
-    # .. image:: _static/poisson_process.png
-        # :scale: 50%
     A mixed poisson process is a Poisson process for which the rate is a random variate, 
     a sample taken from a random distribution. On every call of the sample, a new random rate is generated.
     A Poisson process with rate :math:`\lambda` is a count of occurrences of
     i.i.d. exponential random variables with mean :math:`1/\lambda`. This class
-    generates samples of times for which cumulative exponential random     variables occur. 
+    generates samples of times for which cumulative exponential random variables occur. 
 
-    :param function ratedist: random distribution of the rate :math:`\lambda` which defines the rate of
-        occurrences of the process
-    :param list of floats ratedistparams: Parameters to input into the ratedistFunction
+    :param function ratedist: random distribution of the rate :math:`\lambda`
+    :param list ratedistparams: parameters to input into the ratedist function
     """
 
     def __init__(self, ratedist,ratedistparams):
@@ -61,7 +58,6 @@ class MixedPoissonProcess(Checks):
         
     @rate.setter
     def rate(self, value):
-        print('setter')
         ratedist, ratedistparams= value 
         self._ratedist=ratedist
         self._ratedistparams=ratedistparams

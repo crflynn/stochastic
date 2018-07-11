@@ -13,7 +13,9 @@ The :py:mod:`nhppy.continuous` module provides classes for generating
 * :py:class:`nhppy.continuous.FractionalBrownianMotion`
 * :py:class:`nhppy.continuous.GammaProcess`
 * :py:class:`nhppy.continuous.GeometricBrownianMotion`
-* :py:class:`nhppy.continuous.Poisson`
+* :py:class:`nhppy.continuous.PoissonProcess`
+* :py:class:`nhppy.continuous.MixedPoissonProcess`
+* :py:class:`nhppy.continuous.NHPP`
 * :py:class:`nhppy.continuous.SquaredBesselProcess`
 * :py:class:`nhppy.continuous.VarianceGammaProcess`
 * :py:class:`nhppy.continuous.WienerProcess`
@@ -48,7 +50,14 @@ The :py:mod:`nhppy.continuous` module provides classes for generating
 
 .. autoclass:: nhppy.continuous.PoissonProcess
     :members: rate, sample
+    
+.. autoclass:: nhppy.continuous.MixedPoissonProcess
+    :members: rate, sample
 
+.. autoclass:: nhppy.continuous.NHPP
+    :members: rate, sample
+    
+    
 .. autoclass:: nhppy.continuous.SquaredBesselProcess
     :members: t, dim, sample, sample_at
 

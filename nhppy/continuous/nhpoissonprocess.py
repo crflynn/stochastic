@@ -7,15 +7,14 @@ from nhppy.base import Checks
 class NHPP(Checks):
     r"""Non-homogeneous Poisson process.
 
-    # .. image:: _static/poisson_process.png
-        # :scale: 50%
-    A Poisson process whose rate function varies with time/the underlying data space. Can also be used to generate multidimensional points.
     A Poisson process whose rate function varies with time/the underlying data space. Can also be used to generate multidimensional points, if multidimensional parameters are inputted.
-    NOTE 1: dim is not an input parameter, but this class crashes unless the number of input argument of the function 
-    lambdaa, or the number of dimensions of the matrix lambdaa is not equal to the dim of the boundaries parameters.
-    NOTE 2: This class can be used to create a Cox process by injecting a lambdaa created from a stochastic process.
-    :param function or nd Matrix lambda: function with dim arguments representing a multidimensional equation, or dim-dimensional matrix representing the rate function in the data space.
-    :param matrix of shape (dim,2) boundaries: dim number of boundaries (temporal/spatial) between which to generate random points.
+    
+        NOTE 1: :math:`dim` is not an input parameter, but this class crashes unless the number of input argument of the function lambdaa, or the number of dimensions of the matrix lambdaa is not equal to the :math:`dim` of the boundaries parameters.
+        
+        NOTE 2: This class can be used to create a Cox process by injecting a lambdaa matrix generated using another stochastic process.
+    
+    :param lambdaa: function with :math:`dim` arguments representing a multidimensional equation, or :math:`dim`-dimensional array representing the rate function in the data space.
+    :param array boundaries: dim number of boundaries (temporal/spatial) in a :math:`(dim,2)`-dimensional array between which to generate random points.
     """
 
     def __init__(self,lambdaa,boundaries):
