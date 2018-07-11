@@ -86,8 +86,9 @@ the package.
 
     * noise
 
-        * GaussianNoise
+        * ColoredNoise (and subclasses)
         * FractionalGaussianNoise
+        * GaussianNoise
 
 Usage patterns
 --------------
