@@ -12,7 +12,14 @@ class BrownianMeander(BrownianBridge):
 
     A Brownian motion conditioned such that the process is nonnegative.
 
-    Generated using method by Williams, 1970; Imhof, 1984.
+    Generated using method by
+
+    * Williams, David. "Decomposing the Brownian path." Bulletin of the
+      American Mathematical Society 76, no. 4 (1970): 871-873.
+
+    * Imhof, J-P. "Density factorizations for Brownian motion, meander and the
+      three-dimensional Bessel process, and applications." Journal of Applied
+      Probability 21, no. 3 (1984): 500-510.
 
     :param float t: the right hand endpoint of the time interval :math:`[0,t]`
         for the process

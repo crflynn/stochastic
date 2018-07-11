@@ -1,5 +1,7 @@
 """Continuous-time process tests."""
 # flake8: noqa
+import math
+
 import numpy as np
 import pytest
 
@@ -90,6 +92,27 @@ def volatility(request):
 
 @pytest.fixture(params=[1])
 def initial(request):
+    return request.param
+
+# MultifractionalBrownianMotion
+def hurst_const(t):
+    return 0.5
+
+def hurst_sin(t):
+    return math.sin(t) / 3 + 0.5
+
+@pytest.fixture(params=[hurst_const, hurst_sin])
+def hurst_func(request):
+    return request.param
+
+def hurst_too_many_args(t, u):
+    return 0.5
+
+def hurst_out_of_range(t):
+    return 1.1
+
+@pytest.fixture(params=[0.5, hurst_too_many_args, hurst_out_of_range])
+def hurst_invalid(request):
     return request.param
 
 # PoissonProcess
