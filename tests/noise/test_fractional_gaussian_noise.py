@@ -2,8 +2,8 @@
 # flake8: noqa
 import pytest
 
-from stochastic.noise import FractionalGaussianNoise
-from stochastic.noise import fractional_gaussian_noise
+from nhppy.noise import FractionalGaussianNoise
+from nhppy.noise import fractional_gaussian_noise
 
 
 def test_fractional_gaussian_noise_str_repr(t, hurst):
@@ -22,7 +22,7 @@ def test_fractional_gaussian_noise_algorithm(t, n, algorithm_fixture):
 
 def test_fractional_gaussian_noise_fallback(t, mocker):
     instance = FractionalGaussianNoise(t, 0.99)  # high hurst
-    mocker.patch('stochastic.noise.fractional_gaussian_noise.logging')
+    mocker.patch('nhppy.noise.fractional_gaussian_noise.logging')
     s = instance.sample(8, 'daviesharte')  # low n, with daviesharte, fallback to hosking
     assert fractional_gaussian_noise.logging.warning.called
 

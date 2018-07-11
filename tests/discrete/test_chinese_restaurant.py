@@ -2,7 +2,7 @@
 # flake8: noqa
 import pytest
 
-from stochastic.discrete import ChineseRestaurantProcess
+from nhppy.discrete import ChineseRestaurantProcess
 
 
 def test_chinese_restaurant_str_repr(discount, strength):

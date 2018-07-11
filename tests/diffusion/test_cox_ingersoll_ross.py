@@ -2,7 +2,7 @@
 # flake8: noqa
 import pytest
 
-from stochastic.diffusion import CoxIngersollRossProcess
+from nhppy.diffusion import CoxIngersollRossProcess
 
 
 def test_cox_ingersoll_ross_str_repr(t, speed, mean, vol):

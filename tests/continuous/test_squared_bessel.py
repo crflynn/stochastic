@@ -2,7 +2,7 @@
 # flake8: noqa
 import pytest
 
-from stochastic.continuous import SquaredBesselProcess
+from nhppy.continuous import SquaredBesselProcess
 
 
 def test_squared_bessel_str_repr(t, dim):

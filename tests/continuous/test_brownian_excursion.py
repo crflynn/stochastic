@@ -2,7 +2,7 @@
 # flake8: noqa
 import pytest
 
-from stochastic.continuous import BrownianExcursion
+from nhppy.continuous import BrownianExcursion
 
 
 def test_brownian_excursion_str_repr(t):

@@ -2,7 +2,7 @@
 # flake8: noqa
 import pytest
 
-from stochastic.continuous import PoissonProcess
+from nhppy.continuous import PoissonProcess
 
 
 def test_poisson_process_str_repr(rate):

@@ -2,7 +2,7 @@
 # flake8: noqa
 import pytest
 
-from stochastic.continuous import BrownianMotion
+from nhppy.continuous import BrownianMotion
 
 
 def test_brownian_motion_str_repr(t, drift, scale):

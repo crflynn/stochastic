@@ -2,7 +2,7 @@
 # flake8: noqa
 import pytest
 
-from stochastic.continuous import BesselProcess
+from nhppy.continuous import BesselProcess
 
 
 def test_bessel_str_repr(t, dim):

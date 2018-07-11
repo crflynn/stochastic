@@ -2,12 +2,12 @@
 import numpy as np
 import pytest
 
-from stochastic.base import Continuous
+from nhppy.base import Continuous
 
 
 def test_check_times(end, n, zero, mocker):
     continuous = Continuous(end)
-    mocker.patch('stochastic.base.Continuous.times')
+    mocker.patch('nhppy.base.Continuous.times')
     assert continuous._n is None
     continuous._check_times(n, zero)
     assert continuous._n == n
@@ -28,7 +28,7 @@ def test_sample(end, n):
 
 def test_times(end, n, zero, mocker):
     continuous = Continuous(end)
-    mocker.patch('stochastic.base.Continuous._linspace')
+    mocker.patch('nhppy.base.Continuous._linspace')
     continuous.times(n, zero)
     assert continuous._linspace.called
 

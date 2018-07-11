@@ -1,11 +1,9 @@
 """Setup."""
-import io
+import io,sys
 from os import path
-from setuptools import setup
-
+from setuptools import setup, find_packages
 
 here = path.abspath(path.dirname(__file__))
-
 # io.open for py27
 with io.open(path.join(here, "README.rst"), encoding="utf-8") as f:
     long_description = f.read()
@@ -41,7 +39,7 @@ setup(
         "Topic :: Scientific/Engineering :: Physics",
     ],
     keywords="stochastic processes",
-    packages=["nhppy"],
+    packages=find_packages(),
     install_requires=[
         "numpy",
         "scipy",

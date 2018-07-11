@@ -2,7 +2,7 @@
 # flake8: noqa
 import pytest
 
-from stochastic.continuous import FractionalBrownianMotion
+from nhppy.continuous import FractionalBrownianMotion
 
 
 def test_fractional_brownian_motion_str_repr(t, hurst):

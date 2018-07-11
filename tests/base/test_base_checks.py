@@ -2,7 +2,7 @@
 # flake8: noqa
 import pytest
 
-from stochastic.base import Checks
+from nhppy.base import Checks
 
 
 def test_check_increments(increments_fixture):

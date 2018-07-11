@@ -2,7 +2,7 @@
 # flake8: noqa
 import pytest
 
-from stochastic.noise import GaussianNoise
+from nhppy.noise import GaussianNoise
 
 
 def test_gaussian_noise_str_repr(t):

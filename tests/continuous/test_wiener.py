@@ -2,7 +2,7 @@
 # flake8: noqa
 import pytest
 
-from stochastic.continuous import WienerProcess
+from nhppy.continuous import WienerProcess
 
 
 def test_wiener_str_repr(t):

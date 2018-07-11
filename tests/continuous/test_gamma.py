@@ -2,7 +2,7 @@
 # flake8: noqa
 import pytest
 
-from stochastic.continuous import GammaProcess
+from nhppy.continuous import GammaProcess
 
 
 def test_gamma_process_init(t, mean_fixture, variance_fixture, rate_fixture, scale_fixture):
