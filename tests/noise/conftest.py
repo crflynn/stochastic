@@ -46,3 +46,8 @@ def algorithm(request):
 @pytest.fixture(params=['badalgorithm'])
 def algorithm_fixture(request):
     return request.param
+
+# ColoredNoise
+@pytest.fixture(params=[-3, -2, -1, 0, 1, 2, 3, 0.5, -0.5])
+def beta(request):
+    return request.param

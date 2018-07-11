@@ -26,7 +26,7 @@ def test_fractional_gaussian_noise_fallback(t, mocker):
     s = instance.sample(8, 'daviesharte')  # low n, with daviesharte, fallback to hosking
     assert fractional_gaussian_noise.logging.warning.called
 
-def test_fractional_gaussian_noise_sample(t, hurst, algorithm, n, zero, threshold):
+def test_fractional_gaussian_noise_sample(t, hurst, algorithm, n, zero):
     instance = FractionalGaussianNoise(t, hurst)
     s = instance.sample(n, algorithm)
     assert len(s) == n
