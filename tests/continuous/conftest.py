@@ -101,7 +101,7 @@ def hurst_const(t):
 def hurst_sin(t):
     return math.sin(t) / 3 + 0.5
 
-@pytest.fixture(params=[hurst_const, hurst_sin])
+@pytest.fixture(params=[None, hurst_const, hurst_sin])
 def hurst_func(request):
     return request.param
 
