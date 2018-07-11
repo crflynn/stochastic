@@ -6,10 +6,12 @@ Processes
 ---------
 
 This package offers a number of common discrete-time, continuous-time, and
-noise process objects for generating realizations of nhppy processes as
+noise process objects for generating realizations of stochastic processes as
 ``numpy`` arrays.
 
 The diffusion processes are approximated using the Euler–Maruyama method.
+
+Some analysis functions are also offered: NHPP rate estimation methods, 2D Kolmogorov-Smirnov testing.
 
 Here are the currently supported processes and how to access their classes:
 
@@ -27,6 +29,8 @@ Here are the currently supported processes and how to access their classes:
     * GammaProcess
     * GeometricBrownianMotion
     * PoissonProcess
+    * MixedPoissonProcess
+    * NHPP
     * SquaredBesselProcess
     * VarianceGammaProcess
     * WienerProcess
@@ -51,7 +55,15 @@ Here are the currently supported processes and how to access their classes:
     * GaussianNoise
     * FractionalGaussianNoise
 
-
+Here are the analysis functions:
+    
+   * analysis
+    
+    * ks2d1s
+    * ks2d2s
+    * NHPPLeemisEst
+    * NHPPMangkuEst
+    
 Usage patterns
 --------------
 

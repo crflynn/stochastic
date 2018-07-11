@@ -2,7 +2,7 @@
 import numpy as np
 
 def NHPPLeemisEst(AllRealizations):
-    """ Non parametric estimation of the rate function of a NHPP.
+    r""" Non parametric estimation of the rate function of a NHPP.
     
     **Arguments:**  
         AllRealizations: 2d array
