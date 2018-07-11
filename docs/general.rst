@@ -48,8 +48,9 @@ Here are the currently supported processes and how to access their classes:
 
   * noise
 
-    * GaussianNoise
+    * ColoredNoise (and subclasses)
     * FractionalGaussianNoise
+    * GaussianNoise
 
 
 Usage patterns
