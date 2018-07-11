@@ -5,7 +5,7 @@ from stochastic.continuous.brownian_bridge import BrownianBridge
 
 
 class BrownianMeander(BrownianBridge):
-    """Brownian meander process.
+    r"""Brownian meander process.
 
     .. image:: _static/brownian_meander.png
         :scale: 50%

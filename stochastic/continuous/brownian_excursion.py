@@ -5,7 +5,7 @@ from stochastic.continuous.brownian_bridge import BrownianBridge
 
 
 class BrownianExcursion(BrownianBridge):
-    """Brownian excursion.
+    r"""Brownian excursion.
 
     .. image:: _static/brownian_excursion.png
         :scale: 50%
@@ -16,7 +16,7 @@ class BrownianExcursion(BrownianBridge):
     Generated using method by
 
     * Biane, Philippe. "Relations entre pont et excursion du mouvement
-      Brownien réel." Ann. Inst. Henri Poincaré 22, no. 1 (1986): 1-7.
+      Brownien reel." Ann. Inst. Henri Poincare 22, no. 1 (1986): 1-7.
 
     * Vervaat, Wim. "A relation between Brownian bridge and Brownian
       excursion." The Annals of Probability (1979): 143-149.

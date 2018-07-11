@@ -5,7 +5,7 @@ from stochastic.noise.fractional_gaussian_noise import FractionalGaussianNoise
 
 
 class FractionalBrownianMotion(FractionalGaussianNoise):
-    """Fractional Brownian motion process.
+    r"""Fractional Brownian motion process.
 
     .. image:: _static/fractional_brownian_motion.png
         :scale: 50%
