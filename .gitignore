@@ -18,6 +18,7 @@ dist/
 .doctrees
 .doctree
 
+.pytest_cache/
 
 # tox
 .tox
