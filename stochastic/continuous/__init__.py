@@ -9,8 +9,8 @@ from stochastic.continuous.fractional_brownian_motion import FractionalBrownianM
 from stochastic.continuous.gamma import GammaProcess
 from stochastic.continuous.geometric_brownian_motion import GeometricBrownianMotion
 from stochastic.continuous.poisson import PoissonProcess
-from stochastic.continuous.mixedpoisson import MixedPoissonProcess
-from stochastic.continuous.nhpoissonprocess import NHPP
+from stochastic.continuous.mixed_poisson import MixedPoissonProcess
+from stochastic.continuous.nh_poisson_process import NHPP
 from stochastic.continuous.squared_bessel import SquaredBesselProcess
 from stochastic.continuous.variance_gamma import VarianceGammaProcess
 from stochastic.continuous.wiener import WienerProcess
