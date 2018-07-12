@@ -2,7 +2,7 @@
 # flake8: noqa
 import pytest
 
-from nhppy.continuous import CauchyProcess
+from stochastic.continuous import CauchyProcess
 
 
 def test_cauchy_process_str_repr(t):

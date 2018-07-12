@@ -2,8 +2,7 @@
 # flake8: noqa
 import pytest
 
-from nhppy.continuous import PoissonProcess
-
+from stochastic.continuous import PoissonProcess
 
 def test_poisson_process_str_repr(rate):
     instance = PoissonProcess(rate)
@@ -26,3 +25,4 @@ def test_poisson_process_times(rate, n):
     instance = PoissonProcess(rate)
     with pytest.raises(AttributeError):
         times = instance.times(n)
+test_poisson_process_times(-1,2)

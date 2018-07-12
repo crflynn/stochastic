@@ -1,3 +1,3 @@
 
 
-from nhppy.noise.fractional_gaussian_noise import FractionalGaussianNoise
+from stochastic.noise.fractional_gaussian_noise import FractionalGaussianNoise

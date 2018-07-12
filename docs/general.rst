@@ -15,7 +15,7 @@ Some analysis functions are also offered: NHPP rate estimation methods, 2D Kolmo
 
 Here are the currently supported processes and how to access their classes:
 
-* nhppy
+* stochastic
 
   * continuous
 
@@ -71,7 +71,7 @@ Usage patterns
 The sample() method
 ~~~~~~~~~~~~~~~~~~~
 
-To use ``nhppy``, import the process you want and instantiate with the
+To use ``stochastic``, import the process you want and instantiate with the
 required parameters. Every process class has a ``sample`` method for generating
 realizations. The ``sample`` methods accept a parameter ``n`` for the quantity
 of steps in the realization, but others (Poisson, for instance) may take
@@ -80,7 +80,7 @@ instance.
 
 .. code-block:: python
 
-    from nhppy.discrete import BernoulliProcess
+    from stochastic.discrete import BernoulliProcess
 
 
     bp = BernoulliProcess(p=0.6)
@@ -104,7 +104,7 @@ instantiation.
 
 .. code-block:: python
 
-    from nhppy.continuous import BrownianMotion
+    from stochastic.continuous import BrownianMotion
 
 
     bm = BrownianMotion(t=1, drift=1, scale=1)
@@ -122,7 +122,7 @@ steps. This is particularly useful for plotting your samples.
 .. code-block:: python
 
     import matplotlib.pyplot as plt
-    from nhppy.continuous import FractionalBrownianMotion
+    from stochastic.continuous import FractionalBrownianMotion
 
 
     fbm = FractionalBrownianMotion(t=1, hurst=0.7)
@@ -144,7 +144,7 @@ implementations.
 
 .. code-block:: python
 
-    from nhppy.noise import FractionalGaussianNoise
+    from stochastic.noise import FractionalGaussianNoise
 
 
     fgn = FractionalGaussianNoise(t=1, hurst=0.6)

@@ -2,7 +2,7 @@
 # flake8: noqa
 import pytest
 
-from nhppy.continuous import BrownianBridge
+from stochastic.continuous import BrownianBridge
 
 
 def test_brownian_bridge_str_repr(t, b):

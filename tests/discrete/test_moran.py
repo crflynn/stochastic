@@ -2,7 +2,7 @@
 # flake8: noqa
 import pytest
 
-from nhppy.discrete import MoranProcess
+from stochastic.discrete import MoranProcess
 
 
 def test_moran_process_str_repr(n_max):

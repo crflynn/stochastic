@@ -2,7 +2,7 @@
 # flake8: noqa
 import pytest
 
-from nhppy.diffusion import ConstantElasticityVarianceProcess
+from stochastic.diffusion import ConstantElasticityVarianceProcess
 
 
 def test_constant_elasticity_variance_str_repr(t, mu, sigma, gamma):

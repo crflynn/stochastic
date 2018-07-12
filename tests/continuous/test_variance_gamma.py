@@ -2,7 +2,7 @@
 # flake8: noqa
 import pytest
 
-from nhppy.continuous import VarianceGammaProcess
+from stochastic.continuous import VarianceGammaProcess
 
 
 def test_variance_gamma_init(t, drift, variance, scale):

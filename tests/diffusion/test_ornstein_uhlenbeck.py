@@ -2,7 +2,7 @@
 # flake8: noqa
 import pytest
 
-from nhppy.diffusion import OrnsteinUhlenbeckProcess
+from stochastic.diffusion import OrnsteinUhlenbeckProcess
 
 
 def test_ornstein_uhlenbeck_str_repr(t, speed, mean, vol):

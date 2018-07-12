@@ -2,7 +2,7 @@
 # flake8: noqa
 import pytest
 
-from nhppy.continuous import BrownianMeander
+from stochastic.continuous import BrownianMeander
 
 
 def test_brownian_meander_str_repr(t):

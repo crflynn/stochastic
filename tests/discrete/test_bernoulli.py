@@ -2,7 +2,7 @@
 # flake8: noqa
 import pytest
 
-from nhppy.discrete import BernoulliProcess
+from stochastic.discrete import BernoulliProcess
 
 
 def test_bernoulli_str_repr(p):

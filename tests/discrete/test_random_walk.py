@@ -2,7 +2,7 @@
 # flake8: noqa
 import pytest
 
-from nhppy.discrete import RandomWalk
+from stochastic.discrete import RandomWalk
 
 
 def test_random_walk_str_repr(steps, weights):

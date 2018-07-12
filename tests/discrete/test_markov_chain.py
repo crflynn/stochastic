@@ -2,7 +2,7 @@
 # flake8: noqa
 import pytest
 
-from nhppy.discrete import MarkovChain
+from stochastic.discrete import MarkovChain
 
 
 def test_markov_chain_str_repr(transition, initial):
@@ -20,9 +20,9 @@ def test_markov_chain_sample(transition, initial, n):
 
 @pytest.mark.parametrize("transition,initial", [
     ([[0.5, 0.5],[0.5]], None), # non-square transition
-    ([[0.5, 0.25],[0.5, 0.5]], None), # non-nhppy transition
+    ([[0.5, 0.25],[0.5, 0.5]], None), # non-stochastic transition
     ([[0.5, 0.5],[0.5, 0.5]], [0.5]), # invalid initial
-    ([[0.5, 0.5],[0.5, 0.5]], [0.5, 0.25]), # non-nhppy initial
+    ([[0.5, 0.5],[0.5, 0.5]], [0.5, 0.25]), # non-stochastic initial
 ])
 def test_markov_chain_probability(transition, initial):
     with pytest.raises(ValueError):

@@ -1,68 +1,68 @@
 Continuous-time Processes
 =========================
 
-The :py:mod:`nhppy.continuous` module provides classes for generating
-(discretely sampled) continuous-time nhppy processes.
+The :py:mod:`stochastic.continuous` module provides classes for generating
+(discretely sampled) continuous-time stochastic processes.
 
-* :py:class:`nhppy.continuous.BesselProcess`
-* :py:class:`nhppy.continuous.BrownianBridge`
-* :py:class:`nhppy.continuous.BrownianExcursion`
-* :py:class:`nhppy.continuous.BrownianMeander`
-* :py:class:`nhppy.continuous.BrownianMotion`
-* :py:class:`nhppy.continuous.CauchyProcess`
-* :py:class:`nhppy.continuous.FractionalBrownianMotion`
-* :py:class:`nhppy.continuous.GammaProcess`
-* :py:class:`nhppy.continuous.GeometricBrownianMotion`
-* :py:class:`nhppy.continuous.PoissonProcess`
-* :py:class:`nhppy.continuous.MixedPoissonProcess`
-* :py:class:`nhppy.continuous.NHPP`
-* :py:class:`nhppy.continuous.SquaredBesselProcess`
-* :py:class:`nhppy.continuous.VarianceGammaProcess`
-* :py:class:`nhppy.continuous.WienerProcess`
+* :py:class:`stochastic.continuous.BesselProcess`
+* :py:class:`stochastic.continuous.BrownianBridge`
+* :py:class:`stochastic.continuous.BrownianExcursion`
+* :py:class:`stochastic.continuous.BrownianMeander`
+* :py:class:`stochastic.continuous.BrownianMotion`
+* :py:class:`stochastic.continuous.CauchyProcess`
+* :py:class:`stochastic.continuous.FractionalBrownianMotion`
+* :py:class:`stochastic.continuous.GammaProcess`
+* :py:class:`stochastic.continuous.GeometricBrownianMotion`
+* :py:class:`stochastic.continuous.PoissonProcess`
+* :py:class:`stochastic.continuous.MixedPoissonProcess`
+* :py:class:`stochastic.continuous.NHPP`
+* :py:class:`stochastic.continuous.SquaredBesselProcess`
+* :py:class:`stochastic.continuous.VarianceGammaProcess`
+* :py:class:`stochastic.continuous.WienerProcess`
 
 
-.. autoclass:: nhppy.continuous.BesselProcess
+.. autoclass:: stochastic.continuous.BesselProcess
     :members: t, sample, sample_at, times
 
-.. autoclass:: nhppy.continuous.BrownianBridge
+.. autoclass:: stochastic.continuous.BrownianBridge
     :members: t, b, sample, sample_at, times
 
-.. autoclass:: nhppy.continuous.BrownianExcursion
+.. autoclass:: stochastic.continuous.BrownianExcursion
     :members: t, sample, sample_at, times
 
-.. autoclass:: nhppy.continuous.BrownianMeander
+.. autoclass:: stochastic.continuous.BrownianMeander
     :members: t, sample, sample_at, times
 
-.. autoclass:: nhppy.continuous.BrownianMotion
+.. autoclass:: stochastic.continuous.BrownianMotion
     :members: t, drift, scale, sample, sample_at, times
 
-.. autoclass:: nhppy.continuous.CauchyProcess
+.. autoclass:: stochastic.continuous.CauchyProcess
     :members: t, sample, sample_at, times
 
-.. autoclass:: nhppy.continuous.FractionalBrownianMotion
+.. autoclass:: stochastic.continuous.FractionalBrownianMotion
     :members: t, hurst, sample, times
 
-.. autoclass:: nhppy.continuous.GammaProcess
+.. autoclass:: stochastic.continuous.GammaProcess
     :members: t, mean, variance, rate, scale, sample, sample_at, times
 
-.. autoclass:: nhppy.continuous.GeometricBrownianMotion
+.. autoclass:: stochastic.continuous.GeometricBrownianMotion
     :members: t, drift, volatility, sample, sample_at, times
 
-.. autoclass:: nhppy.continuous.PoissonProcess
+.. autoclass:: stochastic.continuous.PoissonProcess
     :members: rate, sample
     
-.. autoclass:: nhppy.continuous.MixedPoissonProcess
+.. autoclass:: stochastic.continuous.MixedPoissonProcess
     :members: rate, sample
 
-.. autoclass:: nhppy.continuous.NHPP
+.. autoclass:: stochastic.continuous.NHPP
     :members: rate, sample
     
     
-.. autoclass:: nhppy.continuous.SquaredBesselProcess
+.. autoclass:: stochastic.continuous.SquaredBesselProcess
     :members: t, dim, sample, sample_at
 
-.. autoclass:: nhppy.continuous.VarianceGammaProcess
+.. autoclass:: stochastic.continuous.VarianceGammaProcess
     :members: t, drift, variance, scale, sample, sample_at
 
-.. autoclass:: nhppy.continuous.WienerProcess
+.. autoclass:: stochastic.continuous.WienerProcess
     :members: t, sample, sample_at, times

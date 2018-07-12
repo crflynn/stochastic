@@ -2,7 +2,7 @@
 # flake8: noqa
 import pytest
 
-from nhppy.continuous import GeometricBrownianMotion
+from stochastic.continuous import GeometricBrownianMotion
 
 
 def test_geometric_brownian_motion_str_repr(t, drift, volatility):

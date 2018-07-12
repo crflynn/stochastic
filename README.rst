@@ -1,37 +1,37 @@
-nhppy
+stochastic
 ==========
 
 |travis| |rtd| |codecov| |pypi| |pyversions|
 
 
-.. |travis| image:: https://img.shields.io/travis/crflynn/nhppy.svg
-    :target: https://travis-ci.org/crflynn/nhppy
+.. |travis| image:: https://img.shields.io/travis/crflynn/stochastic.svg
+    :target: https://travis-ci.org/crflynn/stochastic
 
-.. |rtd| image:: https://img.shields.io/readthedocs/nhppy.svg
-    :target: http://nhppy.readthedocs.io/en/latest/
+.. |rtd| image:: https://img.shields.io/readthedocs/stochastic.svg
+    :target: http://stochastic.readthedocs.io/en/latest/
 
-.. |codecov| image:: https://codecov.io/gh/crflynn/nhppy/branch/master/graphs/badge.svg
-    :target: https://codecov.io/gh/crflynn/nhppy
+.. |codecov| image:: https://codecov.io/gh/crflynn/stochastic/branch/master/graphs/badge.svg
+    :target: https://codecov.io/gh/crflynn/stochastic
 
-.. |pypi| image:: https://img.shields.io/pypi/v/nhppy.svg
-    :target: https://pypi.python.org/pypi/nhppy
+.. |pypi| image:: https://img.shields.io/pypi/v/stochastic.svg
+    :target: https://pypi.python.org/pypi/stochastic
 
-.. |pyversions| image:: https://img.shields.io/pypi/pyversions/nhppy.svg
-    :target: https://pypi.python.org/pypi/nhppy
+.. |pyversions| image:: https://img.shields.io/pypi/pyversions/stochastic.svg
+    :target: https://pypi.python.org/pypi/stochastic
 
 
 A python package for generating realizations of common
 (and perhaps some less common) stochastic processes, with some optimization
-for repeated simulation. Forked from the stochastic package by Christopher Flynn.
+for repeated simulation. 
 
 Installation
 ------------
 
-The ``nhppy`` package is available on pypi and can be installed using pip
+The ``stochastic`` package is available on pypi and can be installed using pip
 
 .. code-block:: shell
 
-    pip install nhppy
+    pip install stochastic
 
 Dependencies
 ~~~~~~~~~~~~
@@ -43,7 +43,7 @@ Processes
 ---------
 
 This package offers a number of common discrete-time, continuous-time, and
-noise process objects for generating realizations of nhppy processes as
+noise process objects for generating realizations of stochastic processes as
 ``numpy`` arrays.
 
 The diffusion processes are approximated using the Euler–Maruyama method.
@@ -51,7 +51,7 @@ The diffusion processes are approximated using the Euler–Maruyama method.
 Here are the currently supported processes and their class references within
 the package.
 
-* nhppy
+* stochastic
 
     * continuous
 
@@ -105,7 +105,7 @@ Usage patterns
 Sampling
 ~~~~~~~~
 
-To use ``nhppy``, import the process you want and instantiate with the
+To use ``stochastic``, import the process you want and instantiate with the
 required parameters. Every process class has a ``sample`` method for generating
 realizations. The ``sample`` methods accept a parameter ``n`` for the quantity
 of steps in the realization, but others (Poisson, for instance) may take
@@ -114,7 +114,7 @@ instance.
 
 .. code-block:: python
 
-    from nhppy.discrete import BernoulliProcess
+    from stochastic.discrete import BernoulliProcess
 
 
     bp = BernoulliProcess(p=0.6)
@@ -138,7 +138,7 @@ instantiation.
 
 .. code-block:: python
 
-    from nhppy.continuous import BrownianMotion
+    from stochastic.continuous import BrownianMotion
 
 
     bm = BrownianMotion(t=1, drift=1, scale=1)
@@ -156,7 +156,7 @@ steps. This is particularly useful for plotting your samples.
 .. code-block:: python
 
     import matplotlib.pyplot as plt
-    from nhppy.continuous import FractionalBrownianMotion
+    from stochastic.continuous import FractionalBrownianMotion
 
 
     fbm = FractionalBrownianMotion(t=1, hurst=0.7)
@@ -178,7 +178,7 @@ process-specific implementations.
 
 .. code-block:: python
 
-    from nhppy.noise import FractionalGaussianNoise
+    from stochastic.noise import FractionalGaussianNoise
 
 
     fgn = FractionalGaussianNoise(t=1, hurst=0.6)
