@@ -114,3 +114,12 @@ def ratedist(request):
 def ratedistparams(request):
     return request.param
     
+# NHPP
+@pytest.fixture(params=[lambda x:2.*x**2.])
+def lambdaa(request):
+    return request.param
+
+@pytest.fixture(params=[np.array([[0,100]])])
+def boundaries(request):
+    return request.param
+    

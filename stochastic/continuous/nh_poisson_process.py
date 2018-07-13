@@ -112,7 +112,10 @@ class NHPP(Checks):
             else:
                 Thinned=np.vstack((Thinned,Unthin.T[U<Criteria,:]))
             del Unthin
-        return Thinned[:n,:]
+            return Thinned[:n,:]
+        else:
+            raise ValueError(
+                "Must provide either argument n.")
                
     def sample(self, n=None):
         """Generate a realization.
