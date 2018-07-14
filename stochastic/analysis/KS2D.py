@@ -234,7 +234,7 @@ def ks2d1s(Arr2D,func2D,xlim=[],ylim=[]):
     KS test for goodness-of-fit on one 2D sample and one 2D density distribution. Tests the hypothesis that the data was generated from the density distribution.
     
     :param array Arr2D: 2D array of points/samples.
-    :param func2D: Density distribution. Either a square array or function.
+    :param func2D: Density distribution. Could implement a function for arrays in the future...
     :param array xlim, ylim: Defines the domain for the numerical integration necessary to compute the quadrant probabilities.
     :returns: tuple of two floats. First, the two-sample K-S statistic. If this value is higher than the significance level of the hypothesis, it is rejected. Second, the significance level of *d*. Small values of prob show that the two samples are significantly different.
     """
@@ -253,6 +253,7 @@ def ks2d1s(Arr2D,func2D,xlim=[],ylim=[]):
     else:
         logging.error('Arr2D is neither a list not a numpy.ndarray. Exiting.')
         return
+    print(Arr2D.shape)
     if Arr2D.shape[1]>Arr2D.shape[0]:
         Arr2D=Arr2D.copy().T   
     if Arr2D.shape[1]!=2:
@@ -284,4 +285,16 @@ def ks2d1s(Arr2D,func2D,xlim=[],ylim=[]):
     logging.debug('RR= '+str(RR))
     prob=Qks(d*sqen/(1.+RR*(0.25-0.75/sqen)))
     logging.debug(' ks2d2s, exiting: Output=d, prob= '+str(d)+', '+str(prob))
-    return(d,prob)
+    print(d)
+    return d, prob
+    
+    
+dim=500
+side=np.linspace(0,6,dim)
+x,y = np.meshgrid(side,side)
+z=6.*x-y**2.  
+func=lambda x,y:x+y
+
+points=np.array([[*np.arange(6),*np.arange(6),*np.arange(6),*np.arange(6),*np.arange(6),*np.arange(6)],[*([1]*6),*([2]*6),*([3]*6),*([4]*6),*([5]*6),*([6]*6)]])
+print(points.shape)
+print(ks2d1s(points,func))
