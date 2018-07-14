@@ -287,14 +287,3 @@ def ks2d1s(Arr2D,func2D,xlim=[],ylim=[]):
     logging.debug(' ks2d2s, exiting: Output=d, prob= '+str(d)+', '+str(prob))
     print(d)
     return d, prob
-    
-    
-dim=500
-side=np.linspace(0,6,dim)
-x,y = np.meshgrid(side,side)
-z=6.*x-y**2.  
-func=lambda x,y:x+y
-
-points=np.array([[*np.arange(6),*np.arange(6),*np.arange(6),*np.arange(6),*np.arange(6),*np.arange(6)],[*([1]*6),*([2]*6),*([3]*6),*([4]*6),*([5]*6),*([6]*6)]])
-print(points.shape)
-print(ks2d1s(points,func))
