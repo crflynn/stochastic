@@ -2,8 +2,6 @@
 # flake8: noqa
 import pytest
 
-from stochastic.noise import ColoredNoise
-
 
 def test_colored_noise_str_repr(t, colored_noise_class):
     instance = colored_noise_class(t)

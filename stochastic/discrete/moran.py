@@ -14,33 +14,33 @@ class MoranProcess(object):
     states, :math:`n`. The process ends when its value reaches zero or the
     maximum valued state.
 
-    :param int n_max: the maximum possible value for the process.
+    :param int maximum: the maximum possible value for the process.
     """
 
-    def __init__(self, n_max):
-        self.n_max = n_max
-        self.p = self._probabilities(n_max)
+    def __init__(self, maximum):
+        self.maximum = maximum
+        self.p = self._probabilities(maximum)
 
     def __str__(self):
-        return 'Moran process with %s states' % self._n_max
+        return 'Moran process with %s states' % self._maximum
 
     def __repr__(self):
-        return "MoranProcess(n_max={n})".format(n=str(self.n_max))
+        return "MoranProcess(maximum={n})".format(n=str(self.maximum))
 
     @property
-    def n_max(self):
+    def maximum(self):
         """Maximum value."""
-        return self._n_max
+        return self._maximum
 
-    @n_max.setter
-    def n_max(self, value):
+    @maximum.setter
+    def maximum(self, value):
         if not isinstance(value, int):
             raise TypeError(
                 'Number of states must be an integer.')
         if value <= 2:
             raise ValueError(
                 'Number of states must be at least 3.')
-        self._n_max = value
+        self._maximum = value
 
     def _probabilities(self, n):
         """Generate the transition probabilities for state :math:`n`.
@@ -61,13 +61,13 @@ class MoranProcess(object):
         """Generate a realization of the Moran process.
 
         Generate a Moran process until absorption occurs (state 0 or n) or
-        length of process reaches length :math:`n_max`.
+        length of process reaches length :math:`maximum`.
         """
         if not isinstance(start, int):
             raise TypeError('Initial state must be a positive integer.')
-        if start < 0 or start > self.n_max:
+        if start < 0 or start > self.maximum:
             raise ValueError(
-                'Initial state must be between 0 and ' + str(self.n_max))
+                'Initial state must be between 0 and ' + str(self.maximum))
 
         if not isinstance(n, int):
             raise TypeError('Sample length must be positive integer.')
@@ -77,7 +77,7 @@ class MoranProcess(object):
         s = [start]
         increments = [-1, 0, 1]
         for k in range(n - 1):
-            if start in [0, self.n_max]:
+            if start in [0, self.maximum]:
                 break
             start += np.random.choice(increments, p=self.p[start - 1])
             s.append(start)
@@ -88,7 +88,7 @@ class MoranProcess(object):
         """Generate a realization of the Moran process.
 
         Generate a Moran process until absorption occurs (state 0
-        or :py:attr:`n_max`) or length of process reaches length :math:`n`.
+        or :py:attr:`maximum`) or length of process reaches length :math:`n`.
 
         :param int n: the maximum number of steps to generate assuming
             absorption does not occur.

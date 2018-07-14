@@ -25,18 +25,34 @@ class GeometricBrownianMotion(Continuous):
         S_t = S_0 \exp \left( \left( \mu - \frac{\sigma^2}{2} \right) t +
         \sigma W_t \right)
 
-    :param float t: the right hand endpoint of the time interval :math:`[0,t]`
-        for the process
     :param float drift: the parameter :math:`\mu`
     :param float volatility: the parameter :math:`\sigma`
+    :param float t: the right hand endpoint of the time interval :math:`[0,t]`
+        for the process
     """
 
-    def __init__(self, t=1, drift=0, volatility=1):
+    def __init__(self, drift=0, volatility=1, t=1):
         super(GeometricBrownianMotion, self).__init__(t)
-        self._brownian_motion = BrownianMotion(self.t)
+        self._brownian_motion = BrownianMotion(t=t)
         self.drift = drift
         self.volatility = volatility
         self._n = None
+
+    def __str__(self):
+        return ("Geometric Brownian motion with drift {d} "
+                "and volatility {v} on [0, {t}].".format(
+                    t=str(self.t),
+                    d=str(self.drift),
+                    v=str(self.volatility)
+                )
+        )
+
+    def __repr__(self):
+        return "GeometricBrownianMotion(drift={d}, volatility={v}, t={t})".format(
+            t=str(self.t),
+            d=str(self.drift),
+            v=str(self.volatility)
+        )
 
     @property
     def drift(self):

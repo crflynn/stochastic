@@ -5,22 +5,22 @@ import pytest
 from stochastic.discrete import MoranProcess
 
 
-def test_moran_process_str_repr(n_max):
-    instance = MoranProcess(n_max)
+def test_moran_process_str_repr(maximum):
+    instance = MoranProcess(maximum)
     assert isinstance(repr(instance), str)
     assert isinstance(str(instance), str)
 
-def test_moran_process_sample(n_max, n, start):
-    instance = MoranProcess(n_max)
+def test_moran_process_sample(maximum, n, start):
+    instance = MoranProcess(maximum)
     s = instance.sample(n, start)
     assert len(s) <= n
-    states = list(range(n_max + 1))
+    states = list(range(maximum + 1))
     for state in s:
         assert state in states
 
-def test_moran_process_probability(n_max_fixture):
+def test_moran_process_probability(maximum_fixture):
     with pytest.raises((ValueError, TypeError)):
-        instance = MoranProcess(n_max_fixture)
+        instance = MoranProcess(maximum_fixture)
 
 def test_moran_process_n(n, n_fixture):
     instance = MoranProcess(20)
