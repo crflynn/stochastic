@@ -1,4 +1,4 @@
-"""Test PoissonProcess."""
+"""Test MixedPoissonProcess."""
 # flake8: noqa
 import pytest
 

@@ -1,4 +1,4 @@
-"""Test PoissonProcess."""
+"""Test NHPP."""
 # flake8: noqa
 import pytest
 
@@ -18,7 +18,7 @@ def test_poisson_process_sample(lambdaa,boundaries, n_fixture):
         s = instance.sample(n_fixture)
         assert len(s) == n_fixture 
 
-# def test_poisson_process_times(rate, n):
-    # instance = PoissonProcess(rate)
-    # with pytest.raises(AttributeError):
-        # times = instance.times(n)
+def test_poisson_process_times(lambdaa,boundaries, n):
+    instance = NHPP(lambdaa,boundaries)
+    with pytest.raises(AttributeError):
+        times = instance.times(n)
