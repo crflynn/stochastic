@@ -2,26 +2,23 @@
 # flake8: noqa
 import pytest
 
-from stochastic.continuous import PoissonProcess
+from stochastic.continuous import NHPP
 
-def test_poisson_process_str_repr(rate):
-    instance = PoissonProcess(rate)
+def test_poisson_process_str_repr(lambdaa,boundaries):
+    instance = NHPP(lambdaa,boundaries)
     assert isinstance(repr(instance), str)
     assert isinstance(str(instance), str)
 
-def test_poisson_process_sample(rate, n_fixture, length, zero):
-    instance = PoissonProcess(rate)
-    if n_fixture is None and length is None:
+def test_poisson_process_sample(lambdaa,boundaries, n_fixture):
+    instance = NHPP(lambdaa,boundaries)
+    if n_fixture is None:
         with pytest.raises(ValueError):
-            s = instance.sample(n_fixture, length, zero)
-    elif length is not None and n_fixture is None:
-        s = instance.sample(n_fixture, length, zero)
-        assert s[-1] >= length
+            s = instance.sample(n_fixture)
     else:  # n_fixture is not None:
-        s = instance.sample(n_fixture, length, zero)
-        assert len(s) == n_fixture + int(zero)
+        s = instance.sample(n_fixture)
+        assert len(s) == n_fixture 
 
-def test_poisson_process_times(rate, n):
-    instance = PoissonProcess(rate)
-    with pytest.raises(AttributeError):
-        times = instance.times(n)
+# def test_poisson_process_times(rate, n):
+    # instance = PoissonProcess(rate)
+    # with pytest.raises(AttributeError):
+        # times = instance.times(n)

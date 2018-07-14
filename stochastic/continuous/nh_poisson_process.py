@@ -84,6 +84,8 @@ class NHPP(Checks):
                     else:
                         Unthin=np.vstack((Unthin,np.random.uniform(*i,size=(blocksize))))
                 Unthin.T
+                if len(Unthin.shape)==1:
+                    Unthin=np.reshape(Unthin,(1,len(Unthin)))
                 U=np.random.uniform(size=(blocksize))
                 if callable(self.lambdaa): 
                     Criteria=self.lambdaa(*Unthin)/self.lmax
@@ -112,7 +114,10 @@ class NHPP(Checks):
             else:
                 Thinned=np.vstack((Thinned,Unthin.T[U<Criteria,:]))
             del Unthin
-        return Thinned[:n,:]
+            return Thinned[:n,:]
+        else:
+            raise ValueError(
+                "Must provide either argument n.")
                
     def sample(self, n=None):
         """Generate a realization.
