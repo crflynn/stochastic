@@ -10,11 +10,12 @@ def AllReal2D(request):
     return request.param
     
 # ks2d
-@pytest.fixture(params=[np.array([[*np.arange(6),*np.arange(6),*np.arange(6),*np.arange(6),*np.arange(6),*np.arange(6)],[*([1]*6),*([2]*6),*([3]*6),*([4]*6),*([5]*6),*([6]*6)]])])
+points=np.array([[*np.arange(6),*np.arange(6),*np.arange(6),*np.arange(6),*np.arange(6),*np.arange(6)],[*([1]*6),*([2]*6),*([3]*6),*([4]*6),*([5]*6),*([6]*6)]])
+@pytest.fixture(params=[points])
 def points2d(request):
     return request.param
-func=lambda x,y:x+y
-@pytest.fixture(params=[func])
+
+@pytest.fixture(params=[lambda x,y:x+y])
 def distfunc2d(request):
     return request.param
     
