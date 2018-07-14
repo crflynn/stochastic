@@ -23,25 +23,3 @@ def NHPPLeemisEst(AllRealizations,NumbetweenTi=10.):
     GammaEstNoNan=GammaEst[np.where(1-np.isnan(GammaEst))[0]]
     AllEventsT=Arrayoft[np.where(1-np.isnan(GammaEst))[0]]
     return AllEventsT, GammaEstNoNan
-
-NHPPLeemisEst(np.array([[0,1,2,3,4,5,6],[0,0.5,0.75,0,0,0,0],[0,10,20,50,100,0,0]]).T)
-
-    
-def NHPPMangkuEst(AllEventsT, LowerEstBound=40e-6, UpperEstBound=60e-6,silent=0):
-    """ Parametric estimation of the rate function of a NHPP.
-    
-    :param array AllEventsT: 'jagged' array containing all realizations, as columns of a 2d matrix. Contains all cumulative event occurrences in time, padded with zeros to make columns of length equal to the realizations with the most events.
-             
-    :returns:  a float, the estimation of the period.
-    """
-    AllEventsT=Dataa[:,0]*TimeStep
-    AllHarmonics=np.linspace(1, 10, 10)  # Also known as a harmonic spectrum.
-    for Harmonic in AllHarmonics:
-        AllGrosT=np.linspace(LowerEstBound*Harmonic, UpperEstBound*Harmonic, 5000)
-        AllQ=[]
-        periodest=[]
-        for GrosT in AllGrosT:
-            AllQ=np.append(AllQ, QforPeriodEst(AllEventsT,GrosT, TimeLength))
-        periodest=np.append(periodest, AllGrosT[np.min(np.where(AllQ==np.min(AllQ))[0])]/Harmonic)
-    return periodest
-    
