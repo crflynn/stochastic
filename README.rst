@@ -22,7 +22,7 @@ stochastic
 
 A python package for generating realizations of common
 (and perhaps some less common) stochastic processes, with some optimization
-for repeated simulation. 
+for repeated simulation.
 
 Installation
 ------------
@@ -64,9 +64,8 @@ the package.
         * FractionalBrownianMotion
         * GammaProcess
         * GeometricBrownianMotion
+        * MultifractionalBrownianMotion
         * PoissonProcess
-        * MixedPoissonProcess
-        * NHPP
         * SquaredBesselProcess
         * VarianceGammaProcess
         * WienerProcess
@@ -88,16 +87,15 @@ the package.
 
     * noise
 
-        * GaussianNoise
+        * BlueNoise
+        * BrownianNoise
+        * ColoredNoise
+        * PinkNoise
+        * RedNoise
+        * VioletNoise
+        * WhiteNoise
         * FractionalGaussianNoise
-        
-    * analysis
-
-        * ks2d1s
-        * ks2d2s
-        * NHPPLeemisEst
-        * NHPPMangkuEst
-
+        * GaussianNoise
 
 Usage patterns
 --------------

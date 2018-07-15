@@ -57,9 +57,9 @@ computation. For improved performance under Monte Carlo simulation, some
 classes will store results of intermediate computations for faster generation
 on subsequent simulations.
 
-
 Documentation
 -------------
+
 
 .. toctree::
    :maxdepth: 2
@@ -70,7 +70,7 @@ Documentation
    noise
    continuous
    diffusion
-   analysis
+   sources
    notes
 
 
