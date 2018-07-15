@@ -8,6 +8,7 @@ from stochastic.continuous.cauchy import CauchyProcess
 from stochastic.continuous.fractional_brownian_motion import FractionalBrownianMotion
 from stochastic.continuous.gamma import GammaProcess
 from stochastic.continuous.geometric_brownian_motion import GeometricBrownianMotion
+from stochastic.continuous.multifractional_brownian_motion import MultifractionalBrownianMotion
 from stochastic.continuous.poisson import PoissonProcess
 from stochastic.continuous.mixed_poisson import MixedPoissonProcess
 from stochastic.continuous.nh_poisson_process import NHPP
@@ -26,6 +27,7 @@ __all__ = [
     "FractionalBrownianMotion",
     "GammaProcess",
     "GeometricBrownianMotion",
+    "MultifractionalBrownianMotion",
     "PoissonProcess",
     "MixedPoissonProcess",
     "NHPP",

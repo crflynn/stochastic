@@ -3,6 +3,8 @@
 import numpy as np
 import pytest
 
+from stochastic.noise import *
+
 
 # Floating point arithmetic comparison threshold
 @pytest.fixture(params=[10**-10])
@@ -14,7 +16,7 @@ def threshold(request):
 def t(request):
     return request.param
 
-@pytest.fixture(params=[16])
+@pytest.fixture(params=[16, 17])  # even and odd for colored noise fft
 def n(request):
     return request.param
 
@@ -45,4 +47,21 @@ def algorithm(request):
 
 @pytest.fixture(params=['badalgorithm'])
 def algorithm_fixture(request):
+    return request.param
+
+# ColoredNoise
+@pytest.fixture(params=[-3, -2, -1, 0, 1, 2, 3, 0.5, -0.5])
+def beta(request):
+    return request.param
+
+@pytest.fixture(params=[
+    ColoredNoise,
+    WhiteNoise,
+    PinkNoise,
+    RedNoise,
+    BrownianNoise,
+    BlueNoise,
+    VioletNoise
+])
+def colored_noise_class(request):
     return request.param

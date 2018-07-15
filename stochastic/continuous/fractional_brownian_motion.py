@@ -5,7 +5,7 @@ from stochastic.noise.fractional_gaussian_noise import FractionalGaussianNoise
 
 
 class FractionalBrownianMotion(FractionalGaussianNoise):
-    """Fractional Brownian motion process.
+    r"""Fractional Brownian motion process.
 
     .. image:: _static/fractional_brownian_motion.png
         :scale: 50%
@@ -15,6 +15,16 @@ class FractionalBrownianMotion(FractionalGaussianNoise):
     the process is a standard Brownian motion. When :math:`H > 1/2`, the
     increments are positively correlated. When :math:`H < 1/2`, the
     increments are negatively correlated.
+
+    Hosking's method:
+
+    * Hosking, Jonathan RM. "Modeling persistence in hydrological time series
+      using fractional differencing." Water resources research 20, no. 12 (1984): 1898-1908.
+
+    Davies Harte method:
+
+    * Davies, Robert B., and D. S. Harte. "Tests for Hurst effect." Biometrika
+      74, no. 1 (1987): 95-101.
 
     :param float t: the right hand endpoint of the time interval :math:`[0,t]`
         for the process

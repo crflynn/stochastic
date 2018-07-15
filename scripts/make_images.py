@@ -1,4 +1,6 @@
 # flake8: noqa
+import math
+
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -10,7 +12,7 @@ from stochastic.noise import *
 
 plt.style.use('bmh')
 
-def make_plot(title, fname, x, ys, xlabel, ylabel, scatter=False, alt=False):
+def make_plot(title, fname, x, ys, xlabel="Time", ylabel="Value", scatter=False, alt=False):
     fig, ax = plt.subplots(1, 1, figsize=(8, 4))
     if alt:
         for y in ys:
@@ -144,6 +146,42 @@ def main():
     # for idx, s in enumerate(ss):
     #     ss[idx] = np.insert(s, 0, [0])
     # make_plot("Gaussian noise", "gaussian_noise", process.times(2**8), ss, "Time", "Value")
+    #
+    # colors = {
+    #     "White": 0,
+    #     "Pink": 1,
+    #     "Red": 2,
+    # }
+    # ys = []
+    # for color, beta in colors.items():
+    #     process = ColoredNoise(beta)
+    #     ys.append(process.sample(n))
+    #     t = process.times(n)
+    # make_plot("Colored noise", "colored_noise", t, ys, "Time", "Value")
+    #
+    # colors = {
+    #     "Violet": -2,
+    #     "Blue": -1,
+    #     "White": 0,
+    #     "Pink": 1,
+    #     "Red": 2,
+    # }
+    # for color, beta in colors.items():
+    #     process = ColoredNoise(beta)
+    #     ys = []
+    #     ys.append(process.sample(n))
+    #     t = process.times(n)
+    #     make_plot("{c} noise".format(c=color), "{c}_noise".format(c=color.lower()), t, ys, "Time", "Value")
+    #
+    def h(t):
+        return math.sin(t*4*math.pi) * 0.4 + 0.5
+    process = MultifractionalBrownianMotion(t=1, hurst=h)
+    t = process.times(n)
+    ss = get_samples(n_samples, process, {"n": n})
+
+    make_plot("Multifractional Brownian motion", "multifractional_brownian_motion", t, ss)
+
+
 
 if __name__ == '__main__':
     main()

@@ -28,6 +28,7 @@ Here are the currently supported processes and how to access their classes:
     * FractionalBrownianMotion
     * GammaProcess
     * GeometricBrownianMotion
+    * MultifractionalBrownianMotion
     * PoissonProcess
     * MixedPoissonProcess
     * NHPP
@@ -52,8 +53,15 @@ Here are the currently supported processes and how to access their classes:
 
   * noise
 
-    * GaussianNoise
+    * BlueNoise
+    * BrownianNoise
+    * ColoredNoise
+    * PinkNoise
+    * RedNoise
+    * VioletNoise
+    * WhiteNoise
     * FractionalGaussianNoise
+    * GaussianNoise
 
 Here are the analysis functions:
     

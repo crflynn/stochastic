@@ -1,3 +1,4 @@
 include README.rst
 include LICENSE.txt
 include HISTORY.rst
+recursive-include tests *.py
