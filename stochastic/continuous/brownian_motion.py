@@ -111,6 +111,5 @@ class BrownianMotion(GaussianNoise):
 
         :param times: a vector of increasing time values at which to generate
             the realization
-        :param bool zero: if True, include :math:`t=0`
         """
         return self._sample_brownian_motion_at(times)

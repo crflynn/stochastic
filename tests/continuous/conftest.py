@@ -94,6 +94,24 @@ def volatility(request):
 def initial(request):
     return request.param
 
+# InverseGaussianProcess
+def mean_func_monotonic(t):
+    return t
+
+def mean_func_not_monotonic(t):
+    return 1
+
+def mean_func_no_args():
+    return 1
+
+@pytest.fixture(params=[mean_func_monotonic, None])
+def mean_func(request):
+    return request.param
+
+@pytest.fixture(params=[mean_func_not_monotonic, mean_func_no_args, 1])
+def mean_func_invalid(request):
+    return request.param
+
 # MultifractionalBrownianMotion
 def hurst_const(t):
     return 0.5
