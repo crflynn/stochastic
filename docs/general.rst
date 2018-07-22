@@ -26,6 +26,7 @@ Here are the currently supported processes and how to access their classes:
     * FractionalBrownianMotion
     * GammaProcess
     * GeometricBrownianMotion
+    * InverseGaussianProcess
     * MultifractionalBrownianMotion
     * PoissonProcess
     * SquaredBesselProcess
