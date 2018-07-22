@@ -19,17 +19,17 @@ class VarianceGammaProcess(Continuous):
 
         \theta \Gamma(t; 1, \nu) + \sigma W(\Gamma(t; 1, \nu))
 
-    :param float t: the right hand endpoint of the time interval :math:`[0,t]`
-        for the process
     :param float drift: the drift parameter of the Brownian motion,
         or :math:`\theta` above
     :param float variance: the variance parameter of the Gamma subordinator,
         or :math:`\nu` above
     :param float scale: the scale parameter of the Brownian motion,
         or :math:`\sigma` above
+    :param float t: the right hand endpoint of the time interval :math:`[0,t]`
+        for the process
     """
 
-    def __init__(self, t=1, drift=0, variance=1, scale=1):
+    def __init__(self, drift=0, variance=1, scale=1, t=1):
         super(VarianceGammaProcess, self).__init__(t)
         self.drift = drift
         self.variance = variance

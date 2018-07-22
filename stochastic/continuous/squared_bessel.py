@@ -15,10 +15,10 @@ class SquaredBesselProcess(BesselProcess):
     The Bessel process is the Euclidean norm of an :math:`n`-dimensional
     Wiener process, e.g. :math:`\|\mathbf{W}_t\|`
 
-    :param float t: the right hand endpoint of the time interval :math:`[0,t]`
-        for the process
     :param int dim: the number of underlying independent Brownian motions to
         use
+    :param float t: the right hand endpoint of the time interval :math:`[0,t]`
+        for the process
     """
 
     def _sample_squared_bessel_process(self, n, zero=True):

@@ -20,7 +20,7 @@ discrete-time stochastic processes.
     :members: transition, initial, sample
 
 .. autoclass:: stochastic.discrete.MoranProcess
-    :members: n_max, sample
+    :members: maximum, sample
 
 .. autoclass:: stochastic.discrete.RandomWalk
     :members: steps, weights, p, sample, sample_increments

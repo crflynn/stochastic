@@ -31,13 +31,14 @@ class MultifractionalBrownianMotion(Continuous):
       processes using multifractional Brownian motion of Riemann-Liouville
       type." Physical Review E 63, no. 4 (2001): 046104.
 
+    :param float hurst: a callable with one argument :math:`h(t)` such that
+        :math:`h(t') \in (0, 1) \forall t' \in [0, t]`. Default is
+        :math:`h(t) = 0.5`.
     :param float t: the right hand endpoint of the time interval :math:`[0,t]`
         for the process
-    :param float hurst: a callable with one argument :math:`h(t)` such that
-        :math:`h(t') \in (0, 1) \forall t' \in [0, t]`
     """
 
-    def __init__(self, t=1, hurst=None):
+    def __init__(self, hurst=None, t=1):
         super(MultifractionalBrownianMotion, self).__init__(t)
         if hurst is None:
             hurst = lambda x: 0.5
@@ -52,7 +53,7 @@ class MultifractionalBrownianMotion(Continuous):
         )
 
     def __repr__(self):
-        return "FractionalBrownianMotion(t={t}, hurst={h})".format(
+        return "FractionalBrownianMotion(hurst={h}, t={t})".format(
             t=str(self.t),
             h=self.hurst.__name__
         )
