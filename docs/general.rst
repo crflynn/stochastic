@@ -104,7 +104,7 @@ instantiation.
     from stochastic.continuous import BrownianMotion
 
 
-    bm = BrownianMotion(t=1, drift=1, scale=1)
+    bm = BrownianMotion(drift=1, scale=1, t=1)
     times = [0, 3, 10, 11, 11.2, 20]
     s = sample_at(times)
 
@@ -122,7 +122,7 @@ steps. This is particularly useful for plotting your samples.
     from stochastic.continuous import FractionalBrownianMotion
 
 
-    fbm = FractionalBrownianMotion(t=1, hurst=0.7)
+    fbm = FractionalBrownianMotion(hurst=0.7, t=1)
     s = fbm.sample(32)
     times = fbm.times(32)
 
@@ -144,5 +144,5 @@ implementations.
     from stochastic.noise import FractionalGaussianNoise
 
 
-    fgn = FractionalGaussianNoise(t=1, hurst=0.6)
+    fgn = FractionalGaussianNoise(hurst=0.6, t=1)
     s = fgn.sample(32, algorithm='hosking')
