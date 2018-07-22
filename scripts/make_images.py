@@ -173,13 +173,19 @@ def main():
     #     t = process.times(n)
     #     make_plot("{c} noise".format(c=color), "{c}_noise".format(c=color.lower()), t, ys, "Time", "Value")
     #
-    def h(t):
-        return math.sin(t*4*math.pi) * 0.4 + 0.5
-    process = MultifractionalBrownianMotion(t=1, hurst=h)
+    # def h(t):
+    #     return math.sin(t*4*math.pi) * 0.4 + 0.5
+    # process = MultifractionalBrownianMotion(t=1, hurst=h)
+    # t = process.times(n)
+    # ss = get_samples(n_samples, process, {"n": n})
+    #
+    # make_plot("Multifractional Brownian motion", "multifractional_brownian_motion", t, ss)
+
+    process = InverseGaussianProcess()
     t = process.times(n)
     ss = get_samples(n_samples, process, {"n": n})
 
-    make_plot("Multifractional Brownian motion", "multifractional_brownian_motion", t, ss)
+    make_plot("Inverse Gaussian process", "inverse_gaussian", t, ss)
 
 
 
