@@ -7,6 +7,7 @@ Bibliographical Sources
 * Devroye, Luc. "On exact simulation algorithms for some distributions related to Brownian motion and Brownian meanders." In Recent developments in applied probability and statistics, pp. 1-35. Physica-Verlag HD, 2010.
 * Hosking, Jonathan RM. "Modeling persistence in hydrological time series using fractional differencing." Water resources research 20, no. 12 (1984): 1898-1908.
 * Imhof, J-P. "Density factorizations for Brownian motion, meander and the three-dimensional Bessel process, and applications." Journal of Applied Probability 21, no. 3 (1984): 500-510.
+* Michael, John R., William R. Schucany, and Roy W. Haas. "Generating random variates using transformations with multiple roots." The American Statistician 30, no. 2 (1976): 88-90.
 * Muniandy, S. V., and S. C. Lim. "Modeling of locally self-similar processes using multifractional Brownian motion of Riemann-Liouville type." Physical Review E 63, no. 4 (2001): 046104.
 * Rambaldi, Sandro, and Ombretta Pinazza. "An accurate fractional Brownian motion generator." Physica A: Statistical Mechanics and its Applications 208, no. 1 (1994): 21-30.
 * Timmer, J., and M. Koenig. "On generating power law noise." Astronomy and Astrophysics 300 (1995): 707.
