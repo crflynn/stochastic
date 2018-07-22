@@ -62,7 +62,7 @@ def initial(request):
 
 # MoranProcess
 @pytest.fixture(params=[0, 0.1])
-def n_max_fixture(request):
+def maximum_fixture(request):
     return request.param
 
 @pytest.fixture(params=[0, 1.1])
@@ -78,7 +78,7 @@ def start(request):
     return request.param
 
 @pytest.fixture(params=[5])
-def n_max(request):
+def maximum(request):
     return request.param
 
 # RandomWalk

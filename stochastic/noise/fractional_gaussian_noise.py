@@ -24,12 +24,12 @@ class FractionalGaussianNoise(Continuous):
     * Davies, Robert B., and D. S. Harte. "Tests for Hurst effect." Biometrika
       74, no. 1 (1987): 95-101.
 
+    :param float hurst: The Hurst parameter value in :math:`(0,1)`.
     :param float t: the right hand endpoint of the time interval :math:`[0,t]`
         for the process
-    :param float hurst: The Hurst parameter value in :math:`(0,1)`.
     """
 
-    def __init__(self, t=1, hurst=0.5):
+    def __init__(self, hurst=0.5, t=1):
         super(FractionalGaussianNoise, self).__init__(t)
         self.hurst = hurst
         self._n = None
@@ -43,7 +43,7 @@ class FractionalGaussianNoise(Continuous):
         )
 
     def __repr__(self):
-        return "FractionalGaussianNoise(t={t}, hurst={h})".format(
+        return "FractionalGaussianNoise(hurst={h}, t={t})".format(
             t=str(self.t),
             h=str(self.hurst)
         )

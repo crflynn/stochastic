@@ -24,12 +24,13 @@ class ColoredNoise(Continuous):
 
     :param float beta: the power law exponent for the spectral density, with 0
         being white noise, 1 being pink noise, 2 being red noise (Brownian
-        noise), -1 being blue noise, -2 being violet noise
+        noise), -1 being blue noise, -2 being violet noise. Default is 0
+        (white noise).
     :param float t: the right hand endpoint of the time interval :math:`[0,t]`
         for the process
     """
 
-    def __init__(self, beta, t=1):
+    def __init__(self, beta=0, t=1):
         super(ColoredNoise, self).__init__(t)
         self.beta = beta
         self._n = None

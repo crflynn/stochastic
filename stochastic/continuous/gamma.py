@@ -15,17 +15,17 @@ class GammaProcess(Continuous):
     This class supports instantiation using the mean/variance parametrization
     or the rate/scale parametrization.
 
-    :param float t: the right hand endpoint of the time interval :math:`[0,t]`
-        for the process
     :param float mean: mean increase per unit time; supply with
         :py:attr:`variance`
     :param float variance: variance of increase per unit time; supply with
         :py:attr:`mean`
     :param float rate: the rate of jump arrivals; supply with :py:attr:`scale`
     :param float scale: the size of the jumps; supple with :py:attr:`rate`
+    :param float t: the right hand endpoint of the time interval :math:`[0,t]`
+        for the process
     """
 
-    def __init__(self, t=1, mean=None, variance=None, rate=None, scale=None):
+    def __init__(self, mean=None, variance=None, rate=None, scale=None, t=1):
         super(GammaProcess, self).__init__(t)
         if rate is None and scale is None:
             self.mean = mean
@@ -51,7 +51,7 @@ class GammaProcess(Continuous):
         )
 
     def __repr__(self):
-        return "GammaProcess(t={t}, rate={r}, scale={s})".format(
+        return "GammaProcess(rate={r}, scale={s}, t={t})".format(
             t=str(self.t),
             r=str(self.rate),
             s=str(self.scale)

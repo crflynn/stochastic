@@ -19,12 +19,12 @@ class VasicekProcess(OrnsteinUhlenbeckProcess):
 
     Realizations are generated using the Euler-Maruyama method.
 
-    :param float t: the right hand endpoint of the time interval :math:`[0,t]`
-        for the process
     :param float speed: the speed of reversion, or :math:`\theta` above
     :param float mean: the mean of the process, or :math:`\mu` above
     :param float vol: volatility coefficient of the process, or :math:`\sigma`
         above
+    :param float t: the right hand endpoint of the time interval :math:`[0,t]`
+        for the process
     """
 
     def __str__(self):
@@ -37,8 +37,8 @@ class VasicekProcess(OrnsteinUhlenbeckProcess):
         )
 
     def __repr__(self):
-        return ("VasicekProcess(t={t}, speed={s}, "
-                "mean={m}, vol={v})").format(
+        return ("VasicekProcess(speed={s}, "
+                "mean={m}, vol={v}, t={t})").format(
                     s=str(self.speed),
                     m=str(self.mean),
                     v=str(self.vol),

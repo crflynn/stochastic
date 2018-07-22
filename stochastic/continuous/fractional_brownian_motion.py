@@ -26,13 +26,13 @@ class FractionalBrownianMotion(FractionalGaussianNoise):
     * Davies, Robert B., and D. S. Harte. "Tests for Hurst effect." Biometrika
       74, no. 1 (1987): 95-101.
 
+    :param float hurst: the Hurst parameter on the interval (0, 1)
     :param float t: the right hand endpoint of the time interval :math:`[0,t]`
         for the process
-    :param float hurst: the Hurst parameter on the interval (0, 1)
     """
 
-    def __init__(self, t=1, hurst=0.5):
-        super(FractionalBrownianMotion, self).__init__(t, hurst)
+    def __init__(self, hurst=0.5, t=1):
+        super(FractionalBrownianMotion, self).__init__(hurst, t)
 
     def __str__(self):
         return "Fractional Brownian motion with Hurst {h} on [0, {t}].".format(
@@ -41,7 +41,7 @@ class FractionalBrownianMotion(FractionalGaussianNoise):
         )
 
     def __repr__(self):
-        return "FractionalBrownianMotion(t={t}, hurst={h})".format(
+        return "FractionalBrownianMotion(hurst={h}, t={t})".format(
             t=str(self.t),
             h=str(self.hurst)
         )
