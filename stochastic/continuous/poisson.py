@@ -3,9 +3,8 @@ import numpy as np
 
 from stochastic.base import Checks
 
-
 class PoissonProcess(Checks):
-    r"""Poisson process.
+    r"""Poisson process. Also known as homogeneous Poisson Process (HPP).
 
     .. image:: _static/poisson_process.png
         :scale: 50%
@@ -88,3 +87,4 @@ class PoissonProcess(Checks):
     def times(self, *args, **kwargs):
         """Disallow times for this process."""
         raise AttributeError("PoissonProcess object has no attribute times.")
+

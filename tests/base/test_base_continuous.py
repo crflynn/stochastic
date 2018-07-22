@@ -4,7 +4,6 @@ import pytest
 
 from stochastic.base import Continuous
 
-
 def test_check_times(end, n, zero, mocker):
     continuous = Continuous(end)
     mocker.patch('stochastic.base.Continuous.times')

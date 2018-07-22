@@ -11,6 +11,8 @@ from stochastic.continuous.geometric_brownian_motion import GeometricBrownianMot
 from stochastic.continuous.inverse_gaussian import InverseGaussianProcess
 from stochastic.continuous.multifractional_brownian_motion import MultifractionalBrownianMotion
 from stochastic.continuous.poisson import PoissonProcess
+from stochastic.continuous.mixed_poisson import MixedPoissonProcess
+from stochastic.continuous.nh_poisson_process import NHPP
 from stochastic.continuous.squared_bessel import SquaredBesselProcess
 from stochastic.continuous.variance_gamma import VarianceGammaProcess
 from stochastic.continuous.wiener import WienerProcess
@@ -29,6 +31,8 @@ __all__ = [
     "InverseGaussianProcess",
     "MultifractionalBrownianMotion",
     "PoissonProcess",
+    "MixedPoissonProcess",
+    "NHPP",
     "SquaredBesselProcess",
     "VarianceGammaProcess",
     "WienerProcess",

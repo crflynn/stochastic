@@ -145,3 +145,22 @@ def length(request):
 @pytest.fixture(params=[1])
 def rate(request):
     return request.param
+    
+# MixedPoissonProcess
+@pytest.fixture(params=[np.random.uniform])
+def ratedist(request):
+    return request.param
+
+@pytest.fixture(params=[[1,100],[1,10]])
+def ratedistparams(request):
+    return request.param
+    
+# NHPP
+@pytest.fixture(params=[lambda x:2.*x**2.])
+def lambdaa(request):
+    return request.param
+
+@pytest.fixture(params=[np.array([[0,100]])])
+def boundaries(request):
+    return request.param
+    

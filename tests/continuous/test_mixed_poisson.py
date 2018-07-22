@@ -1,16 +1,16 @@
-"""Test PoissonProcess."""
+"""Test MixedPoissonProcess."""
 # flake8: noqa
 import pytest
 
-from stochastic.continuous import PoissonProcess
+from stochastic.continuous import MixedPoissonProcess
 
-def test_poisson_process_str_repr(rate):
-    instance = PoissonProcess(rate)
+def test_mixed_poisson_process_str_repr(ratedist,ratedistparams):
+    instance = MixedPoissonProcess(ratedist,ratedistparams)
     assert isinstance(repr(instance), str)
     assert isinstance(str(instance), str)
 
-def test_poisson_process_sample(rate, n_fixture, length, zero):
-    instance = PoissonProcess(rate)
+def test_mixed_poisson_process_sample(ratedist,ratedistparams, n_fixture, length, zero):
+    instance = MixedPoissonProcess(ratedist,ratedistparams)
     if n_fixture is None and length is None:
         with pytest.raises(ValueError):
             s = instance.sample(n_fixture, length, zero)
@@ -21,7 +21,7 @@ def test_poisson_process_sample(rate, n_fixture, length, zero):
         s = instance.sample(n_fixture, length, zero)
         assert len(s) == n_fixture + int(zero)
 
-def test_poisson_process_times(rate, n):
-    instance = PoissonProcess(rate)
+def test_poisson_process_times(ratedist,ratedistparams, n):
+    instance = MixedPoissonProcess(ratedist,ratedistparams,)
     with pytest.raises(AttributeError):
         times = instance.times(n)

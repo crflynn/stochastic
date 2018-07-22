@@ -1,3 +1,4 @@
+
 # pytest
 .cache
 
@@ -14,6 +15,10 @@ __pycache__
 *.egg-info
 build/
 dist/
+.doctrees
+.doctree
+
+.pytest_cache/
 
 # tox
 .tox
@@ -26,3 +31,15 @@ _build
 
 # macosx
 .DS_Store
+LICENSE
+TEST_KS2D/
+example.log
+make.bat
+Makefile
+__pycache__/
+_static/
+_modules/
+_images/
+_sources/
+*.rst
+_build/

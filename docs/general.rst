@@ -11,6 +11,8 @@ noise process objects for generating realizations of stochastic processes as
 
 The diffusion processes are approximated using the Euler–Maruyama method.
 
+Some analysis functions are also offered: NHPP rate estimation methods, 2D Kolmogorov-Smirnov testing.
+
 Here are the currently supported processes and how to access their classes:
 
 * stochastic
@@ -29,6 +31,8 @@ Here are the currently supported processes and how to access their classes:
     * InverseGaussianProcess
     * MultifractionalBrownianMotion
     * PoissonProcess
+    * MixedPoissonProcess
+    * NHPP
     * SquaredBesselProcess
     * VarianceGammaProcess
     * WienerProcess
@@ -60,7 +64,15 @@ Here are the currently supported processes and how to access their classes:
     * FractionalGaussianNoise
     * GaussianNoise
 
-
+Here are the analysis functions:
+    
+   * analysis
+    
+    * ks2d1s
+    * ks2d2s
+    * NHPPLeemisEst
+    * NHPPMangkuEst
+    
 Usage patterns
 --------------
 
