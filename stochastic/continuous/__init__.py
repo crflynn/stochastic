@@ -8,6 +8,7 @@ from stochastic.continuous.cauchy import CauchyProcess
 from stochastic.continuous.fractional_brownian_motion import FractionalBrownianMotion
 from stochastic.continuous.gamma import GammaProcess
 from stochastic.continuous.geometric_brownian_motion import GeometricBrownianMotion
+from stochastic.continuous.inverse_gaussian import InverseGaussianProcess
 from stochastic.continuous.multifractional_brownian_motion import MultifractionalBrownianMotion
 from stochastic.continuous.poisson import PoissonProcess
 from stochastic.continuous.squared_bessel import SquaredBesselProcess
@@ -25,6 +26,7 @@ __all__ = [
     "FractionalBrownianMotion",
     "GammaProcess",
     "GeometricBrownianMotion",
+    "InverseGaussianProcess",
     "MultifractionalBrownianMotion",
     "PoissonProcess",
     "SquaredBesselProcess",

@@ -17,16 +17,16 @@ class ConstantElasticityVarianceProcess(OrnsteinUhlenbeckProcess):
 
     Realizations are generated using the Euler-Maruyama method.
 
-    :param float t: the right hand endpoint of the time interval :math:`[0,t]`
-        for the process
     :param float mu: the drift coefficient, or :math:`\mu` above
     :param float sigma: the volatility coefficient, or :math:`\sigma` above
     :param float gamma: the volatility-price exponent, or :math:`\gamma` above
+    :param float t: the right hand endpoint of the time interval :math:`[0,t]`
+        for the process
     """
 
-    def __init__(self, t=1, mu=1, sigma=1, gamma=1):
+    def __init__(self, mu=1, sigma=1, gamma=1, t=1):
         super(ConstantElasticityVarianceProcess, self).__init__(
-            t, -mu, 0, sigma)
+            -mu, 0, sigma, t)
         self.mu = mu
         self.sigma = sigma
         self.gamma = gamma
@@ -41,8 +41,8 @@ class ConstantElasticityVarianceProcess(OrnsteinUhlenbeckProcess):
         )
 
     def __repr__(self):
-        return ("ConstantElasticityVarianceProcess(t={t}, mu={m}, "
-                "sigma={s}, gamma={g})").format(
+        return ("ConstantElasticityVarianceProcess(mu={m}, "
+                "sigma={s}, gamma={g}, t={t})").format(
                     s=str(self.sigma),
                     m=str(self.mu),
                     g=str(self.gamma),

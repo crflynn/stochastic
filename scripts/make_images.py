@@ -127,7 +127,7 @@ def main():
     # ss = get_samples(1, process, {"n": 32})
     # make_plot("Markov chain (5 states)", "markov_chain", list(range(32)), ss, "Time", "Value", scatter=True)
     #
-    # process = MoranProcess(n_max=20)
+    # process = MoranProcess(maximum=20)
     # ss = get_samples(n_samples, process, {"n": 50, "start": 10})
     # make_plot("Moran process", "moran_process", list(range(50)), ss, "Time", "Value", scatter=True)
     #
@@ -173,13 +173,19 @@ def main():
     #     t = process.times(n)
     #     make_plot("{c} noise".format(c=color), "{c}_noise".format(c=color.lower()), t, ys, "Time", "Value")
     #
-    def h(t):
-        return math.sin(t*4*math.pi) * 0.4 + 0.5
-    process = MultifractionalBrownianMotion(t=1, hurst=h)
+    # def h(t):
+    #     return math.sin(t*4*math.pi) * 0.4 + 0.5
+    # process = MultifractionalBrownianMotion(t=1, hurst=h)
+    # t = process.times(n)
+    # ss = get_samples(n_samples, process, {"n": n})
+    #
+    # make_plot("Multifractional Brownian motion", "multifractional_brownian_motion", t, ss)
+
+    process = InverseGaussianProcess()
     t = process.times(n)
     ss = get_samples(n_samples, process, {"n": n})
 
-    make_plot("Multifractional Brownian motion", "multifractional_brownian_motion", t, ss)
+    make_plot("Inverse Gaussian process", "inverse_gaussian", t, ss)
 
 
 

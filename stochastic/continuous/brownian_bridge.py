@@ -13,13 +13,13 @@ class BrownianBridge(BrownianMotion):
     A Brownian bridge is a Brownian motion with a conditional value on the
     right endpoint of the process.
 
+    :param float b: the right endpoint value of the Brownian bridge at time t
     :param float t: the right hand endpoint of the time interval :math:`[0,t]`
         for the process
-    :param float b: the right endpoint value of the Brownian bridge at time t
     """
 
-    def __init__(self, t=1, b=0):
-        super(BrownianBridge, self).__init__(t, drift=0, scale=1)
+    def __init__(self, b=0, t=1):
+        super(BrownianBridge, self).__init__(drift=0, scale=1, t=t)
         self.b = b
 
     def __str__(self):
@@ -29,7 +29,7 @@ class BrownianBridge(BrownianMotion):
         )
 
     def __repr__(self):
-        return "BrownianBridge(t={t}, b={b})".format(
+        return "BrownianBridge(b={b}, t={t})".format(
             t=str(self.t),
             b=str(self.b),
         )

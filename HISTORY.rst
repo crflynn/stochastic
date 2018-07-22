@@ -1,6 +1,12 @@
 Release History
 ---------------
 
+0.3.0 (2018-07-22)
+~~~~~~~~~~~~~~~~~~
+
+* Introduced breaking changes that move the t argument of all processes to the end of the __init__ signature
+* Added support for inverse Gaussian process
+
 0.2.0 (2018-07-11)
 ~~~~~~~~~~~~~~~~~~
 

@@ -64,6 +64,7 @@ the package.
         * FractionalBrownianMotion
         * GammaProcess
         * GeometricBrownianMotion
+        * InverseGaussianProcess
         * MultifractionalBrownianMotion
         * PoissonProcess
         * SquaredBesselProcess

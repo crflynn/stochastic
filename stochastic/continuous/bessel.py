@@ -17,14 +17,14 @@ class BesselProcess(Continuous):
     Generate Bessel process realizations using :py:attr:`dim` independent
     Brownian motion processes on the interval :math:`[0,t]`
 
-    :param float t: the right hand endpoint of the time interval :math:`[0,t]`
-        for the process
     :param int dim: the number of underlying independent Brownian motions to
         use
+    :param float t: the right hand endpoint of the time interval :math:`[0,t]`
+        for the process
     """
 
-    def __init__(self, t=1, dim=1):
-        super(BesselProcess, self).__init__(t)
+    def __init__(self, dim=1, t=1):
+        super(BesselProcess, self).__init__(t=t)
         self.brownian_motion = BrownianMotion(self.t)
         self.dim = dim
 
@@ -35,7 +35,7 @@ class BesselProcess(Continuous):
         )
 
     def __repr__(self):
-        return "BesselProcess(t={t}, dim={d})".format(
+        return "BesselProcess(dim={d}, t={t})".format(
             t=str(self.t),
             d=str(self.dim),
         )

@@ -15,13 +15,13 @@ class BrownianMotion(GaussianNoise):
     increment length. Non-standard Brownian motion includes a linear drift
     parameter and scale factor.
 
-    :param float t: the right hand endpoint of the time interval :math:`[0,t]`
-        for the process
     :param float drift: rate of change of the expected value
     :param float scale: scale factor of the Gaussian process
+    :param float t: the right hand endpoint of the time interval :math:`[0,t]`
+        for the process
     """
 
-    def __init__(self, t=1, drift=0, scale=1):
+    def __init__(self, drift=0, scale=1, t=1):
         super(BrownianMotion, self).__init__(t)
         self.drift = drift
         self.scale = scale
@@ -42,9 +42,7 @@ class BrownianMotion(GaussianNoise):
         )
 
     def __repr__(self):
-        if self.drift == 0 and self.scale == 1:
-            return "BrownianMotion(t={t})".format(t=self.t)
-        return "BrownianMotion(t={t}, drift={d}, scale={s})".format(
+        return "BrownianMotion(drift={d}, scale={s}, t={t})".format(
             t=str(self.t),
             d=str(self.drift),
             s=str(self.scale)
@@ -111,6 +109,5 @@ class BrownianMotion(GaussianNoise):
 
         :param times: a vector of increasing time values at which to generate
             the realization
-        :param bool zero: if True, include :math:`t=0`
         """
         return self._sample_brownian_motion_at(times)
