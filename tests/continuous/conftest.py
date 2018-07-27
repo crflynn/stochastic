@@ -94,24 +94,6 @@ def volatility(request):
 def initial(request):
     return request.param
 
-# InverseGaussianProcess
-def mean_func_monotonic(t):
-    return t
-
-def mean_func_not_monotonic(t):
-    return 1
-
-def mean_func_no_args():
-    return 1
-
-@pytest.fixture(params=[mean_func_monotonic, None])
-def mean_func(request):
-    return request.param
-
-@pytest.fixture(params=[mean_func_not_monotonic, mean_func_no_args, 1])
-def mean_func_invalid(request):
-    return request.param
-
 # MultifractionalBrownianMotion
 def hurst_const(t):
     return 0.5
@@ -145,3 +127,22 @@ def length(request):
 @pytest.fixture(params=[1])
 def rate(request):
     return request.param
+    
+# MixedPoissonProcess
+@pytest.fixture(params=[np.random.uniform])
+def ratedist(request):
+    return request.param
+
+@pytest.fixture(params=[[1,100],[1,10]])
+def ratedistparams(request):
+    return request.param
+    
+# NHPP
+@pytest.fixture(params=[lambda x:2.*x**2.])
+def lambdaa(request):
+    return request.param
+
+@pytest.fixture(params=[np.array([[0,100]])])
+def boundaries(request):
+    return request.param
+    

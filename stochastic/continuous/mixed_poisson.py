@@ -12,14 +12,14 @@ class MixedPoissonProcess(Checks):
     i.i.d. exponential random variables with mean :math:`1/\lambda`. This class
     generates samples of times for which cumulative exponential random variables occur. 
 
-    :param function ratedist: random distribution of the rate :math:`\lambda`
-    :param list ratedistparams: parameters to input into the ratedist function
+    :param function info: random distribution of the rate :math:`\lambda`
+    :param list params: parameters to input into the info function
     """
 
-    def __init__(self, ratedist,ratedistparams):
-        self.ratedist = ratedist
-        self.ratedistparams = ratedistparams
-        self.rate=(ratedist,ratedistparams)
+    def __init__(self, info, params):
+        self.info = info
+        self.params = params
+        self.rate=(info,params)
 
     def __str__(self):
         return "Mixed Poisson process with rate {r}.".format(r=str(self.rate))
@@ -28,27 +28,27 @@ class MixedPoissonProcess(Checks):
         return "PoissonProcess(rate={r})".format(r=str(self.rate))
 
     @property
-    def ratedist(self):
+    def info(self):
         """Current rate's random distribution."""
-        return self._ratedist
+        return self._info
         
-    @ratedist.setter
-    def ratedist(self, value):
-        self._ratedist = value
-        if (hasattr(self,'_ratedistparams')) & (hasattr(self,'_ratedist')) : 
-            self.rate = self._ratedist,self._ratedistparams
+    @info.setter
+    def info(self, value):
+        self._info = value
+        if (hasattr(self,'_params')) & (hasattr(self,'_info')) : 
+            self.rate = self._info,self._params
         if (hasattr(self,'_rate')) : self._check_nonnegative_number(self._rate, "Arrival rate")
 
     @property
-    def ratedistparams(self):
+    def params(self):
         """Parameters for rate generation using given random distribution."""
-        return self._ratedistparams
+        return self._params
         
-    @ratedistparams.setter
-    def ratedistparams(self, value):
-        self._ratedistparams = value
-        if (hasattr(self,'_ratedistparams')) & (hasattr(self,'_ratedist')) : 
-            self.rate = self._ratedist,self._ratedistparams
+    @params.setter
+    def params(self, value):
+        self._params = value
+        if (hasattr(self,'_params')) & (hasattr(self,'_info')) : 
+            self.rate = self._info,self._params
             self._check_nonnegative_number(self._rate, "Arrival rate")
         
     @property
@@ -58,14 +58,14 @@ class MixedPoissonProcess(Checks):
         
     @rate.setter
     def rate(self, value):
-        ratedist, ratedistparams= value 
-        self._ratedist=ratedist
-        self._ratedistparams=ratedistparams
-        self._rate = self._ratedist(*self._ratedistparams)
+        info, params= value 
+        self._info=info
+        self._params=params
+        self._rate = self._info(*self._params)
         self._check_nonnegative_number(self._rate, "Arrival rate")
         
     def genrate(self):
-        self._rate=self.ratedist(*self.ratedistparams)
+        self._rate=self.info(*self.params)
 
     def _sample_poisson_process(self, n=None, length=None, zero=True):
         """Generate a realization of a Mixed Poisson process.
@@ -114,7 +114,7 @@ class MixedPoissonProcess(Checks):
         :param bool zero: if True, include :math:`t=0`
         """
         out=self._sample_poisson_process(n, length, zero)
-        self._rate = self._ratedist(*self._ratedistparams) 
+        self._rate = self._info(*self._params) 
         """Generate a new random rate upon each realization."""
         self._check_nonnegative_number(self._rate, "Arrival rate")
         return out
