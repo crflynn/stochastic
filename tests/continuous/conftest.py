@@ -114,19 +114,6 @@ def hurst_out_of_range(t):
 @pytest.fixture(params=[0.5, hurst_too_many_args, hurst_out_of_range])
 def hurst_invalid(request):
     return request.param
-
-# PoissonProcess
-@pytest.fixture(params=[16, None])
-def n_fixture(request):
-    return request.param
-
-@pytest.fixture(params=[1, None])
-def length(request):
-    return request.param
-
-@pytest.fixture(params=[1])
-def rate(request):
-    return request.param
     
 # MixedPoissonProcess
 @pytest.fixture(params=[np.random.uniform])
@@ -137,12 +124,5 @@ def info(request):
 def params(request):
     return request.param
     
-# NHPP
-@pytest.fixture(params=[lambda x:2.*x**2.])
-def lambdaa(request):
-    return request.param
 
-@pytest.fixture(params=[np.array([[0,100]])])
-def boundaries(request):
-    return request.param
     
