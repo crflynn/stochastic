@@ -130,11 +130,11 @@ def rate(request):
     
 # MixedPoissonProcess
 @pytest.fixture(params=[np.random.uniform])
-def ratedist(request):
+def info(request):
     return request.param
 
 @pytest.fixture(params=[[1,100],[1,10]])
-def ratedistparams(request):
+def params(request):
     return request.param
     
 # NHPP
