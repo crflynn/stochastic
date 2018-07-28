@@ -9,6 +9,7 @@ python:
 install:
   - pip install numpy scipy
   - pip install pytest pytest-cov pytest-xdist pytest-mock
+  - pip install pytest --upgrade
   - pip install codecov
 # command to run tests
 script: pytest

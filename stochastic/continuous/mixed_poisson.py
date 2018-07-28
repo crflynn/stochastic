@@ -1,9 +1,9 @@
 """Mixed poisson processes."""
-import numpy as np
 
 from stochastic.base import Checks
+from stochastic.continuous import PoissonProcess
 
-class MixedPoissonProcess(Checks):
+class MixedPoissonProcess(PoissonProcess):
     r"""Mixed poisson process.
 
     A mixed poisson process is a Poisson process for which the rate is a random variate, 
@@ -12,44 +12,52 @@ class MixedPoissonProcess(Checks):
     i.i.d. exponential random variables with mean :math:`1/\lambda`. This class
     generates samples of times for which cumulative exponential random variables occur. 
 
-    :param function info: random distribution of the rate :math:`\lambda`
-    :param list params: parameters to input into the info function
+    :param function rate_func: random distribution of the rate :math:`\lambda`
+    :param rate_args: arguments to input into the rate_func function
+    :param rate_kwargs: keyword arguments to input into the rate_func function
     """
 
-    def __init__(self, info, params):
-        self.info = info
-        self.params = params
-        self.rate=(info,params)
+    def __init__(self, rate_func,*rate_args,**rate_kwargs):
+        self.rate_func = rate_func
+        self.rate_args = rate_args
+        self.rate_kwargs = rate_kwargs
+        self.gen_rate()
 
     def __str__(self):
         return "Mixed Poisson process with rate {r}.".format(r=str(self.rate))
 
     def __repr__(self):
-        return "PoissonProcess(rate={r})".format(r=str(self.rate))
+        return "MixedPoissonProcess(rate={r})".format(r=str(self.rate))
 
     @property
-    def info(self):
+    def rate_func(self):
         """Current rate's random distribution."""
-        return self._info
+        return self._rate_func
         
-    @info.setter
-    def info(self, value):
-        self._info = value
-        if (hasattr(self,'_params')) & (hasattr(self,'_info')) : 
-            self.rate = self._info,self._params
-        if (hasattr(self,'_rate')) : self._check_nonnegative_number(self._rate, "Arrival rate")
-
+    @rate_func.setter
+    def rate_func(self, value):
+        self._rate_func = value
+        self.gen_rate()
+        
     @property
-    def params(self):
+    def rate_kwargs(self):
         """Parameters for rate generation using given random distribution."""
-        return self._params
+        return self._rate_kwargs
         
-    @params.setter
-    def params(self, value):
-        self._params = value
-        if (hasattr(self,'_params')) & (hasattr(self,'_info')) : 
-            self.rate = self._info,self._params
-            self._check_nonnegative_number(self._rate, "Arrival rate")
+    @rate_kwargs.setter
+    def rate_kwargs(self, value):
+        self._rate_kwargs = value
+        self.gen_rate()
+        
+    @property
+    def rate_args(self):
+        """Parameters for rate generation using given random distribution."""
+        return self._rate_args
+        
+    @rate_args.setter
+    def rate_args(self, value):
+        self._rate_args = value
+        self.gen_rate()
         
     @property
     def rate(self):
@@ -58,67 +66,19 @@ class MixedPoissonProcess(Checks):
         
     @rate.setter
     def rate(self, value):
-        info, params= value 
-        self._info=info
-        self._params=params
-        self._rate = self._info(*self._params)
-        self._check_nonnegative_number(self._rate, "Arrival rate")
+        rate_func, rate_args,rate_kwargs = value 
+        self._rate_func=rate_func
+        self._rate_args=rate_args
+        self._rate_kwargs=rate_kwargs
+        self.gen_rate()
         
-    def genrate(self):
-        self._rate=self.info(*self.params)
-
-    def _sample_poisson_process(self, n=None, length=None, zero=True):
-        """Generate a realization of a Mixed Poisson process.
-
-        Generate a poisson process sample up to count of length if time=False,
-        otherwise generate a sample up to time t=length if time=True
-        """
-        
-        if n is not None:
-            self._check_increments(n)
-
-            exponentials = np.random.exponential(
-                scale=1.0 / self.rate, size=n)
-
-            s = np.array([0] + list(np.cumsum(exponentials)))
-            if zero:
-                return s
-            else:
-                return s[1:]
-        elif length is not None:
-            self._check_positive_number(length, "Sample length")
-
-            t = 0
-            times = []
-            if zero:
-                times.append(0)
-            exp_rate = 1.0 / self.rate
-
-            while t < length:
-                t += np.random.exponential(scale=exp_rate)
-                times.append(t)
-            return np.array(times)
-            
-        else:
-            raise ValueError(
-                "Must provide either argument n or length.")
+    def gen_rate(self):
+        if (hasattr(self,'_rate_args')) & (hasattr(self,'_rate_func')) & (hasattr(self,'_rate_kwargs')) : 
+            self._rate = self._rate_func(*self._rate_args,**self.rate_kwargs)
+            self._check_nonnegative_number(self._rate, "Arrival rate")
 
     def sample(self, n=None, length=None, zero=True):
-        """Generate a realization.
-
-        Exactly one of the following parameters must be provided.
-
-        :param int n: the number of arrivals to simulate
-        :param int length: the length of time to simulate; will generate
-            arrivals until length is met or exceeded.
-        :param bool zero: if True, include :math:`t=0`
-        """
-        out=self._sample_poisson_process(n, length, zero)
-        self._rate = self._info(*self._params) 
+        out=super(MixedPoissonProcess,self).sample(n, length, zero)
+        self.gen_rate()
         """Generate a new random rate upon each realization."""
-        self._check_nonnegative_number(self._rate, "Arrival rate")
         return out
-
-    def times(self, *args, **kwargs):
-        """Disallow times for this process."""
-        raise AttributeError("MixedPoissonProcess object has no attribute times.")

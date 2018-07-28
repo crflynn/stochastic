@@ -115,14 +115,30 @@ def hurst_out_of_range(t):
 def hurst_invalid(request):
     return request.param
     
-# MixedPoissonProcess
-@pytest.fixture(params=[np.random.uniform])
-def info(request):
+# PoissonProcess
+@pytest.fixture(params=[16, None])
+def n_fixture(request):
     return request.param
 
-@pytest.fixture(params=[[1,100],[1,10]])
-def params(request):
+@pytest.fixture(params=[1, None])
+def length(request):
     return request.param
+
+@pytest.fixture(params=[1])
+def rate(request):
+    return request.param    
     
+# MixedPoissonProcess
+@pytest.fixture(params=[np.random.uniform])
+def rate_func(request):
+    return request.param
+
+@pytest.fixture(params=[(1,100),(1,10)])
+def rate_args(request):
+    return request.param
+
+@pytest.fixture(params=[{'size':None}])
+def rate_kwargs(request):
+    return request.param    
 
     
