@@ -4,7 +4,7 @@ from stochastic.base import Checks
 from stochastic.continuous import PoissonProcess
 
 class MixedPoissonProcess(PoissonProcess):
-    r"""Mixed poisson process.
+    r"""Mixed poisson process. Inherits from the PoissonProcess class.
 
     A mixed poisson process is a Poisson process for which the rate is a random variate, 
     a sample taken from a random distribution. On every call of the sample, a new random rate is generated.
@@ -41,7 +41,7 @@ class MixedPoissonProcess(PoissonProcess):
         
     @property
     def rate_kwargs(self):
-        """Parameters for rate generation using given random distribution."""
+        """Keyword arguments for rate generation using given random distribution."""
         return self._rate_kwargs
         
     @rate_kwargs.setter
@@ -51,7 +51,7 @@ class MixedPoissonProcess(PoissonProcess):
         
     @property
     def rate_args(self):
-        """Parameters for rate generation using given random distribution."""
+        """Arguments for rate generation using given random distribution."""
         return self._rate_args
         
     @rate_args.setter
@@ -73,6 +73,7 @@ class MixedPoissonProcess(PoissonProcess):
         self.gen_rate()
         
     def gen_rate(self):
+        """Generate a new rate. Called when any parameter is set, and upon each call for samples."""
         if (hasattr(self,'_rate_args')) & (hasattr(self,'_rate_func')) & (hasattr(self,'_rate_kwargs')) : 
             self._rate = self._rate_func(*self._rate_args,**self.rate_kwargs)
             self._check_nonnegative_number(self._rate, "Arrival rate")
