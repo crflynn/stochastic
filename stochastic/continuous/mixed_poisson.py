@@ -81,9 +81,4 @@ class MixedPoissonProcess(PoissonProcess):
     def sample(self, n=None, length=None, zero=True):
         """Generate a new random rate upon each realization."""
         self.rate=self._gen_rate()
-        return super(MixedPoissonProcess,self).sample(n, length, zero)
-        
-import numpy as np
-     
-A=MixedPoissonProcess(np.random.uniform, (0,10))
-print(A.rate)
+        return super(MixedPoissonProcess, self).sample(n, length, zero)
