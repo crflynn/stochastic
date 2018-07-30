@@ -17,11 +17,11 @@ class MixedPoissonProcess(PoissonProcess):
     :param rate_kwargs: keyword arguments to input into the rate_func function
     """
 
-    def __init__(self, rate_func,*rate_args,**rate_kwargs):
+    def __init__(self, rate_func, rate_args=(), rate_kwargs={}):
         self.rate_func = rate_func
         self.rate_args = rate_args
         self.rate_kwargs = rate_kwargs
-        self.gen_rate()
+        self._gen_rate()
 
     def __str__(self):
         return "Mixed Poisson process with rate {r}.".format(r=str(self.rate))
@@ -37,7 +37,7 @@ class MixedPoissonProcess(PoissonProcess):
     @rate_func.setter
     def rate_func(self, value):
         self._rate_func = value
-        self.gen_rate()
+        self._gen_rate()
         
     @property
     def rate_kwargs(self):
@@ -47,7 +47,7 @@ class MixedPoissonProcess(PoissonProcess):
     @rate_kwargs.setter
     def rate_kwargs(self, value):
         self._rate_kwargs = value
-        self.gen_rate()
+        self._gen_rate()
         
     @property
     def rate_args(self):
@@ -57,7 +57,7 @@ class MixedPoissonProcess(PoissonProcess):
     @rate_args.setter
     def rate_args(self, value):
         self._rate_args = value
-        self.gen_rate()
+        self._gen_rate()
         
     @property
     def rate(self):
@@ -66,20 +66,24 @@ class MixedPoissonProcess(PoissonProcess):
         
     @rate.setter
     def rate(self, value):
-        rate_func, rate_args,rate_kwargs = value 
+        rate_func, rate_args, rate_kwargs = value 
         self._rate_func=rate_func
         self._rate_args=rate_args
         self._rate_kwargs=rate_kwargs
-        self.gen_rate()
+        self._gen_rate()
         
-    def gen_rate(self):
+    def _gen_rate(self):
         """Generate a new rate. Called when any parameter is set, and upon each call for samples."""
-        if (hasattr(self,'_rate_args')) & (hasattr(self,'_rate_func')) & (hasattr(self,'_rate_kwargs')) : 
-            self._rate = self._rate_func(*self._rate_args,**self.rate_kwargs)
+        if (hasattr(self, '_rate_args')) & (hasattr(self, '_rate_func')) & (hasattr(self, '_rate_kwargs')) : 
+            self._rate = self._rate_func(*self._rate_args, **self.rate_kwargs)
             self._check_nonnegative_number(self._rate, "Arrival rate")
 
     def sample(self, n=None, length=None, zero=True):
-        out=super(MixedPoissonProcess,self).sample(n, length, zero)
-        self.gen_rate()
         """Generate a new random rate upon each realization."""
-        return out
+        self.rate=self._gen_rate()
+        return super(MixedPoissonProcess,self).sample(n, length, zero)
+        
+import numpy as np
+     
+A=MixedPoissonProcess(np.random.uniform, (0,10))
+print(A.rate)

@@ -107,7 +107,11 @@ def hurst_func(request):
 
 def hurst_too_many_args(t, u):
     return 0.5
-
+    
+@pytest.fixture(params=[mean_func_not_monotonic, mean_func_no_args, 1])
+def mean_func_invalid(request):
+    return request.param    
+    
 def hurst_out_of_range(t):
     return 1.1
 
