@@ -1,7 +1,6 @@
 """Mixed poisson processes."""
 
-from stochastic.base import Checks
-from stochastic.continuous import PoissonProcess
+from stochastic.continuous.poisson import PoissonProcess
 
 
 class MixedPoissonProcess(PoissonProcess):
