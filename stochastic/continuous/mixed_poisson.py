@@ -3,14 +3,18 @@
 from stochastic.base import Checks
 from stochastic.continuous import PoissonProcess
 
+
 class MixedPoissonProcess(PoissonProcess):
     r"""Mixed poisson process. Inherits from the PoissonProcess class.
 
-    A mixed poisson process is a Poisson process for which the rate is a random variate, 
-    a sample taken from a random distribution. On every call of the sample, a new random rate is generated.
-    A Poisson process with rate :math:`\lambda` is a count of occurrences of
-    i.i.d. exponential random variables with mean :math:`1/\lambda`. This class
-    generates samples of times for which cumulative exponential random variables occur. 
+    A mixed poisson process is a Poisson process for which the rate is
+    a random variate, a sample taken from a random distribution.
+    On every call of the sample method, a new random rate is generated,
+    before drawing the sample. A Poisson process with rate :math:`\lambda`
+    is a count of occurrences of i.i.d. exponential random
+    variables with mean :math:`1/\lambda`. This class
+    generates samples of times for which cumulative
+    exponential random variables occur.
 
     :param function rate_func: random distribution of the rate :math:`\lambda`
     :param rate_args: arguments to input into the rate_func function
@@ -33,52 +37,56 @@ class MixedPoissonProcess(PoissonProcess):
     def rate_func(self):
         """Current rate's random distribution."""
         return self._rate_func
-        
+
     @rate_func.setter
     def rate_func(self, value):
         self._rate_func = value
         self._gen_rate()
-        
+
     @property
     def rate_kwargs(self):
-        """Keyword arguments for rate generation using given random distribution."""
+        """Keyword arguments for rate generation using
+        given random distribution and parameters."""
         return self._rate_kwargs
-        
+
     @rate_kwargs.setter
     def rate_kwargs(self, value):
         self._rate_kwargs = value
         self._gen_rate()
-        
+
     @property
     def rate_args(self):
         """Arguments for rate generation using given random distribution."""
         return self._rate_args
-        
+
     @rate_args.setter
     def rate_args(self, value):
         self._rate_args = value
         self._gen_rate()
-        
+
     @property
     def rate(self):
         """Current rate."""
         return self._rate
-        
+
     @rate.setter
     def rate(self, value):
-        rate_func, rate_args, rate_kwargs = value 
-        self._rate_func=rate_func
-        self._rate_args=rate_args
-        self._rate_kwargs=rate_kwargs
+        rate_func, rate_args, rate_kwargs = value
+        self._rate_func = rate_func
+        self._rate_args = rate_args
+        self._rate_kwargs = rate_kwargs
         self._gen_rate()
-        
+
     def _gen_rate(self):
-        """Generate a new rate. Called when any parameter is set, and upon each call for samples."""
-        if (hasattr(self, '_rate_args')) & (hasattr(self, '_rate_func')) & (hasattr(self, '_rate_kwargs')) : 
+        """Generate a new rate. Called when any parameter is set,
+        and upon each call for samples."""
+        if (hasattr(self, '_rate_args') &
+                hasattr(self, '_rate_func') &
+                hasattr(self, '_rate_kwargs')):
             self._rate = self._rate_func(*self._rate_args, **self.rate_kwargs)
             self._check_nonnegative_number(self._rate, "Arrival rate")
 
     def sample(self, n=None, length=None, zero=True):
         """Generate a new random rate upon each realization."""
-        self.rate=self._gen_rate()
+        self._gen_rate()
         return super(MixedPoissonProcess, self).sample(n, length, zero)
