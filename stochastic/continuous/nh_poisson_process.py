@@ -17,10 +17,10 @@ class NHPP(Checks):
     :param array boundaries: dim number of boundaries (temporal/spatial) in a :math:`(dim,2)`-dimensional array between which to generate random points.
     """
 
-    def __init__(self,lambdaa,boundaries):
+    def __init__(self, lambdaa, boundaries):
         self.lambdaa=lambdaa
         self.boundaries=boundaries
-        self.lmax=(lambdaa,boundaries)
+        self.lmax=(lambdaa, boundaries)
         
     @property
     def lambdaa(self):
@@ -30,7 +30,7 @@ class NHPP(Checks):
     @lambdaa.setter
     def lambdaa(self, value):
         self._lambdaa = value
-        if (hasattr(self,'_lambdaa')) & (hasattr(self,'_boundaries')) : 
+        if (hasattr(self, '_lambdaa')) & (hasattr(self, '_boundaries')) : 
             self.lmax=self.lambdaa,self.boundaries
             self._check_nonnegative_number(self._lmax, "Maximal rate")
         # if (hasattr(self,'_rate')) : self._check_nonnegative_number(self._rate, "Arrival rate")
@@ -43,8 +43,8 @@ class NHPP(Checks):
     @boundaries.setter
     def boundaries(self, value):
         self._boundaries = value
-        if (hasattr(self,'_lambdaa')) & (hasattr(self,'_boundaries')) : 
-            self.lmax=self.lambdaa,self.boundaries
+        if (hasattr(self, '_lambdaa')) & (hasattr(self, '_boundaries')) : 
+            self.lmax=self.lambdaa, self.boundaries
             self._check_nonnegative_number(self._lmax, "Maximal rate")
 
     @property
@@ -60,7 +60,7 @@ class NHPP(Checks):
         if callable(lambdaa):
             boundstuple=[]
             for i in boundaries: boundstuple+=(tuple(i),)
-            max = scipy.optimize.minimize(lambda x: -lambdaa(*x),x0=[np.mean(i) for i in boundaries],bounds = boundstuple)
+            max = scipy.optimize.minimize(lambda x: -lambdaa(*x), x0=[np.mean(i) for i in boundaries], bounds = boundstuple)
             self._lmax=lambdaa(*max.x)
         else:
             self._lmax=np.amax(lambdaa)
@@ -80,39 +80,39 @@ class NHPP(Checks):
             while len(Thinned)<n:
                 for i in self.boundaries:
                     if 'Unthin' not in locals():
-                        Unthin=np.random.uniform(*i,size=(blocksize))
+                        Unthin=np.random.uniform(*i, size=(blocksize))
                     else:
-                        Unthin=np.vstack((Unthin,np.random.uniform(*i,size=(blocksize))))
+                        Unthin=np.vstack((Unthin, np.random.uniform(*i,size=(blocksize))))
                 Unthin.T
-                if len(Unthin.shape)==1:
-                    Unthin=np.reshape(Unthin,(1,len(Unthin)))
+                if len(Unthin.shape) == 1:
+                    Unthin=np.reshape(Unthin, (1,len(Unthin)))
                 U=np.random.uniform(size=(blocksize))
                 if callable(self.lambdaa): 
-                    Criteria=self.lambdaa(*Unthin)/self.lmax
+                    Criteria = self.lambdaa(*Unthin)/self.lmax
                 else:
-                    Criteria2D=self.lambdaa/self.lmax
-                    Indx=(Unthinx*self.lambdaa.shape[0]).astype(int)
-                    Indy=(Unthiny*self.lambdaa.shape[1]).astype(int)
-                    Criteria=Criteria2D[Indx,Indy]
-                    Unthin=np.transpose(np.vstack((Unthinx,Unthiny)))
-                if Thinned==[]: 
+                    Criteria2D = self.lambdaa/self.lmax
+                    Indx = (Unthinx*self.lambdaa.shape[0]).astype(int)
+                    Indy = (Unthiny*self.lambdaa.shape[1]).astype(int)
+                    Criteria = Criteria2D[Indx, Indy]
+                    Unthin = np.transpose(np.vstack((Unthinx, Unthiny)))
+                if Thinned == []: 
                     Thinned=Unthin.T[U<Criteria,:]
                 else:
-                    Unthin=np.vstack((Unthin,np.random.uniform(*i,size=(blocksize))))
+                    Unthin=np.vstack((Unthin,np.random.uniform(*i, size = (blocksize))))
             Unthin.T
             U=np.random.uniform(size=(blocksize))
             if callable(self.lambdaa): 
-                Criteria=self.lambdaa(*Unthin)/self.lmax
+                Criteria = self.lambdaa(*Unthin)/self.lmax
             else:
-                Criteria2D=self.lambdaa/self.lmax
-                Indx=(Unthinx*self.lambdaa.shape[0]).astype(int)
-                Indy=(Unthiny*self.lambdaa.shape[1]).astype(int)
-                Criteria=Criteria2D[Indx,Indy]
-                Unthin=np.transpose(np.vstack((Unthinx,Unthiny)))
-            if Thinned==[]: 
-                Thinned=Unthin.T[U<Criteria,:]
+                Criteria2D = self.lambdaa/self.lmax
+                Indx = (Unthinx*self.lambdaa.shape[0]).astype(int)
+                Indy = (Unthiny*self.lambdaa.shape[1]).astype(int)
+                Criteria = Criteria2D[Indx,Indy]
+                Unthin = np.transpose(np.vstack((Unthinx,Unthiny)))
+            if Thinned == []: 
+                Thinned = Unthin.T[U<Criteria,:]
             else:
-                Thinned=np.vstack((Thinned,Unthin.T[U<Criteria,:]))
+                Thinned = np.vstack((Thinned,Unthin.T[U<Criteria,:]))
             del Unthin
             return Thinned[:n,:]
         else:
