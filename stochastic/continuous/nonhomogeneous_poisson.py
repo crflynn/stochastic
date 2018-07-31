@@ -4,11 +4,13 @@ import scipy.optimize
 
 from stochastic.base import Checks
 
+
 class NHPP(Checks):
     r"""Non-homogeneous Poisson process.
 
-    A Poisson process whose rate function varies with time/the underlying data space. Can also be used to generate multidimensional points, if multidimensional parameters are inputted.
-    
+    A Poisson process whose rate :math:`1/\lambda` is a function of time or the underlying
+    data space :math:`1/\lambda(t)`. Can also be used to generate multidimensional points,
+    if multidimensional parameters are inputted.
         NOTE 1: :math:`dim` is not an input parameter, but this class crashes unless the number of input argument of the function lambdaa, or the number of dimensions of the matrix lambdaa is not equal to the :math:`dim` of the boundaries parameters.
         
         NOTE 2: This class can be used to create a Cox process by injecting a lambdaa matrix generated using another stochastic process.
