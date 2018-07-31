@@ -16,13 +16,13 @@ class MixedPoissonProcess(PoissonProcess):
     generates samples of times for which cumulative
     exponential random variables occur.
 
-    :param function rate_func: random distribution of the rate :math:`\lambda`
-    :param rate_args: arguments to input into the rate_func function
-    :param rate_kwargs: keyword arguments to input into the rate_func function
+    :param function rate_dist: random distribution of the rate :math:`\lambda`
+    :param rate_args: arguments to input into the rate_dist function
+    :param rate_kwargs: keyword arguments to input into the rate_dist function
     """
 
-    def __init__(self, rate_func, rate_args=(), rate_kwargs={}):
-        self.rate_func = rate_func
+    def __init__(self, rate_dist, rate_args=(), rate_kwargs={}):
+        self.rate_dist = rate_dist
         self.rate_args = rate_args
         self.rate_kwargs = rate_kwargs
         self._gen_rate()
@@ -34,13 +34,13 @@ class MixedPoissonProcess(PoissonProcess):
         return "MixedPoissonProcess(rate={r})".format(r=str(self.rate))
 
     @property
-    def rate_func(self):
+    def rate_dist(self):
         """Current rate's random distribution."""
-        return self._rate_func
+        return self._rate_dist
 
-    @rate_func.setter
-    def rate_func(self, value):
-        self._rate_func = value
+    @rate_dist.setter
+    def rate_dist(self, value):
+        self._rate_dist = value
         self._gen_rate()
 
     @property
@@ -71,8 +71,8 @@ class MixedPoissonProcess(PoissonProcess):
 
     @rate.setter
     def rate(self, value):
-        rate_func, rate_args, rate_kwargs = value
-        self._rate_func = rate_func
+        rate_dist, rate_args, rate_kwargs = value
+        self._rate_dist = rate_dist
         self._rate_args = rate_args
         self._rate_kwargs = rate_kwargs
         self._gen_rate()
@@ -81,9 +81,9 @@ class MixedPoissonProcess(PoissonProcess):
         """Generate a new rate. Called when any parameter is set,
         and upon each call for samples."""
         if (hasattr(self, '_rate_args') &
-                hasattr(self, '_rate_func') &
+                hasattr(self, '_rate_dist') &
                 hasattr(self, '_rate_kwargs')):
-            self._rate = self._rate_func(*self._rate_args, **self.rate_kwargs)
+            self._rate = self._rate_dist(*self._rate_args, **self.rate_kwargs)
             self._check_nonnegative_number(self._rate, "Arrival rate")
 
     def sample(self, n=None, length=None, zero=True):
