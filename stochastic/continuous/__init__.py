@@ -10,6 +10,7 @@ from stochastic.continuous.gamma import GammaProcess
 from stochastic.continuous.geometric_brownian_motion import GeometricBrownianMotion
 from stochastic.continuous.inverse_gaussian import InverseGaussianProcess
 from stochastic.continuous.multifractional_brownian_motion import MultifractionalBrownianMotion
+from stochastic.continuous.nonhomogeneous_poisson import NHPP
 from stochastic.continuous.poisson import PoissonProcess
 from stochastic.continuous.squared_bessel import SquaredBesselProcess
 from stochastic.continuous.variance_gamma import VarianceGammaProcess
