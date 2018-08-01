@@ -5,12 +5,12 @@ import pytest
 from stochastic.continuous import MixedPoissonProcess
 
 def test_mixed_poisson_process_str_repr(rate_func, rate_args, rate_kwargs):
-    instance = MixedPoissonProcess(rate_func, *rate_args, **rate_kwargs)
+    instance = MixedPoissonProcess(rate_func, rate_args, rate_kwargs)
     assert isinstance(repr(instance), str)
     assert isinstance(str(instance), str)
 
 def test_mixed_poisson_process_sample(rate_func, rate_args, rate_kwargs, n_fixture, length, zero):
-    instance = MixedPoissonProcess(rate_func, *rate_args, **rate_kwargs)
+    instance = MixedPoissonProcess(rate_func, rate_args, rate_kwargs)
     if n_fixture is None and length is None:
         with pytest.raises(ValueError):
             s = instance.sample(n_fixture, length, zero)
@@ -22,6 +22,6 @@ def test_mixed_poisson_process_sample(rate_func, rate_args, rate_kwargs, n_fixtu
         assert len(s) == n_fixture + int(zero)
 
 def test_poisson_process_times(rate_func,rate_args, rate_kwargs, n):
-    instance = MixedPoissonProcess(rate_func, *rate_args, **rate_kwargs)
+    instance = MixedPoissonProcess(rate_func, rate_args, rate_kwargs)
     with pytest.raises(AttributeError):
         times = instance.times(n)
