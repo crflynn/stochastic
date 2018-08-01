@@ -148,7 +148,7 @@ def rate(request):
 
 # MixedPoissonProcess
 @pytest.fixture(params=[np.random.uniform])
-def rate_func(request):
+def rate_dist(request):
     return request.param
 
 @pytest.fixture(params=[(1, 100), (1, 10)])
