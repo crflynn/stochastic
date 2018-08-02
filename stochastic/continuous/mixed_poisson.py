@@ -70,6 +70,7 @@ class MixedPoissonProcess(PoissonProcess):
 
     @rate.setter
     def rate(self, value):
+        print('a')
         rate_dist, rate_args, rate_kwargs = value
         self._rate_dist = rate_dist
         self._rate_args = rate_args
@@ -82,8 +83,8 @@ class MixedPoissonProcess(PoissonProcess):
         if (hasattr(self, '_rate_args') &
                 hasattr(self, '_rate_dist') &
                 hasattr(self, '_rate_kwargs')):
-            self._rate = self._rate_dist(*self._rate_args, **self.rate_kwargs)
-            self._check_nonnegative_number(self._rate, "Arrival rate")
+            self._rate = self.rate_dist(*self.rate_args, **self.rate_kwargs)
+            self._check_nonnegative_number(self.rate, "Arrival rate")
 
     def sample(self, n=None, length=None, zero=True):
         """Generate a new random rate upon each realization."""
