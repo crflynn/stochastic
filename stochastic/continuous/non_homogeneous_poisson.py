@@ -21,10 +21,10 @@ class NonHomogeneousPoissonProcess(Checks):
 
     2. Note: This class can be used to create a Cox process by injecting a
     :math:`\lambda(t)` matrix generated using another stochastic process.
-    
+
     :param lambdaa: function with :math:`dim` arguments representing a
-        multidimensional equation, or :math:`dim`-dimensional array representing
-        the rate function in the data space.
+        multidimensional equation, or :math:`dim`-dimensional array
+        representing the rate function in the data space.
 
     :param array boundaries: :math:`dim` number of boundaries
         (temporal/spatial) in a :math:`(dim,2)`-dimensional array between which
@@ -44,9 +44,7 @@ class NonHomogeneousPoissonProcess(Checks):
     @lambdaa.setter
     def lambdaa(self, value):
         self._lambdaa = value
-        if (hasattr(self, '_lambdaa')) & (hasattr(self, '_boundaries')):
-            self.lmax = self.lambdaa, self.boundaries
-            self._check_nonnegative_number(self._lmax, "Maximal rate")
+        self._gen_lmax()
 
     @property
     def boundaries(self):
@@ -56,31 +54,27 @@ class NonHomogeneousPoissonProcess(Checks):
     @boundaries.setter
     def boundaries(self, value):
         self._boundaries = value
-        if (hasattr(self, '_lambdaa')) & (hasattr(self, '_boundaries')):
-            self.lmax = self.lambdaa, self.boundaries
-            self._check_nonnegative_number(self._lmax, "Maximal rate")
+        self._gen_lmax()
 
-    @property
-    def lmax(self):
+    def _lmax(self, value):
         """Current rate."""
-
-        return self._lmax
-        """Maximal rate."""
-
-    @lmax.setter
-    def lmax(self, value):
-        lambdaa, boundaries = value
-        if callable(lambdaa):
-            boundstuple = []
-            for i in boundaries:
-                boundstuple += (tuple(i),)
-            max = scipy.optimize.minimize(lambda x: -lambdaa(*x),
-             x0=[np.mean(i) for i in boundaries],
-             bounds=boundstuple)
-            self._lmax = lambdaa(*max.x)
-        else:
-            self._lmax = np.amax(lambdaa)
-        self._check_nonnegative_number(self._lmax, "Maximal rate")
+        self._lmax = value
+    
+    def _gen_lmax(self):
+        """Generate a new lmax value. Used to generate uniformly distributed
+        points in the data space before rejecting part of them."""
+        if (hasattr(self, '_lambdaa')) & (hasattr(self, '_boundaries')):
+            if callable(self._lambdaa):
+                boundstuple = []
+                for i in boundaries:
+                    boundstuple += (tuple(i),)
+                max = scipy.optimize.minimize(lambda x: -lambdaa(*x),
+                 x0=[np.mean(i) for i in self._boundaries],
+                 bounds=boundstuple)
+                self._lmax = self._lambdaa(*max.x)
+            else:
+                self._lmax = np.amax(self._lambdaa)
+            self._check_nonnegative_number(self._lmax, "Maximal rate")
 
     def _sample_poisson_process(self, n=None, blocksize=1000):
         """Generate a realization of a Non-homogeneous Poisson process using
