@@ -15,7 +15,7 @@ The :py:mod:`stochastic.continuous` module provides classes for generating
 * :py:class:`stochastic.continuous.GeometricBrownianMotion`
 * :py:class:`stochastic.continuous.InverseGaussianProcess`
 * :py:class:`stochastic.continuous.MultifractionalBrownianMotion`
-* :py:class:`stochastic.continuous.NHPP`
+* :py:class:`stochastic.continuous.NonHomogeneousPoissonProcess`
 * :py:class:`stochastic.continuous.PoissonProcess`
 * :py:class:`stochastic.continuous.SquaredBesselProcess`
 * :py:class:`stochastic.continuous.VarianceGammaProcess`
@@ -55,7 +55,7 @@ The :py:mod:`stochastic.continuous` module provides classes for generating
 .. autoclass:: stochastic.continuous.MultifractionalBrownianMotion
     :members: t, hurst, sample, times
     
-.. autoclass:: stochastic.continuous.NHPP
+.. autoclass:: stochastic.continuous.NonHomogeneousPoissonProcess
     :members: lambdaa, boundaries, sample
     
 .. autoclass:: stochastic.continuous.PoissonProcess

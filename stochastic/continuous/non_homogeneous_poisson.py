@@ -5,7 +5,7 @@ import scipy.optimize
 from stochastic.base import Checks
 
 
-class NHPP(Checks):
+class NonHomogeneousPoissonProcess(Checks):
     r"""Non-homogeneous Poisson process.
 
     A Poisson process whose rate :math:`\lambda` is a function of time or the
@@ -14,20 +14,21 @@ class NHPP(Checks):
     are inputted. Uses the 'thinning' or 'acceptance/rejection' algorithm
     to generate the points.
 
-        NOTE 1: :math:`dim` is not an input parameter, but the methods crash
-        unless the number of input argument of the function :math:`\lambda(t)`,
-        or the number of dimensions of the matrix :math:`\lambda(t)` is not
-        equal to the :math:`dim` of the boundaries parameters.
+    1. Note: :math:`dim` is not an input parameter, but the methods crash
+    unless the number of input argument of the function :math:`\lambda(t)`,
+    or the number of dimensions of the matrix :math:`\lambda(t)` is not
+    equal to the number :math:`dim` of sets of boundaries.
 
-        NOTE 2: This class can be used to create a Cox process by injecting a
-        :math:`\lambda(t)` matrix generated using another stochastic process.
-
+    2. Note: This class can be used to create a Cox process by injecting a
+    :math:`\lambda(t)` matrix generated using another stochastic process.
+    
     :param lambdaa: function with :math:`dim` arguments representing a
-    multidimensional equation, or :math:`dim`-dimensional array representing
-    the rate function in the data space.
+        multidimensional equation, or :math:`dim`-dimensional array representing
+        the rate function in the data space.
+
     :param array boundaries: :math:`dim` number of boundaries
-    (temporal/spatial) in a :math:`(dim,2)`-dimensional array between which
-    to generate random points.
+        (temporal/spatial) in a :math:`(dim,2)`-dimensional array between which
+        to generate random points.
     """
 
     def __init__(self, lambdaa, boundaries):
@@ -37,7 +38,7 @@ class NHPP(Checks):
 
     @property
     def lambdaa(self):
-        """Rate function, or n-dimensional matrix."""
+        """Rate function, or :math:`dim`-dimensional matrix."""
         return self._lambdaa
 
     @lambdaa.setter
