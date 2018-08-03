@@ -147,7 +147,7 @@ def length(request):
 @pytest.fixture(params=[1])
 def rate(request):
     return request.param
-    
+
 # NHPP
 @pytest.fixture(params=[lambda x:2.*x**2.])
 def lambda_func1D(request):

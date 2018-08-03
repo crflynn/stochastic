@@ -22,8 +22,6 @@ class NonHomogeneousPoissonProcess(Checks):
 
     2. Note: This class can be used to create a Cox process by injecting a
     :math:`\lambda(t)` matrix generated using another stochastic process.
-    
-    
 
     :param lambdaa: function with :math:`dim` arguments representing a
         multidimensional equation, or :math:`dim`-dimensional array
@@ -108,7 +106,8 @@ class NonHomogeneousPoissonProcess(Checks):
                 if len(thinned) == 0:
                     thinned = unthinned.T[uniform < criteria, :]
                 else:
-                    thinned=np.vstack((thinned, unthinned.T[uniform < criteria, :]))
+                    thinned = np.vstack((thinned,
+                    unthinned.T[uniform < criteria, :]))
             return thinned[:n, :]
         else:
             raise ValueError(
@@ -124,4 +123,3 @@ class NonHomogeneousPoissonProcess(Checks):
     def times(self, *args, **kwargs):
         """Disallow times for this process."""
         raise AttributeError("MixedPoissonProcess object has no attribute times.")
- 
