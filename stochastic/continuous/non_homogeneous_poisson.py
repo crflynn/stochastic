@@ -93,8 +93,6 @@ class NonHomogeneousPoissonProcess(Checks):
                         unthinned = np.vstack((unthinned,
                             np.random.randint(0, dim_len, block)))
                 unthinned = unthinned[1:]
-                if len(unthinned.shape) == 1:
-                    unthinned = np.reshape(unthinned, (1, len(unthinned)))
                 uniform = np.random.uniform(size=(block))
                 if callable(self.lambdaa):
                     criteria = self.lambdaa(*unthinned)/self._lmax
