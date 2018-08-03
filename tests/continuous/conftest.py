@@ -6,6 +6,8 @@ import numpy as np
 import pytest
 
 
+
+
 # Floating point arithmetic comparison threshold
 @pytest.fixture(params=[10**-10])
 def threshold(request):
@@ -94,6 +96,24 @@ def volatility(request):
 def initial(request):
     return request.param
 
+# InverseGaussianProcess
+def mean_func_monotonic(t):
+    return t
+
+def mean_func_not_monotonic(t):
+    return 1
+
+def mean_func_no_args():
+    return 1
+
+@pytest.fixture(params=[mean_func_monotonic, None])
+def mean_func(request):
+    return request.param
+
+@pytest.fixture(params=[mean_func_not_monotonic, mean_func_no_args, 1])
+def mean_func_invalid(request):
+    return request.param
+
 # MultifractionalBrownianMotion
 def hurst_const(t):
     return 0.5
@@ -146,7 +166,7 @@ def lambda_func2D(request):
     return request.param
 
 @pytest.fixture(params=[np.array([[1, 2, 3, 4], [4, 5, 6, 7], [5, 6, 7, 8]])])
-def lambda_arr3D(request):
+def lambda_arr2D(request):
     return request.param
 
 @pytest.fixture(params=[np.array([[0, 3], [0, 2]])])
