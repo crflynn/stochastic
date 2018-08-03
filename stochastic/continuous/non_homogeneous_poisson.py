@@ -23,13 +23,13 @@ class NonHomogeneousPoissonProcess(Checks):
     2. Note: This class can be used to create a Cox process by injecting a
     :math:`\lambda(t)` matrix generated using another stochastic process.
 
-    :param lambdaa: function with :math:`dim` arguments representing a
-        multidimensional equation, or :math:`dim`-dimensional array
+    :param lambdaa: a function with :math:`dim` arguments representing a
+        multidimensional density function, or a :math:`dim`-dimensional array
         representing the rate function in the data space.
 
     :param array boundaries: :math:`dim` number of boundaries
         (temporal/spatial) in a :math:`(dim,2)`-dimensional array between which
-        to generate random points.
+        the random points are generated.
     """
 
     def __init__(self, lambdaa, boundaries):
@@ -39,7 +39,7 @@ class NonHomogeneousPoissonProcess(Checks):
 
     @property
     def lambdaa(self):
-        """Rate function, or :math:`dim`-dimensional matrix."""
+        """Rate function, or :math:`dim`-dimensional array."""
         return self._lambdaa
 
     @lambdaa.setter
@@ -49,7 +49,7 @@ class NonHomogeneousPoissonProcess(Checks):
 
     @property
     def boundaries(self):
-        """boundaries of the rate function."""
+        """boundaries of the density function or array."""
         return self._boundaries
 
     @boundaries.setter

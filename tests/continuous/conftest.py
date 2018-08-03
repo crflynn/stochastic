@@ -136,7 +136,7 @@ def hurst_invalid(request):
     return request.param
 
 # PoissonProcess
-@pytest.fixture(params=[16, None])
+@pytest.fixture(params=[16, None, 2000])
 def n_fixture(request):
     return request.param
 
