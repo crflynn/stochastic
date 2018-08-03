@@ -108,8 +108,7 @@ class NonHomogeneousPoissonProcess(Checks):
                 if len(thinned) == 0:
                     thinned = unthinned.T[uniform < criteria, :]
                 else:
-                    unthinned = np.vstack((unthinned,
-                    np.random.uniform(*i, size=(block))))
+                    thinned=np.vstack((thinned, unthinned.T[uniform < criteria, :]))
             return thinned[:n, :]
         else:
             raise ValueError(
@@ -125,21 +124,4 @@ class NonHomogeneousPoissonProcess(Checks):
     def times(self, *args, **kwargs):
         """Disallow times for this process."""
         raise AttributeError("MixedPoissonProcess object has no attribute times.")
-        
-        
-def lambdatest1D(x1):
-    return(6.*x1)
-Intervals1D = np.array([[0, 3]])
-def lambdatest2D(x1,x2):
-    return(6.*x1*x2**2.)
-Intervals2D = np.array([[0,3], [0,2]])
-def lambdatest3D(x1,x2,x3):
-    return(x1+2*x2**2+3*x3**3)
-Intervals3D = np.array([[0,1], [0,2], [0,3]])
-print(Intervals3D.shape)
-
-A=NonHomogeneousPoissonProcess(lambdatest1D,Intervals1D)
-print(A.sample(10))
-B=NonHomogeneousPoissonProcess(np.array([[[1, 2, 3, 4], [4, 5, 6, 7], [5, 6, 7, 8]],
-    [[7, 8, 9, 5], [10, 11, 12, 5], [5, 6, 7, 8]]]),Intervals3D)
-print(B.sample(10))
+ 
