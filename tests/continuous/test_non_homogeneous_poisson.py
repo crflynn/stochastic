@@ -4,12 +4,12 @@ import pytest
 
 from stochastic.continuous import NHPP
 
-def test_poisson_process_str_repr(lambdaa,boundaries):
+def test_non_homogeneous_poisson_process_str_repr(lambdaa,boundaries):
     instance = NHPP(lambdaa,boundaries)
     assert isinstance(repr(instance), str)
     assert isinstance(str(instance), str)
 
-def test_poisson_process_sample(lambdaa,boundaries, n_fixture):
+def test_non_homogeneous_poisson_process_sample(lambdaa,boundaries, n_fixture):
     instance = NHPP(lambdaa,boundaries)
     if n_fixture is None:
         with pytest.raises(ValueError):
@@ -18,7 +18,7 @@ def test_poisson_process_sample(lambdaa,boundaries, n_fixture):
         s = instance.sample(n_fixture)
         assert len(s) == n_fixture 
 
-def test_poisson_process_times(lambdaa,boundaries, n):
+def test_non_homogeneous_poisson_process_times(lambdaa,boundaries, n):
     instance = NHPP(lambdaa,boundaries)
     with pytest.raises(AttributeError):
         times = instance.times(n)
