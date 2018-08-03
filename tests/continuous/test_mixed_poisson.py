@@ -24,7 +24,7 @@ def test_mixed_poisson_process_sample(rate_dist, rate_args, rate_kwargs,
         s = instance.sample(n_fixture, length, zero)
         assert len(s) == n_fixture + int(zero)
 
-def test_poisson_process_times(rate_dist, rate_args, rate_kwargs, n):
+def test_mixed_poisson_process_times(rate_dist, rate_args, rate_kwargs, n):
     instance = MixedPoissonProcess(rate_dist, rate_args, rate_kwargs)
     with pytest.raises(AttributeError):
         times = instance.times(n)
