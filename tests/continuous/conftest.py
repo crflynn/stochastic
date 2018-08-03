@@ -130,10 +130,38 @@ def rate(request):
     
 # NHPP
 @pytest.fixture(params=[lambda x:2.*x**2.])
-def lambdaa(request):
+def lambda_func1D(request):
     return request.param
 
-@pytest.fixture(params=[np.array([[0,100]])])
-def boundaries(request):
+@pytest.fixture(params=[np.arange(0, 100)])
+def lambda_arr1D(request):
     return request.param
-    
+
+@pytest.fixture(params=[np.array([[0, 100]])])
+def boundaries1D(request):
+    return request.param
+
+@pytest.fixture(params=[lambda x1, x2:6.*x1*x2**2.])
+def lambda_func2D(request):
+    return request.param
+
+@pytest.fixture(params=[np.array([[1, 2, 3, 4], [4, 5, 6, 7], [5, 6, 7, 8]])])
+def lambda_arr3D(request):
+    return request.param
+
+@pytest.fixture(params=[np.array([[0, 3], [0, 2]])])
+def boundaries2D(request):
+    return request.param
+
+@pytest.fixture(params=[lambda x1, x2, x3:x1+2*x2**2+3*x3**3])
+def lambda_func3D(request):
+    return request.param
+
+@pytest.fixture(params=[np.array([[[1, 2, 3, 4], [4, 5, 6, 7], [5, 6, 7, 8]],
+    [[7, 8, 9, 5], [10, 11, 12, 5], [5, 6, 7, 8]]])])
+def lambda_arr3D(request):
+    return request.param
+
+@pytest.fixture(params=[np.array([[0, 1], [0, 2], [0, 3]])])
+def boundaries3D(request):
+    return request.param
