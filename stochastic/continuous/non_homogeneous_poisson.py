@@ -66,8 +66,8 @@ class NonHomogeneousPoissonProcess(Checks):
                 for i in self.boundaries:
                     boundstuple += (tuple(i),)
                 max = scipy.optimize.minimize(lambda x: -self.lambdaa(*x),
-                 x0=[np.mean(i) for i in self._boundaries],
-                 bounds=boundstuple)
+                x0=[np.mean(i) for i in self._boundaries],
+                bounds=boundstuple)
                 self._lmax = self._lambdaa(*max.x)
             else:
                 self._lmax = np.amax(self._lambdaa)
@@ -87,7 +87,7 @@ class NonHomogeneousPoissonProcess(Checks):
                 if callable(self.lambdaa):
                     for boundary in self.boundaries:# unthinned->data points
                         unthinned = np.vstack((unthinned,
-                            np.random.uniform(*boundary, size=(block))))
+                        np.random.uniform(*boundary, size=(block))))
                 else:
                     for dim_len in self.lambdaa.shape:# unthinned->indexes
                         unthinned = np.vstack((unthinned,
@@ -120,4 +120,5 @@ class NonHomogeneousPoissonProcess(Checks):
 
     def times(self, *args, **kwargs):
         """Disallow times for this process."""
-        raise AttributeError("MixedPoissonProcess object has no attribute times.")
+        raise AttributeError(
+        "NonHomogeneousPoissonProcess object has no attribute times.")
