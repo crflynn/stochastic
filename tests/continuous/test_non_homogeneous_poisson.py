@@ -41,7 +41,7 @@ def test_non_homogeneous_poisson_process_sample(
             s = instance.sample(n_fixture)
             assert len(s) == n_fixture
 
-    def test_non_homogeneous_poisson_process_times(
+def test_non_homogeneous_poisson_process_times(
         lambda_func1D, lambda_arr1D, boundaries1D,
         lambda_func2D, lambda_arr2D, boundaries2D,
         lambda_func3D, lambda_arr3D, boundaries3D,
