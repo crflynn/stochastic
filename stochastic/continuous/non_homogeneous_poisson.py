@@ -12,7 +12,8 @@ class NonHomogeneousPoissonProcess(Checks):
     underlying data space :math:`\lambda\to\lambda(t)`. This class also be
     used to generate multidimensional points, if multidimensional parameters
     are inputted. Uses the 'thinning' or 'acceptance/rejection' algorithm
-    to generate the points.
+    to generate the points. Returns data points if a function is inputted,
+    and indexes if a density array is inputted.
 
     1. Note: :math:`dim` is not an input parameter, but the methods crash
     unless the number of input argument of the function :math:`\lambda(t)`,
@@ -21,6 +22,8 @@ class NonHomogeneousPoissonProcess(Checks):
 
     2. Note: This class can be used to create a Cox process by injecting a
     :math:`\lambda(t)` matrix generated using another stochastic process.
+    
+    
 
     :param lambdaa: function with :math:`dim` arguments representing a
         multidimensional equation, or :math:`dim`-dimensional array
@@ -82,20 +85,16 @@ class NonHomogeneousPoissonProcess(Checks):
         if n is not None:
             self._check_increments(n)
             while len(thinned) < n:
-                if callable(self.lambdaa): # Generates block points.
-                    for boundary in self.boundaries:
-                        if 'unthinned' not in locals():
-                            unthinned = np.random.uniform(*boundary, size=(block))
-                        else:
-                            unthinned = np.vstack((unthinned,
+                unthinned = np.zeros(block)
+                if callable(self.lambdaa):
+                    for boundary in self.boundaries:# unthinned->data points
+                        unthinned = np.vstack((unthinned,
                             np.random.uniform(*boundary, size=(block))))
                 else:
-                    for dim_len in self.lambdaa.shape:
-                        if 'unthinned' not in locals():
-                            unthinned = np.random.randint(0, dim_len, block)
-                        else:
-                            unthinned = np.vstack((unthinned,
+                    for dim_len in self.lambdaa.shape:# unthinned->indexes
+                        unthinned = np.vstack((unthinned,
                             np.random.randint(0, dim_len, block)))
+                unthinned = unthinned[1:]
                 if len(unthinned.shape) == 1:
                     unthinned = np.reshape(unthinned, (1, len(unthinned)))
                 uniform = np.random.uniform(size=(block))
@@ -104,7 +103,7 @@ class NonHomogeneousPoissonProcess(Checks):
                 else:
                     prob_arr = self.lambdaa/self._lmax
                     criteria = np.array([])
-                    for point in unthinned.T:
+                    for point in unthinned.T.astype(int):
                         criteria = np.append(criteria, prob_arr[tuple(point)])
                 if len(thinned) == 0:
                     thinned = unthinned.T[uniform < criteria, :]
@@ -126,3 +125,21 @@ class NonHomogeneousPoissonProcess(Checks):
     def times(self, *args, **kwargs):
         """Disallow times for this process."""
         raise AttributeError("MixedPoissonProcess object has no attribute times.")
+        
+        
+def lambdatest1D(x1):
+    return(6.*x1)
+Intervals1D = np.array([[0, 3]])
+def lambdatest2D(x1,x2):
+    return(6.*x1*x2**2.)
+Intervals2D = np.array([[0,3], [0,2]])
+def lambdatest3D(x1,x2,x3):
+    return(x1+2*x2**2+3*x3**3)
+Intervals3D = np.array([[0,1], [0,2], [0,3]])
+print(Intervals3D.shape)
+
+A=NonHomogeneousPoissonProcess(lambdatest1D,Intervals1D)
+print(A.sample(10))
+B=NonHomogeneousPoissonProcess(np.array([[[1, 2, 3, 4], [4, 5, 6, 7], [5, 6, 7, 8]],
+    [[7, 8, 9, 5], [10, 11, 12, 5], [5, 6, 7, 8]]]),Intervals3D)
+print(B.sample(10))
