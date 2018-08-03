@@ -34,7 +34,7 @@ class NonHomogeneousPoissonProcess(Checks):
     def __init__(self, lambdaa, boundaries):
         self.lambdaa = lambdaa
         self.boundaries = boundaries
-        self.lmax = (lambdaa, boundaries)
+        self._gen_lmax()
 
     @property
     def lambdaa(self):
@@ -56,76 +56,62 @@ class NonHomogeneousPoissonProcess(Checks):
         self._boundaries = value
         self._gen_lmax()
 
-    def _lmax(self, value):
-        """Current rate."""
-        self._lmax = value
-    
     def _gen_lmax(self):
         """Generate a new lmax value. Used to generate uniformly distributed
         points in the data space before rejecting part of them."""
         if (hasattr(self, '_lambdaa')) & (hasattr(self, '_boundaries')):
             if callable(self._lambdaa):
                 boundstuple = []
-                for i in boundaries:
+                for i in self.boundaries:
                     boundstuple += (tuple(i),)
-                max = scipy.optimize.minimize(lambda x: -lambdaa(*x),
+                max = scipy.optimize.minimize(lambda x: -self.lambdaa(*x),
                  x0=[np.mean(i) for i in self._boundaries],
                  bounds=boundstuple)
                 self._lmax = self._lambdaa(*max.x)
             else:
                 self._lmax = np.amax(self._lambdaa)
-            self._check_nonnegative_number(self._lmax, "Maximal rate")
+            # self._check_nonnegative_number(self._lmax, "Maximal rate")
 
-    def _sample_poisson_process(self, n=None, blocksize=1000):
+    def _sample_poisson_process(self, n=None, block=1000):
         """Generate a realization of a Non-homogeneous Poisson process using
-        the thinning or acceptance/rejection algorithm.
-
-        Generate a poisson process sample up to count of length if time=False,
-        otherwise generate a sample up to time t=length if time=True
+        the thinning or acceptance/rejection algorithm. Instead of 
+        accepting/rejecting points one at a time, this algorithm compares 
+        numpy ndarray of length block, until n samples are generated.
         """
-        Thinned = []
+        thinned = []
         if n is not None:
             self._check_increments(n)
-            while len(Thinned) < n:
-                for i in self.boundaries:
-                    if 'Unthin' not in locals():
-                        Unthin = np.random.uniform(*i, size=(blocksize))
-                    else:
-                        Unthin = np.vstack((Unthin,
-                        np.random.uniform(*i, size=(blocksize))))
-                Unthin.T
-                if len(Unthin.shape) == 1:
-                    Unthin = np.reshape(Unthin, (1, len(Unthin)))
-                U = np.random.uniform(size=(blocksize))
+            while len(thinned) < n:
                 if callable(self.lambdaa):
-                    Criteria = self.lambdaa(*Unthin)/self.lmax
+                    for boundary in self.boundaries:
+                        if 'unthinned' not in locals():
+                            unthinned = np.random.uniform(*boundary, size=(block))
+                        else:
+                            unthinned = np.vstack((unthinned,
+                            np.random.uniform(*boundary, size=(block))))
                 else:
-                    Criteria2D = self.lambdaa/self.lmax
-                    Indx = (Unthinx*self.lambdaa.shape[0]).astype(int)
-                    Indy = (Unthiny*self.lambdaa.shape[1]).astype(int)
-                    Criteria = Criteria2D[Indx, Indy]
-                    Unthin = np.transpose(np.vstack((Unthinx, Unthiny)))
-                if Thinned == []:
-                    Thinned = Unthin.T[U < Criteria, :]
+                    for dim_len in self.lambdaa.shape:
+                        if 'unthinned' not in locals():
+                            unthinned = np.random.randint(0,dim_len,block)
+                        else:
+                            unthinned = np.vstack((unthinned,
+                            np.random.randint(0,dim_len,block)))
+                if len(unthinned.shape) == 1:
+                    unthinned = np.reshape(unthinned, (1, len(unthinned)))
+                uniform = np.random.uniform(size=(block))
+                if callable(self.lambdaa):
+                    criteria = self.lambdaa(*unthinned)/self._lmax
                 else:
-                    Unthin = np.vstack((Unthin,
-                    np.random.uniform(*i, size=(blocksize))))
-            Unthin.T
-            U = np.random.uniform(size=(blocksize))
-            if callable(self.lambdaa):
-                Criteria = self.lambdaa(*Unthin)/self.lmax
-            else:
-                Criteria2D = self.lambdaa/self.lmax
-                Indx = (Unthinx*self.lambdaa.shape[0]).astype(int)
-                Indy = (Unthiny*self.lambdaa.shape[1]).astype(int)
-                Criteria = Criteria2D[Indx, Indy]
-                Unthin = np.transpose(np.vstack((Unthinx, Unthiny)))
-            if Thinned == []:
-                Thinned = Unthin.T[U < Criteria, :]
-            else:
-                Thinned = np.vstack((Thinned, Unthin.T[U < Criteria, :]))
-            del Unthin
-            return Thinned[:n, :]
+                    prob_arr = self.lambdaa/self._lmax    
+                    criteria=np.array([])
+                    for point in unthinned.T:
+                        criteria=np.append(criteria,prob_arr[tuple(point)])
+                if len(thinned) == 0:
+                    thinned = unthinned.T[uniform < criteria, :]
+                else:
+                    unthinned = np.vstack((unthinned,
+                    np.random.uniform(*i, size=(block))))
+            return thinned[:n, :]
         else:
             raise ValueError(
                 "Must provide either argument n.")
@@ -140,3 +126,21 @@ class NonHomogeneousPoissonProcess(Checks):
     def times(self, *args, **kwargs):
         """Disallow times for this process."""
         raise AttributeError("MixedPoissonProcess object has no attribute times.")
+
+import sys
+def lambdatest1D(x1):
+    return(6.*x1)
+Intervals1D = np.array([[0, 3]])
+def lambdatest2D(x1, x2):
+    return(6.*x1*x2**2.)
+Intervals2D = np.array([[0, 3], [0, 2]])
+def lambdatest3D(x1, x2, x3):
+    return(x1+2*x2**2+3*x3**3)
+Intervals3D = np.array([[0, 1], [0, 2], [0, 3]])
+matlambda=np.arange(0,10000,1)
+array3D=np.array([[[1,2,3],[4,5,6]],[[7,8,9],[10,11,12]]])
+# print(array3D.shape)
+A=NonHomogeneousPoissonProcess(lambdatest2D, Intervals2D)
+print(A.sample(10))
+B=NonHomogeneousPoissonProcess(array3D, Intervals3D)
+print(B.sample(10))
