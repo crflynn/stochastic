@@ -1,5 +1,6 @@
 # flake8: noqa
 import math
+import random
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -180,13 +181,16 @@ def main():
     # ss = get_samples(n_samples, process, {"n": n})
     #
     # make_plot("Multifractional Brownian motion", "multifractional_brownian_motion", t, ss)
+    #
+    # process = InverseGaussianProcess()
+    # t = process.times(n)
+    # ss = get_samples(n_samples, process, {"n": n})
+    #
+    # make_plot("Inverse Gaussian process", "inverse_gaussian", t, ss)
 
-    process = InverseGaussianProcess()
-    t = process.times(n)
-    ss = get_samples(n_samples, process, {"n": n})
-
-    make_plot("Inverse Gaussian process", "inverse_gaussian", t, ss)
-
+    process = MixedPoissonProcess(random.uniform, (1, 5))
+    ss = get_samples(n_samples, process, {"n": 500})
+    make_plot("Mixed Poisson process", "mixed_poisson_process", t, ss, "Time", "Value", alt=True)
 
 
 if __name__ == '__main__':
