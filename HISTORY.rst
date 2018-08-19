@@ -1,6 +1,11 @@
 Release History
 ---------------
 
+0.4.0 (2018-08-19)
+~~~~~~~~~~~~~~~~~~
+
+* Added a MixedPoissonProcess (thanks to `Gabinou <https://github.com/Gabinou>`_)
+
 0.3.0 (2018-07-22)
 ~~~~~~~~~~~~~~~~~~
 
