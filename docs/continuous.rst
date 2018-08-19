@@ -14,6 +14,7 @@ The :py:mod:`stochastic.continuous` module provides classes for generating
 * :py:class:`stochastic.continuous.GammaProcess`
 * :py:class:`stochastic.continuous.GeometricBrownianMotion`
 * :py:class:`stochastic.continuous.InverseGaussianProcess`
+* :py:class:`stochastic.continuous.MixedPoissonProcess`
 * :py:class:`stochastic.continuous.MultifractionalBrownianMotion`
 * :py:class:`stochastic.continuous.PoissonProcess`
 * :py:class:`stochastic.continuous.SquaredBesselProcess`
@@ -50,6 +51,9 @@ The :py:mod:`stochastic.continuous` module provides classes for generating
 
 .. autoclass:: stochastic.continuous.InverseGaussianProcess
     :members: t, mean, scale, sample, sample_at, times
+
+.. autoclass:: stochastic.continuous.MixedPoissonProcess
+    :members: rate, rate_func, rate_args, rate_kwargs, sample
 
 .. autoclass:: stochastic.continuous.MultifractionalBrownianMotion
     :members: t, hurst, sample, times
