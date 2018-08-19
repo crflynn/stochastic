@@ -4,89 +4,102 @@ from stochastic.continuous.poisson import PoissonProcess
 
 
 class MixedPoissonProcess(PoissonProcess):
-    r"""Mixed poisson process. Inherits from the PoissonProcess class.
+    r"""Mixed poisson process.
+
+    .. image:: _static/mixed_poisson_process.png
+        :scale: 50%
 
     A mixed poisson process is a Poisson process for which the rate is
-    a random variate, a sample taken from a random distribution.
-    On every call of the sample method, a new random rate is generated,
-    before drawing the sample. A Poisson process with rate :math:`\lambda`
+    a scalar random variate. The sample method will generate a random variate
+    for the rate before generating a Poisson process realization with the rate.
+    A Poisson process with rate :math:`\lambda`
     is a count of occurrences of i.i.d. exponential random
-    variables with mean :math:`1/\lambda`. This class
-    generates samples of times for which cumulative
-    exponential random variables occur.
+    variables with mean :math:`1/\lambda`. Use the ``rate`` attribute to get
+    the most recently generated random rate.
 
-    :param function rate_dist: random distribution of the rate :math:`\lambda`
-    :param rate_args: arguments to input into the rate_dist function
-    :param rate_kwargs: keyword arguments to input into the rate_dist function
+    :param callable rate_func: a callable to generate variates of the random
+        rate
+    :param tuple rate_args: positional args for ``rate_func``
+    :param dict rate_kwargs: keyword args for ``rate_func``
     """
 
-    def __init__(self, rate_dist, rate_args=(), rate_kwargs={}):
-        self.rate_dist = rate_dist
+    def __init__(self, rate_func, rate_args=(), rate_kwargs={}):
+        self.rate_func = rate_func
         self.rate_args = rate_args
         self.rate_kwargs = rate_kwargs
-        self._gen_rate()
 
     def __str__(self):
-        return "Mixed Poisson process with rate {r}.".format(r=str(self.rate))
+        return "Mixed Poisson process with random rate."
 
     def __repr__(self):
-        return "MixedPoissonProcess(rate={r})".format(r=str(self.rate))
+        return "MixedPoissonProcess(" \
+            "rate_func={rf}, rate_args={ra}, rate_kwargs={rkw})".format(
+                rf=str(self.rate_func),
+                ra=str(self.rate_args),
+                rkw=str(self.rate_kwargs)
+            )
 
     @property
-    def rate_dist(self):
-        """Current rate's random distribution."""
-        return self._rate_dist
+    def rate_func(self):
+        """Current rate's distribution."""
+        return self._rate_func
 
-    @rate_dist.setter
-    def rate_dist(self, value):
-        self._rate_dist = value
-        self._gen_rate()
-
-    @property
-    def rate_kwargs(self):
-        """Keyword arguments for rate generation using
-        given random distribution and parameters."""
-        return self._rate_kwargs
-
-    @rate_kwargs.setter
-    def rate_kwargs(self, value):
-        self._rate_kwargs = value
-        self._gen_rate()
+    @rate_func.setter
+    def rate_func(self, value):
+        if not callable(value):
+            raise ValueError("Rate function must be a callable.")
+        self._rate_func = value
 
     @property
     def rate_args(self):
-        """Arguments for rate generation using given random distribution."""
+        """Positional arguments for the rate function."""
         return self._rate_args
 
     @rate_args.setter
     def rate_args(self, value):
+        if not isinstance(value, (list, tuple)):
+            raise ValueError("Rate args must be a list or tuple.")
         self._rate_args = value
-        self._gen_rate()
+
+    @property
+    def rate_kwargs(self):
+        """Keyword arguments for the rate function."""
+        return self._rate_kwargs
+
+    @rate_kwargs.setter
+    def rate_kwargs(self, value):
+        if not isinstance(value, dict):
+            raise ValueError("Rate kwargs must be a dict.")
+        self._rate_kwargs = value
 
     @property
     def rate(self):
-        """Current rate."""
+        """The most recently generated rate.
+
+        Attempting to get the rate prior to generating a sample will raise
+        an ``AttributeError``."""
         return self._rate
 
     @rate.setter
     def rate(self, value):
-        print('a')
-        rate_dist, rate_args, rate_kwargs = value
-        self._rate_dist = rate_dist
-        self._rate_args = rate_args
-        self._rate_kwargs = rate_kwargs
-        self._gen_rate()
+        self._check_nonnegative_number(value, "Arrival rate")
+        self._rate = value
 
-    def _gen_rate(self):
-        """Generate a new rate. Called when any parameter is set,
-        and upon each call for samples."""
-        if (hasattr(self, '_rate_args') &
-                hasattr(self, '_rate_dist') &
-                hasattr(self, '_rate_kwargs')):
-            self._rate = self.rate_dist(*self.rate_args, **self.rate_kwargs)
-            self._check_nonnegative_number(self.rate, "Arrival rate")
+    def _sample_rate(self):
+        """Generate a rate variate."""
+        return self.rate_func(*self.rate_args, **self.rate_kwargs)
 
     def sample(self, n=None, length=None, zero=True):
-        """Generate a new random rate upon each realization."""
-        self._gen_rate()
-        return super(MixedPoissonProcess, self).sample(n, length, zero)
+        """Generate a realization.
+
+        Exactly one of `n` and `length` must be provided. Generates a random
+        variate for the rate, then generates a Poisson process realization
+        using this rate.
+
+        :param int n: the number of arrivals to simulate
+        :param int length: the length of time to simulate; will generate
+            arrivals until length is met or exceeded.
+        :param bool zero: if True, include :math:`t=0`
+        """
+        self.rate = self._sample_rate()
+        return self._sample_poisson_process(n, length, zero)
