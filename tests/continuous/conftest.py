@@ -145,3 +145,16 @@ def length(request):
 @pytest.fixture(params=[1])
 def rate(request):
     return request.param
+
+# MixedPoissonProcess
+@pytest.fixture(params=[np.random.uniform])
+def rate_dist(request):
+    return request.param
+
+@pytest.fixture(params=[(1, 100), (1, 10)])
+def rate_args(request):
+    return request.param
+
+@pytest.fixture(params=[{'size': None}])
+def rate_kwargs(request):
+    return request.param
