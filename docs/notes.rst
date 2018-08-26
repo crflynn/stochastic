@@ -16,6 +16,6 @@ License
 .. include:: ../LICENSE.txt
     :literal:
 
-.. include:: ../CONTRIBUTORS.rst
+
 
 .. include:: ../HISTORY.rst
