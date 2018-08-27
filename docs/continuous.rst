@@ -54,10 +54,10 @@ The :py:mod:`stochastic.continuous` module provides classes for generating
 
 .. autoclass:: stochastic.continuous.MultifractionalBrownianMotion
     :members: t, hurst, sample, times
-    
+
 .. autoclass:: stochastic.continuous.NonHomogeneousPoissonProcess
-    :members: lambdaa, boundaries, sample
-    
+    :members: rate_func, bounds, rate_kwargs, sample
+
 .. autoclass:: stochastic.continuous.PoissonProcess
     :members: rate, sample
 

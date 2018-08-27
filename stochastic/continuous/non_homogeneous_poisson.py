@@ -100,9 +100,9 @@ class NonHomogeneousPoissonProcess(Checks):
         """Generate a realization of a Non-Homogeneous Poisson process using
         the thinning or acceptance/rejection algorithm. Points are generated
         uniformly inside the `bounds`, and accepted with a probability
-        proportional to the rate function at that point. Instead of
-        accepting/rejecting points one at a time, this algorithm compares
-        numpy ndarrays of length `block`, until `n` samples are generated.
+        proportional to the rate function. Instead of accepting/rejecting
+        points one at a time, this algorithm compares numpy ndarrays of length
+        `block`, until `n` samples are generated.
         """
         thinned = []
         if n is not None:
