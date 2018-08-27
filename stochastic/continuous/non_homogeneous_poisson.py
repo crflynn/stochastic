@@ -7,6 +7,9 @@ from stochastic.base import Checks
 
 class NonHomogeneousPoissonProcess(Checks):
     r"""Non-homogeneous Poisson process.
+    
+    .. image:: _static/non_homogeneous_poisson_process.png
+    :scale: 50%
 
     A Poisson process whose rate :math:`\lambda` is a function of time or the
     underlying data space :math:`\lambda\to\lambda(t)`. This class also be
@@ -18,86 +21,94 @@ class NonHomogeneousPoissonProcess(Checks):
     1. Note: :math:`dim` is not an input parameter, but the methods crash
     unless the number of input argument of the function :math:`\lambda(t)`,
     or the number of dimensions of the matrix :math:`\lambda(t)` is not
-    equal to the number :math:`dim` of sets of boundaries.
+    equal to the number :math:`dim` of sets of bounds.
 
     2. Note: This class can be used to create a Cox process by injecting a
     :math:`\lambda(t)` matrix generated using another stochastic process.
 
-    :param lambdaa: a function with :math:`dim` arguments representing a
+    :param rate_func: a function with :math:`dim` arguments representing a
         multidimensional density function, or a :math:`dim`-dimensional array
         representing the rate function in the data space.
 
-    :param array boundaries: :math:`dim` number of boundaries
-        (temporal/spatial) in a :math:`(dim,2)`-dimensional array between which
+    :param array bounds: :math:`dim` number of bounds
+        (temporal/spatial) in a :math:`(dim, 2)`-dimensional array between which
         the random points are generated.
     """
 
-    def __init__(self, lambdaa, boundaries):
-        self.lambdaa = lambdaa
-        self.boundaries = boundaries
-        self._gen_lmax()
+    def __init__(self, rate_func, bounds):
+        self.rate_func = rate_func
+        self.bounds = bounds
 
+    def __str__(self):
+        return "Non-homogeneous Poisson process with rate function of time."
+
+    def __repr__(self):
+        return "NonHomogeneousPoissonProcess(" \
+            "rate_func={rf}, rate_args={ra}, rate_kwargs={rkw})".format(
+                rf=str(self.rate_func),
+                ra=str(self.rate_args),
+                rkw=str(self.rate_kwargs)
+            )        
+          
     @property
-    def lambdaa(self):
+    def rate_func(self):
         """Rate function, or :math:`dim`-dimensional array."""
-        return self._lambdaa
+        return self._rate_func
 
-    @lambdaa.setter
-    def lambdaa(self, value):
-        self._lambdaa = value
-        self._gen_lmax()
+    @rate_func.setter
+    def rate_func(self, value):
+        if (not callable(value)) & (not isinstance(value, (np.ndarray))):
+            raise ValueError("Rate function must be a callable or ndarray.")
+        self._rate_func = value
 
     @property
-    def boundaries(self):
-        """boundaries of the density function or array."""
-        return self._boundaries
+    def bounds(self):
+        """Boundaries of the density function or array. 2D Array/List"""
+        return self._bounds
 
-    @boundaries.setter
-    def boundaries(self, value):
-        self._boundaries = value
-        self._gen_lmax()
+    @bounds.setter
+    def bounds(self, value):
+        if not isinstance(value, (list, np.ndarray, tuple)):
+            raise ValueError("Bounds must be a `(dim, 2)` list, `numpy` ndarray or tuple.")
+        self._bounds = value
 
-    def _gen_lmax(self):
-        """Generate a new lmax value. Used to generate uniformly distributed
+    def _get_rate_max(self):
+        """Generate a new `rate_max` value. Used to generate uniformly distributed
         points in the data space before rejecting part of them."""
-        if (hasattr(self, '_lambdaa')) & (hasattr(self, '_boundaries')):
-            if callable(self._lambdaa):
-                boundstuple = []
-                for i in self.boundaries:
-                    boundstuple += (tuple(i),)
-                max = scipy.optimize.minimize(lambda x: -self.lambdaa(*x),
-                x0=[np.mean(i) for i in self._boundaries],
-                bounds=boundstuple)
-                self._lmax = self._lambdaa(*max.x)
-            else:
-                self._lmax = np.amax(self._lambdaa)
-            # self._check_nonnegative_number(self._lmax, "Maximal rate")
+        if callable(self._rate_func):
+            max = scipy.optimize.minimize(lambda x: -self.rate_func(*x),
+            x0 = [np.mean(i) for i in self._bounds],
+            bounds=self.bounds)
+            self._rate_max = self._rate_func(*max.x)
+        else:
+            self._rate_max = np.amax(self._rate_func)
+            # self._check_nonnegative_number(self._rate_max, "Maximal rate")
 
     def _sample_nhpp_thinning(self, n=None, block=1000):
-        """Generate a realization of a Non-homogeneous Poisson process using
+        """Generate a realization of a Non-Homogeneous Poisson process using
         the thinning or acceptance/rejection algorithm. Instead of
         accepting/rejecting points one at a time, this algorithm compares
-        numpy ndarray of length block, until n samples are generated.
+        numpy ndarrays of length `block`, until `n` samples are generated.
         """
         thinned = []
         if n is not None:
             self._check_increments(n)
             while len(thinned) < n:
                 unthinned = np.zeros(block)
-                if callable(self.lambdaa):
-                    for boundary in self.boundaries:# unthinned->data points
+                if callable(self.rate_func):
+                    for boundary in self.bounds:# unthinned->data points
                         unthinned = np.vstack((unthinned,
                         np.random.uniform(*boundary, size=(block))))
                 else:
-                    for dim_len in self.lambdaa.shape:# unthinned->indexes
+                    for dim_len in self.rate_func.shape:# unthinned->indexes
                         unthinned = np.vstack((unthinned,
                             np.random.randint(0, dim_len, block)))
                 unthinned = unthinned[1:]
                 uniform = np.random.uniform(size=(block))
-                if callable(self.lambdaa):
-                    criteria = self.lambdaa(*unthinned)/self._lmax
+                if callable(self.rate_func):
+                    criteria = self.rate_func(*unthinned)/self._rate_max
                 else:
-                    prob_arr = self.lambdaa/self._lmax
+                    prob_arr = self.rate_func/self._rate_max
                     criteria = np.array([])
                     for point in unthinned.T.astype(int):
                         criteria = np.append(criteria, prob_arr[tuple(point)])
@@ -108,14 +119,14 @@ class NonHomogeneousPoissonProcess(Checks):
                     unthinned.T[uniform < criteria, :]))
             return thinned[:n, :]
         else:
-            raise ValueError(
-                "Must provide either argument n.")
+            raise ValueError("Must provide argument n.")
 
     def sample(self, n=None):
         """Generate a realization.
 
         :param int n: the number of points to simulate
         """
+        self._get_rate_max()
         return self._sample_nhpp_thinning(n)
 
     def times(self, *args, **kwargs):
