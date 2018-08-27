@@ -157,7 +157,7 @@ def lambda_func1D(request):
 def lambda_arr1D(request):
     return request.param
 
-@pytest.fixture(params=[np.array([[0, 100]])])
+@pytest.fixture(params=[np.array([[0, 100]]), ((0, 100),)])
 def boundaries1D(request):
     return request.param
 
@@ -169,7 +169,7 @@ def lambda_func2D(request):
 def lambda_arr2D(request):
     return request.param
 
-@pytest.fixture(params=[np.array([[0, 3], [0, 2]])])
+@pytest.fixture(params=[np.array([[0, 3], [0, 2]]), ((0, 3), (0, 2))])
 def boundaries2D(request):
     return request.param
 
@@ -182,6 +182,6 @@ def lambda_func3D(request):
 def lambda_arr3D(request):
     return request.param
 
-@pytest.fixture(params=[np.array([[0, 1], [0, 2], [0, 3]])])
+@pytest.fixture(params=[np.array([[0, 1], [0, 2], [0, 3]]), ((0, 1), (0, 2), (0, 3))] )
 def boundaries3D(request):
     return request.param

@@ -35,8 +35,9 @@ class NonHomogeneousPoissonProcess(Checks):
         the random points are generated.
     """
 
-    def __init__(self, rate_func, bounds):
+    def __init__(self, rate_func, bounds, rate_kwargs={}):
         self.rate_func = rate_func
+        self.rate_kwargs = rate_kwargs
         self.bounds = bounds
 
     def __str__(self):
@@ -44,12 +45,22 @@ class NonHomogeneousPoissonProcess(Checks):
 
     def __repr__(self):
         return "NonHomogeneousPoissonProcess(" \
-            "rate_func={rf}, rate_args={ra}, rate_kwargs={rkw})".format(
+            "rate_func={rf}, bounds={bds}, rate_kwargs={rkw})".format(
                 rf=str(self.rate_func),
-                ra=str(self.rate_args),
+                bds=str(self.bounds),
                 rkw=str(self.rate_kwargs)
             )        
-          
+    @property
+    def rate_kwargs(self):
+        """Keyword arguments for the rate function."""
+        return self._rate_kwargs
+
+    @rate_kwargs.setter
+    def rate_kwargs(self, value):
+        if not isinstance(value, dict):
+            raise ValueError("Rate kwargs must be a dict.")
+        self._rate_kwargs = value
+
     @property
     def rate_func(self):
         """Rate function, or :math:`dim`-dimensional array."""
@@ -76,10 +87,11 @@ class NonHomogeneousPoissonProcess(Checks):
         """Generate a new `rate_max` value. Used to generate uniformly distributed
         points in the data space before rejecting part of them."""
         if callable(self._rate_func):
-            max = scipy.optimize.minimize(lambda x: -self.rate_func(*x),
-            x0 = [np.mean(i) for i in self._bounds],
-            bounds=self.bounds)
-            self._rate_max = self._rate_func(*max.x)
+            max = scipy.optimize.minimize(lambda x: -self.rate_func(*x, **self.rate_kwargs),
+                                          x0 = 
+                                          [np.mean(i) for i in self._bounds],
+                                          bounds=self.bounds)
+            self._rate_max = self._rate_func(*max.x, **self.rate_kwargs)
         else:
             self._rate_max = np.amax(self._rate_func)
             # self._check_nonnegative_number(self._rate_max, "Maximal rate")
@@ -106,7 +118,7 @@ class NonHomogeneousPoissonProcess(Checks):
                 unthinned = unthinned[1:]
                 uniform = np.random.uniform(size=(block))
                 if callable(self.rate_func):
-                    criteria = self.rate_func(*unthinned)/self._rate_max
+                    criteria = self.rate_func(*unthinned, **self.rate_kwargs)/self._rate_max
                 else:
                     prob_arr = self.rate_func/self._rate_max
                     criteria = np.array([])
@@ -133,3 +145,24 @@ class NonHomogeneousPoissonProcess(Checks):
         """Disallow times for this process."""
         raise AttributeError(
         "NonHomogeneousPoissonProcess object has no attribute times.")
+        
+import sys
+def lambdatest1D(x1):
+    return(6.*x1)
+Intervals1D = np.array([[0, 3]])
+# Intervals1D = ((0, 3),)
+def lambdatest2D(x1,x2):
+    return(6.*x1*x2**2.)
+Intervals2D = np.array([[0,3], [0,2]])
+# Intervals2D = ((0, 3),(0, 2))
+# Intervals2D = ([0, 3],[0, 2])
+print(tuple(map(tuple, Intervals2D)))
+# sys.exit()
+A = NonHomogeneousPoissonProcess(lambdatest1D, Intervals1D)
+B = NonHomogeneousPoissonProcess(lambdatest2D, Intervals2D)
+print(A.rate_func)
+print(A.bounds)
+print(A.sample(10))
+print(B.rate_func)
+print(B.bounds)
+print(B.sample(10))
