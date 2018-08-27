@@ -145,24 +145,3 @@ class NonHomogeneousPoissonProcess(Checks):
         """Disallow times for this process."""
         raise AttributeError(
         "NonHomogeneousPoissonProcess object has no attribute times.")
-        
-import sys
-def lambdatest1D(x1):
-    return(6.*x1)
-Intervals1D = np.array([[0, 3]])
-# Intervals1D = ((0, 3),)
-def lambdatest2D(x1,x2):
-    return(6.*x1*x2**2.)
-Intervals2D = np.array([[0,3], [0,2]])
-# Intervals2D = ((0, 3),(0, 2))
-# Intervals2D = ([0, 3],[0, 2])
-print(tuple(map(tuple, Intervals2D)))
-# sys.exit()
-A = NonHomogeneousPoissonProcess(lambdatest1D, Intervals1D)
-B = NonHomogeneousPoissonProcess(lambdatest2D, Intervals2D)
-print(A.rate_func)
-print(A.bounds)
-print(A.sample(10))
-print(B.rate_func)
-print(B.bounds)
-print(B.sample(10))

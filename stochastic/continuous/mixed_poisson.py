@@ -103,3 +103,7 @@ class MixedPoissonProcess(PoissonProcess):
         """
         self.rate = self._sample_rate()
         return self._sample_poisson_process(n, length, zero)
+
+import numpy as np
+a=MixedPoissonProcess(np.random.uniform, [0,10]) 
+print()
