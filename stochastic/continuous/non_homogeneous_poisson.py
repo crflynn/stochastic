@@ -15,8 +15,8 @@ class NonHomogeneousPoissonProcess(Checks):
     underlying data space :math:`\lambda\to\lambda(t)`. This class also be
     used to generate multidimensional points, if multidimensional parameters
     are inputted. Uses the 'thinning' or 'acceptance/rejection' algorithm
-    to generate the points. Returns data points if a function is inputted,
-    and indexes if a density array is inputted.
+    to generate the points. Returns data points inside `bounds` if a function
+    is inputted, and indexes if a density array is inputted.
 
     1. Note: :math:`dim` is not an input parameter, but the methods crash
     unless the number of input argument of the function :math:`\lambda(t)`,
@@ -29,10 +29,10 @@ class NonHomogeneousPoissonProcess(Checks):
     :param rate_func: a function with :math:`dim` arguments representing a
         multidimensional density function, or a :math:`dim`-dimensional array
         representing the rate function in the data space.
-
     :param array bounds: :math:`dim` number of bounds
         (temporal/spatial) in a :math:`(dim, 2)`-dimensional array between which
         the random points are generated.
+    :param dict rate_kwargs: keyword args for ``rate_func``
     """
 
     def __init__(self, rate_func, bounds, rate_kwargs={}):
@@ -98,7 +98,9 @@ class NonHomogeneousPoissonProcess(Checks):
 
     def _sample_nhpp_thinning(self, n=None, block=1000):
         """Generate a realization of a Non-Homogeneous Poisson process using
-        the thinning or acceptance/rejection algorithm. Instead of
+        the thinning or acceptance/rejection algorithm. Points are generated
+        uniformly inside the `bounds`, and accepted with a probability
+        proportional to the rate function at that point. Instead of
         accepting/rejecting points one at a time, this algorithm compares
         numpy ndarrays of length `block`, until `n` samples are generated.
         """
