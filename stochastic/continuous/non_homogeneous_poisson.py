@@ -96,7 +96,7 @@ class NonHomogeneousPoissonProcess(Checks):
             self._rate_max = np.amax(self._rate_func)
             # self._check_nonnegative_number(self._rate_max, "Maximal rate")
 
-    def _sample_nhpp_thinning(self, n=None, block=1000):
+    def _sample_nhpp_thinning(self, n=None, zero=True, block=1000):
         """Generate a realization of a Non-Homogeneous Poisson process using
         the thinning or acceptance/rejection algorithm. Points are generated
         uniformly inside the `bounds`, and accepted with a probability
@@ -131,17 +131,20 @@ class NonHomogeneousPoissonProcess(Checks):
                 else:
                     thinned = np.vstack((thinned,
                     unthinned.T[uniform < criteria, :]))
-            return thinned[:n, :]
+            if zero:
+                return(np.vstack((np.zeros((1, thinned.shape[1])), thinned[:n, :])))
+            else:
+                return thinned[:n, :]
         else:
             raise ValueError("Must provide argument n.")
 
-    def sample(self, n=None):
+    def sample(self, n=None, zero=True, block=1000):
         """Generate a realization.
 
         :param int n: the number of points to simulate
         """
         self._get_rate_max()
-        return self._sample_nhpp_thinning(n)
+        return self._sample_nhpp_thinning(n, zero, block)
 
     def times(self, *args, **kwargs):
         """Disallow times for this process."""
