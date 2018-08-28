@@ -29,13 +29,10 @@ class NonHomogeneousPoissonProcess(Checks):
     :param rate_func: a function with :math:`dim` arguments representing a
         multidimensional density function, or a :math:`dim`-dimensional array
         representing the rate function in the data space.
-    :param array bounds: :math:`dim` number of bounds
-        (temporal/spatial) in a :math:`(dim, 2)`-dimensional array between which
-        the random points are generated.
     :param dict rate_kwargs: keyword args for ``rate_func``
     """
 
-    def __init__(self, rate_func, bounds, rate_kwargs={}):
+    def __init__(self, rate_func, rate_kwargs={}):
         self.rate_func = rate_func
         self.rate_kwargs = rate_kwargs
         self.bounds = bounds
@@ -95,14 +92,45 @@ class NonHomogeneousPoissonProcess(Checks):
         else:
             self._rate_max = np.amax(self._rate_func)
             # self._check_nonnegative_number(self._rate_max, "Maximal rate")
-
-    def _sample_nhpp_thinning(self, n=None, zero=True, block=1000):
+    def _sample_nhpp_inversion(rate_func, n=None, length=None, zero=True):
+        """Generate a realization of a Non-Homogeneous Poisson process using
+        the inversion algorithm. Only 1D.
+        
+        :param array bounds: :math:`dim` number of bounds
+        (temporal/spatial) in a :math:`(dim, 2)`-dimensional array between which
+        the random points are generated.
+        """
+        if n is not None:
+                times = np.array(list(np.cumsum(np.random.exponential(size=n))))
+                means = np.array([0])
+                for time in times:
+                    mean = 0
+                    while (mean == means[-1]) | (mean == 0):
+                        inversion = lambda x : np.abs(time - scipy.integrate.quad(rate_func, 0, x)[0])
+                        mean = scipy.optimize.minimize(inversion, time, bounds = ((means[-1],np.inf),)).x
+                    means = np.append(means, mean)
+        if length is not None:
+            times = np.array([0])
+            means = np.array([0])   
+            while means[-1] < length:
+                mean = 0
+                while (mean == means[-1]) | (mean == 0):
+                    inversion = lambda x : np.abs(times[-1] - scipy.integrate.quad(rate_func, 0, x)[0])
+                    mean = scipy.optimize.minimize(inversion, times[-1], bounds = ((means[-1],np.inf),)).x
+                    times = np.append(times, times[-1]+np.random.exponential())
+                means = np.append(means, mean)
+        return(means[1-zero:])
+    def _sample_nhpp_thinning(self, n=None, bounds=None zero=True):
         """Generate a realization of a Non-Homogeneous Poisson process using
         the thinning or acceptance/rejection algorithm. Points are generated
         uniformly inside the `bounds`, and accepted with a probability
         proportional to the rate function. Instead of accepting/rejecting
         points one at a time, this algorithm compares numpy ndarrays of length
         `block`, until `n` samples are generated.
+        
+        :param array bounds: :math:`dim` number of bounds
+        (temporal/spatial) in a :math:`(dim, 2)`-dimensional array between which
+        the random points are generated.
         """
         thinned = []
         if n is not None:
@@ -111,42 +139,45 @@ class NonHomogeneousPoissonProcess(Checks):
                 unthinned = np.zeros(block)
                 if callable(self.rate_func):
                     for boundary in self.bounds:# unthinned->data points
-                        unthinned = np.vstack((unthinned,
-                        np.random.uniform(*boundary, size=(block))))
+                        unthinned
                 else:
                     for dim_len in self.rate_func.shape:# unthinned->indexes
                         unthinned = np.vstack((unthinned,
                             np.random.randint(0, dim_len, block)))
-                unthinned = unthinned[1:]
-                uniform = np.random.uniform(size=(block))
-                if callable(self.rate_func):
-                    criteria = self.rate_func(*unthinned, **self.rate_kwargs)/self._rate_max
-                else:
-                    prob_arr = self.rate_func/self._rate_max
-                    criteria = np.array([])
-                    for point in unthinned.T.astype(int):
-                        criteria = np.append(criteria, prob_arr[tuple(point)])
-                if len(thinned) == 0:
-                    thinned = unthinned.T[uniform < criteria, :]
-                else:
-                    thinned = np.vstack((thinned,
-                    unthinned.T[uniform < criteria, :]))
+
             if zero:
                 return(np.vstack((np.zeros((1, thinned.shape[1])), thinned[:n, :])))
             else:
                 return thinned[:n, :]
         else:
             raise ValueError("Must provide argument n.")
-
-    def sample(self, n=None, zero=True, block=1000):
+            
+    def sample(self, n=None, zero=True, algo='thinning'):
         """Generate a realization.
 
         :param int n: the number of points to simulate
         """
         self._get_rate_max()
-        return self._sample_nhpp_thinning(n, zero, block)
-
+        if algo == 'thinning':
+            return self._sample_nhpp_thinning(n, zero, block)
+        elif: algo == 'inversion':
+            return
+        elif: algo == 'order':
+            return
     def times(self, *args, **kwargs):
         """Disallow times for this process."""
         raise AttributeError(
         "NonHomogeneousPoissonProcess object has no attribute times.")
+
+def lambdatest1D(x1):
+return(6*x1)
+Intervals1D = np.array([[0, 3]])
+def lambdatest2D(x1,x2):
+    return(6.*x1*x2**2.)
+Intervals2D = np.array([[0,3], [0,2]])
+def lambdatest3D(x1,x2,x3):
+    return(x1+2*x2**2+3*x3**3)
+Intervals3D = np.array([[0,1], [0,2], [0,3]])
+
+A = NonHomogeneousPoissonProcess(lambdatest3D, Intervals3D)
+print(A.sample(n=10,))
