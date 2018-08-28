@@ -94,11 +94,9 @@ class NonHomogeneousPoissonProcess(Checks):
             # self._check_nonnegative_number(self._rate_max, "Maximal rate")
     def _sample_nhpp_inversion(rate_func, n=None, length=None, zero=True):
         """Generate a realization of a Non-Homogeneous Poisson process using
-        the inversion algorithm. Only 1D.
-        
-        :param array bounds: :math:`dim` number of bounds
-        (temporal/spatial) in a :math:`(dim, 2)`-dimensional array between which
-        the random points are generated.
+        the inversion algorithm. Only 1D. First, event times of homogeneous
+        poisson process are generated. Then, the expectation function, the
+        integral of the rate function, is used to transform these event times.
         """
         if n is not None:
                 times = np.array(list(np.cumsum(np.random.exponential(size=n))))
