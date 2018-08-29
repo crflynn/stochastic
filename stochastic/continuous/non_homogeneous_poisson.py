@@ -4,8 +4,7 @@ import scipy.optimize
 import scipy.integrate
 
 from stochastic.base import Checks
-import matplotlib.pyplot as plt
-import sys
+
 
 class NonHomogeneousPoissonProcess(Checks):
     r"""Non-homogeneous Poisson process.
@@ -86,9 +85,6 @@ class NonHomogeneousPoissonProcess(Checks):
             return np.abs(time - scipy.integrate.quad(func_to_wrap, 0, x)[0])
         return func
 
-    def _sample_nhpp_order(self, n=None, length=None, zero=True):
-        return
-
     def _sample_nhpp_inversion(self, n=None, length=None, zero=True):
         """Generate a realization of a Non-Homogeneous Poisson process using
         the inversion algorithm. Only 1D. First, event times of homogeneous
@@ -108,11 +104,9 @@ class NonHomogeneousPoissonProcess(Checks):
                         inverted = self._invert_rate_func(wrapped_rate_func,
                                                           times[-1])
                         mean = scipy.optimize.minimize(inverted,
-                                                       times[-1]+time,
-                                                       bounds = ((means[-1],
-                                                                  np.inf),)).x
-                        # print(wrapped_rate_func(times[-1]))
-                        # print(mean, means[-1], time, times[-1])
+                                                       times[-1] + time,
+                                                       bounds=((means[-1],
+                                                                np.inf),)).x
                     times = np.append(times, time+times[-1])
                     means = np.append(means, mean)
         if length is not None:
@@ -121,18 +115,22 @@ class NonHomogeneousPoissonProcess(Checks):
             while means[-1] < length:
                 mean = 0
                 while (mean == means[-1]) | (mean == 0):
-                    wrapped_rate_func = self._wrapper_kwargs(*self.rate_args,
-                                                             **self.rate_kwargs)
+                    wrapped_rate_func = self._wrapper_kwargs(
+                                                         *self.rate_args,
+                                                         **self.rate_kwargs)
                     inverted = self._invert_rate_func(wrapped_rate_func,
                                                       times[-1])
-                    mean = scipy.optimize.minimize(inverted,
-                                                   times[-1],
-                                                   bounds = ((means[-1],
-                                                              np.inf),)).x
-                    times = np.append(times,
-                                      times[-1] + np.random.exponential())
+                    mean = scipy.optimize.minimize(
+                                               inverted,
+                                               times[-1] + time,
+                                               bounds=((means[-1], np.inf),)).x
+                    times = np.append(
+                                    times,
+                                    times[-1] + np.random.exponential())
                 means = np.append(means, mean)
-        return(means[1-zero:])
+            return(means[1-zero:])
+        else:
+            raise ValueError("Must provide either argument n or length.")
 
     def _sample_nhpp_thinning(self, n=None, length=None, zero=True):
         """Generate a realization of a Non-Homogeneous Poisson process using
@@ -141,15 +139,21 @@ class NonHomogeneousPoissonProcess(Checks):
         proportional to the rate function.
         """
         thinned = np.array([0])
-        wrapped_rate_func = self._wrapper_kwargs(*self.rate_args, **self.rate_kwargs)
+        wrapped_rate_func = self._wrapper_kwargs(*self.rate_args,
+                                                 **self.rate_kwargs)
         if n is not None:
             self._check_increments(n)
             inverted = self._invert_rate_func(wrapped_rate_func, n)
-            mean_time_at_n = scipy.optimize.minimize(inverted,
-                                                     n,
-                                                     bounds = ((0, np.inf),)).x
+            mean_time_at_n = scipy.optimize.minimize(
+                                                 inverted,
+                                                 n,
+                                                 bounds=((0, np.inf),)).x
+
             def to_minimize(x): return(-wrapped_rate_func(x))
-            rate_max =  wrapped_rate_func(scipy.optimize.minimize(to_minimize, 0, bounds=((0, mean_time_at_n*5),)).x)
+            rate_max = wrapped_rate_func(scipy.optimize.minimize(
+                                            to_minimize,
+                                            0,
+                                            bounds=((0, mean_time_at_n*5),)).x)
             unthinned = 0
             while len(thinned) < n:
                 unthinned = unthinned - np.log(np.random.uniform())/rate_max
@@ -158,8 +162,12 @@ class NonHomogeneousPoissonProcess(Checks):
             return(thinned[1-zero:])
         elif length is not None:
             self._check_positive_number(length, "Sample length")
+
             def to_minimize(x): return(-wrapped_rate_func(x))
-            rate_max =  wrapped_rate_func(scipy.optimize.minimize(to_minimize, 0, bounds=((0, length),)).x)
+            rate_max = wrapped_rate_func(scipy.optimize.minimize(
+                                                    to_minimize,
+                                                    0,
+                                                    bounds=((0, length),)).x)
             unthinned = 0
             while unthinned < length:
                 unthinned = unthinned - np.log(np.random.uniform())/rate_max
@@ -167,7 +175,7 @@ class NonHomogeneousPoissonProcess(Checks):
                     thinned = np.append(thinned, unthinned)
             return(thinned[1-zero:])
         else:
-            raise ValueError("Must provide argument n.")
+            raise ValueError("Must provide either argument n or length.")
 
     def sample(self, n=None, length=None, zero=True, algo='inversion'):
         """Generate a realization.
@@ -178,11 +186,11 @@ class NonHomogeneousPoissonProcess(Checks):
             return(self._sample_nhpp_thinning(n, length, zero))
         elif algo == 'inversion':
             return(self._sample_nhpp_inversion(n, length, zero))
-        elif algo == 'order':
-            return(self._sample_nhpp_order(n, length, zero))
         else:
-            raise ValueError("Argument algo must be 'thinning', 'order' or 'inversion'.")
+            raise ValueError(
+                            "Argument algo must be 'thinning' or 'inversion'.")
+
     def times(self, *args, **kwargs):
         """Disallow times for this process."""
         raise AttributeError(
-        "NonHomogeneousPoissonProcess object has no attribute times.")
+                "NonHomogeneousPoissonProcess object has no attribute times.")
