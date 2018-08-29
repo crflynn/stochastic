@@ -13,10 +13,11 @@ class NonHomogeneousPoissonProcess(Checks):
     :scale: 50%
 
     A Poisson process whose rate :math:`\lambda` is a function of time or the
-    underlying data space :math:`\lambda\to\lambda(t)`.
+    underlying data space :math:`\lambda\to\lambda(t)`. The expectation and
+    variance become: :math:`\Lambda(t)=\int_0^t\lambda(s)ds`.
 
-    2. Note: This class can be used to create a Cox process by injecting a
-    :math:`\lambda(t)` matrix generated using another stochastic process.
+    Note: This class can be used to create a Cox process by injecting a
+    :math:`\lambda(t)` generated using another stochastic process.
 
     :param callable rate_func: the rate function
     :param tuple rate_args: positional args for ``rate_func``
@@ -41,7 +42,7 @@ class NonHomogeneousPoissonProcess(Checks):
 
     @property
     def rate_func(self):
-        """Current rate's distribution."""
+        """Current rate function."""
         return self._rate_func
 
     @rate_func.setter
@@ -86,10 +87,10 @@ class NonHomogeneousPoissonProcess(Checks):
         return func
 
     def _sample_nhpp_inversion(self, n=None, length=None, zero=True):
-        """Generate a realization of a Non-Homogeneous Poisson process using
-        the inversion algorithm. Only 1D. First, event times of homogeneous
-        poisson process are generated. Then, the expectation function, the
-        integral of the rate function, is used to transform these event times.
+        """Generate a realization of a Non-Homogeneous Poisson process.
+        Points of a poisson process of rate one are generated. Then, the
+        expectation function is then reversed to find the event times of the
+        non-homogeneous poisson process.
         """
         if n is not None:
                 times = np.array([0])
@@ -135,8 +136,8 @@ class NonHomogeneousPoissonProcess(Checks):
     def _sample_nhpp_thinning(self, n=None, length=None, zero=True):
         """Generate a realization of a Non-Homogeneous Poisson process using
         the thinning or acceptance/rejection algorithm. Points are generated
-        using a computed max rate, then accepted with a probability
-        proportional to the rate function.
+        using a max rate computed from `n` or `length`, then accepted with a
+        probability proportional to the rate function.
         """
         thinned = np.array([0])
         wrapped_rate_func = self._wrapper_kwargs(*self.rate_args,
@@ -180,7 +181,13 @@ class NonHomogeneousPoissonProcess(Checks):
     def sample(self, n=None, length=None, zero=True, algo='inversion'):
         """Generate a realization.
 
-        :param int n: the number of points to simulate
+        Exactly one of 'n' or 'length' must be provided.
+
+        :param int n: the number of arrivals to simulate
+        :param int length: the length of time to simulate; will generate
+            arrivals until length is met or exceeded.
+        :param bool zero: if True, include :math:`t=0`
+        :param string algo: generation algorithm: 'thinning' or 'inversion'
         """
         if algo == 'thinning':
             return(self._sample_nhpp_thinning(n, length, zero))
