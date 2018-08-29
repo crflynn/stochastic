@@ -56,7 +56,7 @@ The :py:mod:`stochastic.continuous` module provides classes for generating
     :members: t, hurst, sample, times
 
 .. autoclass:: stochastic.continuous.NonHomogeneousPoissonProcess
-    :members: rate_func, bounds, rate_kwargs, sample
+    :members: rate_func, rate_args, rate_kwargs, sample
 
 .. autoclass:: stochastic.continuous.PoissonProcess
     :members: rate, sample
