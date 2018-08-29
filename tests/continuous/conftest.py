@@ -135,6 +135,15 @@ def hurst_out_of_range(t):
 def hurst_invalid(request):
     return request.param
 
+# NonHomogeneousPoissonProcess
+@pytest.fixture(params=[lambda x:2.*x**2., lambda x: np.sin(x)+2])
+def rate_func(request):
+    return request.param
+
+@pytest.fixture(params=['inversion', 'thinning'])
+def algo(request):
+    return request.param
+
 # PoissonProcess
 @pytest.fixture(params=[16, None])
 def n_fixture(request):
@@ -146,13 +155,4 @@ def length(request):
 
 @pytest.fixture(params=[1])
 def rate(request):
-    return request.param
-
-# NonHomogeneousPoissonProcess
-@pytest.fixture(params=[lambda x:2.*x**2., lambda x: np.sin(x)+2])
-def rate_func(request):
-    return request.param
-
-@pytest.fixture(params=['inversion', 'thinning'])
-def algo(request):
     return request.param
