@@ -14,23 +14,13 @@ class NonHomogeneousPoissonProcess(Checks):
     :scale: 50%
 
     A Poisson process whose rate :math:`\lambda` is a function of time or the
-    underlying data space :math:`\lambda\to\lambda(t)`. This class also be
-    used to generate multidimensional points, if multidimensional parameters
-    are inputted. Uses the 'thinning' or 'acceptance/rejection' algorithm
-    to generate the points. Returns data points inside `bounds` if a function
-    is inputted, and indexes if a density array is inputted.
-
-    1. Note: :math:`dim` is not an input parameter, but the methods crash
-    unless the number of input argument of the function :math:`\lambda(t)`,
-    or the number of dimensions of the matrix :math:`\lambda(t)` is not
-    equal to the number :math:`dim` of sets of bounds.
-
+    underlying data space :math:`\lambda\to\lambda(t)`. 
+    
     2. Note: This class can be used to create a Cox process by injecting a
     :math:`\lambda(t)` matrix generated using another stochastic process.
 
-    :param rate_func: a function with :math:`dim` arguments representing a
-        multidimensional density function, or a :math:`dim`-dimensional array
-        representing the rate function in the data space.
+    :param callable rate_func: the rate function
+    :param tuple rate_args: positional args for ``rate_func``
     :param dict rate_kwargs: keyword args for ``rate_func``
     """
 
@@ -123,14 +113,8 @@ class NonHomogeneousPoissonProcess(Checks):
     def _sample_nhpp_thinning(self, n=None, length=None, zero=True):
         """Generate a realization of a Non-Homogeneous Poisson process using
         the thinning or acceptance/rejection algorithm. Points are generated
-        uniformly inside the `bounds`, and accepted with a probability
-        proportional to the rate function. Instead of accepting/rejecting
-        points one at a time, this algorithm compares numpy ndarrays of length
-        `block`, until `n` samples are generated.
-        
-        :param array bounds: :math:`dim` number of bounds
-        (temporal/spatial) in a :math:`(dim, 2)`-dimensional array between which
-        the random points are generated.
+        using a computed max rate, then accepted with a probability
+        proportional to the rate function. 
         """
         thinned = np.array([0])
         wrapped_rate_func = self._wrapper_kwargs(*self.rate_args, **self.rate_kwargs)
