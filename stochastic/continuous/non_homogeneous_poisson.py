@@ -201,8 +201,3 @@ class NonHomogeneousPoissonProcess(Checks):
         """Disallow times for this process."""
         raise AttributeError(
                 "NonHomogeneousPoissonProcess object has no attribute times.")
-# A = NonHomogeneousPoissonProcess(lambda x : np.sin(x)+2)
-# samples = A.sample(n=None)
-# import matplotlib.pyplot as plt
-# plt.plot(samples, np.cumsum(samples), '.k')
-# plt.show()
