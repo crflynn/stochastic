@@ -4,7 +4,8 @@ import scipy.optimize
 import scipy.integrate
 
 from stochastic.base import Checks
-
+import matplotlib.pyplot as plt
+import sys
 
 class NonHomogeneousPoissonProcess(Checks):
     r"""Non-homogeneous Poisson process.
@@ -119,7 +120,7 @@ class NonHomogeneousPoissonProcess(Checks):
                 means = np.append(means, mean)
         return(means[1-zero:])
         
-    def _sample_nhpp_thinning(self, n=None, bounds=None, zero=True):
+    def _sample_nhpp_thinning(self, n=None, length=None, zero=True):
         """Generate a realization of a Non-Homogeneous Poisson process using
         the thinning or acceptance/rejection algorithm. Points are generated
         uniformly inside the `bounds`, and accepted with a probability
@@ -131,25 +132,30 @@ class NonHomogeneousPoissonProcess(Checks):
         (temporal/spatial) in a :math:`(dim, 2)`-dimensional array between which
         the random points are generated.
         """
-        # thinned = []
-        # if n is not None:
-            # self._check_increments(n)
-            # while len(thinned) < n:
-                # unthinned = np.zeros(block)
-                # if callable(self.rate_func):
-                    # for boundary in self.bounds:# unthinned->data points
-                        # unthinned
-                # else:
-                    # for dim_len in self.rate_func.shape:# unthinned->indexes
-                        # unthinned = np.vstack((unthinned,
-                            # np.random.randint(0, dim_len, block)))
-
-            # if zero:
-                # return(np.vstack((np.zeros((1, thinned.shape[1])), thinned[:n, :])))
-            # else:
-                # return thinned[:n, :]
-        # else:
-            # raise ValueError("Must provide argument n.")
+        thinned = np.array([0])
+        wrapped_rate_func = self._wrapper_kwargs(*self.rate_args, **self.rate_kwargs)
+        if n is not None:
+            self._check_increments(n)
+            inversion = lambda x : np.abs(n - scipy.integrate.quad(wrapped_rate_func, 0, x)[0])
+            mean_time_at_n = scipy.optimize.minimize(inversion, n, bounds = ((0,np.inf),)).x
+            rate_max =  wrapped_rate_func(scipy.optimize.minimize(lambda x:-wrapped_rate_func(x), 0, bounds=((0, mean_time_at_n*5),)).x)
+            unthinned = 0
+            while len(thinned) < n:
+                unthinned = unthinned - np.log(np.random.uniform())/rate_max
+                if np.random.uniform() <= self.rate_func(unthinned)/rate_max:
+                    thinned = np.append(thinned, unthinned)
+            return(thinned[1-zero:])
+        elif length is not None:
+            self._check_positive_number(length, "Sample length")
+            rate_max =  wrapped_rate_func(scipy.optimize.minimize(lambda x:-wrapped_rate_func(x), 0, bounds=((0, length),)).x)
+            unthinned = 0
+            while unthinned < length:
+                unthinned = unthinned - np.log(np.random.uniform())/rate_max
+                if np.random.uniform() <= self.rate_func(unthinned)/rate_max:
+                    thinned = np.append(thinned, unthinned)
+            return(thinned[1-zero:])
+        else:
+            raise ValueError("Must provide argument n.")
             
     def sample(self, n=None, length=None, zero=True, algo='inversion'):
         """Generate a realization.
@@ -161,17 +167,8 @@ class NonHomogeneousPoissonProcess(Checks):
         elif algo == 'inversion':
             return(self._sample_nhpp_inversion(n, length, zero))
         elif algo == 'order':
-            return(self._sample_nhpp_inversion(n, length, zero))
+            return(self._sample_nhpp_order(n, length, zero))
     def times(self, *args, **kwargs):
         """Disallow times for this process."""
         raise AttributeError(
         "NonHomogeneousPoissonProcess object has no attribute times.")
-
-def lambdatest1D(x1,allo=1):
-    return(6*x1)
-testkwarg={'allo':1}
-import matplotlib.pyplot as plt
-A = NonHomogeneousPoissonProcess(lambdatest1D)
-Samples = A.sample(length=6,)
-plt.plot(Samples, np.cumsum(Samples>=0),'.k')
-plt.show()
