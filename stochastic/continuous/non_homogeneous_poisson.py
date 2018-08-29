@@ -1,6 +1,7 @@
 """Poisson processes."""
 import numpy as np
 import scipy.optimize
+import scipy.integrate
 
 from stochastic.base import Checks
 
@@ -32,21 +33,44 @@ class NonHomogeneousPoissonProcess(Checks):
     :param dict rate_kwargs: keyword args for ``rate_func``
     """
 
-    def __init__(self, rate_func, rate_kwargs={}):
+    def __init__(self, rate_func, rate_args=(), rate_kwargs={}):
         self.rate_func = rate_func
+        self.rate_args = rate_args
         self.rate_kwargs = rate_kwargs
-        self.bounds = bounds
 
     def __str__(self):
         return "Non-homogeneous Poisson process with rate function of time."
 
     def __repr__(self):
         return "NonHomogeneousPoissonProcess(" \
-            "rate_func={rf}, bounds={bds}, rate_kwargs={rkw})".format(
+            "rate_func={rf}, rate_args={ra}, rate_kwargs={rkw})".format(
                 rf=str(self.rate_func),
-                bds=str(self.bounds),
+                ra=str(self.rate_args),
                 rkw=str(self.rate_kwargs)
-            )        
+            )
+            
+    @property
+    def rate_func(self):
+        """Current rate's distribution."""
+        return self._rate_func
+
+    @rate_func.setter
+    def rate_func(self, value):
+        if not callable(value):
+            raise ValueError("Rate function must be a callable.")
+        self._rate_func = value
+
+    @property
+    def rate_args(self):
+        """Positional arguments for the rate function."""
+        return self._rate_args
+
+    @rate_args.setter
+    def rate_args(self, value):
+        if not isinstance(value, (list, tuple)):
+            raise ValueError("Rate args must be a list or tuple.")
+        self._rate_args = value
+
     @property
     def rate_kwargs(self):
         """Keyword arguments for the rate function."""
@@ -57,42 +81,16 @@ class NonHomogeneousPoissonProcess(Checks):
         if not isinstance(value, dict):
             raise ValueError("Rate kwargs must be a dict.")
         self._rate_kwargs = value
-
-    @property
-    def rate_func(self):
-        """Rate function, or :math:`dim`-dimensional array."""
-        return self._rate_func
-
-    @rate_func.setter
-    def rate_func(self, value):
-        if (not callable(value)) & (not isinstance(value, (np.ndarray))):
-            raise ValueError("Rate function must be a callable or ndarray.")
-        self._rate_func = value
-
-    @property
-    def bounds(self):
-        """Boundaries of the density function or array. 2D Array/List"""
-        return self._bounds
-
-    @bounds.setter
-    def bounds(self, value):
-        if not isinstance(value, (list, np.ndarray, tuple)):
-            raise ValueError("Bounds must be a `(dim, 2)` list, `numpy` ndarray or tuple.")
-        self._bounds = value
-
-    def _get_rate_max(self):
-        """Generate a new `rate_max` value. Used to generate uniformly distributed
-        points in the data space before rejecting part of them."""
-        if callable(self._rate_func):
-            max = scipy.optimize.minimize(lambda x: -self.rate_func(*x, **self.rate_kwargs),
-                                          x0 = 
-                                          [np.mean(i) for i in self._bounds],
-                                          bounds=self.bounds)
-            self._rate_max = self._rate_func(*max.x, **self.rate_kwargs)
-        else:
-            self._rate_max = np.amax(self._rate_func)
-            # self._check_nonnegative_number(self._rate_max, "Maximal rate")
-    def _sample_nhpp_inversion(rate_func, n=None, length=None, zero=True):
+    
+    def _wrapper_kwargs(self, *args, **kwargs):
+        """Wrapper function, because kwargs cannot be passed to
+        scipy.integrate.quad.
+        """
+        def func(x):
+            return self.rate_func(x, *args, **kwargs)
+        return(func)
+    
+    def _sample_nhpp_inversion(self, n=None, length=None, zero=True):
         """Generate a realization of a Non-Homogeneous Poisson process using
         the inversion algorithm. Only 1D. First, event times of homogeneous
         poisson process are generated. Then, the expectation function, the
@@ -104,7 +102,8 @@ class NonHomogeneousPoissonProcess(Checks):
                 for time in times:
                     mean = 0
                     while (mean == means[-1]) | (mean == 0):
-                        inversion = lambda x : np.abs(time - scipy.integrate.quad(rate_func, 0, x)[0])
+                        wrapped_rate_func = self._wrapper_kwargs(*self.rate_args, **self.rate_kwargs)
+                        inversion = lambda x : np.abs(time - scipy.integrate.quad(wrapped_rate_func, 0, x)[0])
                         mean = scipy.optimize.minimize(inversion, time, bounds = ((means[-1],np.inf),)).x
                     means = np.append(means, mean)
         if length is not None:
@@ -113,12 +112,14 @@ class NonHomogeneousPoissonProcess(Checks):
             while means[-1] < length:
                 mean = 0
                 while (mean == means[-1]) | (mean == 0):
-                    inversion = lambda x : np.abs(times[-1] - scipy.integrate.quad(rate_func, 0, x)[0])
+                    wrapped_rate_func = self._wrapper_kwargs(*self.rate_args, **self.rate_kwargs)
+                    inversion = lambda x : np.abs(times[-1] - scipy.integrate.quad(wrapped_rate_func, 0, x)[0])
                     mean = scipy.optimize.minimize(inversion, times[-1], bounds = ((means[-1],np.inf),)).x
                     times = np.append(times, times[-1]+np.random.exponential())
                 means = np.append(means, mean)
         return(means[1-zero:])
-    def _sample_nhpp_thinning(self, n=None, bounds=None zero=True):
+        
+    def _sample_nhpp_thinning(self, n=None, bounds=None, zero=True):
         """Generate a realization of a Non-Homogeneous Poisson process using
         the thinning or acceptance/rejection algorithm. Points are generated
         uniformly inside the `bounds`, and accepted with a probability
@@ -130,52 +131,47 @@ class NonHomogeneousPoissonProcess(Checks):
         (temporal/spatial) in a :math:`(dim, 2)`-dimensional array between which
         the random points are generated.
         """
-        thinned = []
-        if n is not None:
-            self._check_increments(n)
-            while len(thinned) < n:
-                unthinned = np.zeros(block)
-                if callable(self.rate_func):
-                    for boundary in self.bounds:# unthinned->data points
-                        unthinned
-                else:
-                    for dim_len in self.rate_func.shape:# unthinned->indexes
-                        unthinned = np.vstack((unthinned,
-                            np.random.randint(0, dim_len, block)))
+        # thinned = []
+        # if n is not None:
+            # self._check_increments(n)
+            # while len(thinned) < n:
+                # unthinned = np.zeros(block)
+                # if callable(self.rate_func):
+                    # for boundary in self.bounds:# unthinned->data points
+                        # unthinned
+                # else:
+                    # for dim_len in self.rate_func.shape:# unthinned->indexes
+                        # unthinned = np.vstack((unthinned,
+                            # np.random.randint(0, dim_len, block)))
 
-            if zero:
-                return(np.vstack((np.zeros((1, thinned.shape[1])), thinned[:n, :])))
-            else:
-                return thinned[:n, :]
-        else:
-            raise ValueError("Must provide argument n.")
+            # if zero:
+                # return(np.vstack((np.zeros((1, thinned.shape[1])), thinned[:n, :])))
+            # else:
+                # return thinned[:n, :]
+        # else:
+            # raise ValueError("Must provide argument n.")
             
-    def sample(self, n=None, zero=True, algo='thinning'):
+    def sample(self, n=None, length=None, zero=True, algo='inversion'):
         """Generate a realization.
 
         :param int n: the number of points to simulate
         """
-        self._get_rate_max()
         if algo == 'thinning':
-            return self._sample_nhpp_thinning(n, zero, block)
-        elif: algo == 'inversion':
-            return
-        elif: algo == 'order':
-            return
+            return(self._sample_nhpp_thinning(n, length, zero))
+        elif algo == 'inversion':
+            return(self._sample_nhpp_inversion(n, length, zero))
+        elif algo == 'order':
+            return(self._sample_nhpp_inversion(n, length, zero))
     def times(self, *args, **kwargs):
         """Disallow times for this process."""
         raise AttributeError(
         "NonHomogeneousPoissonProcess object has no attribute times.")
 
-def lambdatest1D(x1):
-return(6*x1)
-Intervals1D = np.array([[0, 3]])
-def lambdatest2D(x1,x2):
-    return(6.*x1*x2**2.)
-Intervals2D = np.array([[0,3], [0,2]])
-def lambdatest3D(x1,x2,x3):
-    return(x1+2*x2**2+3*x3**3)
-Intervals3D = np.array([[0,1], [0,2], [0,3]])
-
-A = NonHomogeneousPoissonProcess(lambdatest3D, Intervals3D)
-print(A.sample(n=10,))
+def lambdatest1D(x1,allo=1):
+    return(6*x1)
+testkwarg={'allo':1}
+import matplotlib.pyplot as plt
+A = NonHomogeneousPoissonProcess(lambdatest1D)
+Samples = A.sample(length=6,)
+plt.plot(Samples, np.cumsum(Samples>=0),'.k')
+plt.show()
