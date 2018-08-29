@@ -9,13 +9,13 @@ import sys
 
 class NonHomogeneousPoissonProcess(Checks):
     r"""Non-homogeneous Poisson process.
-    
+
     .. image:: _static/non_homogeneous_poisson_process.png
     :scale: 50%
 
     A Poisson process whose rate :math:`\lambda` is a function of time or the
-    underlying data space :math:`\lambda\to\lambda(t)`. 
-    
+    underlying data space :math:`\lambda\to\lambda(t)`.
+
     2. Note: This class can be used to create a Cox process by injecting a
     :math:`\lambda(t)` matrix generated using another stochastic process.
 
@@ -39,7 +39,7 @@ class NonHomogeneousPoissonProcess(Checks):
                 ra=str(self.rate_args),
                 rkw=str(self.rate_kwargs)
             )
-            
+
     @property
     def rate_func(self):
         """Current rate's distribution."""
@@ -72,7 +72,7 @@ class NonHomogeneousPoissonProcess(Checks):
         if not isinstance(value, dict):
             raise ValueError("Rate kwargs must be a dict.")
         self._rate_kwargs = value
-    
+
     def _wrapper_kwargs(self, *args, **kwargs):
         """Wrapper function, because kwargs cannot be passed to
         scipy.integrate.quad.
@@ -80,7 +80,15 @@ class NonHomogeneousPoissonProcess(Checks):
         def func(x):
             return self.rate_func(x, *args, **kwargs)
         return(func)
-    
+
+    def _invert_rate_func(self, func_to_wrap, time):
+        def func(x):
+            return np.abs(time - scipy.integrate.quad(func_to_wrap, 0, x)[0])
+        return func
+
+    def _sample_nhpp_order(self, n=None, length=None, zero=True):
+        return
+
     def _sample_nhpp_inversion(self, n=None, length=None, zero=True):
         """Generate a realization of a Non-Homogeneous Poisson process using
         the inversion algorithm. Only 1D. First, event times of homogeneous
@@ -88,41 +96,60 @@ class NonHomogeneousPoissonProcess(Checks):
         integral of the rate function, is used to transform these event times.
         """
         if n is not None:
-                times = np.array(list(np.cumsum(np.random.exponential(size=n))))
+                times = np.array([0])
                 means = np.array([0])
-                for time in times:
+                while len(means) < n:
                     mean = 0
                     while (mean == means[-1]) | (mean == 0):
-                        wrapped_rate_func = self._wrapper_kwargs(*self.rate_args, **self.rate_kwargs)
-                        inversion = lambda x : np.abs(time - scipy.integrate.quad(wrapped_rate_func, 0, x)[0])
-                        mean = scipy.optimize.minimize(inversion, time, bounds = ((means[-1],np.inf),)).x
+                        time = -np.log(np.random.uniform())
+                        wrapped_rate_func = self._wrapper_kwargs(
+                                                            *self.rate_args,
+                                                            **self.rate_kwargs)
+                        inverted = self._invert_rate_func(wrapped_rate_func,
+                                                          times[-1])
+                        mean = scipy.optimize.minimize(inverted,
+                                                       times[-1]+time,
+                                                       bounds = ((means[-1],
+                                                                  np.inf),)).x
+                        # print(wrapped_rate_func(times[-1]))
+                        # print(mean, means[-1], time, times[-1])
+                    times = np.append(times, time+times[-1])
                     means = np.append(means, mean)
         if length is not None:
             times = np.array([0])
-            means = np.array([0])   
+            means = np.array([0])
             while means[-1] < length:
                 mean = 0
                 while (mean == means[-1]) | (mean == 0):
-                    wrapped_rate_func = self._wrapper_kwargs(*self.rate_args, **self.rate_kwargs)
-                    inversion = lambda x : np.abs(times[-1] - scipy.integrate.quad(wrapped_rate_func, 0, x)[0])
-                    mean = scipy.optimize.minimize(inversion, times[-1], bounds = ((means[-1],np.inf),)).x
-                    times = np.append(times, times[-1]+np.random.exponential())
+                    wrapped_rate_func = self._wrapper_kwargs(*self.rate_args,
+                                                             **self.rate_kwargs)
+                    inverted = self._invert_rate_func(wrapped_rate_func,
+                                                      times[-1])
+                    mean = scipy.optimize.minimize(inverted,
+                                                   times[-1],
+                                                   bounds = ((means[-1],
+                                                              np.inf),)).x
+                    times = np.append(times,
+                                      times[-1] + np.random.exponential())
                 means = np.append(means, mean)
         return(means[1-zero:])
-        
+
     def _sample_nhpp_thinning(self, n=None, length=None, zero=True):
         """Generate a realization of a Non-Homogeneous Poisson process using
         the thinning or acceptance/rejection algorithm. Points are generated
         using a computed max rate, then accepted with a probability
-        proportional to the rate function. 
+        proportional to the rate function.
         """
         thinned = np.array([0])
         wrapped_rate_func = self._wrapper_kwargs(*self.rate_args, **self.rate_kwargs)
         if n is not None:
             self._check_increments(n)
-            inversion = lambda x : np.abs(n - scipy.integrate.quad(wrapped_rate_func, 0, x)[0])
-            mean_time_at_n = scipy.optimize.minimize(inversion, n, bounds = ((0,np.inf),)).x
-            rate_max =  wrapped_rate_func(scipy.optimize.minimize(lambda x:-wrapped_rate_func(x), 0, bounds=((0, mean_time_at_n*5),)).x)
+            inverted = self._invert_rate_func(wrapped_rate_func, n)
+            mean_time_at_n = scipy.optimize.minimize(inverted,
+                                                     n,
+                                                     bounds = ((0, np.inf),)).x
+            def to_minimize(x): return(-wrapped_rate_func(x))
+            rate_max =  wrapped_rate_func(scipy.optimize.minimize(to_minimize, 0, bounds=((0, mean_time_at_n*5),)).x)
             unthinned = 0
             while len(thinned) < n:
                 unthinned = unthinned - np.log(np.random.uniform())/rate_max
@@ -131,7 +158,8 @@ class NonHomogeneousPoissonProcess(Checks):
             return(thinned[1-zero:])
         elif length is not None:
             self._check_positive_number(length, "Sample length")
-            rate_max =  wrapped_rate_func(scipy.optimize.minimize(lambda x:-wrapped_rate_func(x), 0, bounds=((0, length),)).x)
+            def to_minimize(x): return(-wrapped_rate_func(x))
+            rate_max =  wrapped_rate_func(scipy.optimize.minimize(to_minimize, 0, bounds=((0, length),)).x)
             unthinned = 0
             while unthinned < length:
                 unthinned = unthinned - np.log(np.random.uniform())/rate_max
@@ -140,7 +168,7 @@ class NonHomogeneousPoissonProcess(Checks):
             return(thinned[1-zero:])
         else:
             raise ValueError("Must provide argument n.")
-            
+
     def sample(self, n=None, length=None, zero=True, algo='inversion'):
         """Generate a realization.
 
@@ -152,6 +180,8 @@ class NonHomogeneousPoissonProcess(Checks):
             return(self._sample_nhpp_inversion(n, length, zero))
         elif algo == 'order':
             return(self._sample_nhpp_order(n, length, zero))
+        else:
+            raise ValueError("Argument algo must be 'thinning', 'order' or 'inversion'.")
     def times(self, *args, **kwargs):
         """Disallow times for this process."""
         raise AttributeError(
