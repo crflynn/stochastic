@@ -95,7 +95,7 @@ class NonHomogeneousPoissonProcess(Checks):
         if n is not None:
                 times = np.array([0])
                 means = np.array([0])
-                while len(means) < n:
+                while len(means) <= n:
                     mean = 0
                     while (mean == means[-1]) | (mean == 0):
                         time = -np.log(np.random.uniform())
@@ -110,7 +110,7 @@ class NonHomogeneousPoissonProcess(Checks):
                                                                 np.inf),)).x
                     times = np.append(times, time+times[-1])
                     means = np.append(means, mean)
-        if length is not None:
+        elif length is not None:
             times = np.array([0])
             means = np.array([0])
             while means[-1] < length:
@@ -123,15 +123,15 @@ class NonHomogeneousPoissonProcess(Checks):
                                                       times[-1])
                     mean = scipy.optimize.minimize(
                                                inverted,
-                                               times[-1] + time,
+                                               times[-1],
                                                bounds=((means[-1], np.inf),)).x
                     times = np.append(
                                     times,
                                     times[-1] + np.random.exponential())
                 means = np.append(means, mean)
-            return(means[1-zero:])
         else:
             raise ValueError("Must provide either argument n or length.")
+        return(means[1-zero:])
 
     def _sample_nhpp_thinning(self, n=None, length=None, zero=True):
         """Generate a realization of a Non-Homogeneous Poisson process using
@@ -153,10 +153,10 @@ class NonHomogeneousPoissonProcess(Checks):
             def to_minimize(x): return(-wrapped_rate_func(x))
             rate_max = wrapped_rate_func(scipy.optimize.minimize(
                                             to_minimize,
-                                            0,
+                                            mean_time_at_n,
                                             bounds=((0, mean_time_at_n*5),)).x)
             unthinned = 0
-            while len(thinned) < n:
+            while len(thinned) < (n + 1):
                 unthinned = unthinned - np.log(np.random.uniform())/rate_max
                 if np.random.uniform() <= self.rate_func(unthinned)/rate_max:
                     thinned = np.append(thinned, unthinned)
@@ -167,7 +167,7 @@ class NonHomogeneousPoissonProcess(Checks):
             def to_minimize(x): return(-wrapped_rate_func(x))
             rate_max = wrapped_rate_func(scipy.optimize.minimize(
                                                     to_minimize,
-                                                    0,
+                                                    length/2,
                                                     bounds=((0, length),)).x)
             unthinned = 0
             while unthinned < length:
@@ -201,3 +201,8 @@ class NonHomogeneousPoissonProcess(Checks):
         """Disallow times for this process."""
         raise AttributeError(
                 "NonHomogeneousPoissonProcess object has no attribute times.")
+# A = NonHomogeneousPoissonProcess(lambda x : np.sin(x)+2)
+# samples = A.sample(n=None)
+# import matplotlib.pyplot as plt
+# plt.plot(samples, np.cumsum(samples), '.k')
+# plt.show()

@@ -136,7 +136,7 @@ def hurst_invalid(request):
     return request.param
 
 # PoissonProcess
-@pytest.fixture(params=[16, None, 2000])
+@pytest.fixture(params=[16, None])
 def n_fixture(request):
     return request.param
 
@@ -148,40 +148,11 @@ def length(request):
 def rate(request):
     return request.param
 
-# NHPP
-@pytest.fixture(params=[lambda x:2.*x**2.])
-def lambda_func1D(request):
+# NonHomogeneousPoissonProcess
+@pytest.fixture(params=[lambda x:2.*x**2., lambda x: np.sin(x)+2])
+def rate_func(request):
     return request.param
 
-@pytest.fixture(params=[np.arange(0, 100)])
-def lambda_arr1D(request):
-    return request.param
-
-@pytest.fixture(params=[np.array([[0, 100]]), ((0, 100),)])
-def boundaries1D(request):
-    return request.param
-
-@pytest.fixture(params=[lambda x1, x2:6.*x1*x2**2.])
-def lambda_func2D(request):
-    return request.param
-
-@pytest.fixture(params=[np.array([[1, 2, 3, 4], [4, 5, 6, 7], [5, 6, 7, 8]])])
-def lambda_arr2D(request):
-    return request.param
-
-@pytest.fixture(params=[np.array([[0, 3], [0, 2]]), ((0, 3), (0, 2))])
-def boundaries2D(request):
-    return request.param
-
-@pytest.fixture(params=[lambda x1, x2, x3:x1+2*x2**2+3*x3**3])
-def lambda_func3D(request):
-    return request.param
-
-@pytest.fixture(params=[np.array([[[1, 2, 3, 4], [4, 5, 6, 7], [5, 6, 7, 8]],
-    [[7, 8, 9, 5], [10, 11, 12, 5], [5, 6, 7, 8]]])])
-def lambda_arr3D(request):
-    return request.param
-
-@pytest.fixture(params=[np.array([[0, 1], [0, 2], [0, 3]]), ((0, 1), (0, 2), (0, 3))] )
-def boundaries3D(request):
+@pytest.fixture(params=['inversion', 'thinning'])
+def algo(request):
     return request.param
