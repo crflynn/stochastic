@@ -136,11 +136,19 @@ def hurst_invalid(request):
     return request.param
 
 # NonHomogeneousPoissonProcess
-@pytest.fixture(params=[lambda x:2.*x**2., lambda x: np.sin(x)+2])
+@pytest.fixture(params=[lambda x:2.*x**2., lambda x: np.sin(x)+2, [0, 1, 2]])
 def rate_func(request):
     return request.param
 
-@pytest.fixture(params=['inversion', 'thinning'])
+@pytest.fixture(params=[0, [], ()])
+def rate_args(request):
+    return request.param
+
+@pytest.fixture(params=[0, {}])
+def rate_kwargs(request):
+    return request.param
+
+@pytest.fixture(params=['inversion', 'thinning', 'order'])
 def algo(request):
     return request.param
 
