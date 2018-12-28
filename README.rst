@@ -143,7 +143,7 @@ instantiation.
 
     bm = BrownianMotion(drift=1, scale=1, t=1)
     times = [0, 3, 10, 11, 11.2, 20]
-    s = sample_at(times)
+    s = bm.sample_at(times)
 
 Sample times
 ~~~~~~~~~~~~
