@@ -19,7 +19,7 @@ class NonHomogeneousPoissonProcess(Checks):
     Note: This class can be used to create a Cox process by injecting a
     :math:`\lambda(t)` generated using another stochastic process.
 
-    :param callable rate_func: the rate function
+    :param callable rate_func: the rate function. `\lambda(t)>=0`
     :param tuple rate_args: positional args for ``rate_func``
     :param dict rate_kwargs: keyword args for ``rate_func``
     """
@@ -90,7 +90,8 @@ class NonHomogeneousPoissonProcess(Checks):
         """Generate a realization of a Non-Homogeneous Poisson process.
         Points of a poisson process of rate one are generated. Then, the
         expectation function is then reversed to find the event times of the
-        non-homogeneous poisson process.
+        non-homogeneous poisson process. The quad function in the
+        scipy.integrate module is used to invert.
         """
         if n is not None:
                 times = np.array([0])
