@@ -138,7 +138,7 @@ class NonHomogeneousPoissonProcess(Checks):
         """Generate a realization of a Non-Homogeneous Poisson process using
         the thinning or acceptance/rejection algorithm. Points are generated
         using a max rate computed from `n` or `length`, then accepted with a
-        probability proportional to the rate function.
+        probability proportional to the rate functionssss.
         """
         thinned = np.array([0])
         wrapped_rate_func = self._wrapper_kwargs(*self.rate_args,
