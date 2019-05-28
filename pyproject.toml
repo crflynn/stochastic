@@ -42,7 +42,6 @@ sphinx = "^2.0"
 sphinx-rtd-theme = "^0.4.3"
 sphinx-autobuild = "^0.7.1"
 black = {version = "^18.3-alpha.0",allows-prereleases = true}
-codecov = "^2.0"
 
 [build-system]
 requires = ["poetry>=0.12"]
