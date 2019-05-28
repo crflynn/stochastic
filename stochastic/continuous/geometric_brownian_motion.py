@@ -39,7 +39,7 @@ class GeometricBrownianMotion(Continuous):
         self._n = None
 
     def __str__(self):
-        return "Geometric Brownian motion with drift {d} " "and volatility {v} on [0, {t}].".format(
+        return "Geometric Brownian motion with drift {d} and volatility {v} on [0, {t}].".format(
             t=str(self.t), d=str(self.drift), v=str(self.volatility)
         )
 

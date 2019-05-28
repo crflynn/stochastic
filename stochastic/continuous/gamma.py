@@ -39,10 +39,10 @@ class GammaProcess(Continuous):
             self.variance = 1.0 * self.mean / self.scale
             # self.variance = 1.0 * self.rate / self.scale ** 2
         else:
-            raise ValueError("Invalid parametrization. Must provide either " "mean and variance or rate and scale.")
+            raise ValueError("Invalid parametrization. Must provide either mean and variance or rate and scale.")
 
     def __str__(self):
-        return ("Gamma process with rate = {r} and " "scale = {s} on [0, {t}].").format(
+        return "Gamma process with rate = {r} and scale = {s} on [0, {t}].".format(
             t=str(self.t), r=str(self.rate), s=str(self.scale)
         )
 

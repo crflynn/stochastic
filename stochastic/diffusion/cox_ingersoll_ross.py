@@ -30,12 +30,12 @@ class CoxIngersollRossProcess(OrnsteinUhlenbeckProcess):
     """
 
     def __str__(self):
-        return ("Cox-Ingersoll-Ross process with speed={s}, mean={m}, vol={v}" " on [0, {t}]").format(
+        return "Cox-Ingersoll-Ross process with speed={s}, mean={m}, vol={v} on [0, {t}]".format(
             s=str(self.speed), m=str(self.mean), v=str(self.vol), t=str(self.t)
         )
 
     def __repr__(self):
-        return ("CoxIngersollRossProcess(speed={s}, " "mean={m}, vol={v}, t={t})").format(
+        return "CoxIngersollRossProcess(speed={s}, mean={m}, vol={v}, t={t})".format(
             s=str(self.speed), m=str(self.mean), v=str(self.vol), t=str(self.t)
         )
 

@@ -41,7 +41,7 @@ class ChineseRestaurantProcess(Checks):
         self.strength = strength
 
     def __str__(self):
-        return ("Chinese restaurant process with discount {d} " "and strength {s}").format(
+        return "Chinese restaurant process with discount {d} and strength {s}".format(
             d=str(self.discount), s=str(self.strength)
         )
 
@@ -73,13 +73,12 @@ class ChineseRestaurantProcess(Checks):
             strength_not_multiple = (1.0 * value / -self.discount) % 1 != 0
             if strength_positive or strength_not_multiple:
                 raise ValueError(
-                    "When discount is negative, strength value must be equal " "to a multiple of the discount value."
+                    "When discount is negative, strength value must be equal to a multiple of the discount value."
                 )
         elif self.discount < 1:
             if value <= -self.discount:
                 raise ValueError(
-                    "When discount is between 0 and 1, strength value must be "
-                    "greater than the negative of the discount"
+                    "When discount is between 0 and 1, strength value must be greater than the negative of the discount"
                 )
         self._strength = value
 

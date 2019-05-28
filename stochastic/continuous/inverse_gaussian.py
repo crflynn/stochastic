@@ -44,7 +44,7 @@ class InverseGaussianProcess(Continuous):
         self._ms = None
 
     def __str__(self):
-        s = "Inverse Gaussian process with mean {m} and scale {s} on interval " "[0, {t}]."
+        s = "Inverse Gaussian process with mean {m} and scale {s} on interval [0, {t}]."
         return s.format(t=str(self.t), m=str(self.mean.__name__), s=str(self.scale))
 
     def __repr__(self):

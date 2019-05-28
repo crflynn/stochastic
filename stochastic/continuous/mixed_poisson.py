@@ -32,7 +32,7 @@ class MixedPoissonProcess(PoissonProcess):
         return "Mixed Poisson process with random rate."
 
     def __repr__(self):
-        return "MixedPoissonProcess(" "rate_func={rf}, rate_args={ra}, rate_kwargs={rkw})".format(
+        return "MixedPoissonProcess(rate_func={rf}, rate_args={ra}, rate_kwargs={rkw})".format(
             rf=str(self.rate_func), ra=str(self.rate_args), rkw=str(self.rate_kwargs)
         )
 
