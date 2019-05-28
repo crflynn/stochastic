@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "stochastic"
+version = "0.4.0"
+description = ""
+authors = ["Flynn <crf204@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.6"
+numpy = "^1.16"
+scipy = "^1.3"
+
+[tool.poetry.dev-dependencies]
+matplotlib = "^3.1"
+pytest = "^4.5"
+pytest-cov = "^2.7"
+pytest-xdist = "^1.28"
+pytest-mock = "^1.10"
+twine = "^1.13"
+sphinx = "^2.0"
+sphinx-rtd-theme = "^0.4.3"
+sphinx-autobuild = "^0.7.1"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
