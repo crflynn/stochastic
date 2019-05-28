@@ -29,7 +29,7 @@ class BrownianMeander(BrownianBridge):
         super(BrownianMeander, self).__init__(t)
 
     def __str__(self):
-        return "Brownian meander" ""
+        return "Brownian meander"
 
     def __repr__(self):
         return "BrownianMeander()"
