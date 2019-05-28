@@ -67,7 +67,7 @@ class InverseGaussianProcess(Continuous):
     @mean.setter
     def mean(self, value):
         try:
-            num_args = len(inspect.getargspec(value).args)
+            num_args = len(inspect.signature(value).parameters)
         except Exception:
             raise ValueError(
                 "Mean must be a function of one argument.")

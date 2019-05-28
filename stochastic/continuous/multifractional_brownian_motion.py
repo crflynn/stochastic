@@ -66,7 +66,7 @@ class MultifractionalBrownianMotion(Continuous):
     @hurst.setter
     def hurst(self, value):
         try:
-            num_args = len(inspect.getargspec(value).args)
+            num_args = len(inspect.signature(value).parameters)
         except Exception:
             raise ValueError(
                 "Hurst parameter must be a function of one argument.")
