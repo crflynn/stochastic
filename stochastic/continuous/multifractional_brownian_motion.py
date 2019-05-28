@@ -46,17 +46,12 @@ class MultifractionalBrownianMotion(Continuous):
         self._n = None
 
     def __str__(self):
-        return "Multifractional Brownian motion with Hurst function " + \
-            "{h} on [0, {t}].".format(
-            t=str(self.t),
-            h=self.hurst.__name__
+        return "Multifractional Brownian motion with Hurst function " + "{h} on [0, {t}].".format(
+            t=str(self.t), h=self.hurst.__name__
         )
 
     def __repr__(self):
-        return "FractionalBrownianMotion(hurst={h}, t={t})".format(
-            t=str(self.t),
-            h=self.hurst.__name__
-        )
+        return "FractionalBrownianMotion(hurst={h}, t={t})".format(t=str(self.t), h=self.hurst.__name__)
 
     @property
     def hurst(self):
@@ -68,11 +63,9 @@ class MultifractionalBrownianMotion(Continuous):
         try:
             num_args = len(inspect.signature(value).parameters)
         except Exception:
-            raise ValueError(
-                "Hurst parameter must be a function of one argument.")
+            raise ValueError("Hurst parameter must be a function of one argument.")
         if not callable(value) or num_args != 1:
-            raise ValueError(
-                "Hurst parameter must be a function of one argument.")
+            raise ValueError("Hurst parameter must be a function of one argument.")
         self._hurst = value
         self._changed = True
 
@@ -95,9 +88,9 @@ class MultifractionalBrownianMotion(Continuous):
         else:
             mbm = []
         coefs = [(g / np.sqrt(self._dt)) * self._dt for g in gn]
-        for k in range(1, self._n+1):
-            weights = [self._w(t, self._hs[k]) for t in self._ts[1:k+1]]
-            seq = [coefs[i-1] * weights[k - i] for i in range(1, k+1)]
+        for k in range(1, self._n + 1):
+            weights = [self._w(t, self._hs[k]) for t in self._ts[1 : k + 1]]
+            seq = [coefs[i - 1] * weights[k - i] for i in range(1, k + 1)]
             mbm.append(sum(seq))
         return np.array(mbm)
 
@@ -111,7 +104,9 @@ class MultifractionalBrownianMotion(Continuous):
 
     def _w(self, t, hurst):
         """Get the Riemann-Liouville method weight for time t."""
-        w = 1.0 / gamma(hurst + 0.5) * \
-            np.sqrt((t ** (2 * hurst) -
-                    (t - self._dt) ** (2 * hurst)) / (2 * hurst * self._dt))
+        w = (
+            1.0
+            / gamma(hurst + 0.5)
+            * np.sqrt((t ** (2 * hurst) - (t - self._dt) ** (2 * hurst)) / (2 * hurst * self._dt))
+        )
         return w

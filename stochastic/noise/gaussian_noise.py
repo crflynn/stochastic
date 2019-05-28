@@ -20,8 +20,7 @@ class GaussianNoise(Continuous):
         super(GaussianNoise, self).__init__(t)
 
     def __str__(self):
-        return "Gaussian noise generator on interval [0, {t}]".format(
-            t=str(self.t))
+        return "Gaussian noise generator on interval [0, {t}]".format(t=str(self.t))
 
     def __repr__(self):
         return "GaussianNoise(t={t})".format(t=str(self.t))
@@ -47,8 +46,7 @@ class GaussianNoise(Continuous):
             times = np.concatenate(([0], times))
         increments = self._check_time_sequence(times)
 
-        noise = np.array(
-            [np.random.normal(scale=np.sqrt(inc)) for inc in increments])
+        noise = np.array([np.random.normal(scale=np.sqrt(inc)) for inc in increments])
 
         if zero:
             noise = np.insert(noise, [0], 0)

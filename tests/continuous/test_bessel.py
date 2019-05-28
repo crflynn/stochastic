@@ -10,6 +10,7 @@ def test_bessel_str_repr(dim, t):
     assert isinstance(repr(instance), str)
     assert isinstance(str(instance), str)
 
+
 def test_bessel_init(dim_fixture, t):
     if not isinstance(dim_fixture, int):
         with pytest.raises(TypeError):
@@ -20,10 +21,12 @@ def test_bessel_init(dim_fixture, t):
     else:
         instance = BesselProcess(dim_fixture, t)
 
+
 def test_bessel_sample(dim, t, n, zero):
     instance = BesselProcess(dim, t)
     s = instance.sample(n, zero)
     assert len(s) == n + int(zero)
+
 
 def test_bessel_sample_at(dim, t, times):
     instance = BesselProcess(dim, t)

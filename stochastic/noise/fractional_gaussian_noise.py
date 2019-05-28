@@ -37,16 +37,10 @@ class FractionalGaussianNoise(Continuous):
         self._cov = None
 
     def __str__(self):
-        return "Fractional Gaussian noise with Hurst {h} on [0, {t}].".format(
-            h=self.hurst,
-            t=self.t
-        )
+        return "Fractional Gaussian noise with Hurst {h} on [0, {t}].".format(h=self.hurst, t=self.t)
 
     def __repr__(self):
-        return "FractionalGaussianNoise(hurst={h}, t={t})".format(
-            t=str(self.t),
-            h=str(self.hurst)
-        )
+        return "FractionalGaussianNoise(hurst={h}, t={t})".format(t=str(self.t), h=str(self.hurst))
 
     @property
     def hurst(self):
@@ -63,9 +57,7 @@ class FractionalGaussianNoise(Continuous):
 
     def _autocovariance(self, k):
         """Autocovariance function for fractional Gaussian noise."""
-        return 0.5 * (abs(k - 1) ** (2 * self.hurst) - 2 *
-                      abs(k) ** (2 * self.hurst) +
-                      abs(k + 1) ** (2 * self.hurst))
+        return 0.5 * (abs(k - 1) ** (2 * self.hurst) - 2 * abs(k) ** (2 * self.hurst) + abs(k + 1) ** (2 * self.hurst))
 
     def _daviesharte(self, n):
         """Generate a fractional Gaussian noise using davies-harte method.
@@ -92,8 +84,7 @@ class FractionalGaussianNoise(Continuous):
                 # Generate first row of circulant matrix
                 row_component = [self._autocovariance(i) for i in range(1, n)]
                 reverse_component = [row_component[-i] for i in range(1, n)]
-                row = [self._autocovariance(0)] + row_component + \
-                    [0] + reverse_component
+                row = [self._autocovariance(0)] + row_component + [0] + reverse_component
 
                 # Get eigenvalues of circulant matrix
                 # Discard imaginary part (should all be zero in theory so
@@ -104,7 +95,8 @@ class FractionalGaussianNoise(Continuous):
                 logging.warning(
                     "Combination of increments n and Hurst value "
                     "H invalid for Davies-Harte method. Reverting to Hosking "
-                    "method. Try increasing n or decreasing H")
+                    "method. Try increasing n or decreasing H"
+                )
                 return self._hosking(n)
 
             # Generate second sequence of i.d.d. standard normals
@@ -118,13 +110,11 @@ class FractionalGaussianNoise(Continuous):
                 if i == 0:
                     w[i] = np.sqrt(self._eigenvals[i] / (2 * n)) * fgn[i]
                 elif i < n:
-                    w[i] = np.sqrt(self._eigenvals[i] / (4 * n)) * \
-                        (fgn[i] + 1j * fgn2[i])
+                    w[i] = np.sqrt(self._eigenvals[i] / (4 * n)) * (fgn[i] + 1j * fgn2[i])
                 elif i == n:
                     w[i] = np.sqrt(self._eigenvals[i] / (2 * n)) * fgn2[0]
                 else:
-                    w[i] = np.sqrt(self._eigenvals[i] / (4 * n)) * \
-                        (fgn[2 * n - i] - 1j * fgn2[2 * n - i])
+                    w[i] = np.sqrt(self._eigenvals[i] / (4 * n)) * (fgn[2 * n - i] - 1j * fgn2[2 * n - i])
 
             # Resulting z is fft of sequence w. Discard small imaginary part (z
             # should be real in theory).
@@ -163,8 +153,7 @@ class FractionalGaussianNoise(Continuous):
             phi = np.zeros(n)
             psi = np.zeros(n)
             if self._n != n or self._cov is None:
-                self._cov = np.array([self._autocovariance(i)
-                                      for i in range(n)])
+                self._cov = np.array([self._autocovariance(i) for i in range(n)])
 
             # First increment from stationary distribution
             fgn[0] = gn[0]
@@ -180,7 +169,7 @@ class FractionalGaussianNoise(Continuous):
                 phi[i - 1] /= v
                 for j in range(i - 1):
                     phi[j] = psi[j] - phi[i - 1] * psi[i - j - 2]
-                v *= (1 - phi[i - 1] * phi[i - 1])
+                v *= 1 - phi[i - 1] * phi[i - 1]
                 for j in range(i):
                     fgn[i] += phi[j] * fgn[i - j - 1]
                 fgn[i] += np.sqrt(v) * gn[i]

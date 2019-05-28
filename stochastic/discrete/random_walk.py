@@ -29,8 +29,7 @@ class RandomWalk(Checks):
             self.p = [1.0 / length for s in steps]
         else:
             if len(weights) != length:
-                raise ValueError(
-                    "Steps and probabilities must have same length.")
+                raise ValueError("Steps and probabilities must have same length.")
             self.weights = weights
             total = sum(weights)
             self.p = [1.0 * w / total for w in weights]
@@ -74,23 +73,15 @@ class RandomWalk(Checks):
         self._weights = values
 
     def __str__(self):
-        return "Random walk steps = {s} and weights = {w}".format(
-            s=str(self.steps),
-            w=str(self.weights)
-        )
+        return "Random walk steps = {s} and weights = {w}".format(s=str(self.steps), w=str(self.weights))
 
     def __repr__(self):
-        return "RandomWalk(steps={s}, weights={w})".format(
-            s=str(self.steps),
-            w=str(self.weights)
-        )
+        return "RandomWalk(steps={s}, weights={w})".format(s=str(self.steps), w=str(self.weights))
 
     def _sample_random_walk(self, n, zero=True):
         """Generate a random walk."""
         if zero:
-            return np.array(
-                [0] + list(np.cumsum(self._sample_random_walk_increments(n)))
-            )
+            return np.array([0] + list(np.cumsum(self._sample_random_walk_increments(n))))
         else:
             return np.cumsum(self._sample_random_walk_increments(n))
 

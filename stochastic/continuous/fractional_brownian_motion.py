@@ -35,16 +35,10 @@ class FractionalBrownianMotion(FractionalGaussianNoise):
         super(FractionalBrownianMotion, self).__init__(hurst, t)
 
     def __str__(self):
-        return "Fractional Brownian motion with Hurst {h} on [0, {t}].".format(
-            h=str(self.hurst),
-            t=str(self.t)
-        )
+        return "Fractional Brownian motion with Hurst {h} on [0, {t}].".format(h=str(self.hurst), t=str(self.t))
 
     def __repr__(self):
-        return "FractionalBrownianMotion(hurst={h}, t={t})".format(
-            t=str(self.t),
-            h=str(self.hurst)
-        )
+        return "FractionalBrownianMotion(hurst={h}, t={t})".format(t=str(self.t), h=str(self.hurst))
 
     def _sample_fractional_brownian_motion(self, n, zero=True):
         """Generate a realization of fractional Brownian motion."""

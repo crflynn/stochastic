@@ -44,19 +44,12 @@ class InverseGaussianProcess(Continuous):
         self._ms = None
 
     def __str__(self):
-        s = ("Inverse Gaussian process with mean {m} and scale {s} on interval "
-             "[0, {t}].")
-        return s.format(
-            t=str(self.t),
-            m=str(self.mean.__name__),
-            s=str(self.scale)
-        )
+        s = "Inverse Gaussian process with mean {m} and scale {s} on interval " "[0, {t}]."
+        return s.format(t=str(self.t), m=str(self.mean.__name__), s=str(self.scale))
 
     def __repr__(self):
         return "InverseGaussianProcess(mean={m}, scale={s}, t={t})".format(
-            t=str(self.t),
-            m=str(self.mean.__name__),
-            s=str(self.scale)
+            t=str(self.t), m=str(self.mean.__name__), s=str(self.scale)
         )
 
     @property
@@ -69,11 +62,9 @@ class InverseGaussianProcess(Continuous):
         try:
             num_args = len(inspect.signature(value).parameters)
         except Exception:
-            raise ValueError(
-                "Mean must be a function of one argument.")
+            raise ValueError("Mean must be a function of one argument.")
         if not callable(value) or num_args != 1:
-            raise ValueError(
-                "Mean must be a function of one argument.")
+            raise ValueError("Mean must be a function of one argument.")
         self._mean = value
 
     @property
@@ -106,7 +97,7 @@ class InverseGaussianProcess(Continuous):
             self._n = n
             self._ms = []
             for k in range(n):
-                self._ms.append(self._check_mean(times[k], times[k+1]))
+                self._ms.append(self._check_mean(times[k], times[k + 1]))
             self._ms = np.array(self._ms)
 
         ls = np.array([self.scale * m ** 2 for m in self._ms])
@@ -114,11 +105,11 @@ class InverseGaussianProcess(Continuous):
         gn = np.random.normal(size=n)
         ys = gn ** 2
 
-        xs = self._ms + \
-            self._ms ** 2 * ys / 2 / ls - \
-            self._ms / 2 / ys * np.sqrt(
-                4 * self._ms * ls * ys + self._ms ** 2 * ys ** 2
-            )
+        xs = (
+            self._ms
+            + self._ms ** 2 * ys / 2 / ls
+            - self._ms / 2 / ys * np.sqrt(4 * self._ms * ls * ys + self._ms ** 2 * ys ** 2)
+        )
 
         zs = np.random.uniform(size=n)
 
@@ -143,7 +134,6 @@ class InverseGaussianProcess(Continuous):
         """
         return self._sample_inverse_gaussian_process(n, zero)
 
-
     def _sample_inverse_gaussian_process_at(self, times):
         """Generate an inverse Gaussian process at specified times."""
         n = len(times) - 1
@@ -152,7 +142,7 @@ class InverseGaussianProcess(Continuous):
 
         ms = []
         for k in range(n):
-            ms.append(self._check_mean(times[k], times[k+1]))
+            ms.append(self._check_mean(times[k], times[k + 1]))
         ms = np.array(ms)
 
         ls = np.array([self.scale * m ** 2 for m in ms])
@@ -160,9 +150,7 @@ class InverseGaussianProcess(Continuous):
         gn = np.random.normal(size=n)
         ys = gn ** 2
 
-        xs = ms + \
-            ms ** 2 * ys / 2 / ls - \
-            ms / 2 / ys * np.sqrt(4 * ms * ls * ys + ms ** 2 * ys ** 2)
+        xs = ms + ms ** 2 * ys / 2 / ls - ms / 2 / ys * np.sqrt(4 * ms * ls * ys + ms ** 2 * ys ** 2)
 
         zs = np.random.uniform(size=n)
 

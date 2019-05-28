@@ -47,8 +47,7 @@ class PoissonProcess(Checks):
         if n is not None:
             self._check_increments(n)
 
-            exponentials = np.random.exponential(
-                scale=1.0 / self.rate, size=n)
+            exponentials = np.random.exponential(scale=1.0 / self.rate, size=n)
 
             s = np.array([0] + list(np.cumsum(exponentials)))
             if zero:
@@ -70,8 +69,7 @@ class PoissonProcess(Checks):
 
             return np.array(times)
         else:
-            raise ValueError(
-                "Must provide either argument n or length.")
+            raise ValueError("Must provide either argument n or length.")
 
     def sample(self, n=None, length=None, zero=True):
         """Generate a realization.

@@ -42,18 +42,9 @@ setup(
         "Topic :: Scientific/Engineering :: Physics",
     ],
     keywords="stochastic processes",
-    packages=[
-        "stochastic",
-        "stochastic.continuous",
-        "stochastic.diffusion",
-        "stochastic.discrete",
-        "stochastic.noise",
-    ],
+    packages=["stochastic", "stochastic.continuous", "stochastic.diffusion", "stochastic.discrete", "stochastic.noise"],
     # package_dir={"stochastic": "stochastic"},
-    install_requires=[
-        "numpy",
-        "scipy",
-    ],
+    install_requires=["numpy", "scipy"],
     include_package_data=True,
-    zip_safe=False
+    zip_safe=False,
 )

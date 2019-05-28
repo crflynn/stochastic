@@ -11,7 +11,8 @@ from stochastic.discrete import *
 from stochastic.noise import *
 
 
-plt.style.use('bmh')
+plt.style.use("bmh")
+
 
 def make_plot(title, fname, x, ys, xlabel="Time", ylabel="Value", scatter=False, alt=False):
     fig, ax = plt.subplots(1, 1, figsize=(8, 4))
@@ -35,11 +36,13 @@ def make_plot(title, fname, x, ys, xlabel="Time", ylabel="Value", scatter=False,
     print(title + " saved")
     plt.close()
 
+
 def get_samples(num, inst, args):
     ss = []
     for k in range(num):
         ss.append(inst.sample(**args))
     return ss
+
 
 def main():
     # Continuous
@@ -193,5 +196,5 @@ def main():
     make_plot("Mixed Poisson process", "mixed_poisson_process", t, ss, "Time", "Value", alt=True)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

@@ -41,17 +41,12 @@ class ChineseRestaurantProcess(Checks):
         self.strength = strength
 
     def __str__(self):
-        return ("Chinese restaurant process with discount {d} "
-                "and strength {s}").format(
-                    d=str(self.discount),
-                    s=str(self.strength)
+        return ("Chinese restaurant process with discount {d} " "and strength {s}").format(
+            d=str(self.discount), s=str(self.strength)
         )
 
     def __repr__(self):
-        return "ChineseRestaurantProcess(discount={d}, strength={s})".format(
-            d=str(self.discount),
-            s=str(self.strength)
-        )
+        return "ChineseRestaurantProcess(discount={d}, strength={s})".format(d=str(self.discount), s=str(self.strength))
 
     @property
     def discount(self):
@@ -78,13 +73,14 @@ class ChineseRestaurantProcess(Checks):
             strength_not_multiple = (1.0 * value / -self.discount) % 1 != 0
             if strength_positive or strength_not_multiple:
                 raise ValueError(
-                    "When discount is negative, strength value must be equal "
-                    "to a multiple of the discount value.")
+                    "When discount is negative, strength value must be equal " "to a multiple of the discount value."
+                )
         elif self.discount < 1:
             if value <= -self.discount:
                 raise ValueError(
                     "When discount is between 0 and 1, strength value must be "
-                    "greater than the negative of the discount")
+                    "greater than the negative of the discount"
+                )
         self._strength = value
 
     def _sample_chinese_restaurant(self, n, partition=False):
@@ -97,10 +93,8 @@ class ChineseRestaurantProcess(Checks):
         table_range = [0, 1]
 
         for k in range(2, n + 1):
-            p = [1.0 * (len(c[t]) - self.discount) / (k - 1 + self.strength)
-                 for t in table_range[:-1]]
-            p.append(1.0 * (self.strength + num_tables * self.discount) /
-                     (k - 1 + self.strength))
+            p = [1.0 * (len(c[t]) - self.discount) / (k - 1 + self.strength) for t in table_range[:-1]]
+            p.append(1.0 * (self.strength + num_tables * self.discount) / (k - 1 + self.strength))
             table = np.random.choice(table_range, p=p)
             if table == num_tables:
                 num_tables += 1
