@@ -1,5 +1,4 @@
 """Test FractionalGaussianNoise."""
-# flake8: noqa
 import pytest
 
 from stochastic.noise import FractionalGaussianNoise

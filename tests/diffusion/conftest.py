@@ -1,5 +1,4 @@
 """Diffusion process testing."""
-# flake8: noqa
 import pytest
 
 

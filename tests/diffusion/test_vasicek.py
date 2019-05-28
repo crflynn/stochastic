@@ -1,5 +1,4 @@
 """Vasicek tests."""
-# flake8: noqa
 import pytest
 
 from stochastic.diffusion import VasicekProcess

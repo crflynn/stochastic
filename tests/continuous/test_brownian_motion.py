@@ -1,5 +1,4 @@
 """Test BrownianMotion."""
-# flake8: noqa
 import pytest
 
 from stochastic.continuous import BrownianMotion

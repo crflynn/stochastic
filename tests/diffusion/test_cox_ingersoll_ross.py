@@ -1,5 +1,4 @@
 """Cox-Ingersoll-Ross tests."""
-# flake8: noqa
 import pytest
 
 from stochastic.diffusion import CoxIngersollRossProcess

@@ -1,4 +1,3 @@
-# flake8: noqa
 from stochastic.diffusion.constant_elasticity_variance import ConstantElasticityVarianceProcess
 from stochastic.diffusion.constant_elasticity_variance import CEVProcess
 from stochastic.diffusion.cox_ingersoll_ross import CoxIngersollRossProcess

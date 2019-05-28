@@ -1,5 +1,4 @@
 """Markov chain tests."""
-# flake8: noqa
 import pytest
 
 from stochastic.discrete import MarkovChain

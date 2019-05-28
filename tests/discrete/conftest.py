@@ -1,5 +1,4 @@
 """Discrete-time process testing."""
-# flake8: noqa
 import pytest
 
 

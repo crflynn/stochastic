@@ -1,4 +1,3 @@
-# flake8: noqa
 from stochastic.noise.colored_noise import BlueNoise
 from stochastic.noise.colored_noise import BrownianNoise
 from stochastic.noise.colored_noise import ColoredNoise

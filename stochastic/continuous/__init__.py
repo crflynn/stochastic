@@ -1,4 +1,3 @@
-# flake8: noqa
 from stochastic.continuous.bessel import BesselProcess
 from stochastic.continuous.brownian_bridge import BrownianBridge
 from stochastic.continuous.brownian_excursion import BrownianExcursion

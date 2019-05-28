@@ -1,5 +1,4 @@
 """Random walk tests."""
-# flake8: noqa
 import pytest
 
 from stochastic.discrete import RandomWalk

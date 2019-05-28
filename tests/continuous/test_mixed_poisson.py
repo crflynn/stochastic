@@ -1,5 +1,4 @@
 """Test MixedPoissonProcess."""
-# flake8: noqa
 import pytest
 
 from stochastic.continuous import MixedPoissonProcess

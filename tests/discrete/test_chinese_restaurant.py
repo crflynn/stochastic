@@ -1,5 +1,4 @@
 """Chinese restaurant tests."""
-# flake8: noqa
 import pytest
 
 from stochastic.discrete import ChineseRestaurantProcess

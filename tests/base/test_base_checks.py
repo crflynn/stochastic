@@ -1,5 +1,4 @@
 """Test the base classes."""
-# flake8: noqa
 import pytest
 
 from stochastic.base import Checks

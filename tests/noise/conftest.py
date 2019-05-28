@@ -1,5 +1,4 @@
 """Noise process tests."""
-# flake8: noqa
 import numpy as np
 import pytest
 

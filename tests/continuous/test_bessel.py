@@ -1,5 +1,4 @@
 """Test BesselProcess."""
-# flake8: noqa
 import pytest
 
 from stochastic.continuous import BesselProcess

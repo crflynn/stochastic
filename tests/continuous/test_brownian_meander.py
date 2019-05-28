@@ -1,5 +1,4 @@
 """Test BrownianMeander."""
-# flake8: noqa
 import pytest
 
 from stochastic.continuous import BrownianMeander

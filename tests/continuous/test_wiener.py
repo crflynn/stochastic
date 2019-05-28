@@ -1,5 +1,4 @@
 """Test WienerProcess."""
-# flake8: noqa
 import pytest
 
 from stochastic.continuous import WienerProcess

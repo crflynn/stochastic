@@ -1,5 +1,4 @@
 """Test GeometricBrownianMotion."""
-# flake8: noqa
 import pytest
 
 from stochastic.continuous import GeometricBrownianMotion

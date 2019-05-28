@@ -1,5 +1,4 @@
 """Moran process tests."""
-# flake8: noqa
 import pytest
 
 from stochastic.discrete import MoranProcess
