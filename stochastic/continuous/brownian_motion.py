@@ -95,14 +95,19 @@ class BrownianMotion(GaussianNoise):
         :param bool zero: if True, include :math:`t=0`
         """
         return self._sample_brownian_motion(n, zero)
-
+    
     def _sample_brownian_motion_at(self, times):
         """Generate a Brownian motion at specified times."""
-        s = np.cumsum(self._sample_gaussian_noise_at(times))
+         
+        bm = np.cumsum(self.scale * self._sample_gaussian_noise_at(times))
+        
+        if self.drift != 0:
+            bm += self.drift * times
+        
         if times[0] == 0:
-            s = np.insert(s, 0, [0])
-
-        return s
+            bm = np.insert(bm, 0, [0])
+        
+        return bm
 
     def sample_at(self, times):
         """Generate a realization using specified times.
