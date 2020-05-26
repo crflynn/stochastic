@@ -98,11 +98,11 @@ class BrownianMotion(GaussianNoise):
     
     def _sample_brownian_motion_at(self, times):
         """Generate a Brownian motion at specified times."""
-         
+        
         bm = np.cumsum(self.scale * self._sample_gaussian_noise_at(times))
         
         if self.drift != 0:
-            bm += self.drift * times
+            bm += [self.drift * t for t in times]
         
         if times[0] == 0:
             bm = np.insert(bm, 0, [0])
