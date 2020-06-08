@@ -1,4 +1,6 @@
 """Fractional Gaussian noise."""
+from __future__ import division
+
 import logging
 
 import numpy as np
@@ -77,7 +79,7 @@ class FractionalGaussianNoise(Continuous):
         self._check_increments(n)
 
         # For scaling to interval [0, T]
-        increment = 1.0 * self.t / n
+        increment = self.t / n
         scale = increment ** self.hurst
 
         fgn = np.random.normal(0.0, 1.0, n)
@@ -148,7 +150,7 @@ class FractionalGaussianNoise(Continuous):
         realization. The cumulative sum of this realization gives a fBm.
         """
         # For scaling to interval [0, T]
-        increment = 1.0 * self.t / n
+        increment = self.t / n
         scale = increment ** self.hurst
 
         gn = np.random.normal(0.0, 1.0, n)
