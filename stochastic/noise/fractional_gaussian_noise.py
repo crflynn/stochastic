@@ -96,13 +96,15 @@ class FractionalGaussianNoise(Continuous):
             return np.random.normal(scale=scale, size=n)
 
         else:
-            sqrt_eigenvals = self._dh_sqrt_eigenvals(self.hurst, n)
+            # Generate some more fGns to use power-of-two FFTs for speed.
+            m = 2 ** (n-2).bit_length() + 1
+            sqrt_eigenvals = self._dh_sqrt_eigenvals(self.hurst, m)
 
-            # irfft results will be normalized by (2(n-1))**(3/2) but we only
-            # want to normalize by 2(n-1)**(1/2).
-            scale *= 2**(1/2) * (n - 1)
+            # irfft results will be normalized by (2(m-1))**(3/2) but we only
+            # want to normalize by 2(m-1)**(1/2).
+            scale *= 2**(1/2) * (m - 1)
 
-            w = np.random.normal(scale=scale, size=2 * n).view(complex)
+            w = np.random.normal(scale=scale, size=2 * m).view(complex)
             w[0] = w[0].real * 2**(1/2)
             w[-1] = w[-1].real * 2**(1/2)
 
