@@ -1,11 +1,6 @@
 """Fractional Gaussian noise."""
-from __future__ import division
-
 import logging
-try:
-    from functools import lru_cache
-except ImportError:
-    def lru_cache(func): return func
+from functools import lru_cache
 
 import numpy as np
 
