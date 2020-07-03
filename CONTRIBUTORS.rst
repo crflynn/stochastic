@@ -10,3 +10,4 @@ Contributions
 ~~~~~~~~~~~~~
 
 * `Gabinou <https://github.com/Gabinou>`_
+* `MichaelHogervorst <https://github.com/MichaelHogervorst>`_
