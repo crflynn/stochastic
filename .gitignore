@@ -26,3 +26,6 @@ _build
 
 # macosx
 .DS_Store
+
+# intellij
+.idea/
