@@ -30,23 +30,13 @@ class BrownianMotion(GaussianNoise):
 
     def __str__(self):
         if self.drift == 0 and self.scale == 1:
-            s = "Standard Brownian motion on interval [0, {t}]".format(
-                t=self.t)
+            s = "Standard Brownian motion on interval [0, {t}]".format(t=self.t)
             return s
-        s = ("Brownian motion with drift {d} and scale {s} on interval "
-             "[0, {t}].")
-        return s.format(
-            t=str(self.t),
-            d=str(self.drift),
-            s=str(self.scale)
-        )
+        s = "Brownian motion with drift {d} and scale {s} on interval [0, {t}]."
+        return s.format(t=str(self.t), d=str(self.drift), s=str(self.scale))
 
     def __repr__(self):
-        return "BrownianMotion(drift={d}, scale={s}, t={t})".format(
-            t=str(self.t),
-            d=str(self.drift),
-            s=str(self.scale)
-        )
+        return "BrownianMotion(drift={d}, scale={s}, t={t})".format(t=str(self.t), d=str(self.drift), s=str(self.scale))
 
     @property
     def drift(self):

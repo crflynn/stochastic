@@ -1,4 +1,3 @@
-# flake8: noqa
 from stochastic.continuous.bessel import BesselProcess
 from stochastic.continuous.brownian_bridge import BrownianBridge
 from stochastic.continuous.brownian_excursion import BrownianExcursion
@@ -15,7 +14,6 @@ from stochastic.continuous.poisson import PoissonProcess
 from stochastic.continuous.squared_bessel import SquaredBesselProcess
 from stochastic.continuous.variance_gamma import VarianceGammaProcess
 from stochastic.continuous.wiener import WienerProcess
-
 
 __all__ = [
     "BesselProcess",

@@ -1,17 +1,15 @@
-# python versions
+dist: xenial
 language: python
 python:
-  - "3.5"
   - "3.6"
   - "3.7"
   - "3.8"
-# command to install dependencies
 install:
-  - pip install numpy scipy
-  - pip install pytest pytest-cov pytest-xdist pytest-mock
-  - pip install codecov
-# command to run tests
-script: pytest
-# combinations to include
+  - pip install poetry==1.0.5
+  - poetry install
+script:
+  - poetry run isort -y -c
+  - poetry run black --check .
+  - poetry run pytest
 after_success:
-  - codecov
+  - poetry run codecov

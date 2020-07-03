@@ -37,17 +37,12 @@ class ColoredNoise(Continuous):
         self._scale = None
 
     def __str__(self):
-        return "Colored noise generator with exponent " + \
-            "{beta} on interval [0, {t}]".format(
-                beta=str(self.beta),
-                t=str(self.t)
-            )
+        return "Colored noise generator with exponent " + "{beta} on interval [0, {t}]".format(
+            beta=str(self.beta), t=str(self.t)
+        )
 
     def __repr__(self):
-        return "ColoredNoise(beta={beta}, t={t})".format(
-            beta=str(self.beta),
-            t=str(self.t)
-        )
+        return "ColoredNoise(beta={beta}, t={t})".format(beta=str(self.beta), t=str(self.t))
 
     @property
     def beta(self):
@@ -65,32 +60,26 @@ class ColoredNoise(Continuous):
         n = n + 1
         if self._n != n:
             self._n = n
-            half = (n+1)//2
+            half = (n + 1) // 2
 
             frequencies = np.fft.fftfreq(n, self.t)
-            self._scale = [
-                np.sqrt(0.5 * (1 / w) ** self.beta)
-                for w in frequencies[1:half]
-            ]
+            self._scale = [np.sqrt(0.5 * (1 / w) ** self.beta) for w in frequencies[1:half]]
 
-        gn_real = np.random.normal(size=half-1)
-        gn_imag = np.random.normal(size=half-1)
+        gn_real = np.random.normal(size=half - 1)
+        gn_imag = np.random.normal(size=half - 1)
         fft = self._scale * (gn_real + 1j * gn_imag)
 
         if n % 2 == 0:
-            f = np.concatenate((
-                [0],
-                fft,
-                [np.sqrt(0.5 * (1 / -frequencies[half]) ** self.beta) *
-                    np.random.normal()],
-                np.conj(fft)[::-1]
-            ))
+            f = np.concatenate(
+                (
+                    [0],
+                    fft,
+                    [np.sqrt(0.5 * (1 / -frequencies[half]) ** self.beta) * np.random.normal()],
+                    np.conj(fft)[::-1],
+                )
+            )
         else:
-            f = np.concatenate((
-                [0],
-                fft,
-                np.conj(fft)[::-1]
-            ))
+            f = np.concatenate(([0], fft, np.conj(fft)[::-1]))
 
         return np.fft.ifft(f).real / np.std(f)
 
@@ -120,6 +109,7 @@ class PinkNoise(ColoredNoise):
     def __init__(self, t=1):
         super(PinkNoise, self).__init__(1, t)
 
+
 class WhiteNoise(ColoredNoise):
     r"""White noise.
 
@@ -135,6 +125,7 @@ class WhiteNoise(ColoredNoise):
 
     def __init__(self, t=1):
         super(WhiteNoise, self).__init__(0, t)
+
 
 class RedNoise(ColoredNoise):
     r"""Red (Brownian) noise.
@@ -152,6 +143,7 @@ class RedNoise(ColoredNoise):
     def __init__(self, t=1):
         super(RedNoise, self).__init__(2, t)
 
+
 class BrownianNoise(RedNoise):
     r"""Brownian (red) noise.
 
@@ -166,6 +158,7 @@ class BrownianNoise(RedNoise):
     """
 
     pass
+
 
 class BlueNoise(ColoredNoise):
     r"""Blue noise.
@@ -182,6 +175,7 @@ class BlueNoise(ColoredNoise):
 
     def __init__(self, t=1):
         super(BlueNoise, self).__init__(-1, t)
+
 
 class VioletNoise(ColoredNoise):
     r"""Violet noise.

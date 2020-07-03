@@ -1,16 +1,16 @@
 """Module level accessible objects."""
-from stochastic.__version__ import __version__
-from stochastic.__version__ import __description__
-from stochastic.__version__ import __url__
-from stochastic.__version__ import __title__
-from stochastic.__version__ import __author__
-from stochastic.__version__ import __author_email__
-from stochastic.__version__ import __license__
-from stochastic.__version__ import __copyright__
-from stochastic.__version__ import __docs_copyright__
+from stochastic._version import __author__
+from stochastic._version import __author_email__
+from stochastic._version import __copyright__
+from stochastic._version import __description__
+from stochastic._version import __docs_copyright__
+from stochastic._version import __license__
+from stochastic._version import __title__
+from stochastic._version import __url__
+from stochastic._version import __version__
 
 __all__ = (
-    __version__,
+    _version,
     __description__,
     __url__,
     __title__,

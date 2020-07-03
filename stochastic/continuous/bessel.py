@@ -29,16 +29,10 @@ class BesselProcess(Continuous):
         self.dim = dim
 
     def __str__(self):
-        return "Bessel process of {d} Wiener processes on [0, {t}]".format(
-            t=str(self.t),
-            d=str(self.dim)
-        )
+        return "Bessel process of {d} Wiener processes on [0, {t}]".format(t=str(self.t), d=str(self.dim))
 
     def __repr__(self):
-        return "BesselProcess(dim={d}, t={t})".format(
-            t=str(self.t),
-            d=str(self.dim),
-        )
+        return "BesselProcess(dim={d}, t={t})".format(t=str(self.t), d=str(self.dim))
 
     @property
     def dim(self):
@@ -58,15 +52,13 @@ class BesselProcess(Continuous):
         self._check_increments(n)
         self._check_zero(zero)
 
-        samples = [self.brownian_motion.sample(n, zero)
-                   for _ in range(self.dim)]
+        samples = [self.brownian_motion.sample(n, zero) for _ in range(self.dim)]
 
         return np.array([np.linalg.norm(coord) for coord in zip(*samples)])
 
     def _sample_bessel_process_at(self, times):
         """Generate a realization of a Bessel process."""
-        samples = [self.brownian_motion.sample_at(times)
-                   for _ in range(self.dim)]
+        samples = [self.brownian_motion.sample_at(times) for _ in range(self.dim)]
 
         return np.array([np.linalg.norm(coord) for coord in zip(*samples)])
 

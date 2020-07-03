@@ -39,23 +39,15 @@ class GammaProcess(Continuous):
             self.variance = 1.0 * self.mean / self.scale
             # self.variance = 1.0 * self.rate / self.scale ** 2
         else:
-            raise ValueError("Invalid parametrization. Must provide either "
-                             "mean and variance or rate and scale.")
+            raise ValueError("Invalid parametrization. Must provide either mean and variance or rate and scale.")
 
     def __str__(self):
-        return ("Gamma process with rate = {r} and "
-                "scale = {s} on [0, {t}].").format(
-                    t=str(self.t),
-                    r=str(self.rate),
-                    s=str(self.scale)
+        return "Gamma process with rate = {r} and scale = {s} on [0, {t}].".format(
+            t=str(self.t), r=str(self.rate), s=str(self.scale)
         )
 
     def __repr__(self):
-        return "GammaProcess(rate={r}, scale={s}, t={t})".format(
-            t=str(self.t),
-            r=str(self.rate),
-            s=str(self.scale)
-        )
+        return "GammaProcess(rate={r}, scale={s}, t={t})".format(t=str(self.t), r=str(self.rate), s=str(self.scale))
 
     @property
     def mean(self):
@@ -123,7 +115,7 @@ class GammaProcess(Continuous):
         increments = self._check_time_sequence(times)
 
         scale = self.variance / self.mean
-        shape_coef = self.mean**2 / self.variance
+        shape_coef = self.mean ** 2 / self.variance
 
         for inc in increments:
             s.append(np.random.gamma(shape=shape_coef * inc, scale=scale))

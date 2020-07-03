@@ -37,19 +37,16 @@ class BernoulliProcess(Checks):
     @p.setter
     def p(self, value):
         if not isinstance(value, (int, float)):
-            raise TypeError(
-                "Probability of success must be a number between 0 and 1.")
+            raise TypeError("Probability of success must be a number between 0 and 1.")
         if value < 0 or value > 1:
-            raise ValueError(
-                "Probability of success p must be between 0 and 1.")
+            raise ValueError("Probability of success p must be between 0 and 1.")
         self._p = value
 
     def _sample_bernoulli(self, n):
         """Generate a Bernoulli process realization."""
         self._check_increments(n)
 
-        return np.array([1 if trial > self.p else 0
-                         for trial in np.random.uniform(size=n)])
+        return np.array([1 if trial > self.p else 0 for trial in np.random.uniform(size=n)])
 
     def sample(self, n):
         """Generate a Bernoulli process realization.

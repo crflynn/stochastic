@@ -29,7 +29,7 @@ class BrownianMeander(BrownianBridge):
         super(BrownianMeander, self).__init__(t)
 
     def __str__(self):
-        return "Brownian meander"""
+        return "Brownian meander"
 
     def __repr__(self):
         return "BrownianMeander()"
@@ -50,10 +50,7 @@ class BrownianMeander(BrownianBridge):
         bridge_2 = self._sample_brownian_bridge(n, zero)
         bridge_3 = self._sample_brownian_bridge(n, zero)
 
-        return np.sqrt(
-            (b * self._times / self.t + bridge_1) ** 2 +
-            bridge_2 ** 2 + bridge_3 ** 2
-        )
+        return np.sqrt((b * self._times / self.t + bridge_1) ** 2 + bridge_2 ** 2 + bridge_3 ** 2)
 
     def _sample_brownian_meander_at(self, times, b=None):
         """Generate a Brownian meander realization.
@@ -69,10 +66,7 @@ class BrownianMeander(BrownianBridge):
         bridge_2 = self._sample_brownian_bridge_at(times)
         bridge_3 = self._sample_brownian_bridge_at(times)
 
-        return np.sqrt(
-            (b * times / times[-1] + bridge_1) ** 2 +
-            bridge_2 ** 2 + bridge_3 ** 2
-        )
+        return np.sqrt((b * times / times[-1] + bridge_1) ** 2 + bridge_2 ** 2 + bridge_3 ** 2)
 
     def sample(self, n, b=None, zero=True):
         r"""Generate a realization.

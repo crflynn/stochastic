@@ -1,5 +1,4 @@
 """Test BrownianExcursion."""
-# flake8: noqa
 import pytest
 
 from stochastic.continuous import BrownianExcursion
@@ -10,6 +9,7 @@ def test_brownian_excursion_str_repr(t):
     assert isinstance(repr(instance), str)
     assert isinstance(str(instance), str)
 
+
 def test_brownian_excursion_sample(t, n, zero, threshold):
     instance = BrownianExcursion(t)
     s = instance.sample(n, zero)
@@ -18,6 +18,7 @@ def test_brownian_excursion_sample(t, n, zero, threshold):
     if zero:
         assert s[0] == pytest.approx(0, threshold)
     assert s[-1] == pytest.approx(0, threshold)
+
 
 def test_brownian_excursion_sample_at(t, times, threshold):
     instance = BrownianExcursion(t)

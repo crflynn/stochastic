@@ -36,21 +36,13 @@ class OrnsteinUhlenbeckProcess(Continuous):
         self.gn = GaussianNoise(t)
 
     def __str__(self):
-        return ("Ornstein-Uhlenbeck process with speed={s}, mean={m}, vol={v}"
-                " on [0, {t}]").format(
-                    s=str(self.speed),
-                    m=str(self.mean),
-                    v=str(self.vol),
-                    t=str(self.t),
+        return "Ornstein-Uhlenbeck process with speed={s}, mean={m}, vol={v} on [0, {t}]".format(
+            s=str(self.speed), m=str(self.mean), v=str(self.vol), t=str(self.t)
         )
 
     def __repr__(self):
-        return ("OrnsteinUhlenbeckProcess(speed={s}, "
-                "mean={m}, vol={v}, t={t})").format(
-                    s=str(self.speed),
-                    m=str(self.mean),
-                    v=str(self.vol),
-                    t=str(self.t),
+        return "OrnsteinUhlenbeckProcess(speed={s}, mean={m}, vol={v}, t={t})".format(
+            s=str(self.speed), m=str(self.mean), v=str(self.vol), t=str(self.t)
         )
 
     @property
@@ -104,8 +96,7 @@ class OrnsteinUhlenbeckProcess(Continuous):
         if zero:
             s.append(initial)
         for k in range(n):
-            initial += self.speed * (self.mean - initial) * delta_t + \
-                self.vol * self._volatility(initial) * gns[k]
+            initial += self.speed * (self.mean - initial) * delta_t + self.vol * self._volatility(initial) * gns[k]
             s.append(initial)
 
         return np.array(s)

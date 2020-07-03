@@ -1,5 +1,4 @@
 """Test PoissonProcess."""
-# flake8: noqa
 import pytest
 
 from stochastic.continuous import PoissonProcess
@@ -9,6 +8,7 @@ def test_poisson_process_str_repr(rate):
     instance = PoissonProcess(rate)
     assert isinstance(repr(instance), str)
     assert isinstance(str(instance), str)
+
 
 def test_poisson_process_sample(rate, n_fixture, length, zero):
     instance = PoissonProcess(rate)
@@ -21,6 +21,7 @@ def test_poisson_process_sample(rate, n_fixture, length, zero):
     else:  # n_fixture is not None:
         s = instance.sample(n_fixture, length, zero)
         assert len(s) == n_fixture + int(zero)
+
 
 def test_poisson_process_times(rate, n):
     instance = PoissonProcess(rate)

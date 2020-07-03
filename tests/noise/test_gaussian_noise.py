@@ -1,5 +1,4 @@
 """Test GaussianNoise."""
-# flake8: noqa
 import pytest
 
 from stochastic.noise import GaussianNoise
@@ -10,10 +9,12 @@ def test_gaussian_noise_str_repr(t):
     assert isinstance(repr(instance), str)
     assert isinstance(str(instance), str)
 
+
 def test_gaussian_noise_sample(t, n, zero):
     instance = GaussianNoise(t)
     s = instance.sample(n)
     assert len(s) == n
+
 
 def test_gaussian_noise_sample_at(t, times):
     instance = GaussianNoise(t)
@@ -22,6 +23,7 @@ def test_gaussian_noise_sample_at(t, times):
         assert len(s) == len(times) - 1
     else:
         assert len(s) == len(times)
+
 
 def test_gaussian_noise_sample_at_zero(t, times):
     instance = GaussianNoise(t)

@@ -1,5 +1,4 @@
 """Test GammaProcess."""
-# flake8: noqa
 import pytest
 
 from stochastic.continuous import GammaProcess
@@ -17,15 +16,18 @@ def test_gamma_process_init(mean_fixture, variance_fixture, rate_fixture, scale_
         assert isinstance(repr(instance), str)
         assert isinstance(str(instance), str)
 
+
 def test_gamma_process_str_repr(mean, variance, t):
     instance = GammaProcess(mean, variance, t=t)
     assert isinstance(repr(instance), str)
     assert isinstance(str(instance), str)
 
+
 def test_gamma_process_sample(mean, variance, t, n, zero, threshold):
     instance = GammaProcess(mean, variance, t=t)
     s = instance.sample(n, zero)
     assert len(s) == n + int(zero)
+
 
 def test_gamma_process_sample_at(mean, variance, t, times, threshold):
     instance = GammaProcess(mean, variance, t=t)

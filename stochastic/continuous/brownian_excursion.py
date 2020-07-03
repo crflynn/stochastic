@@ -29,7 +29,7 @@ class BrownianExcursion(BrownianBridge):
         super(BrownianExcursion, self).__init__(t)
 
     def __str__(self):
-        return "Brownian excursion on [0, {t}]""".format(t=str(self.t))
+        return "Brownian excursion on [0, {t}]".format(t=str(self.t))
 
     def __repr__(self):
         return "BrownianExcursion(t={t})".format(t=str(self.t))
@@ -38,10 +38,7 @@ class BrownianExcursion(BrownianBridge):
         """Generate a Brownian excursion."""
         brownian_bridge = self._sample_brownian_bridge(n)
         idx_min = np.argmin(brownian_bridge)
-        s = np.array(
-            [brownian_bridge[(idx_min + idx) % n] - brownian_bridge[idx_min]
-             for idx in range(n + 1)]
-        )
+        s = np.array([brownian_bridge[(idx_min + idx) % n] - brownian_bridge[idx_min] for idx in range(n + 1)])
         if zero:
             return s
         else:
@@ -57,10 +54,7 @@ class BrownianExcursion(BrownianBridge):
         brownian_bridge = self._sample_brownian_bridge_at(times)
         idx_min = np.argmin(brownian_bridge)
         n = len(brownian_bridge)
-        s = np.array(
-            [brownian_bridge[(idx_min + idx) % (n - 1)] -
-             brownian_bridge[idx_min] for idx in range(n)]
-        )
+        s = np.array([brownian_bridge[(idx_min + idx) % (n - 1)] - brownian_bridge[idx_min] for idx in range(n)])
         if zero:
             return s
         else:

@@ -39,19 +39,13 @@ class GeometricBrownianMotion(Continuous):
         self._n = None
 
     def __str__(self):
-        return ("Geometric Brownian motion with drift {d} "
-                "and volatility {v} on [0, {t}].".format(
-                    t=str(self.t),
-                    d=str(self.drift),
-                    v=str(self.volatility)
-                )
+        return "Geometric Brownian motion with drift {d} and volatility {v} on [0, {t}].".format(
+            t=str(self.t), d=str(self.drift), v=str(self.volatility)
         )
 
     def __repr__(self):
         return "GeometricBrownianMotion(drift={d}, volatility={v}, t={t})".format(
-            t=str(self.t),
-            d=str(self.drift),
-            v=str(self.volatility)
+            t=str(self.t), d=str(self.drift), v=str(self.volatility)
         )
 
     @property
@@ -83,8 +77,7 @@ class GeometricBrownianMotion(Continuous):
         # Opt for repeated use
         if self._n != n:
             self._n = n
-            self._line = self._linspace(
-                self.drift - self.volatility ** 2 / 2.0, n, zero)
+            self._line = self._linspace(self.drift - self.volatility ** 2 / 2.0, n, zero)
 
         noise = self.volatility * self._brownian_motion.sample(n, zero)
 

@@ -18,4 +18,4 @@ License
 
 .. include:: ../CONTRIBUTORS.rst
 
-.. include:: ../HISTORY.rst
+.. include:: ../CHANGELOG.rst

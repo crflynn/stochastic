@@ -1,4 +1,3 @@
-# flake8: noqa
 import numpy as np
 import pytest
 
@@ -7,11 +6,12 @@ from stochastic.base import Continuous
 
 def test_check_times(end, n, zero, mocker):
     continuous = Continuous(end)
-    mocker.patch('stochastic.base.Continuous.times')
+    mocker.patch("stochastic.base.Continuous.times")
     assert continuous._n is None
     continuous._check_times(n, zero)
     assert continuous._n == n
     assert continuous.times.called
+
 
 def test_linspace(end, n, zero):
     continuous = Continuous(end)
@@ -21,16 +21,19 @@ def test_linspace(end, n, zero):
     else:
         assert (ls == np.linspace(1.0 * end / n, end, n)).all()
 
+
 def test_sample(end, n):
     continuous = Continuous(end)
     with pytest.raises(NotImplementedError):
         continuous.sample(n)
 
+
 def test_times(end, n, zero, mocker):
     continuous = Continuous(end)
-    mocker.patch('stochastic.base.Continuous._linspace')
+    mocker.patch("stochastic.base.Continuous._linspace")
     continuous.times(n, zero)
     assert continuous._linspace.called
+
 
 def test_check_time_sequence(end, times_fixture):
     continuous = Continuous(end)

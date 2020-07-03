@@ -25,28 +25,19 @@ class ConstantElasticityVarianceProcess(OrnsteinUhlenbeckProcess):
     """
 
     def __init__(self, mu=1, sigma=1, gamma=1, t=1):
-        super(ConstantElasticityVarianceProcess, self).__init__(
-            -mu, 0, sigma, t)
+        super(ConstantElasticityVarianceProcess, self).__init__(-mu, 0, sigma, t)
         self.mu = mu
         self.sigma = sigma
         self.gamma = gamma
 
     def __str__(self):
-        return ("Constant elasticity of variance process with drift={m}, "
-                "volatility={v}, exponent={e} on [0, {t}]").format(
-                    m=str(self.mu),
-                    v=str(self.sigma),
-                    e=str(self.gamma),
-                    t=str(self.t),
-        )
+        return (
+            "Constant elasticity of variance process with drift={m}, volatility={v}, exponent={e} on [0, {t}]"
+        ).format(m=str(self.mu), v=str(self.sigma), e=str(self.gamma), t=str(self.t))
 
     def __repr__(self):
-        return ("ConstantElasticityVarianceProcess(mu={m}, "
-                "sigma={s}, gamma={g}, t={t})").format(
-                    s=str(self.sigma),
-                    m=str(self.mu),
-                    g=str(self.gamma),
-                    t=str(self.t),
+        return "ConstantElasticityVarianceProcess(mu={m}, sigma={s}, gamma={g}, t={t})".format(
+            s=str(self.sigma), m=str(self.mu), g=str(self.gamma), t=str(self.t)
         )
 
     @property

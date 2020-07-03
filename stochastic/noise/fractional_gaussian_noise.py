@@ -14,7 +14,7 @@ def _fgn_autocovariance(hurst, n):
 
 def _fgn_dh_sqrt_eigenvals(hurst, n):
     """Square-roots of normalized circulant matrix eigenvalues for fGn."""
-    return np.fft.irfft(_fgn_autocovariance(hurst, n))[:n] ** (1/2)
+    return np.fft.irfft(_fgn_autocovariance(hurst, n))[:n] ** (1 / 2)
 
 
 class FractionalGaussianNoise(Continuous):
@@ -47,16 +47,10 @@ class FractionalGaussianNoise(Continuous):
         self._dh_sqrt_eigenvals = lru_cache(1)(_fgn_dh_sqrt_eigenvals)
 
     def __str__(self):
-        return "Fractional Gaussian noise with Hurst {h} on [0, {t}].".format(
-            h=self.hurst,
-            t=self.t
-        )
+        return "Fractional Gaussian noise with Hurst {h} on [0, {t}].".format(h=self.hurst, t=self.t)
 
     def __repr__(self):
-        return "FractionalGaussianNoise(hurst={h}, t={t})".format(
-            t=str(self.t),
-            h=str(self.hurst)
-        )
+        return "FractionalGaussianNoise(hurst={h}, t={t})".format(t=str(self.t), h=str(self.hurst))
 
     @property
     def hurst(self):
@@ -91,16 +85,16 @@ class FractionalGaussianNoise(Continuous):
 
         else:
             # Generate some more fGns to use power-of-two FFTs for speed.
-            m = 2 ** (n-2).bit_length() + 1
+            m = 2 ** (n - 2).bit_length() + 1
             sqrt_eigenvals = self._dh_sqrt_eigenvals(self.hurst, m)
 
             # irfft results will be normalized by (2(m-1))**(3/2) but we only
             # want to normalize by 2(m-1)**(1/2).
-            scale *= 2**(1/2) * (m - 1)
+            scale *= 2 ** (1 / 2) * (m - 1)
 
             w = np.random.normal(scale=scale, size=2 * m).view(complex)
-            w[0] = w[0].real * 2**(1/2)
-            w[-1] = w[-1].real * 2**(1/2)
+            w[0] = w[0].real * 2 ** (1 / 2)
+            w[-1] = w[-1].real * 2 ** (1 / 2)
 
             # Resulting z is fft of sequence w.
             return np.fft.irfft(sqrt_eigenvals * w)[:n]
@@ -147,7 +141,7 @@ class FractionalGaussianNoise(Continuous):
                 phi[i - 1] /= v
                 for j in range(i - 1):
                     phi[j] = psi[j] - phi[i - 1] * psi[i - j - 2]
-                v *= (1 - phi[i - 1] * phi[i - 1])
+                v *= 1 - phi[i - 1] * phi[i - 1]
                 for j in range(i):
                     fgn[i] += phi[j] * fgn[i - j - 1]
                 fgn[i] += np.sqrt(v) * gn[i]

@@ -26,23 +26,15 @@ class SquaredBesselProcess(BesselProcess):
         self._check_increments(n)
         self._check_zero(zero)
 
-        samples = [self.brownian_motion.sample(n, zero)
-                   for _ in range(self.dim)]
+        samples = [self.brownian_motion.sample(n, zero) for _ in range(self.dim)]
 
-        return np.array([
-            sum(map(lambda x: x**2, coord))
-            for coord in zip(*samples)
-        ])
+        return np.array([sum(map(lambda x: x ** 2, coord)) for coord in zip(*samples)])
 
     def _sample_squared_bessel_process_at(self, times):
         """Generate a realization of a squared Bessel process."""
-        samples = [self.brownian_motion.sample_at(times)
-                   for _ in range(self.dim)]
+        samples = [self.brownian_motion.sample_at(times) for _ in range(self.dim)]
 
-        return np.array([
-            sum(map(lambda x: x**2, coord))
-            for coord in zip(*samples)
-        ])
+        return np.array([sum(map(lambda x: x ** 2, coord)) for coord in zip(*samples)])
 
     def sample(self, n, zero=True):
         """Generate a realization.
