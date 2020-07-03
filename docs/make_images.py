@@ -1,4 +1,5 @@
 import math
+import os
 import random
 
 import matplotlib.pyplot as plt
@@ -30,7 +31,7 @@ def make_plot(title, fname, x, ys, xlabel="Time", ylabel="Value", scatter=False,
     ax.set_xlabel(xlabel)
     ax.set_ylabel(ylabel)
     plt.tight_layout()
-    plt.savefig("docs/_static/{}.png".format(fname))
+    plt.savefig(os.path.join(os.path.dirname(__file__)), "_static", "{}.png".format(fname))
     print(title + " saved")
     plt.close()
 

@@ -10,5 +10,9 @@ fmt:
 	poetry run isort -y
 	poetry run black .
 
+setup:
+	asdf install
+	poetry install
+
 test:
 	poetry run pytest
