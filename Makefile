@@ -3,7 +3,7 @@ cov:
 
 .PHONY: docs
 docs:
-	poetry export -f requirements.txt > docs/requirements.txt
+	poetry export --dev -f requirements.txt > docs/requirements.txt
 	cd docs && \
 	make html
 
