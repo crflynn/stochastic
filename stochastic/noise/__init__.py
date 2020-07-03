@@ -8,7 +8,6 @@ from stochastic.noise.colored_noise import WhiteNoise
 from stochastic.noise.fractional_gaussian_noise import FractionalGaussianNoise
 from stochastic.noise.gaussian_noise import GaussianNoise
 
-
 __all__ = [
     "BlueNoise",
     "BrownianNoise",

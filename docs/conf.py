@@ -25,10 +25,16 @@
 import os
 import sys
 
+# The theme to use for HTML and HTML Help pages.  See the documentation for
+# a list of builtin themes.
+#
+# html_theme = 'alabaster'
+import sphinx_rtd_theme
+
+import stochastic
 
 sys.path.insert(0, os.path.abspath(".."))
 
-import stochastic
 
 # -- General configuration ------------------------------------------------
 
@@ -88,11 +94,6 @@ todo_include_todos = False
 
 # -- Options for HTML output ----------------------------------------------
 
-# The theme to use for HTML and HTML Help pages.  See the documentation for
-# a list of builtin themes.
-#
-# html_theme = 'alabaster'
-import sphinx_rtd_theme
 
 html_theme = "sphinx_rtd_theme"
 
@@ -143,7 +144,7 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
-latex_documents = [(master_doc, "stochastic.tex", "stochastic Documentation", "Christopher Flynn", "manual")]
+latex_documents = [(master_doc, "stochastic.tex", "stochastic Documentation", "Christopher Flynn", "manual",)]
 
 
 # -- Options for manual page output ---------------------------------------

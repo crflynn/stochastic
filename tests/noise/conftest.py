@@ -64,6 +64,8 @@ def beta(request):
     return request.param
 
 
-@pytest.fixture(params=[ColoredNoise, WhiteNoise, PinkNoise, RedNoise, BrownianNoise, BlueNoise, VioletNoise])
+@pytest.fixture(
+    params=[ColoredNoise, WhiteNoise, PinkNoise, RedNoise, BrownianNoise, BlueNoise, VioletNoise,]
+)
 def colored_noise_class(request):
     return request.param

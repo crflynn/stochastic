@@ -1,5 +1,11 @@
-Release History
----------------
+Release Changelog
+-----------------
+
+0.5.0 (tbd)
+~~~~~~~~~~~
+
+* Fixed a bug with missing drift when sampling Brownian motion at specific times (thanks to `MichaelHogervorst <https://github.com/MichaelHogervorst>`_)
+* Fixed implementation of fractional Brownian motion (thanks to `Antony Lee <https://github.com/anntzer>`_)
 
 0.4.0 (2018-08-19)
 ~~~~~~~~~~~~~~~~~~

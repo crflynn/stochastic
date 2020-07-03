@@ -15,7 +15,6 @@ from stochastic.continuous.squared_bessel import SquaredBesselProcess
 from stochastic.continuous.variance_gamma import VarianceGammaProcess
 from stochastic.continuous.wiener import WienerProcess
 
-
 __all__ = [
     "BesselProcess",
     "BrownianBridge",

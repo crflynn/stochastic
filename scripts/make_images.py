@@ -9,7 +9,6 @@ from stochastic.diffusion import *
 from stochastic.discrete import *
 from stochastic.noise import *
 
-
 plt.style.use("bmh")
 
 
@@ -192,7 +191,9 @@ def main():
 
     process = MixedPoissonProcess(random.uniform, (1, 5))
     ss = get_samples(n_samples, process, {"n": 500})
-    make_plot("Mixed Poisson process", "mixed_poisson_process", t, ss, "Time", "Value", alt=True)
+    make_plot(
+        "Mixed Poisson process", "mixed_poisson_process", t, ss, "Time", "Value", alt=True,
+    )
 
 
 if __name__ == "__main__":
