@@ -5,7 +5,7 @@ python:
   - "3.7"
   - "3.8"
 install:
-  - pip install poetry==1.0.5
+  - pip install poetry==1.0.10
   - poetry install
 script:
   - poetry run isort -y -c

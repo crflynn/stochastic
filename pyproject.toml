@@ -30,7 +30,7 @@ line_length = 120
 
 [tool.poetry]
 name = "stochastic"
-version = "0.4.0"
+version = "0.5.0"
 description = "Generate realizations of stochastic processes"
 authors = ["Flynn <crf204@gmail.com>"]
 license = "MIT"
