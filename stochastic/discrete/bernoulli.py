@@ -46,7 +46,7 @@ class BernoulliProcess(Checks):
         """Generate a Bernoulli process realization."""
         self._check_increments(n)
 
-        return np.array([1 if trial > self.p else 0 for trial in np.random.uniform(size=n)])
+        return np.array([1 if trial < self.p else 0 for trial in np.random.uniform(size=n)])
 
     def sample(self, n):
         """Generate a Bernoulli process realization.
