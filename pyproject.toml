@@ -30,7 +30,7 @@ line_length = 120
 
 [tool.poetry]
 name = "stochastic"
-version = "0.4.0"
+version = "0.5.0"
 description = "Generate realizations of stochastic processes"
 authors = ["Flynn <crf204@gmail.com>"]
 license = "MIT"
@@ -48,6 +48,7 @@ classifiers = [
     "Programming Language :: Python :: 3.6",
     "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: Implementation :: CPython",
     "Topic :: Scientific/Engineering",
     "Topic :: Scientific/Engineering :: Mathematics",

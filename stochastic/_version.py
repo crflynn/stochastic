@@ -2,7 +2,7 @@
 __title__ = "stochastic"
 __description__ = "Stochastic process realizations."
 __url__ = "https://github.com/crflynn/stochastic"
-__version__ = "0.4.0"
+__version__ = "0.5.0"
 __author__ = "Christopher Flynn"
 __author_email__ = "crf204@gmail.com"
 __license__ = "MIT"
