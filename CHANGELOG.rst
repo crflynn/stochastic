@@ -1,11 +1,12 @@
 Release Changelog
 -----------------
 
-0.5.0 (tbd)
-~~~~~~~~~~~
+0.5.0 (2020-09-22)
+~~~~~~~~~~~~~~~~~~
 
 * Fixed a bug with missing drift when sampling Brownian motion at specific times (thanks to `MichaelHogervorst <https://github.com/MichaelHogervorst>`_)
 * Fixed implementation of fractional Brownian motion (thanks to `Antony Lee <https://github.com/anntzer>`_)
+* Fixed a bug with Bernoulli process success probability
 
 0.4.0 (2018-08-19)
 ~~~~~~~~~~~~~~~~~~
