@@ -89,21 +89,16 @@ class GammaProcess(Continuous):
         self._check_positive_number(value, "Variance parameter")
         self._variance = value
 
-    def _sample_gamma_process(self, n, zero=True):
+    def _sample_gamma_process(self, n):
         """Sample a Gamma process."""
         self._check_increments(n)
-        self._check_zero(zero)
         delta_t = 1.0 * self.t / n
 
         shape = 1.0 * self.mean ** 2 * delta_t / self.variance
         scale = 1.0 * self.variance / self.mean
 
         samples = np.cumsum(np.random.gamma(shape=shape, scale=scale, size=n))
-
-        if zero:
-            return np.concatenate(([0], samples))
-        else:
-            return samples
+        return np.concatenate(([0], samples))
 
     def _sample_gamma_process_at(self, times):
         """Sample a Gamma process at specific times."""
@@ -122,17 +117,17 @@ class GammaProcess(Continuous):
 
         return np.cumsum(s)
 
-    def sample(self, n, zero=True):
+    def sample(self, n):
         """Generate a realization.
 
         :param int n: the number of increments to generate
-        :param bool zero: if True, include :math:`t=0`
         """
-        return self._sample_gamma_process(n, zero)
+        return self._sample_gamma_process(n)
 
     def sample_at(self, times):
         """Generate a realization at specified times.
 
-        :param int times: the times at which to generate the realization
+        :param times: a vector of increasing time values at which to generate
+            the realization
         """
         return self._sample_gamma_process_at(times)

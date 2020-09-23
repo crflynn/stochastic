@@ -73,9 +73,3 @@ class ConstantElasticityVarianceProcess(OrnsteinUhlenbeckProcess):
     def _volatility(self, arg):
         """O-U Volatility coefficient."""
         return arg ** self.gamma
-
-
-class CEVProcess(ConstantElasticityVarianceProcess):
-    """Alias for ConstantElasticityVarianceProcess."""
-
-    pass

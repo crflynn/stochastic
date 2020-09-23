@@ -78,20 +78,16 @@ class RandomWalk(Checks):
     def __repr__(self):
         return "RandomWalk(steps={s}, weights={w})".format(s=str(self.steps), w=str(self.weights))
 
-    def _sample_random_walk(self, n, zero=True):
+    def _sample_random_walk(self, n):
         """Generate a random walk."""
-        if zero:
-            return np.array([0] + list(np.cumsum(self._sample_random_walk_increments(n))))
-        else:
-            return np.cumsum(self._sample_random_walk_increments(n))
+        return np.array([0] + list(np.cumsum(self._sample_random_walk_increments(n))))
 
-    def sample(self, n, zero=True):
+    def sample(self, n):
         """Generate a sample random walk.
 
         :param int n: the number of steps to generate
-        :param bool zero: if True include the step at :math:`t=0`
         """
-        return self._sample_random_walk(n, zero)
+        return self._sample_random_walk(n)
 
     def _sample_random_walk_increments(self, n):
         """Generate a sample of random walk increments."""

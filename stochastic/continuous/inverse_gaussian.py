@@ -84,13 +84,11 @@ class InverseGaussianProcess(Continuous):
             raise ValueError("Mean must be monotonically increasing.")
         return delta
 
-    def _sample_inverse_gaussian_process(self, n, zero=True):
+    def _sample_inverse_gaussian_process(self, n):
         """Generate a realization of the inverse Gaussian process.
 
         Generate an inverse Gaussian process realization with n increments.
-        If zero is True then include IG_0 = 0.
         """
-        self._check_zero(zero)
         times = self.times(n)
 
         if self._n != n:
@@ -121,18 +119,15 @@ class InverseGaussianProcess(Continuous):
                 ign.append(m ** 2 / x)
 
         ig = np.array(ign).cumsum()
-        if zero:
-            ig = np.insert(ig, [0], 0)
-
+        ig = np.insert(ig, [0], 0)
         return ig
 
-    def sample(self, n, zero=True):
+    def sample(self, n):
         """Generate a realization.
 
         :param int n: the number of increments to generate
-        :param bool zero: if True, include :math:`t=0`
         """
-        return self._sample_inverse_gaussian_process(n, zero)
+        return self._sample_inverse_gaussian_process(n)
 
     def _sample_inverse_gaussian_process_at(self, times):
         """Generate an inverse Gaussian process at specified times."""

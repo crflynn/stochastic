@@ -10,13 +10,12 @@ def test_brownian_meander_str_repr(t):
     assert isinstance(str(instance), str)
 
 
-def test_brownian_meander_sample(t, n, b, zero, threshold):
+def test_brownian_meander_sample(t, n, b, threshold):
     instance = BrownianMeander(t)
-    s = instance.sample(n, b, zero)
-    assert len(s) == n + int(zero)
+    s = instance.sample(n, b)
+    assert len(s) == n + 1
     assert (s >= 0).all()
-    if zero:
-        assert s[0] == pytest.approx(0, threshold)
+    assert s[0] == pytest.approx(0, threshold)
 
 
 def test_brownian_meander_sample_at(t, times, b, threshold):

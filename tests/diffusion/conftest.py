@@ -19,11 +19,6 @@ def n(request):
     return request.param
 
 
-@pytest.fixture(params=[True, False])
-def zero(request):
-    return request.param
-
-
 @pytest.fixture(params=[1])
 def initial(request):
     return request.param

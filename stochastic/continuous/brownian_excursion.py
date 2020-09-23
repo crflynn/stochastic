@@ -34,15 +34,12 @@ class BrownianExcursion(BrownianBridge):
     def __repr__(self):
         return "BrownianExcursion(t={t})".format(t=str(self.t))
 
-    def _sample_brownian_excursion(self, n, zero=True):
+    def _sample_brownian_excursion(self, n):
         """Generate a Brownian excursion."""
         brownian_bridge = self._sample_brownian_bridge(n)
         idx_min = np.argmin(brownian_bridge)
         s = np.array([brownian_bridge[(idx_min + idx) % n] - brownian_bridge[idx_min] for idx in range(n + 1)])
-        if zero:
-            return s
-        else:
-            return s[1:]
+        return s
 
     def _sample_brownian_excursion_at(self, times):
         """Generate a Brownian excursion."""
@@ -60,13 +57,12 @@ class BrownianExcursion(BrownianBridge):
         else:
             return s[1:]
 
-    def sample(self, n, zero=True):
+    def sample(self, n):
         """Generate a realization.
 
         :param int n: the number of increments to generate.
-        :param bool zero: if True, include :math:`t=0`
         """
-        return self._sample_brownian_excursion(n, zero)
+        return self._sample_brownian_excursion(n)
 
     def sample_at(self, times):
         """Generate a realization using specified times.

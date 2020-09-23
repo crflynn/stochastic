@@ -34,6 +34,8 @@ class ColoredNoise(Continuous):
         super(ColoredNoise, self).__init__(t)
         self.beta = beta
         self._n = None
+        self._half = None
+        self._frequencies = None
         self._scale = None
 
     def __str__(self):
@@ -60,13 +62,13 @@ class ColoredNoise(Continuous):
         n = n + 1
         if self._n != n:
             self._n = n
-            half = (n + 1) // 2
 
-            frequencies = np.fft.fftfreq(n, self.t)
-            self._scale = [np.sqrt(0.5 * (1 / w) ** self.beta) for w in frequencies[1:half]]
+            self._half = (n + 1) // 2
+            self._frequencies = np.fft.fftfreq(n, self.t)
+            self._scale = [np.sqrt(0.5 * (1 / w) ** self.beta) for w in self._frequencies[1 : self._half]]
 
-        gn_real = np.random.normal(size=half - 1)
-        gn_imag = np.random.normal(size=half - 1)
+        gn_real = np.random.normal(size=self._half - 1)
+        gn_imag = np.random.normal(size=self._half - 1)
         fft = self._scale * (gn_real + 1j * gn_imag)
 
         if n % 2 == 0:
@@ -74,7 +76,7 @@ class ColoredNoise(Continuous):
                 (
                     [0],
                     fft,
-                    [np.sqrt(0.5 * (1 / -frequencies[half]) ** self.beta) * np.random.normal()],
+                    [np.sqrt(0.5 * (1 / -self._frequencies[self._half]) ** self.beta) * np.random.normal()],
                     np.conj(fft)[::-1],
                 )
             )
@@ -107,7 +109,7 @@ class PinkNoise(ColoredNoise):
     """
 
     def __init__(self, t=1):
-        super(PinkNoise, self).__init__(1, t)
+        super(PinkNoise, self).__init__(beta=1, t=t)
 
 
 class WhiteNoise(ColoredNoise):
@@ -124,7 +126,7 @@ class WhiteNoise(ColoredNoise):
     """
 
     def __init__(self, t=1):
-        super(WhiteNoise, self).__init__(0, t)
+        super(WhiteNoise, self).__init__(beta=0, t=t)
 
 
 class RedNoise(ColoredNoise):
@@ -141,7 +143,7 @@ class RedNoise(ColoredNoise):
     """
 
     def __init__(self, t=1):
-        super(RedNoise, self).__init__(2, t)
+        super(RedNoise, self).__init__(beta=2, t=t)
 
 
 class BrownianNoise(RedNoise):
@@ -156,7 +158,6 @@ class BrownianNoise(RedNoise):
     :param float t: the right hand endpoint of the time interval :math:`[0,t]`
         for the process
     """
-
     pass
 
 
@@ -174,7 +175,7 @@ class BlueNoise(ColoredNoise):
     """
 
     def __init__(self, t=1):
-        super(BlueNoise, self).__init__(-1, t)
+        super().__init__(beta=-1, t=t)
 
 
 class VioletNoise(ColoredNoise):
@@ -191,4 +192,4 @@ class VioletNoise(ColoredNoise):
     """
 
     def __init__(self, t=1):
-        super(VioletNoise, self).__init__(-2, t)
+        super().__init__(beta=-2, t=t)

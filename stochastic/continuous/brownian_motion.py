@@ -58,33 +58,31 @@ class BrownianMotion(GaussianNoise):
         self._check_positive_number(value, "Scale")
         self._scale = value
 
-    def _sample_brownian_motion(self, n, zero=True):
+    def _sample_brownian_motion(self, n):
         """Generate a realization of Brownian Motion.
 
         Generate a Brownian motion realization with n increments. If zero is
         True then include W_0 = 0.
         """
-        self._check_zero(zero)
-
         # Some opt for repeats
         if self.drift != 0 and (self._line is None or len(self._line) != n):
             self._n = n
-            self._line = self._linspace(self.drift, n, zero)
+            self._line = self._linspace(self.drift, n)
 
-        bm = np.cumsum(self.scale * self._sample_gaussian_noise(n, zero))
+        bm = np.cumsum(self.scale * self._sample_gaussian_noise(n))
+        bm = np.insert(bm, [0], 0)
 
         if self.drift != 0:
             return self._line + bm
         else:
             return bm
 
-    def sample(self, n, zero=True):
+    def sample(self, n):
         """Generate a realization.
 
         :param int n: the number of increments to generate
-        :param bool zero: if True, include :math:`t=0`
         """
-        return self._sample_brownian_motion(n, zero)
+        return self._sample_brownian_motion(n)
 
     def _sample_brownian_motion_at(self, times):
         """Generate a Brownian motion at specified times."""

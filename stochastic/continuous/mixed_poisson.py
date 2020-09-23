@@ -23,10 +23,11 @@ class MixedPoissonProcess(PoissonProcess):
     :param dict rate_kwargs: keyword args for ``rate_func``
     """
 
-    def __init__(self, rate_func, rate_args=(), rate_kwargs={}):
+    def __init__(self, rate_func, rate_args=None, rate_kwargs=None):
         self.rate_func = rate_func
-        self.rate_args = rate_args
-        self.rate_kwargs = rate_kwargs
+        self.rate_args = rate_args if rate_args is not None else tuple()
+        self.rate_kwargs = rate_kwargs if rate_kwargs is not None else dict()
+        super().__init__(rate=1)
 
     def __str__(self):
         return "Mixed Poisson process with random rate."
@@ -86,7 +87,7 @@ class MixedPoissonProcess(PoissonProcess):
         """Generate a rate variate."""
         return self.rate_func(*self.rate_args, **self.rate_kwargs)
 
-    def sample(self, n=None, length=None, zero=True):
+    def sample(self, n=None, length=None):
         """Generate a realization.
 
         Exactly one of `n` and `length` must be provided. Generates a random
@@ -96,7 +97,6 @@ class MixedPoissonProcess(PoissonProcess):
         :param int n: the number of arrivals to simulate
         :param int length: the length of time to simulate; will generate
             arrivals until length is met or exceeded.
-        :param bool zero: if True, include :math:`t=0`
         """
         self.rate = self._sample_rate()
-        return self._sample_poisson_process(n, length, zero)
+        return self._sample_poisson_process(n, length)

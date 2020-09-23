@@ -41,12 +41,3 @@ def test_check_nonnegative_number(nonnegative_number_fixture, parameter_name_fix
             checks._check_nonnegative_number(nonnegative_number_fixture, parameter_name_fixture)
     else:
         assert checks._check_nonnegative_number(nonnegative_number_fixture, parameter_name_fixture) is None
-
-
-def test_check_zero(zero_fixture):
-    checks = Checks()
-    if not isinstance(zero_fixture, bool):
-        with pytest.raises(TypeError):
-            checks._check_zero(zero_fixture)
-    else:
-        assert checks._check_zero(zero_fixture) is None
