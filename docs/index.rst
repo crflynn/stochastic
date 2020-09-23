@@ -1,8 +1,3 @@
-.. stochastic documentation master file, created by
-   sphinx-quickstart on Sun Dec 31 20:50:28 2017.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
 stochastic
 ==========
 
@@ -47,7 +42,7 @@ certain random variable generation.
 Compatibility
 -------------
 
-Stochastic is tested on Python versions 2.7, 3.4, 3.5, and 3.6.
+Stochastic is tested on Python versions 3.6, 3.7, and 3.8.
 
 Performance
 -----------
