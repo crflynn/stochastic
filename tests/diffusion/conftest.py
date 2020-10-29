@@ -8,7 +8,6 @@ def threshold(request):
     return request.param
 
 
-# Common
 @pytest.fixture(params=[1])
 def t(request):
     return request.param
@@ -19,19 +18,18 @@ def n(request):
     return request.param
 
 
-@pytest.fixture(params=[True, False])
-def zero(request):
-    return request.param
-
-
 @pytest.fixture(params=[1])
 def initial(request):
     return request.param
 
 
-# OrnsteinUhlenbeckProcess
 @pytest.fixture(params=[1])
 def speed(request):
+    return request.param
+
+
+@pytest.fixture(params=[1])
+def drift(request):
     return request.param
 
 
@@ -45,17 +43,7 @@ def vol(request):
     return request.param
 
 
-# CEVProcess
 @pytest.fixture(params=[1])
-def mu(request):
+def volexp(request):
     return request.param
 
-
-@pytest.fixture(params=[1])
-def sigma(request):
-    return request.param
-
-
-@pytest.fixture(params=[1])
-def gamma(request):
-    return request.param

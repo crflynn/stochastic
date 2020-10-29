@@ -13,14 +13,14 @@ class MarkovChain(Checks):
     A Markov Chain which changes between states according to the transition
     matrix.
 
-    :param transition: a square matrix representing the transition
+    :param 2darray transition: a square matrix representing the transition
         probabilities between states.
-    :param initial: a vector representing the initial state probabilities. If
+    :param 1darray initial: a vector representing the initial state probabilities. If
         not provided, each state has equal initial probability.
     """
 
-    def __init__(self, transition=[[0.5, 0.5], [0.5, 0.5]], initial=None):
-        self.transition = transition
+    def __init__(self, transition=None, initial=None):
+        self.transition = transition or np.array([[0.5, 0.5], [0.5, 0.5]])
         if initial is None:
             self.initial = [1.0 / len(self.transition) for t in self.transition]
         else:
