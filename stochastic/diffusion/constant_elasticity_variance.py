@@ -38,14 +38,14 @@ class ConstantElasticityVarianceProcess(DiffusionProcess):
             mean=self._default_const(1),
             vol=self._default_const(vol),
             volexp=self._default_const(volexp),
-            t=t
+            t=t,
         )
         self.drift = drift
 
     def __str__(self):
-        return (
-            "Constant elasticity of variance process with drift={m}, vol={v}, volexp={e} on [0, {t}]"
-        ).format(m=str(self.drift), v=str(self.vol), e=str(self.volexp), t=str(self.t))
+        return ("Constant elasticity of variance process with drift={m}, vol={v}, volexp={e} on [0, {t}]").format(
+            m=str(self.drift), v=str(self.vol), e=str(self.volexp), t=str(self.t)
+        )
 
     def __repr__(self):
         return "ConstantElasticityVarianceProcess(drift={d}, vol={v}, volexp={e}, t={t})".format(

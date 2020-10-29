@@ -60,6 +60,7 @@ class DiffusionProcess(Continuous):
     def _default_const(self, value):
         def const(t):
             return value
+
         return const
 
     def _check_numeric_or_single_arg_callable(self, value, varname):
@@ -127,8 +128,10 @@ class DiffusionProcess(Continuous):
         t = 0
         for k in range(n):
             t += delta_t
-            initial += self._speed(t) * (self._mean(t) - initial) * delta_t + self._vol(t) * initial ** self._volexp(
-                initial) * gns[k]
+            initial += (
+                self._speed(t) * (self._mean(t) - initial) * delta_t
+                + self._vol(t) * initial ** self._volexp(initial) * gns[k]
+            )
             s.append(initial)
 
         return np.array(s)
@@ -140,4 +143,3 @@ class DiffusionProcess(Continuous):
         :param float initial: the initial value of the process
         """
         return self._sample(n, initial)
-

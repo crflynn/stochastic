@@ -34,12 +34,10 @@ class VasicekProcess(ExtendedVasicekProcess):
     :param float t: the right hand endpoint of the time interval :math:`[0,t]`
         for the process
     """
+
     def __init__(self, speed=1, mean=1, vol=1, t=1):
         super().__init__(
-            speed=self._default_const(speed),
-            mean=self._default_const(mean),
-            vol=self._default_const(vol),
-            t=t
+            speed=self._default_const(speed), mean=self._default_const(mean), vol=self._default_const(vol), t=t
         )
 
     def __str__(self):

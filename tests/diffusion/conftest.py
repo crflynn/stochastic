@@ -46,4 +46,3 @@ def vol(request):
 @pytest.fixture(params=[1])
 def volexp(request):
     return request.param
-
