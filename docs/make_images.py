@@ -1,14 +1,9 @@
-import math
 import os
 import random
 
 import matplotlib.pyplot as plt
-import numpy as np
 
-from stochastic.continuous import *
-from stochastic.diffusion import *
-from stochastic.discrete import *
-from stochastic.noise import *
+from stochastic.processes.continuous import *
 
 plt.style.use("bmh")
 

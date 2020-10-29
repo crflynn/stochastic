@@ -60,7 +60,6 @@ Documentation
    :maxdepth: 2
 
    general
-   base
    discrete
    noise
    continuous
