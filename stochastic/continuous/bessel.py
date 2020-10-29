@@ -47,28 +47,23 @@ class BesselProcess(Continuous):
             raise ValueError("Dimension must be positive.")
         self._dim = value
 
-    def _sample_bessel_process(self, n, zero=True):
+    def _sample_bessel_process(self, n):
         """Generate a realization of a Bessel process."""
         self._check_increments(n)
-        self._check_zero(zero)
-
-        samples = [self.brownian_motion.sample(n, zero) for _ in range(self.dim)]
-
+        samples = [self.brownian_motion.sample(n) for _ in range(self.dim)]
         return np.array([np.linalg.norm(coord) for coord in zip(*samples)])
 
     def _sample_bessel_process_at(self, times):
         """Generate a realization of a Bessel process."""
         samples = [self.brownian_motion.sample_at(times) for _ in range(self.dim)]
-
         return np.array([np.linalg.norm(coord) for coord in zip(*samples)])
 
-    def sample(self, n, zero=True):
+    def sample(self, n):
         """Generate a realization.
 
         :param int n: the number of increments to generate
-        :param bool zero: if True, include :math:`t=0`
         """
-        return self._sample_bessel_process(n, zero)
+        return self._sample_bessel_process(n)
 
     def sample_at(self, times):
         """Generate a realization using specified times.

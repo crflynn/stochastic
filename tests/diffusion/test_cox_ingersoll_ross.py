@@ -1,5 +1,5 @@
 """Cox-Ingersoll-Ross tests."""
-from stochastic.diffusion.cox_ingersoll_ross import CoxIngersollRossProcess
+from stochastic.diffusion import CoxIngersollRossProcess
 
 
 def test_cox_ingersoll_ross_str_repr(speed, mean, vol, t):

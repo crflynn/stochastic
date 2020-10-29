@@ -38,33 +38,27 @@ class BrownianBridge(BrownianMotion):
         self._check_number(value, "Time end")
         self._b = value
 
-    def _sample_brownian_bridge(self, n, zero=True, b=None):
+    def _sample_brownian_bridge(self, n, b=None):
         """Generate a realization of a Brownian bridge."""
         if b is None:
             b = self.b
-
-        self._check_times(n, zero)
-
-        bm = self._sample_brownian_motion(n, zero)
-
+        self._check_times(n)
+        bm = self._sample_brownian_motion(n)
         return bm + self._times * (b - bm[-1]) / self.t
 
     def _sample_brownian_bridge_at(self, times, b=None):
         """Generate a realization of a Brownian bridge at times."""
         if b is None:
             b = self.b
-
         bm = self._sample_brownian_motion_at(times)
-
         return bm + np.array(times) * (b - bm[-1]) / times[-1]
 
-    def sample(self, n, zero=True):
+    def sample(self, n):
         """Generate a realization.
 
         :param int n: the number of increments to generate
-        :param bool zero: if True, include time :math:`t=0`
         """
-        return self._sample_brownian_bridge(n, zero)
+        return self._sample_brownian_bridge(n)
 
     def sample_at(self, times, b=None):
         """Generate a realization using specified times.

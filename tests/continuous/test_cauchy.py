@@ -10,10 +10,10 @@ def test_cauchy_process_str_repr(t):
     assert isinstance(str(instance), str)
 
 
-def test_cauchy_process_sample(t, n, zero, threshold):
+def test_cauchy_process_sample(t, n, threshold):
     instance = CauchyProcess(t)
-    s = instance.sample(n, zero)
-    assert len(s) == n + int(zero)
+    s = instance.sample(n)
+    assert len(s) == n + 1
 
 
 def test_cauchy_process_sample_at(t, times, threshold):

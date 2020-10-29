@@ -25,10 +25,6 @@ class Checks(object):
         if value < 0:
             raise ValueError(name + " value must be nonnegative.")
 
-    def _check_zero(self, zero):
-        if not isinstance(zero, bool):
-            raise TypeError("Zero inclusion flag must be a boolean.")
-
 
 class Continuous(Checks):
     """Base class to be subclassed to most process classes.
@@ -52,10 +48,10 @@ class Continuous(Checks):
         self._check_positive_number(value, "Time end")
         self._t = float(value)
 
-    def _check_times(self, n, zero):
+    def _check_times(self, n):
         if self._n != n:
             self._n = n
-            self._times = self.times(n, zero)
+            self._times = self.times(n)
 
     def _check_time_sequence(self, times):
         increments = np.diff(times)
@@ -65,12 +61,9 @@ class Continuous(Checks):
             raise ValueError("Times must be strictly increasing.")
         return increments
 
-    def _linspace(self, end, n, zero=True):
+    def _linspace(self, end, n):
         """Generate a linspace from 0 to end for n increments."""
-        if zero:
-            return np.linspace(0, end, n + 1)
-        else:
-            return np.linspace(1.0 * end / n, end, n)
+        return np.linspace(0, end, n + 1)
 
     def sample(self, *args, **kwargs):
         """Sample the process.
@@ -79,13 +72,10 @@ class Continuous(Checks):
         """
         raise NotImplementedError
 
-    def times(self, n, zero=True):
+    def times(self, n):
         """Generate times associated with n increments on [0, t].
 
         :param int n: the number of increments
-        :param bool zero: if True, include :math:`t=0`
         """
         self._check_increments(n)
-        self._check_zero(zero)
-
-        return self._linspace(self.t, n, zero)
+        return self._linspace(self.t, n)

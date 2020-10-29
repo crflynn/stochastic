@@ -16,10 +16,10 @@ def test_variance_gamma_str_repr(drift, variance, scale, t):
     assert isinstance(str(instance), str)
 
 
-def test_variance_gamma_sample(drift, variance, scale, t, n, zero, threshold):
+def test_variance_gamma_sample(drift, variance, scale, t, n, threshold):
     instance = VarianceGammaProcess(drift, variance, scale, t)
-    s = instance.sample(n, zero)
-    assert len(s) == n + int(zero)
+    s = instance.sample(n)
+    assert len(s) == n + 1
 
 
 def test_variance_gamma_sample_at(drift, variance, scale, t, times, threshold):

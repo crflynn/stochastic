@@ -4,22 +4,19 @@ import pytest
 from stochastic.base import Continuous
 
 
-def test_check_times(end, n, zero, mocker):
+def test_check_times(end, n, mocker):
     continuous = Continuous(end)
     mocker.patch("stochastic.base.Continuous.times")
     assert continuous._n is None
-    continuous._check_times(n, zero)
+    continuous._check_times(n)
     assert continuous._n == n
     assert continuous.times.called
 
 
-def test_linspace(end, n, zero):
+def test_linspace(end, n):
     continuous = Continuous(end)
-    ls = continuous._linspace(end, n, zero)
-    if zero:
-        assert (ls == np.linspace(0, end, n + 1)).all()
-    else:
-        assert (ls == np.linspace(1.0 * end / n, end, n)).all()
+    ls = continuous._linspace(end, n)
+    assert (ls == np.linspace(0, end, n + 1)).all()
 
 
 def test_sample(end, n):
@@ -28,10 +25,10 @@ def test_sample(end, n):
         continuous.sample(n)
 
 
-def test_times(end, n, zero, mocker):
+def test_times(end, n, mocker):
     continuous = Continuous(end)
     mocker.patch("stochastic.base.Continuous._linspace")
-    continuous.times(n, zero)
+    continuous.times(n)
     assert continuous._linspace.called
 
 

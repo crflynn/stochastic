@@ -10,10 +10,10 @@ def test_multifractional_brownian_motion_str_repr(hurst_func, t):
     assert isinstance(str(instance), str)
 
 
-def test_multifractional_brownian_motion_sample(hurst_func, t, n, zero):
+def test_multifractional_brownian_motion_sample(hurst_func, t, n):
     instance = MultifractionalBrownianMotion(hurst_func, t)
-    s = instance.sample(n, zero)
-    assert len(s) == n + int(zero)
+    s = instance.sample(n)
+    assert len(s) == n + 1
 
 
 def test_multifractional_brownian_motion_invalid_hurst(hurst_invalid, t):

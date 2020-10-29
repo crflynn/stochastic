@@ -13,13 +13,13 @@ def test_brownian_bridge_str_repr(b, t):
     assert isinstance(str(instance), str)
 
 
-def test_brownian_bridge_sample(b, t, n, zero, threshold):
+def test_brownian_bridge_sample(b, t, n, threshold):
     if b is not None:
         instance = BrownianBridge(b, t)
     else:
         instance = BrownianBridge(t)
-    s = instance.sample(n, zero)
-    assert len(s) == n + int(zero)
+    s = instance.sample(n)
+    assert len(s) == n + 1
     assert s[-1] == pytest.approx(instance.b, threshold)
 
 

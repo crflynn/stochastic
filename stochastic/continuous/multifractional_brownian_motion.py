@@ -75,7 +75,7 @@ class MultifractionalBrownianMotion(Continuous):
             if h <= 0 or h >= 1:
                 raise ValueError("Hurst range must be on interval (0, 1).")
 
-    def _sample_multifractional_brownian_motion(self, n, zero=True):
+    def _sample_multifractional_brownian_motion(self, n):
         """Generate Riemann-Liouville mBm."""
         gn = np.random.normal(0.0, 1.0, n)
         if self._n != n:
@@ -83,10 +83,7 @@ class MultifractionalBrownianMotion(Continuous):
             self._dt = 1.0 * self.t / self._n
             self._ts = self.times(n)
             self._check_hurst(self.hurst)
-        if zero:
-            mbm = [0]
-        else:
-            mbm = []
+        mbm = [0]
         coefs = [(g / np.sqrt(self._dt)) * self._dt for g in gn]
         for k in range(1, self._n + 1):
             weights = [self._w(t, self._hs[k]) for t in self._ts[1 : k + 1]]
@@ -94,13 +91,12 @@ class MultifractionalBrownianMotion(Continuous):
             mbm.append(sum(seq))
         return np.array(mbm)
 
-    def sample(self, n, zero=True):
+    def sample(self, n):
         """Generate a realization.
 
         :param int n: the number of increments to generate
-        :param bool zero: if True, include :math:`t=0`
         """
-        return self._sample_multifractional_brownian_motion(n, zero)
+        return self._sample_multifractional_brownian_motion(n)
 
     def _w(self, t, hurst):
         """Get the Riemann-Liouville method weight for time t."""

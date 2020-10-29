@@ -1,5 +1,5 @@
 """Ornstein-Uhlenbeck tests."""
-from stochastic.diffusion.ornstein_uhlenbeck import OrnsteinUhlenbeckProcess
+from stochastic.diffusion import OrnsteinUhlenbeckProcess
 
 
 def test_ornstein_uhlenbeck_str_repr(speed, vol, t):
@@ -8,7 +8,7 @@ def test_ornstein_uhlenbeck_str_repr(speed, vol, t):
     assert isinstance(str(instance), str)
 
 
-def test_ornstein_uhlenbeck_sample(speed, vol, t, n, initial, threshold):
+def test_ornstein_uhlenbeck_sample(speed, mean, vol, t, n, initial, threshold):
     instance = OrnsteinUhlenbeckProcess(speed, vol, t)
     s = instance.sample(n, initial)
     assert len(s) == n + 1

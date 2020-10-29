@@ -22,9 +22,10 @@ class MarkovChain(Checks):
     def __init__(self, transition=None, initial=None):
         self.transition = transition or np.array([[0.5, 0.5], [0.5, 0.5]])
         if initial is None:
-            self.initial = [1.0 / len(self.transition) for t in self.transition]
+            self.initial = [1.0 / len(self.transition) for _ in self.transition]
         else:
             self.initial = initial
+
         self.num_states = len(self.initial)
 
     def __str__(self):

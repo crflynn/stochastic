@@ -62,4 +62,3 @@ class ConstantElasticityVarianceProcess(DiffusionProcess):
         self._check_number(value, "Drift coefficient.")
         self._drift = self._ensure_callable(value)
         self.speed = self._ensure_callable(-value)
-

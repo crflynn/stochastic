@@ -2,7 +2,7 @@
 import numpy as np
 
 
-class MoranProcess(object):
+class MoranProcess:
     """Moran process.
 
     .. image:: _static/moran_process.png
