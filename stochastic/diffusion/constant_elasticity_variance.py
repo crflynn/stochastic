@@ -1,8 +1,8 @@
 """Constant elasticity of variance (CEV) process."""
-from stochastic.diffusion.ornstein_uhlenbeck import OrnsteinUhlenbeckProcess
+from stochastic.diffusion.base import DiffusionProcess
 
 
-class ConstantElasticityVarianceProcess(OrnsteinUhlenbeckProcess):
+class ConstantElasticityVarianceProcess(DiffusionProcess):
     r"""Constant elasticity of variance process.
 
     .. image:: _static/constant_elasticity_variance_process.png
@@ -17,59 +17,48 @@ class ConstantElasticityVarianceProcess(OrnsteinUhlenbeckProcess):
 
     Realizations are generated using the Euler-Maruyama method.
 
-    :param float mu: the drift coefficient, or :math:`\mu` above
-    :param float sigma: the volatility coefficient, or :math:`\sigma` above
-    :param float gamma: the volatility-price exponent, or :math:`\gamma` above
+    .. note::
+
+        Since the family of diffusion processes have parameters which
+        generalize to functions of ``t``, parameter attributes will be returned
+        as callables, even if they are initialized as constants. e.g. a
+        ``speed`` parameter of 1 accessed from an instance attribute will return
+        a function which accepts a single argument and always returns 1.
+
+    :param float drift: the drift coefficient, or :math:`\mu` above
+    :param float vol: the volatility coefficient, or :math:`\sigma` above
+    :param float volexp: the volatility-price exponent, or :math:`\gamma` above
     :param float t: the right hand endpoint of the time interval :math:`[0,t]`
         for the process
     """
 
-    def __init__(self, mu=1, sigma=1, gamma=1, t=1):
-        super(ConstantElasticityVarianceProcess, self).__init__(-mu, 0, sigma, t)
-        self.mu = mu
-        self.sigma = sigma
-        self.gamma = gamma
+    def __init__(self, drift=1, vol=1, volexp=1, t=1):
+        super().__init__(
+            speed=self._default_const(-drift),
+            mean=self._default_const(1),
+            vol=self._default_const(vol),
+            volexp=self._default_const(volexp),
+            t=t,
+        )
+        self.drift = drift
 
     def __str__(self):
-        return (
-            "Constant elasticity of variance process with drift={m}, volatility={v}, exponent={e} on [0, {t}]"
-        ).format(m=str(self.mu), v=str(self.sigma), e=str(self.gamma), t=str(self.t))
+        return ("Constant elasticity of variance process with drift={m}, vol={v}, volexp={e} on [0, {t}]").format(
+            m=str(self.drift), v=str(self.vol), e=str(self.volexp), t=str(self.t)
+        )
 
     def __repr__(self):
-        return "ConstantElasticityVarianceProcess(mu={m}, sigma={s}, gamma={g}, t={t})".format(
-            s=str(self.sigma), m=str(self.mu), g=str(self.gamma), t=str(self.t)
+        return "ConstantElasticityVarianceProcess(drift={d}, vol={v}, volexp={e}, t={t})".format(
+            v=str(self.vol), d=str(self.drift), e=str(self.volexp), t=str(self.t)
         )
 
     @property
-    def mu(self):
-        """Mu."""
-        return self._mu
+    def drift(self):
+        """Drift, or Mu."""
+        return self._drift
 
-    @mu.setter
-    def mu(self, value):
+    @drift.setter
+    def drift(self, value):
         self._check_number(value, "Drift coefficient.")
-        self._mu = value
-
-    @property
-    def sigma(self):
-        """Sigma."""
-        return self._sigma
-
-    @sigma.setter
-    def sigma(self, value):
-        self._check_nonnegative_number(value, "Volatility coefficient")
-        self._sigma = value
-
-    @property
-    def gamma(self):
-        """Gamma."""
-        return self._gamma
-
-    @gamma.setter
-    def gamma(self, value):
-        self._check_nonnegative_number(value, "Exponent")
-        self._gamma = value
-
-    def _volatility(self, arg):
-        """O-U Volatility coefficient."""
-        return arg ** self.gamma
+        self._drift = self._ensure_callable(value)
+        self.speed = self._ensure_callable(-value)

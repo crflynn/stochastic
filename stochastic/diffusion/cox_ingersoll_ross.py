@@ -1,10 +1,8 @@
 """Cox-Ingersoll-Ross process."""
-import numpy as np
-
-from stochastic.diffusion.ornstein_uhlenbeck import OrnsteinUhlenbeckProcess
+from stochastic.diffusion.base import DiffusionProcess
 
 
-class CoxIngersollRossProcess(OrnsteinUhlenbeckProcess):
+class CoxIngersollRossProcess(DiffusionProcess):
     r"""Cox-Ingersoll-Ross process.
 
     .. image:: _static/cox_ingersoll_ross_process.png
@@ -17,9 +15,17 @@ class CoxIngersollRossProcess(OrnsteinUhlenbeckProcess):
 
     .. math::
 
-        dX_t = \theta X_t (\mu - t) dt + \sigma \sqrt{X_t}dW_t
+        dX_t = \theta (\mu - X_t) dt + \sigma \sqrt{X_t} dW_t
 
     Realizations are generated using the Euler-Maruyama method.
+
+    .. note::
+
+        Since the family of diffusion processes have parameters which
+        generalize to functions of ``t``, parameter attributes will be returned
+        as callables, even if they are initialized as constants. e.g. a
+        ``speed`` parameter of 1 accessed from an instance attribute will return
+        a function which accepts a single argument and always returns 1.
 
     :param float speed: the speed of reversion, or :math:`\theta` above
     :param float mean: the mean of the process, or :math:`\mu` above
@@ -28,6 +34,15 @@ class CoxIngersollRossProcess(OrnsteinUhlenbeckProcess):
     :param float t: the right hand endpoint of the time interval :math:`[0,t]`
         for the process
     """
+
+    def __init__(self, speed=1, mean=0, vol=1, t=1):
+        super().__init__(
+            speed=self._default_const(speed),
+            mean=self._default_const(mean),
+            vol=self._default_const(vol),
+            volexp=self._default_const(0.5),
+            t=t,
+        )
 
     def __str__(self):
         return "Cox-Ingersoll-Ross process with speed={s}, mean={m}, vol={v} on [0, {t}]".format(
@@ -38,7 +53,3 @@ class CoxIngersollRossProcess(OrnsteinUhlenbeckProcess):
         return "CoxIngersollRossProcess(speed={s}, mean={m}, vol={v}, t={t})".format(
             s=str(self.speed), m=str(self.mean), v=str(self.vol), t=str(self.t)
         )
-
-    def _volatility(self, arg):
-        """Volatility term."""
-        return np.sqrt(arg)

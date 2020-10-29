@@ -6,6 +6,7 @@ docs:
 	poetry export --dev -f requirements.txt > docs/requirements.txt
 	cd docs && \
 	make html
+	open docs/_build/html/index.html
 
 fmt:
 	poetry run isort -y
