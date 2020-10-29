@@ -40,19 +40,16 @@ class FractionalBrownianMotion(FractionalGaussianNoise):
     def __repr__(self):
         return "FractionalBrownianMotion(hurst={h}, t={t})".format(t=str(self.t), h=str(self.hurst))
 
-    def _sample_fractional_brownian_motion(self, n, zero=True):
+    def _sample_fractional_brownian_motion(self, n):
         """Generate a realization of fractional Brownian motion."""
         fgn = self._sample_fractional_gaussian_noise(n)
         fbm = fgn.cumsum()
-        if zero:
-            fbm = np.insert(fbm, [0], 0)
-
+        fbm = np.insert(fbm, [0], 0)
         return fbm
 
-    def sample(self, n, zero=True):
+    def sample(self, n):
         """Generate a realization.
 
         :param int n: the number of increments to generate
-        :param bool zero: if True, include :math:`t=0`
         """
-        return self._sample_fractional_brownian_motion(n, zero)
+        return self._sample_fractional_brownian_motion(n)

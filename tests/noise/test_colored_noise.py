@@ -1,5 +1,4 @@
 """Test ColoredNoise."""
-import pytest
 
 
 def test_colored_noise_str_repr(t, colored_noise_class):

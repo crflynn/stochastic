@@ -42,9 +42,3 @@ class CoxIngersollRossProcess(OrnsteinUhlenbeckProcess):
     def _volatility(self, arg):
         """Volatility term."""
         return np.sqrt(arg)
-
-
-class CIRProcess(CoxIngersollRossProcess):
-    """Alias for CoxIngersollRossProcess."""
-
-    pass

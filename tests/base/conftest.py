@@ -28,11 +28,6 @@ def nonnegative_number_fixture(request):
     return request.param
 
 
-@pytest.fixture(params=[True, False, 0])
-def zero_fixture(request):
-    return request.param
-
-
 has_negative = [-5, -4, 0, 4, 5]
 bad_order = [0, 3, 2, 5]
 good_example = list(range(10))
@@ -44,11 +39,6 @@ def times_fixture(request):
 
 
 # Continuous class fixtures
-@pytest.fixture(params=[True, False])
-def zero(request):
-    return request.param
-
-
 @pytest.fixture(params=[16])
 def n(request):
     return request.param

@@ -19,12 +19,17 @@ class MarkovChain(Checks):
         not provided, each state has equal initial probability.
     """
 
-    def __init__(self, transition=[[0.5, 0.5], [0.5, 0.5]], initial=None):
-        self.transition = transition
+    def __init__(self, transition=None, initial=None):
+        if transition is None:
+            self.transition = [[0.5, 0.5], [0.5, 0.5]]
+        else:
+            self.transition = transition
+
         if initial is None:
-            self.initial = [1.0 / len(self.transition) for t in self.transition]
+            self.initial = [1.0 / len(self.transition) for _ in self.transition]
         else:
             self.initial = initial
+
         self.num_states = len(self.initial)
 
     def __str__(self):

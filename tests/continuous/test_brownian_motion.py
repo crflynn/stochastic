@@ -10,10 +10,10 @@ def test_brownian_motion_str_repr(drift, scale, t):
     assert isinstance(str(instance), str)
 
 
-def test_brownian_motion_sample(drift, scale, t, n, zero, threshold):
+def test_brownian_motion_sample(drift, scale, t, n, threshold):
     instance = BrownianMotion(drift, scale, t)
-    s = instance.sample(n, zero)
-    assert len(s) == n + int(zero)
+    s = instance.sample(n)
+    assert len(s) == n + 1
 
 
 def test_brownian_motion_sample_at(drift, scale, t, times, threshold):

@@ -22,11 +22,6 @@ def n(request):
     return request.param
 
 
-@pytest.fixture(params=[True, False])
-def zero(request):
-    return request.param
-
-
 # Generate some random times for the sample_at() method
 times_random = np.cumsum(np.abs(np.random.normal(size=16)))
 times_random_zero = np.cumsum([0] + list(np.abs(np.random.normal(size=16))))

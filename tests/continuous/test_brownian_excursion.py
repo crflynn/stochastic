@@ -10,13 +10,12 @@ def test_brownian_excursion_str_repr(t):
     assert isinstance(str(instance), str)
 
 
-def test_brownian_excursion_sample(t, n, zero, threshold):
+def test_brownian_excursion_sample(t, n, threshold):
     instance = BrownianExcursion(t)
-    s = instance.sample(n, zero)
-    assert len(s) == n + int(zero)
+    s = instance.sample(n)
+    assert len(s) == n + 1
     assert (s >= 0).all()
-    if zero:
-        assert s[0] == pytest.approx(0, threshold)
+    assert s[0] == pytest.approx(0, threshold)
     assert s[-1] == pytest.approx(0, threshold)
 
 

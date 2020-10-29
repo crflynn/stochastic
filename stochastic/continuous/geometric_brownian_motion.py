@@ -68,41 +68,40 @@ class GeometricBrownianMotion(Continuous):
         self._check_positive_number(value, "Volatility")
         self._volatility = value
 
-    def _sample_geometric_brownian_motion(self, n, initial=1, zero=True):
+    def _sample_geometric_brownian_motion(self, n, initial=1.0):
         """Generate a realization of geometric Brownian motion."""
         self._check_increments(n)
         self._check_positive_number(initial, "Initial")
-        self._check_zero(zero)
 
         # Opt for repeated use
         if self._n != n:
             self._n = n
-            self._line = self._linspace(self.drift - self.volatility ** 2 / 2.0, n, zero)
+            self._line = self._linspace(self.drift - self.volatility ** 2 / 2.0, n)
 
-        noise = self.volatility * self._brownian_motion.sample(n, zero)
+        noise = self.volatility * self._brownian_motion.sample(n)
 
         return initial * np.exp(self._line + noise)
 
-    def _sample_geometric_brownian_motion_at(self, times, initial=1):
+    def _sample_geometric_brownian_motion_at(self, times, initial=1.0):
         """Generate a realization of geometric Brownian motion."""
         line = [(self.drift - self.volatility ** 2 / 2.0) * t for t in times]
         noise = self.volatility * self._brownian_motion.sample_at(times)
 
         return initial * np.exp(line + noise)
 
-    def sample(self, n, initial=1, zero=True):
+    def sample(self, n, initial=1):
         """Generate a realization.
 
         :param int n: the number of increments to generate.
         :param float initial: the initial value of the process :math:`S_0`.
-        :param bool zero: if True, include :math:`t=0`
         """
-        return self._sample_geometric_brownian_motion(n, initial, zero)
+        return self._sample_geometric_brownian_motion(n, initial)
 
     def sample_at(self, times, initial=1):
         """Generate a realization using specified times.
 
         :param times: a vector of increasing time values at which to generate
             the realization
+        :param float initial: the initial value of the process :math:`S_0`.
         """
         return self._sample_geometric_brownian_motion_at(times, initial)

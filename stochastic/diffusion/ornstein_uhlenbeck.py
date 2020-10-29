@@ -83,35 +83,25 @@ class OrnsteinUhlenbeckProcess(Continuous):
         """
         return 1
 
-    def _sample(self, n, initial=1, zero=True):
+    def _sample(self, n, initial=1.0):
         """Generate a realization of a Ornstein-Uhlenbeck process."""
         self._check_increments(n)
-        self._check_zero(zero)
         self._check_number(initial, "Initial")
 
         delta_t = 1.0 * self.t / n
         gns = self.gn.sample(n)
 
-        s = []
-        if zero:
-            s.append(initial)
+        s = [initial]
         for k in range(n):
             initial += self.speed * (self.mean - initial) * delta_t + self.vol * self._volatility(initial) * gns[k]
             s.append(initial)
 
         return np.array(s)
 
-    def sample(self, n, initial=1, zero=True):
+    def sample(self, n, initial=1):
         """Generate a realization.
 
         :param int n: the number of increments to generate
         :param float initial: the initial value of the process
-        :param bool zero: if True, include :math:`t=0`
         """
-        return self._sample(n, initial, zero)
-
-
-class OUProcess(OrnsteinUhlenbeckProcess):
-    """Alias for OrnsteinUhlenbeckProcess."""
-
-    pass
+        return self._sample(n, initial)

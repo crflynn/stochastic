@@ -38,7 +38,7 @@ class PoissonProcess(Checks):
         self._check_nonnegative_number(value, "Arrival rate")
         self._rate = value
 
-    def _sample_poisson_process(self, n=None, length=None, zero=True):
+    def _sample_poisson_process(self, n=None, length=None):
         """Generate a realization of a Poisson process.
 
         Generate a poisson process sample up to count of length if time=False,
@@ -50,17 +50,12 @@ class PoissonProcess(Checks):
             exponentials = np.random.exponential(scale=1.0 / self.rate, size=n)
 
             s = np.array([0] + list(np.cumsum(exponentials)))
-            if zero:
-                return s
-            else:
-                return s[1:]
+            return s
         elif length is not None:
             self._check_positive_number(length, "Sample length")
 
             t = 0
-            times = []
-            if zero:
-                times.append(0)
+            times = [0]
             exp_rate = 1.0 / self.rate
 
             while t < length:
@@ -71,7 +66,7 @@ class PoissonProcess(Checks):
         else:
             raise ValueError("Must provide either argument n or length.")
 
-    def sample(self, n=None, length=None, zero=True):
+    def sample(self, n=None, length=None):
         """Generate a realization.
 
         Exactly one of `n` and `length` must be provided.
@@ -79,9 +74,8 @@ class PoissonProcess(Checks):
         :param int n: the number of arrivals to simulate
         :param int length: the length of time to simulate; will generate
             arrivals until length is met or exceeded.
-        :param bool zero: if True, include :math:`t=0`
         """
-        return self._sample_poisson_process(n, length, zero)
+        return self._sample_poisson_process(n, length)
 
     def times(self, *args, **kwargs):
         """Disallow times for this process."""

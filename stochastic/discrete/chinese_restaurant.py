@@ -103,7 +103,7 @@ class ChineseRestaurantProcess(Checks):
             s.append(table)
 
         if partition:
-            return np.array([np.array(t) for t in c])
+            return np.array([np.array(t) for t in c], dtype=object)
         else:
             return np.array(s)
 
@@ -134,7 +134,7 @@ class ChineseRestaurantProcess(Checks):
                 partition.append([])
             partition[table].append(idx)
 
-        return np.array([np.array(t) for t in partition])
+        return np.array([np.array(t) for t in partition], dtype=object)
 
     def partition_to_sequence(self, partition):
         """Create a sequence from a partition.
