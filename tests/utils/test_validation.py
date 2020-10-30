@@ -1,8 +1,10 @@
 """Test the base classes."""
 import pytest
 
-from stochastic.utils.validation import check_nonnegative_number, check_numeric_or_single_arg_callable, check_increments
+from stochastic.utils.validation import check_increments
+from stochastic.utils.validation import check_nonnegative_number
 from stochastic.utils.validation import check_numeric
+from stochastic.utils.validation import check_numeric_or_single_arg_callable
 from stochastic.utils.validation import check_positive_integer
 from stochastic.utils.validation import check_positive_number
 

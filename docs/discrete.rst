@@ -6,6 +6,7 @@ discrete-time stochastic processes.
 
 * :py:class:`stochastic.processes.discrete.BernoulliProcess`
 * :py:class:`stochastic.processes.discrete.ChineseRestaurantProcess`
+* :py:class:`stochastic.processes.discrete.DirichletProcess`
 * :py:class:`stochastic.processes.discrete.MarkovChain`
 * :py:class:`stochastic.processes.discrete.MoranProcess`
 * :py:class:`stochastic.processes.discrete.RandomWalk`
@@ -15,6 +16,9 @@ discrete-time stochastic processes.
 
 .. autoclass:: stochastic.processes.discrete.ChineseRestaurantProcess
     :members: discount, strength, sample, sample_partition, sequence_to_partition, partition_to_sequence
+
+.. autoclass:: stochastic.processes.discrete.DirichletProcess
+    :members: base, alpha, sample
 
 .. autoclass:: stochastic.processes.discrete.MarkovChain
     :members: transition, initial, sample

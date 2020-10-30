@@ -83,6 +83,7 @@ the package.
 
         * BernoulliProcess
         * ChineseRestaurantProcess
+        * DirichletProcess
         * MarkovChain
         * MoranProcess
         * RandomWalk
