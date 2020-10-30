@@ -1,6 +1,14 @@
 Release Changelog
 -----------------
 
+0.6.0 (TBD)
+~~~~~~~~~~~
+
+* Removes zero args for dropping first sample vector value (breaking)
+* Changes to diffusion process classes to align with common definitions (breaking)
+* Refactor into processes and utils subpackages (breaking)
+* Move base class checks into utils.validation and create abstract base classes for processes
+
 0.5.0 (2020-09-22)
 ~~~~~~~~~~~~~~~~~~
 

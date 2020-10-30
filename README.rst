@@ -20,9 +20,7 @@ stochastic
     :target: https://pypi.python.org/pypi/stochastic
 
 
-A python package for generating realizations of common
-(and perhaps some less common) stochastic processes, with some optimization
-for repeated simulation.
+A python package for generating realizations of stochastic processes.
 
 Installation
 ------------
@@ -51,7 +49,7 @@ The diffusion processes are approximated using the Euler–Maruyama method.
 Here are the currently supported processes and their class references within
 the package.
 
-* stochastic
+* stochastic.processes
 
     * continuous
 
@@ -74,8 +72,10 @@ the package.
 
     * diffusion
 
+        * DiffusionProcess (generalized)
         * ConstantElasticityVarianceProcess
         * CoxIngersollRossProcess
+        * ExtendedVasicekProcess
         * OrnsteinUhlenbeckProcess
         * VasicekProcess
 
@@ -114,7 +114,7 @@ instance.
 
 .. code-block:: python
 
-    from stochastic.discrete import BernoulliProcess
+    from stochastic.processes.discrete import BernoulliProcess
 
 
     bp = BernoulliProcess(p=0.6)
@@ -138,7 +138,7 @@ instantiation.
 
 .. code-block:: python
 
-    from stochastic.continuous import BrownianMotion
+    from stochastic.processes.continuous import BrownianMotion
 
 
     bm = BrownianMotion(drift=1, scale=1, t=1)
@@ -156,7 +156,7 @@ steps. This is particularly useful for plotting your samples.
 .. code-block:: python
 
     import matplotlib.pyplot as plt
-    from stochastic.continuous import FractionalBrownianMotion
+    from stochastic.processes. continuous import FractionalBrownianMotion
 
 
     fbm = FractionalBrownianMotion(hurst=0.7, t=1)
@@ -178,7 +178,7 @@ process-specific implementations.
 
 .. code-block:: python
 
-    from stochastic.noise import FractionalGaussianNoise
+    from stochastic.processes.noise import FractionalGaussianNoise
 
 
     fgn = FractionalGaussianNoise(hurst=0.6, t=1)
