@@ -1,5 +1,7 @@
 """Discrete-time process testing."""
+import numpy as np
 import pytest
+import scipy.stats as ss
 
 
 # Floating point arithmetic comparison threshold
@@ -111,4 +113,15 @@ def steps_fixture(request):
 
 @pytest.fixture(params=[[1], [-1, -1], [[1, 2], [3, 4]]])
 def weights_fixture(request):
+    return request.param
+
+
+# Dirichlet process
+@pytest.fixture(params=[np.random.uniform, ss.cauchy().rvs, 1])
+def base(request):
+    return request.param
+
+
+@pytest.fixture(params=[-1, 0, 0.1, 1, 100])
+def alpha(request):
     return request.param

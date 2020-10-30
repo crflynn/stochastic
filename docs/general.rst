@@ -47,6 +47,7 @@ Here are the currently supported processes and how to access their classes:
 
     * BernoulliProcess
     * ChineseRestaurantProcess
+    * DirichletProcess
     * MarkovChain
     * MoranProcess
     * RandomWalk
