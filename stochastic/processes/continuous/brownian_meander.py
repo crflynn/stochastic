@@ -24,10 +24,11 @@ class BrownianMeander(BrownianBridge):
 
     :param float t: the right hand endpoint of the time interval :math:`[0,t]`
         for the process
+    :param numpy.random.Generator rng: a custom random number generator
     """
 
-    def __init__(self, t=1):
-        super(BrownianMeander, self).__init__(t)
+    def __init__(self, t=1, rng=None):
+        super().__init__(t=t, rng=rng)
 
     def __str__(self):
         return "Brownian meander"
@@ -41,7 +42,7 @@ class BrownianMeander(BrownianBridge):
         Williams, 1970, or Imhof, 1984.
         """
         if b is None:
-            b = np.sqrt(2 * self.t * np.random.exponential())
+            b = np.sqrt(2 * self.t * self.rng.exponential())
         else:
             check_nonnegative_number(b, "Right endpoint")
 
@@ -56,7 +57,7 @@ class BrownianMeander(BrownianBridge):
         Williams, 1970, or Imhof, 1984.
         """
         if b is None:
-            b = np.sqrt(2 * times[-1] * np.random.exponential())
+            b = np.sqrt(2 * times[-1] * self.rng.exponential())
         else:
             check_nonnegative_number(b, "Right endpoint")
 

@@ -26,10 +26,11 @@ class GammaProcess(BaseTimeProcess):
     :param float scale: the size of the jumps; supple with :py:attr:`rate`
     :param float t: the right hand endpoint of the time interval :math:`[0,t]`
         for the process
+    :param numpy.random.Generator rng: a custom random number generator
     """
 
-    def __init__(self, mean=None, variance=None, rate=None, scale=None, t=1):
-        super(GammaProcess, self).__init__(t)
+    def __init__(self, mean=None, variance=None, rate=None, scale=None, t=1, rng=None):
+        super().__init__(t=t, rng=rng)
         if rate is None and scale is None:
             self.mean = mean
             self.variance = variance
@@ -99,7 +100,7 @@ class GammaProcess(BaseTimeProcess):
         shape = 1.0 * self.mean ** 2 * delta_t / self.variance
         scale = 1.0 * self.variance / self.mean
 
-        samples = np.cumsum(np.random.gamma(shape=shape, scale=scale, size=n))
+        samples = np.cumsum(self.rng.gamma(shape=shape, scale=scale, size=n))
         return np.concatenate(([0], samples))
 
     def _sample_gamma_process_at(self, times):
@@ -115,7 +116,7 @@ class GammaProcess(BaseTimeProcess):
         shape_coef = self.mean ** 2 / self.variance
 
         for inc in increments:
-            s.append(np.random.gamma(shape=shape_coef * inc, scale=scale))
+            s.append(self.rng.gamma(shape=shape_coef * inc, scale=scale))
 
         return np.cumsum(s)
 

@@ -32,10 +32,11 @@ class ExtendedVasicekProcess(DiffusionProcess):
         above
     :param float t: the right hand endpoint of the time interval :math:`[0,t]`
         for the process
+    :param numpy.random.Generator rng: a custom random number generator
     """
 
-    def __init__(self, speed=1, mean=0, vol=1, t=1):
-        super().__init__(speed=speed, mean=mean, vol=vol, volexp=0, t=t)
+    def __init__(self, speed=1, mean=0, vol=1, t=1, rng=None):
+        super().__init__(speed=speed, mean=mean, vol=vol, volexp=0, t=t, rng=rng)
 
     def __str__(self):
         return "Extended Vasicek process with speed={s}, mean={m}, vol={v} on [0, {t}]".format(

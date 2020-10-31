@@ -39,10 +39,11 @@ class FractionalGaussianNoise(BaseTimeProcess):
     :param float hurst: The Hurst parameter value in :math:`(0,1)`.
     :param float t: the right hand endpoint of the time interval :math:`[0,t]`
         for the process
+    :param numpy.random.Generator rng: a custom random number generator
     """
 
-    def __init__(self, hurst=0.5, t=1):
-        super(FractionalGaussianNoise, self).__init__(t)
+    def __init__(self, hurst=0.5, t=1, rng=None):
+        super().__init__(t=t, rng=rng)
         self.hurst = hurst
         self._autocovariance = lru_cache(1)(_fgn_autocovariance)
         self._dh_sqrt_eigenvals = lru_cache(1)(_fgn_dh_sqrt_eigenvals)
@@ -82,7 +83,7 @@ class FractionalGaussianNoise(BaseTimeProcess):
         # If H = 0.5 then just generate a standard Brownian motion, otherwise
         # proceed with the Davies Harte method
         if self.hurst == 0.5:
-            return np.random.normal(scale=scale, size=n)
+            return self.rng.normal(scale=scale, size=n)
 
         else:
             # Generate some more fGns to use power-of-two FFTs for speed.
@@ -93,7 +94,7 @@ class FractionalGaussianNoise(BaseTimeProcess):
             # want to normalize by 2(m-1)**(1/2).
             scale *= 2 ** (1 / 2) * (m - 1)
 
-            w = np.random.normal(scale=scale, size=2 * m).view(complex)
+            w = self.rng.normal(scale=scale, size=2 * m).view(complex)
             w[0] = w[0].real * 2 ** (1 / 2)
             w[-1] = w[-1].real * 2 ** (1 / 2)
 
@@ -115,7 +116,7 @@ class FractionalGaussianNoise(BaseTimeProcess):
         increment = self.t / n
         scale = increment ** self.hurst
 
-        gn = np.random.normal(0.0, 1.0, n)
+        gn = self.rng.normal(0.0, 1.0, n)
 
         # If H = 0.5 then just generate a standard Brownian motion, otherwise
         # proceed with Hosking's method

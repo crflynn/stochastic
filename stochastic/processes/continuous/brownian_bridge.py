@@ -17,10 +17,11 @@ class BrownianBridge(BrownianMotion):
     :param float b: the right endpoint value of the Brownian bridge at time t
     :param float t: the right hand endpoint of the time interval :math:`[0,t]`
         for the process
+    :param numpy.random.Generator rng: a custom random number generator
     """
 
-    def __init__(self, b=0, t=1):
-        super(BrownianBridge, self).__init__(drift=0, scale=1, t=t)
+    def __init__(self, b=0, t=1, rng=None):
+        super().__init__(drift=0, scale=1, t=t, rng=rng)
         self.b = b
 
     def __str__(self):

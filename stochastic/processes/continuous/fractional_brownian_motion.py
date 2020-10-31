@@ -29,10 +29,11 @@ class FractionalBrownianMotion(FractionalGaussianNoise):
     :param float hurst: the Hurst parameter on the interval (0, 1)
     :param float t: the right hand endpoint of the time interval :math:`[0,t]`
         for the process
+    :param numpy.random.Generator rng: a custom random number generator
     """
 
-    def __init__(self, hurst=0.5, t=1):
-        super(FractionalBrownianMotion, self).__init__(hurst, t)
+    def __init__(self, hurst=0.5, t=1, rng=None):
+        super().__init__(hurst=hurst, t=t, rng=rng)
 
     def __str__(self):
         return "Fractional Brownian motion with Hurst {h} on [0, {t}].".format(h=str(self.hurst), t=str(self.t))

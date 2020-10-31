@@ -19,9 +19,11 @@ class BernoulliProcess(BaseSequenceProcess):
 
     :param p: in :math:`[0,1]`, the probability of success of each Bernoulli
         random variable
+    :param numpy.random.Generator rng: a custom random number generator
     """
 
-    def __init__(self, p=0.5):
+    def __init__(self, p=0.5, rng=None):
+        super().__init__(rng=rng)
         self.p = p
 
     def __str__(self):
@@ -47,7 +49,7 @@ class BernoulliProcess(BaseSequenceProcess):
         """Generate a Bernoulli process realization."""
         check_positive_integer(n)
 
-        return np.array([1 if trial < self.p else 0 for trial in np.random.uniform(size=n)])
+        return np.array([1 if trial < self.p else 0 for trial in self.rng.uniform(size=n)])
 
     def sample(self, n):
         """Generate a Bernoulli process realization.

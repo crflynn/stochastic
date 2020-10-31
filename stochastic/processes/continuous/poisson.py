@@ -20,9 +20,11 @@ class PoissonProcess(BaseProcess):
 
     :param float rate: the parameter :math:`\lambda` which defines the rate of
         occurrences of the process
+    :param numpy.random.Generator rng: a custom random number generator
     """
 
-    def __init__(self, rate=1):
+    def __init__(self, rate=1, rng=None):
+        super().__init__(rng=rng)
         self.rate = rate
 
     def __str__(self):
@@ -50,7 +52,7 @@ class PoissonProcess(BaseProcess):
         if n is not None:
             check_positive_integer(n)
 
-            exponentials = np.random.exponential(scale=1.0 / self.rate, size=n)
+            exponentials = self.rng.exponential(scale=1.0 / self.rate, size=n)
 
             s = np.array([0] + list(np.cumsum(exponentials)))
             return s
@@ -62,7 +64,7 @@ class PoissonProcess(BaseProcess):
             exp_rate = 1.0 / self.rate
 
             while t < length:
-                t += np.random.exponential(scale=exp_rate)
+                t += self.rng.exponential(scale=exp_rate)
                 times.append(t)
 
             return np.array(times)

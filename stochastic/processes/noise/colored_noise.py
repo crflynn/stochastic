@@ -30,10 +30,11 @@ class ColoredNoise(BaseTimeProcess):
         (white noise).
     :param float t: the right hand endpoint of the time interval :math:`[0,t]`
         for the process
+    :param numpy.random.Generator rng: a custom random number generator
     """
 
-    def __init__(self, beta=0, t=1):
-        super(ColoredNoise, self).__init__(t)
+    def __init__(self, beta=0, t=1, rng=None):
+        super().__init__(t=t, rng=rng)
         self.beta = beta
         self._n = None
         self._half = None
@@ -108,10 +109,11 @@ class PinkNoise(ColoredNoise):
 
     :param float t: the right hand endpoint of the time interval :math:`[0,t]`
         for the process
+    :param numpy.random.Generator rng: a custom random number generator
     """
 
-    def __init__(self, t=1):
-        super(PinkNoise, self).__init__(beta=1, t=t)
+    def __init__(self, t=1, rng=None):
+        super().__init__(beta=1, t=t, rng=rng)
 
 
 class WhiteNoise(ColoredNoise):
@@ -125,10 +127,11 @@ class WhiteNoise(ColoredNoise):
 
     :param float t: the right hand endpoint of the time interval :math:`[0,t]`
         for the process
+    :param numpy.random.Generator rng: a custom random number generator
     """
 
-    def __init__(self, t=1):
-        super(WhiteNoise, self).__init__(beta=0, t=t)
+    def __init__(self, t=1, rng=None):
+        super().__init__(beta=0, t=t, rng=rng)
 
 
 class RedNoise(ColoredNoise):
@@ -142,10 +145,11 @@ class RedNoise(ColoredNoise):
 
     :param float t: the right hand endpoint of the time interval :math:`[0,t]`
         for the process
+    :param numpy.random.Generator rng: a custom random number generator
     """
 
-    def __init__(self, t=1):
-        super(RedNoise, self).__init__(beta=2, t=t)
+    def __init__(self, t=1, rng=None):
+        super().__init__(beta=2, t=t, rng=rng)
 
 
 class BrownianNoise(RedNoise):
@@ -159,6 +163,7 @@ class BrownianNoise(RedNoise):
 
     :param float t: the right hand endpoint of the time interval :math:`[0,t]`
         for the process
+    :param numpy.random.Generator rng: a custom random number generator
     """
     pass
 
@@ -174,10 +179,11 @@ class BlueNoise(ColoredNoise):
 
     :param float t: the right hand endpoint of the time interval :math:`[0,t]`
         for the process
+    :param numpy.random.Generator rng: a custom random number generator
     """
 
-    def __init__(self, t=1):
-        super().__init__(beta=-1, t=t)
+    def __init__(self, t=1, rng=None):
+        super().__init__(beta=-1, t=t, rng=rng)
 
 
 class VioletNoise(ColoredNoise):
@@ -191,7 +197,8 @@ class VioletNoise(ColoredNoise):
 
     :param float t: the right hand endpoint of the time interval :math:`[0,t]`
         for the process
+    :param numpy.random.Generator rng: a custom random number generator
     """
 
-    def __init__(self, t=1):
-        super().__init__(beta=-2, t=t)
+    def __init__(self, t=1, rng=None):
+        super().__init__(beta=-2, t=t, rng=rng)

@@ -3,7 +3,6 @@ import numpy as np
 
 from stochastic.processes.base import BaseTimeProcess
 from stochastic.processes.noise import GaussianNoise
-from stochastic.utils.validation import check_increments
 from stochastic.utils.validation import check_numeric
 from stochastic.utils.validation import check_positive_integer
 from stochastic.utils.validation import check_positive_number
@@ -31,10 +30,11 @@ class VarianceGammaProcess(BaseTimeProcess):
         or :math:`\sigma` above
     :param float t: the right hand endpoint of the time interval :math:`[0,t]`
         for the process
+    :param numpy.random.Generator rng: a custom random number generator
     """
 
-    def __init__(self, drift=0, variance=1, scale=1, t=1):
-        super().__init__(t)
+    def __init__(self, drift=0, variance=1, scale=1, t=1, rng=None):
+        super().__init__(t=t, rng=rng)
         self.drift = drift
         self.variance = variance
         self.scale = scale
@@ -78,7 +78,7 @@ class VarianceGammaProcess(BaseTimeProcess):
         shape = delta_t / self.variance
         scale = self.variance
 
-        gammas = np.random.gamma(shape=shape, scale=scale, size=n)
+        gammas = self.rng.gamma(shape=shape, scale=scale, size=n)
         gn = self.gn.sample(n)
 
         increments = self.drift * gammas + self.scale * np.sqrt(gammas) * gn
@@ -98,7 +98,7 @@ class VarianceGammaProcess(BaseTimeProcess):
         shapes = np.diff(times) / self.variance
         scale = self.variance
 
-        gammas = np.array([np.random.gamma(shape=shape, scale=scale, size=1)[0] for shape in shapes])
+        gammas = np.array([self.rng.gamma(shape=shape, scale=scale, size=1)[0] for shape in shapes])
         gn = self.gn.sample_at(times)
 
         increments = self.drift * gammas + self.scale * np.sqrt(gammas) * gn

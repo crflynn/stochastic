@@ -2,7 +2,6 @@
 import numpy as np
 
 from stochastic.processes.continuous.bessel import BesselProcess
-from stochastic.utils.validation import check_increments
 from stochastic.utils.validation import check_positive_integer
 
 
@@ -27,13 +26,13 @@ class SquaredBesselProcess(BesselProcess):
         """Generate a realization of a squared Bessel process."""
         check_positive_integer(n)
 
-        samples = [self.brownian_motion.sample(n) for _ in range(self.dim)]
+        samples = [self._sample_brownian_motion(n) for _ in range(self.dim)]
 
         return np.array([sum(map(lambda x: x ** 2, coord)) for coord in zip(*samples)])
 
     def _sample_squared_bessel_process_at(self, times):
         """Generate a realization of a squared Bessel process."""
-        samples = [self.brownian_motion.sample_at(times) for _ in range(self.dim)]
+        samples = [self._sample_brownian_motion_at(times) for _ in range(self.dim)]
 
         return np.array([sum(map(lambda x: x ** 2, coord)) for coord in zip(*samples)])
 

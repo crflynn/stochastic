@@ -18,9 +18,11 @@ class MarkovChain(BaseSequenceProcess):
         probabilities between states.
     :param 1darray initial: a vector representing the initial state probabilities. If
         not provided, each state has equal initial probability.
+    :param numpy.random.Generator rng: a custom random number generator
     """
 
-    def __init__(self, transition=None, initial=None):
+    def __init__(self, transition=None, initial=None, rng=None):
+        super().__init__(rng=rng)
         self.transition = transition or np.array([[0.5, 0.5], [0.5, 0.5]])
         if initial is None:
             self.initial = [1.0 / len(self.transition) for _ in self.transition]
@@ -75,8 +77,8 @@ class MarkovChain(BaseSequenceProcess):
 
         states = range(self.num_states)
 
-        markov_chain = [np.random.choice(states, p=self.initial)]
+        markov_chain = [self.rng.choice(states, p=self.initial)]
         for _ in range(n - 1):
-            markov_chain.append(np.random.choice(states, p=self.transition[markov_chain[-1]]))
+            markov_chain.append(self.rng.choice(states, p=self.transition[markov_chain[-1]]))
 
         return np.array(markov_chain)

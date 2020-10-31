@@ -21,13 +21,14 @@ class MixedPoissonProcess(PoissonProcess):
         rate
     :param tuple rate_args: positional args for ``rate_func``
     :param dict rate_kwargs: keyword args for ``rate_func``
+    :param numpy.random.Generator rng: a custom random number generator
     """
 
-    def __init__(self, rate_func, rate_args=None, rate_kwargs=None):
+    def __init__(self, rate_func, rate_args=None, rate_kwargs=None, rng=None):
         self.rate_func = rate_func
         self.rate_args = rate_args if rate_args is not None else tuple()
         self.rate_kwargs = rate_kwargs if rate_kwargs is not None else dict()
-        super().__init__(rate=1)
+        super().__init__(rate=1, rng=rng)
 
     def __str__(self):
         return "Mixed Poisson process with random rate."

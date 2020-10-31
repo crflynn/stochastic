@@ -17,9 +17,11 @@ class MoranProcess(BaseSequenceProcess):
     maximum valued state.
 
     :param int maximum: the maximum possible value for the process.
+    :param numpy.random.Generator rng: a custom random number generator
     """
 
-    def __init__(self, maximum):
+    def __init__(self, maximum, rng=None):
+        super().__init__(rng=rng)
         self.maximum = maximum
         self.p = self._probabilities(maximum)
 
@@ -78,7 +80,7 @@ class MoranProcess(BaseSequenceProcess):
         for k in range(n - 1):
             if start in [0, self.maximum]:
                 break
-            start += np.random.choice(increments, p=self.p[start - 1])
+            start += self.rng.choice(increments, p=self.p[start - 1])
             s.append(start)
 
         return np.array(s)

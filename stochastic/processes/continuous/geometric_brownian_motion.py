@@ -33,10 +33,11 @@ class GeometricBrownianMotion(BaseTimeProcess):
     :param float volatility: the parameter :math:`\sigma`
     :param float t: the right hand endpoint of the time interval :math:`[0,t]`
         for the process
+    :param numpy.random.Generator rng: a custom random number generator
     """
 
-    def __init__(self, drift=0, volatility=1, t=1):
-        super(GeometricBrownianMotion, self).__init__(t)
+    def __init__(self, drift=0, volatility=1, t=1, rng=None):
+        super().__init__(t=t, rng=rng)
         self._brownian_motion = BrownianMotion(t=t)
         self.drift = drift
         self.volatility = volatility

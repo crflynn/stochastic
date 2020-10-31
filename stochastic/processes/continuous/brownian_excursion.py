@@ -23,10 +23,11 @@ class BrownianExcursion(BrownianBridge):
 
     :param float t: the right hand endpoint of the time interval :math:`[0,t]`
         for the process
+    :param numpy.random.Generator rng: a custom random number generator
     """
 
-    def __init__(self, t=1):
-        super(BrownianExcursion, self).__init__(t)
+    def __init__(self, t=1, rng=None):
+        super().__init__(t=t, rng=rng)
 
     def __str__(self):
         return "Brownian excursion on [0, {t}]".format(t=str(self.t))

@@ -16,10 +16,11 @@ class GaussianNoise(BaseTimeProcess):
 
     :param float t: the right hand endpoint of the time interval :math:`[0,t]`
         for the process
+    :param numpy.random.Generator rng: a custom random number generator
     """
 
-    def __init__(self, t=1):
-        super(GaussianNoise, self).__init__(t)
+    def __init__(self, t=1, rng=None):
+        super().__init__(t=t, rng=rng)
 
     def __str__(self):
         return "Gaussian noise generator on interval [0, {t}]".format(t=str(self.t))
@@ -35,7 +36,7 @@ class GaussianNoise(BaseTimeProcess):
         check_positive_integer(n)
         delta_t = 1.0 * self.t / n
 
-        noise = np.random.normal(scale=np.sqrt(delta_t), size=n)
+        noise = self.rng.normal(scale=np.sqrt(delta_t), size=n)
 
         return noise
 
@@ -45,7 +46,7 @@ class GaussianNoise(BaseTimeProcess):
             times = np.concatenate(([0], times))
         increments = times_to_increments(times)
 
-        noise = np.array([np.random.normal(scale=np.sqrt(inc)) for inc in increments])
+        noise = np.array([self.rng.normal(scale=np.sqrt(inc)) for inc in increments])
 
         return noise
 
