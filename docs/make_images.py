@@ -3,7 +3,7 @@ import random
 
 import matplotlib.pyplot as plt
 
-from stochastic.processes.continuous import *
+from stochastic.processes import *
 
 plt.style.use("bmh")
 
@@ -25,8 +25,9 @@ def make_plot(title, fname, x, ys, xlabel="Time", ylabel="Value", scatter=False,
     ax.set_title(title)
     ax.set_xlabel(xlabel)
     ax.set_ylabel(ylabel)
+    # ax.axes.set_ylim(0, 1)
     plt.tight_layout()
-    plt.savefig(os.path.join(os.path.dirname(__file__)), "_static", "{}.png".format(fname))
+    plt.savefig(os.path.join((os.path.dirname(__file__)), "_static", f"{fname}.png"))
     print(title + " saved")
     plt.close()
 
@@ -39,13 +40,13 @@ def get_samples(num, inst, args):
 
 
 def main():
-    # Continuous
-    dim = 3
-    n_samples = 3
-    n = 2 ** 12
-    process = BesselProcess(t=1, dim=dim)
-    t = process.times(n)
-
+    # # Continuous
+    # dim = 3
+    # n_samples = 3
+    # n = 2 ** 12
+    # process = BesselProcess(t=1, dim=dim)
+    # t = process.times(n)
+    #
     # ss = get_samples(n_samples, process, {"n": n})
     # make_plot("Bessel process (dim=3)", "bessel_process", t, ss, "Time", "Value")
     #
@@ -121,6 +122,10 @@ def main():
     # ss = get_samples(1, process, {"n": 64})
     # make_plot("Chinese Restaurant process", "chinese_restaurant_process", list(range(64)), ss, "Time", "Value", scatter=True)
     #
+    process = DirichletProcess()
+    ss = get_samples(1, process, {"n": 64})
+    make_plot("Dirichlet process", "dirichlet_process", list(range(64)), ss, "Time", "Value", scatter=True)
+
     # process = MarkovChain([[0.2, 0.2, 0.2, 0.2, 0.2],[0.2, 0.2, 0.2, 0.2, 0.2],[0.2, 0.2, 0.2, 0.2, 0.2],[0.2, 0.2, 0.2, 0.2, 0.2],[0.2, 0.2, 0.2, 0.2, 0.2]])
     # ss = get_samples(1, process, {"n": 32})
     # make_plot("Markov chain (5 states)", "markov_chain", list(range(32)), ss, "Time", "Value", scatter=True)
@@ -184,12 +189,12 @@ def main():
     # ss = get_samples(n_samples, process, {"n": n})
     #
     # make_plot("Inverse Gaussian process", "inverse_gaussian", t, ss)
-
-    process = MixedPoissonProcess(random.uniform, (1, 5))
-    ss = get_samples(n_samples, process, {"n": 500})
-    make_plot(
-        "Mixed Poisson process", "mixed_poisson_process", t, ss, "Time", "Value", alt=True,
-    )
+    #
+    # process = MixedPoissonProcess(random.uniform, (1, 5))
+    # ss = get_samples(n_samples, process, {"n": 500})
+    # make_plot(
+    #     "Mixed Poisson process", "mixed_poisson_process", t, ss, "Time", "Value", alt=True,
+    # )
 
 
 if __name__ == "__main__":

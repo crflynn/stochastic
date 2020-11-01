@@ -23,7 +23,7 @@ class DirichletProcess(BaseSequenceProcess):
     Otherwise draw randomly from the previous steps.
 
     :param callable base: a zero argument callable used as the base
-        distribution sampler
+        distribution sampler. The default base distribution is Uniform(0, 1).
     :param float alpha: a non-negative value used to determine probability of
         drawing a new value from the base distribution
     :param numpy.random.Generator rng: a custom random number generator
@@ -31,6 +31,8 @@ class DirichletProcess(BaseSequenceProcess):
 
     def __init__(self, base=None, alpha=1, rng=None):
         super().__init__(rng=rng)
+        if base is None:
+            base = self.rng.uniform
         self.base = base
         self.alpha = alpha
 
@@ -62,14 +64,11 @@ class DirichletProcess(BaseSequenceProcess):
         """
         sequence = []
         for k in range(1, n + 1):
-            if k == 1:
+            draw_proba = self.alpha / (self.alpha + k - 1)
+            if self.rng.uniform() < draw_proba:
                 sequence.append(self.base())
             else:
-                draw_proba = self.alpha / (self.alpha + k - 1)
-                if self.rng.uniform() < draw_proba:
-                    sequence.append(self.base())
-                else:
-                    sequence.append(self.rng.choice(sequence))
+                sequence.append(self.rng.choice(sequence))
         return np.array(sequence)
 
     def sample(self, n):
