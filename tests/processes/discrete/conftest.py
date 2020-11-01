@@ -117,7 +117,7 @@ def weights_fixture(request):
 
 
 # Dirichlet process
-@pytest.fixture(params=[np.random.uniform, ss.cauchy().rvs, 1])
+@pytest.fixture(params=[None, np.random.uniform, ss.cauchy().rvs, 1])
 def base(request):
     return request.param
 
