@@ -46,7 +46,8 @@ def seed(value):
     """Sets the seed for numpy legacy or ``default_rng`` generators.
 
     If using the legacy generator, this will call ``numpy.random.seed(value)``.
-    Otherwise a new rng is created using ``numpy.random.default_rng(value)``.
+    Otherwise a new random number generator is created using
+    ``numpy.random.default_rng(value)``.
     """
     global generator
     if generator == np.random:
