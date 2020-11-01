@@ -157,7 +157,7 @@ steps. This is particularly useful for plotting your samples.
 .. code-block:: python
 
     import matplotlib.pyplot as plt
-    from stochastic.processes. continuous import FractionalBrownianMotion
+    from stochastic.processes.continuous import FractionalBrownianMotion
 
 
     fbm = FractionalBrownianMotion(hurst=0.7, t=1)

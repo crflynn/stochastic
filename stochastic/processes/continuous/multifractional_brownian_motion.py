@@ -8,7 +8,7 @@ from stochastic.processes.base import BaseTimeProcess
 
 
 class MultifractionalBrownianMotion(BaseTimeProcess):
-    r"""Multiractional Brownian motion process.
+    r"""Multifractional Brownian motion process.
 
     .. image:: _static/multifractional_brownian_motion.png
         :scale: 50%
