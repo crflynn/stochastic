@@ -36,9 +36,11 @@ class ChineseRestaurantProcess(BaseSequenceProcess):
         is negative, strength must be a multiple of discount. If discount is
         nonnegative, strength must be strictly greater than the
         negative discount.
+    :param numpy.random.Generator rng: a custom random number generator
     """
 
-    def __init__(self, discount=0, strength=1):
+    def __init__(self, discount=0, strength=1, rng=None):
+        super().__init__(rng=rng)
         self.discount = discount
         self.strength = strength
 
@@ -96,7 +98,7 @@ class ChineseRestaurantProcess(BaseSequenceProcess):
         for k in range(2, n + 1):
             p = [1.0 * (len(c[t]) - self.discount) / (k - 1 + self.strength) for t in table_range[:-1]]
             p.append(1.0 * (self.strength + num_tables * self.discount) / (k - 1 + self.strength))
-            table = np.random.choice(table_range, p=p)
+            table = self.rng.choice(table_range, p=p)
             if table == num_tables:
                 num_tables += 1
                 table_range.append(num_tables)

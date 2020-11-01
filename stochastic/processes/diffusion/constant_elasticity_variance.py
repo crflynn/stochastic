@@ -33,15 +33,17 @@ class ConstantElasticityVarianceProcess(DiffusionProcess):
     :param float volexp: the volatility-price exponent, or :math:`\gamma` above
     :param float t: the right hand endpoint of the time interval :math:`[0,t]`
         for the process
+    :param numpy.random.Generator rng: a custom random number generator
     """
 
-    def __init__(self, drift=1, vol=1, volexp=1, t=1):
+    def __init__(self, drift=1, vol=1, volexp=1, t=1, rng=None):
         super().__init__(
             speed=single_arg_constant_function(-drift),
             mean=single_arg_constant_function(1),
             vol=single_arg_constant_function(vol),
             volexp=single_arg_constant_function(volexp),
             t=t,
+            rng=rng,
         )
         self.drift = drift
 

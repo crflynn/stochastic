@@ -32,10 +32,11 @@ class InverseGaussianProcess(BaseTimeProcess):
         gaussian, or :math:`\eta` from the above equation.
     :param float t: the right hand endpoint of the time interval :math:`[0,t]`
         for the process
+    :param numpy.random.Generator rng: a custom random number generator
     """
 
-    def __init__(self, mean=None, scale=1, t=1):
-        super(InverseGaussianProcess, self).__init__(t)
+    def __init__(self, mean=None, scale=1, t=1, rng=None):
+        super().__init__(t=t, rng=rng)
         if mean is None:
             self.mean = lambda x: x
         else:
@@ -99,7 +100,7 @@ class InverseGaussianProcess(BaseTimeProcess):
 
         ls = np.array([self.scale * m ** 2 for m in self._ms])
 
-        gn = np.random.normal(size=n)
+        gn = self.rng.normal(size=n)
         ys = gn ** 2
 
         xs = (
@@ -108,7 +109,7 @@ class InverseGaussianProcess(BaseTimeProcess):
             - self._ms / 2 / ys * np.sqrt(4 * self._ms * ls * ys + self._ms ** 2 * ys ** 2)
         )
 
-        zs = np.random.uniform(size=n)
+        zs = self.rng.uniform(size=n)
 
         ign = []
         for z, x, m in zip(zs, xs, self._ms):
@@ -141,12 +142,12 @@ class InverseGaussianProcess(BaseTimeProcess):
 
         ls = np.array([self.scale * m ** 2 for m in ms])
 
-        gn = np.random.normal(size=n)
+        gn = self.rng.normal(size=n)
         ys = gn ** 2
 
         xs = ms + ms ** 2 * ys / 2 / ls - ms / 2 / ys * np.sqrt(4 * ms * ls * ys + ms ** 2 * ys ** 2)
 
-        zs = np.random.uniform(size=n)
+        zs = self.rng.uniform(size=n)
 
         ign = []
         for z, x, m in zip(zs, xs, ms):

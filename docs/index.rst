@@ -60,10 +60,11 @@ Documentation
    :maxdepth: 2
 
    general
-   discrete
-   noise
+   random
    continuous
    diffusion
+   discrete
+   noise
    sources
    notes
 

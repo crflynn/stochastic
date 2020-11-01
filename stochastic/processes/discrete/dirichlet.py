@@ -26,9 +26,11 @@ class DirichletProcess(BaseSequenceProcess):
         distribution sampler
     :param float alpha: a non-negative value used to determine probability of
         drawing a new value from the base distribution
+    :param numpy.random.Generator rng: a custom random number generator
     """
 
-    def __init__(self, base=None, alpha=1):
+    def __init__(self, base=None, alpha=1, rng=None):
+        super().__init__(rng=rng)
         self.base = base
         self.alpha = alpha
 
@@ -64,10 +66,10 @@ class DirichletProcess(BaseSequenceProcess):
                 sequence.append(self.base())
             else:
                 draw_proba = self.alpha / (self.alpha + k - 1)
-                if np.random.uniform() < draw_proba:
+                if self.rng.uniform() < draw_proba:
                     sequence.append(self.base())
                 else:
-                    sequence.append(np.random.choice(sequence))
+                    sequence.append(self.rng.choice(sequence))
         return np.array(sequence)
 
     def sample(self, n):

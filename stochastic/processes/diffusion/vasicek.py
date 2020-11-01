@@ -34,14 +34,16 @@ class VasicekProcess(ExtendedVasicekProcess):
         above
     :param float t: the right hand endpoint of the time interval :math:`[0,t]`
         for the process
+    :param numpy.random.Generator rng: a custom random number generator
     """
 
-    def __init__(self, speed=1, mean=1, vol=1, t=1):
+    def __init__(self, speed=1, mean=1, vol=1, t=1, rng=None):
         super().__init__(
             speed=single_arg_constant_function(speed),
             mean=single_arg_constant_function(mean),
             vol=single_arg_constant_function(vol),
             t=t,
+            rng=rng,
         )
 
     def __str__(self):

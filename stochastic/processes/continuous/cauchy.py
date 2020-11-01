@@ -2,12 +2,11 @@
 import numpy as np
 from scipy.stats import levy
 
-from stochastic.processes.base import BaseTimeProcess
 from stochastic.processes.continuous.brownian_motion import BrownianMotion
 from stochastic.utils.validation import check_positive_integer
 
 
-class CauchyProcess(BaseTimeProcess):
+class CauchyProcess(BrownianMotion):
     """Symmetric Cauchy process.
 
     .. image:: _static/cauchy_process.png
@@ -18,11 +17,11 @@ class CauchyProcess(BaseTimeProcess):
 
     :param float t: the right hand endpoint of the time interval :math:`[0,t]`
         for the process
+    :param numpy.random.Generator rng: a custom random number generator
     """
 
-    def __init__(self, t=1):
-        super(CauchyProcess, self).__init__(t)
-        self.brownian_motion = BrownianMotion(t)
+    def __init__(self, t=1, rng=None):
+        super().__init__(t=t, rng=rng)
 
     def _sample_cauchy_process(self, n):
         """Generate a realization of a Cauchy process."""
@@ -31,7 +30,7 @@ class CauchyProcess(BaseTimeProcess):
         delta_t = 1.0 * self.t / n
         times = np.cumsum(levy.rvs(loc=0, scale=delta_t ** 2 / 2, size=n))
         times = np.insert(times, 0, [0])
-        return self.brownian_motion.sample_at(times)
+        return self._sample_brownian_motion_at(times)
 
     def _sample_cauchy_process_at(self, times):
         """Generate a realization of a Cauchy process."""
@@ -42,13 +41,13 @@ class CauchyProcess(BaseTimeProcess):
             zero = True
 
         deltas = np.diff(times)
-        levys = [levy.rvs(loc=0, scale=d ** 2 / 2, size=1) for d in deltas]
+        levys = [levy.rvs(loc=0, scale=d ** 2 / 2, size=1, random_state=self.rng) for d in deltas]
         ts = np.cumsum(levys)
 
         if zero:
             ts = np.insert(ts, 0, [0])
 
-        return self.brownian_motion.sample_at(ts)
+        return self._sample_brownian_motion_at(ts)
 
     def sample(self, n):
         """Generate a realization.

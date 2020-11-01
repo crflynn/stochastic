@@ -36,13 +36,12 @@ class MultifractionalBrownianMotion(BaseTimeProcess):
         :math:`h(t) = 0.5`.
     :param float t: the right hand endpoint of the time interval :math:`[0,t]`
         for the process
+    :param numpy.random.Generator rng: a custom random number generator
     """
 
-    def __init__(self, hurst=None, t=1):
-        super(MultifractionalBrownianMotion, self).__init__(t)
-        if hurst is None:
-            hurst = lambda x: 0.5
-        self.hurst = hurst
+    def __init__(self, hurst=None, t=1, rng=None):
+        super().__init__(t=t, rng=rng)
+        self.hurst = hurst if hurst is not None else lambda x: 0.5
         self._n = None
 
     def __str__(self):
@@ -77,7 +76,7 @@ class MultifractionalBrownianMotion(BaseTimeProcess):
 
     def _sample_multifractional_brownian_motion(self, n):
         """Generate Riemann-Liouville mBm."""
-        gn = np.random.normal(0.0, 1.0, n)
+        gn = self.rng.normal(0.0, 1.0, n)
         self._set_times(n)
         self._dt = 1.0 * self.t / self._n
         self._check_hurst(self.hurst)

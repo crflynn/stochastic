@@ -30,10 +30,11 @@ class OrnsteinUhlenbeckProcess(VasicekProcess):
         above
     :param float t: the right hand endpoint of the time interval :math:`[0,t]`
         for the process
+    :param numpy.random.Generator rng: a custom random number generator
     """
 
-    def __init__(self, speed=1, vol=1, t=1):
-        super().__init__(speed=speed, mean=0, vol=vol, t=t)
+    def __init__(self, speed=1, vol=1, t=1, rng=None):
+        super().__init__(speed=speed, mean=0, vol=vol, t=t, rng=None)
 
     def __str__(self):
         return "Ornstein-Uhlenbeck process with speed={s}, vol={v} on [0, {t}]".format(

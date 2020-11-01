@@ -1,6 +1,5 @@
 import numpy as np
 
-from stochastic.processes.base import BaseTimeProcess
 from stochastic.processes.noise import GaussianNoise
 from stochastic.utils import ensure_single_arg_constant_function
 from stochastic.utils.validation import check_numeric
@@ -8,7 +7,7 @@ from stochastic.utils.validation import check_numeric_or_single_arg_callable
 from stochastic.utils.validation import check_positive_integer
 
 
-class DiffusionProcess(BaseTimeProcess):
+class DiffusionProcess(GaussianNoise):
     r"""Generalized diffusion process.
 
     A base process for more specific diffusion processes.
@@ -38,15 +37,15 @@ class DiffusionProcess(BaseTimeProcess):
         above
     :param float t: the right hand endpoint of the time interval :math:`[0,t]`
         for the process
+    :param numpy.random.Generator rng: a custom random number generator
     """
 
-    def __init__(self, speed=1, mean=0, vol=1, volexp=0, t=1):
-        super().__init__(t)
+    def __init__(self, speed=1, mean=0, vol=1, volexp=0, t=1, rng=None):
+        super().__init__(t=t, rng=rng)
         self.speed = speed
         self.mean = mean
         self.vol = vol
         self.volexp = volexp
-        self.gn = GaussianNoise(t)
 
     def __str__(self):
         return "Diffusion process with speed={s}, mean={m}, vol={v}, volexp={e} on [0, {t}]".format(
@@ -104,7 +103,7 @@ class DiffusionProcess(BaseTimeProcess):
         check_numeric(initial, "Initial")
 
         delta_t = 1.0 * self.t / n
-        gns = self.gn.sample(n)
+        gns = self._sample_gaussian_noise(n)
 
         s = [initial]
         t = 0

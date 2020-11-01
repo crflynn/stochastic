@@ -20,7 +20,8 @@ class RandomWalk(BaseSequenceProcess):
         step value. If not provided each step has equal weight/probability.
     """
 
-    def __init__(self, steps=None, weights=None):
+    def __init__(self, steps=None, weights=None, rng=None):
+        super().__init__(rng=rng)
         self.steps = steps or [-1, 1]
         length = len(steps)
         if length < 1:
@@ -93,7 +94,7 @@ class RandomWalk(BaseSequenceProcess):
     def _sample_random_walk_increments(self, n):
         """Generate a sample of random walk increments."""
         check_positive_integer(n)
-        return np.random.choice(self.steps, p=self.p, size=n)
+        return self.rng.choice(self.steps, p=self.p, size=n)
 
     def sample_increments(self, n):
         """Generate a sample of random walk increments.

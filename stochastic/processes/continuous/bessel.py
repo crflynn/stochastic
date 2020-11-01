@@ -1,12 +1,11 @@
 """Bessel process."""
 import numpy as np
 
-from stochastic.processes.base import BaseTimeProcess
 from stochastic.processes.continuous.brownian_motion import BrownianMotion
 from stochastic.utils.validation import check_positive_integer
 
 
-class BesselProcess(BaseTimeProcess):
+class BesselProcess(BrownianMotion):
     r"""Bessel process.
 
     .. image:: _static/bessel_process.png
@@ -22,11 +21,11 @@ class BesselProcess(BaseTimeProcess):
         use
     :param float t: the right hand endpoint of the time interval :math:`[0,t]`
         for the process
+    :param numpy.random.Generator rng: a custom random number generator
     """
 
-    def __init__(self, dim=1, t=1):
-        super(BesselProcess, self).__init__(t=t)
-        self.brownian_motion = BrownianMotion(self.t)
+    def __init__(self, dim=1, t=1, rng=None):
+        super().__init__(t=t, rng=rng)
         self.dim = dim
 
     def __str__(self):
@@ -51,12 +50,12 @@ class BesselProcess(BaseTimeProcess):
     def _sample_bessel_process(self, n):
         """Generate a realization of a Bessel process."""
         check_positive_integer(n)
-        samples = [self.brownian_motion.sample(n) for _ in range(self.dim)]
+        samples = [self._sample_brownian_motion(n) for _ in range(self.dim)]
         return np.array([np.linalg.norm(coord) for coord in zip(*samples)])
 
     def _sample_bessel_process_at(self, times):
         """Generate a realization of a Bessel process."""
-        samples = [self.brownian_motion.sample_at(times) for _ in range(self.dim)]
+        samples = [self._sample_brownian_motion_at(times) for _ in range(self.dim)]
         return np.array([np.linalg.norm(coord) for coord in zip(*samples)])
 
     def sample(self, n):
