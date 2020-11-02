@@ -15,6 +15,8 @@ def test_random_use_randomstate():
     assert random.generator == np.random
     with pytest.raises(TypeError):
         random.use_randomstate("something")
+    random.use_generator()
+    assert isinstance(random.generator, np.random.Generator)
 
 
 def test_random_use_generator():
