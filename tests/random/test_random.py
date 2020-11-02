@@ -3,9 +3,8 @@ import pytest
 
 from stochastic import random
 
-
-def test_random_default():
-    assert isinstance(random.generator, np.random.Generator)
+# def test_random_default():
+#     assert isinstance(random.generator, np.random.Generator)
 
 
 def test_random_use_randomstate():

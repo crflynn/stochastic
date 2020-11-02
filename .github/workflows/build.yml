@@ -1,0 +1,170 @@
+name: build
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  fmt:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Install asdf
+      uses: asdf-vm/actions/setup@v1.0.0
+
+    - name: Install asdf plugins
+      run: |
+        asdf plugin add python
+        asdf plugin add poetry
+
+    - name: Cache dependencies
+      id: cache-deps
+      uses: actions/cache@v1
+      with:
+        path: ~/.asdf
+        key: v1-${{ runner.os }}-asdf-${{ hashFiles(format('{0}{1}', github.workspace, '/poetry.lock')) }}
+        restore-keys: |
+          v1-${{ runner.os }}-asdf-
+
+    - name: Install tools
+      run: |
+        asdf install
+        poetry config virtualenvs.create false
+        poetry run pip install -U pip
+
+    - name: Install deps
+      if: steps.cache-deps.outputs.cache-hit != 'true'
+      run: |
+        poetry install --no-root
+
+    - name: Build
+      run: |
+        poetry install
+
+    - name: Format
+      run: |
+        poetry run isort --check .
+        poetry run black --check .
+
+  linux:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.6.12, 3.7.9, 3.8.6]
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    # required for coverage
+    - name: Install sqlite
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libsqlite3-dev
+
+    - name: Install asdf
+      uses: asdf-vm/actions/setup@v1.0.0
+
+    - name: Install asdf plugins
+      run: |
+        asdf plugin add python
+        asdf plugin add poetry
+
+    - name: Cache dependencies
+      id: cache-deps
+      uses: actions/cache@v1
+      with:
+        path: ~/.asdf
+        key: v1-${{ runner.os }}-${{ matrix.python-version }}-asdf-${{ hashFiles(format('{0}{1}', github.workspace, '/poetry.lock')) }}
+        restore-keys: |
+          v1-${{ runner.os }}-${{ matrix.python-version }}-asdf-
+
+    - name: Install python
+      if: steps.cache-deps.outputs.cache-hit != 'true'
+      run: |
+        asdf install python ${{ matrix.python-version }}
+
+    - name: Set python
+      run: |
+        asdf local python ${{ matrix.python-version }}
+
+    - name: Install tools
+      run: |
+        asdf install
+        poetry config virtualenvs.create false
+        poetry run pip install -U pip
+
+    - name: Install deps
+      if: steps.cache-deps.outputs.cache-hit != 'true'
+      run: |
+        poetry install --no-root
+
+    - name: Build
+      run: |
+        poetry install
+
+    - name: Test
+      run: |
+        poetry run pytest tests/
+
+  macos:
+
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        python-version: [3.6.12, 3.7.9, 3.8.6]
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Install asdf
+      uses: asdf-vm/actions/setup@v1.0.0
+
+    - name: Install asdf plugins
+      run: |
+        asdf plugin add python
+        asdf plugin add poetry
+
+    - name: Cache dependencies
+      id: cache-deps
+      uses: actions/cache@v1
+      with:
+        path: ~/.asdf
+        key: v1-${{ runner.os }}-${{ matrix.python-version }}-asdf-${{ hashFiles(format('{0}{1}', github.workspace, '/poetry.lock')) }}
+        restore-keys: |
+          v1-${{ runner.os }}-${{ matrix.python-version }}-asdf-
+
+    - name: Install python
+      if: steps.cache-deps.outputs.cache-hit != 'true'
+      run: |
+        asdf install python ${{ matrix.python-version }}
+
+    - name: Set python
+      run: |
+        asdf local python ${{ matrix.python-version }}
+
+    - name: Install tools
+      run: |
+        asdf install
+        poetry config virtualenvs.create false
+        poetry run pip install -U pip
+
+    - name: Install deps
+      if: steps.cache-deps.outputs.cache-hit != 'true'
+      run: |
+        poetry install --no-root
+
+    - name: Build
+      run: |
+        poetry install
+
+    - name: Test
+      run: |
+        poetry run pytest tests/
