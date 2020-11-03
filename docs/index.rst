@@ -26,8 +26,8 @@ stochastic processes.
 Installation
 ------------
 
-Stochastic is a python package available on
-`pypi <https://pypi.python.org/pypi>`_ and can be installed using ``pip``:
+Stochastic is available on `pypi <https://pypi.python.org/pypi>`_ and can be
+installed using ``pip``:
 
 .. code-block:: bash
 
@@ -60,11 +60,11 @@ Documentation
    :maxdepth: 2
 
    general
-   base
-   discrete
-   noise
+   random
    continuous
    diffusion
+   discrete
+   noise
    sources
    notes
 
