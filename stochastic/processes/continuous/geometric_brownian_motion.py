@@ -81,7 +81,8 @@ class GeometricBrownianMotion(BaseTimeProcess):
         # Opt for repeated use
         if self._n != n:
             self._n = n
-            self._line = generate_times(self.drift - self.volatility ** 2 / 2.0, n)
+
+        self._line = generate_times(self.drift - self.volatility ** 2 / 2.0, n)
 
         noise = self.volatility * self._brownian_motion.sample(n)
 
