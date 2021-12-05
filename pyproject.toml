@@ -54,9 +54,9 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Physics",
 ]
 include = [
-    "CHANGELOG.rst",
-    "CONTRIBUTORS.rst",
-    "LICENSE.txt"
+    { path="CHANGELOG.rst", format="sdist" },
+    { path="CONTRIBUTORS.rst", format="sdist" },
+    { path="LICENSE.txt", format="sdist" }
 ]
 
 [tool.poetry.dependencies]
