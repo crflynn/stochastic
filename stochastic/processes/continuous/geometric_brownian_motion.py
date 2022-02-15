@@ -38,7 +38,7 @@ class GeometricBrownianMotion(BaseTimeProcess):
 
     def __init__(self, drift=0, volatility=1, t=1, rng=None):
         super().__init__(t=t, rng=rng)
-        self._brownian_motion = BrownianMotion(t=t)
+        self._brownian_motion = BrownianMotion(t=t, rng=rng)
         self.drift = drift
         self.volatility = volatility
         self._n = None
