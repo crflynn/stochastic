@@ -45,12 +45,15 @@ class MultifractionalBrownianMotion(BaseTimeProcess):
         self._n = None
 
     def __str__(self):
-        return "Multifractional Brownian motion with Hurst function " + "{h} on [0, {t}].".format(
-            t=str(self.t), h=self.hurst.__name__
+        return (
+            "Multifractional Brownian motion with Hurst function "
+            + "{h} on [0, {t}].".format(t=str(self.t), h=self.hurst.__name__)
         )
 
     def __repr__(self):
-        return "FractionalBrownianMotion(hurst={h}, t={t})".format(t=str(self.t), h=self.hurst.__name__)
+        return "FractionalBrownianMotion(hurst={h}, t={t})".format(
+            t=str(self.t), h=self.hurst.__name__
+        )
 
     @property
     def hurst(self):
@@ -100,6 +103,9 @@ class MultifractionalBrownianMotion(BaseTimeProcess):
         w = (
             1.0
             / gamma(hurst + 0.5)
-            * np.sqrt((t ** (2 * hurst) - (t - self._dt) ** (2 * hurst)) / (2 * hurst * self._dt))
+            * np.sqrt(
+                (t ** (2 * hurst) - (t - self._dt) ** (2 * hurst))
+                / (2 * hurst * self._dt)
+            )
         )
         return w

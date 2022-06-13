@@ -25,7 +25,9 @@ class BrownianBridge(BrownianMotion):
         self.b = b
 
     def __str__(self):
-        return "Brownian bridge from 0 to {b} on [0, {t}]".format(t=str(self.t), b=str(self.b))
+        return "Brownian bridge from 0 to {b} on [0, {t}]".format(
+            t=str(self.t), b=str(self.b)
+        )
 
     def __repr__(self):
         return "BrownianBridge(b={b}, t={t})".format(t=str(self.t), b=str(self.b))

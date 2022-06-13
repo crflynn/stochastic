@@ -34,7 +34,7 @@ class GammaProcess(BaseTimeProcess):
         if rate is None and scale is None:
             self.mean = mean
             self.variance = variance
-            self.rate = mean ** 2.0 / variance
+            self.rate = mean**2.0 / variance
             self.scale = 1.0 * mean / variance
         elif mean is None and variance is None:
             self.rate = rate
@@ -42,7 +42,9 @@ class GammaProcess(BaseTimeProcess):
             self.mean = 1.0 * self.rate / self.scale
             self.variance = 1.0 * self.mean / self.scale
         else:
-            raise ValueError("Invalid parametrization. Must provide either mean and variance or rate and scale.")
+            raise ValueError(
+                "Invalid parametrization. Must provide either mean and variance or rate and scale."
+            )
 
     def __str__(self):
         return "Gamma process with rate = {r} and scale = {s} on [0, {t}].".format(
@@ -50,7 +52,9 @@ class GammaProcess(BaseTimeProcess):
         )
 
     def __repr__(self):
-        return "GammaProcess(rate={r}, scale={s}, t={t})".format(t=str(self.t), r=str(self.rate), s=str(self.scale))
+        return "GammaProcess(rate={r}, scale={s}, t={t})".format(
+            t=str(self.t), r=str(self.rate), s=str(self.scale)
+        )
 
     @property
     def mean(self):
@@ -97,7 +101,7 @@ class GammaProcess(BaseTimeProcess):
         check_positive_integer(n)
         delta_t = 1.0 * self.t / n
 
-        shape = 1.0 * self.mean ** 2 * delta_t / self.variance
+        shape = 1.0 * self.mean**2 * delta_t / self.variance
         scale = 1.0 * self.variance / self.mean
 
         samples = np.cumsum(self.rng.gamma(shape=shape, scale=scale, size=n))
@@ -113,7 +117,7 @@ class GammaProcess(BaseTimeProcess):
         increments = times_to_increments(times)
 
         scale = self.variance / self.mean
-        shape_coef = self.mean ** 2 / self.variance
+        shape_coef = self.mean**2 / self.variance
 
         for inc in increments:
             s.append(self.rng.gamma(shape=shape_coef * inc, scale=scale))

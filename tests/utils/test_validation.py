@@ -33,7 +33,10 @@ def test_check_positive_number(positive_number_fixture, parameter_name_fixture):
         with pytest.raises(ValueError):
             check_positive_number(positive_number_fixture, parameter_name_fixture)
     else:
-        assert check_positive_number(positive_number_fixture, parameter_name_fixture) is None
+        assert (
+            check_positive_number(positive_number_fixture, parameter_name_fixture)
+            is None
+        )
 
 
 def test_check_nonnegative_number(nonnegative_number_fixture, parameter_name_fixture):
@@ -41,7 +44,10 @@ def test_check_nonnegative_number(nonnegative_number_fixture, parameter_name_fix
         with pytest.raises(ValueError):
             check_nonnegative_number(nonnegative_number_fixture, parameter_name_fixture)
     else:
-        assert check_nonnegative_number(nonnegative_number_fixture, parameter_name_fixture) is None
+        assert (
+            check_nonnegative_number(nonnegative_number_fixture, parameter_name_fixture)
+            is None
+        )
 
 
 def test_check_numeric_or_single_arg_callable():

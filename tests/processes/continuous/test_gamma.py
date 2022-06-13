@@ -4,15 +4,21 @@ import pytest
 from stochastic.processes.continuous import GammaProcess
 
 
-def test_gamma_process_init(mean_fixture, variance_fixture, rate_fixture, scale_fixture, t):
+def test_gamma_process_init(
+    mean_fixture, variance_fixture, rate_fixture, scale_fixture, t
+):
     first_params = bool(mean_fixture) + bool(variance_fixture)
     second_params = bool(rate_fixture) + bool(scale_fixture)
     all_params = first_params + second_params
     if all_params != 2 or (first_params != 2 and second_params != 2):
         with pytest.raises((TypeError, ValueError)):
-            _ = GammaProcess(mean_fixture, variance_fixture, rate_fixture, scale_fixture, t)
+            _ = GammaProcess(
+                mean_fixture, variance_fixture, rate_fixture, scale_fixture, t
+            )
     else:
-        instance = GammaProcess(mean_fixture, variance_fixture, rate_fixture, scale_fixture, t)
+        instance = GammaProcess(
+            mean_fixture, variance_fixture, rate_fixture, scale_fixture, t
+        )
         assert isinstance(repr(instance), str)
         assert isinstance(str(instance), str)
 

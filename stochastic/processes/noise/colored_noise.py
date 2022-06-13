@@ -42,12 +42,15 @@ class ColoredNoise(BaseTimeProcess):
         self._scale = None
 
     def __str__(self):
-        return "Colored noise generator with exponent " + "{beta} on interval [0, {t}]".format(
-            beta=str(self.beta), t=str(self.t)
+        return (
+            "Colored noise generator with exponent "
+            + "{beta} on interval [0, {t}]".format(beta=str(self.beta), t=str(self.t))
         )
 
     def __repr__(self):
-        return "ColoredNoise(beta={beta}, t={t})".format(beta=str(self.beta), t=str(self.t))
+        return "ColoredNoise(beta={beta}, t={t})".format(
+            beta=str(self.beta), t=str(self.t)
+        )
 
     @property
     def beta(self):
@@ -68,7 +71,10 @@ class ColoredNoise(BaseTimeProcess):
 
             self._half = (n + 1) // 2
             self._frequencies = np.fft.fftfreq(n, self.t)
-            self._scale = [np.sqrt(0.5 * (1 / w) ** self.beta) for w in self._frequencies[1 : self._half]]
+            self._scale = [
+                np.sqrt(0.5 * (1 / w) ** self.beta)
+                for w in self._frequencies[1 : self._half]
+            ]
 
         gn_real = np.random.normal(size=self._half - 1)
         gn_imag = np.random.normal(size=self._half - 1)
@@ -79,7 +85,10 @@ class ColoredNoise(BaseTimeProcess):
                 (
                     [0],
                     fft,
-                    [np.sqrt(0.5 * (1 / -self._frequencies[self._half]) ** self.beta) * np.random.normal()],
+                    [
+                        np.sqrt(0.5 * (1 / -self._frequencies[self._half]) ** self.beta)
+                        * np.random.normal()
+                    ],
                     np.conj(fft)[::-1],
                 )
             )

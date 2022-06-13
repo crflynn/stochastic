@@ -49,10 +49,14 @@ class FractionalGaussianNoise(BaseTimeProcess):
         self._dh_sqrt_eigenvals = lru_cache(1)(_fgn_dh_sqrt_eigenvals)
 
     def __str__(self):
-        return "Fractional Gaussian noise with Hurst {h} on [0, {t}].".format(h=self.hurst, t=self.t)
+        return "Fractional Gaussian noise with Hurst {h} on [0, {t}].".format(
+            h=self.hurst, t=self.t
+        )
 
     def __repr__(self):
-        return "FractionalGaussianNoise(hurst={h}, t={t})".format(t=str(self.t), h=str(self.hurst))
+        return "FractionalGaussianNoise(hurst={h}, t={t})".format(
+            t=str(self.t), h=str(self.hurst)
+        )
 
     @property
     def hurst(self):
@@ -78,7 +82,7 @@ class FractionalGaussianNoise(BaseTimeProcess):
 
         # For scaling to interval [0, T]
         increment = self.t / n
-        scale = increment ** self.hurst
+        scale = increment**self.hurst
 
         # If H = 0.5 then just generate a standard Brownian motion, otherwise
         # proceed with the Davies Harte method
@@ -114,7 +118,7 @@ class FractionalGaussianNoise(BaseTimeProcess):
         """
         # For scaling to interval [0, T]
         increment = self.t / n
-        scale = increment ** self.hurst
+        scale = increment**self.hurst
 
         gn = self.rng.normal(0.0, 1.0, n)
 

@@ -10,7 +10,9 @@ def test_mixed_poisson_process_str_repr(rate_func, rate_args, rate_kwargs):
     assert isinstance(str(instance), str)
 
 
-def test_mixed_poisson_process_sample(rate_func, rate_args, rate_kwargs, n_fixture, length):
+def test_mixed_poisson_process_sample(
+    rate_func, rate_args, rate_kwargs, n_fixture, length
+):
     instance = MixedPoissonProcess(rate_func, rate_args, rate_kwargs)
     if n_fixture is None and length is None:
         with pytest.raises(ValueError):
@@ -29,16 +31,22 @@ def test_mixed_poisson_process_times(rate_func, rate_args, rate_kwargs, n):
         _ = instance.times(n)
 
 
-def test_mixed_poisson_process_invalid_func(rate_func_invalid, rate_args, rate_kwargs, n):
+def test_mixed_poisson_process_invalid_func(
+    rate_func_invalid, rate_args, rate_kwargs, n
+):
     with pytest.raises(ValueError):
         _ = MixedPoissonProcess(rate_func_invalid, rate_args, rate_kwargs)
 
 
-def test_mixed_poisson_process_invalid_args(rate_func, rate_args_invalid, rate_kwargs, n):
+def test_mixed_poisson_process_invalid_args(
+    rate_func, rate_args_invalid, rate_kwargs, n
+):
     with pytest.raises(ValueError):
         _ = MixedPoissonProcess(rate_func, rate_args_invalid, rate_kwargs)
 
 
-def test_mixed_poisson_process_invalid_kwargs(rate_func, rate_args, rate_kwargs_invalid, n):
+def test_mixed_poisson_process_invalid_kwargs(
+    rate_func, rate_args, rate_kwargs_invalid, n
+):
     with pytest.raises(ValueError):
         _ = MixedPoissonProcess(rate_func, rate_args, rate_kwargs_invalid)

@@ -109,7 +109,9 @@ html_static_path = ["_static"]
 #
 # This is required for the alabaster theme
 # refs: http://alabaster.readthedocs.io/en/latest/installation.html#sidebars
-html_sidebars = {"**": ["relations.html", "searchbox.html"]}  # needs 'show_related': True theme option to display
+html_sidebars = {
+    "**": ["relations.html", "searchbox.html"]
+}  # needs 'show_related': True theme option to display
 
 
 # -- Options for HTMLHelp output ------------------------------------------
@@ -138,7 +140,15 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
-latex_documents = [(master_doc, "stochastic.tex", "stochastic Documentation", "Christopher Flynn", "manual",)]
+latex_documents = [
+    (
+        master_doc,
+        "stochastic.tex",
+        "stochastic Documentation",
+        "Christopher Flynn",
+        "manual",
+    )
+]
 
 
 # -- Options for manual page output ---------------------------------------

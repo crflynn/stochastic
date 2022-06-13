@@ -12,7 +12,7 @@ from stochastic.processes.noise import WhiteNoise
 
 
 # Floating point arithmetic comparison threshold
-@pytest.fixture(params=[10 ** -10])
+@pytest.fixture(params=[10**-10])
 def threshold(request):
     return request.param
 
@@ -66,7 +66,15 @@ def beta(request):
 
 
 @pytest.fixture(
-    params=[ColoredNoise, WhiteNoise, PinkNoise, RedNoise, BrownianNoise, BlueNoise, VioletNoise,]
+    params=[
+        ColoredNoise,
+        WhiteNoise,
+        PinkNoise,
+        RedNoise,
+        BrownianNoise,
+        BlueNoise,
+        VioletNoise,
+    ]
 )
 def colored_noise_class(request):
     return request.param

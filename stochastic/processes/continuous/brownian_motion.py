@@ -40,7 +40,9 @@ class BrownianMotion(GaussianNoise):
         return s.format(t=str(self.t), d=str(self.drift), s=str(self.scale))
 
     def __repr__(self):
-        return "BrownianMotion(drift={d}, scale={s}, t={t})".format(t=str(self.t), d=str(self.drift), s=str(self.scale))
+        return "BrownianMotion(drift={d}, scale={s}, t={t})".format(
+            t=str(self.t), d=str(self.drift), s=str(self.scale)
+        )
 
     @property
     def drift(self):

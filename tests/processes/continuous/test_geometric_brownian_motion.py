@@ -15,7 +15,9 @@ def test_geometric_brownian_motion_sample(drift, volatility, t, n, initial, thre
     assert len(s) == n + 1
 
 
-def test_geometric_brownian_motion_sample_at(drift, volatility, t, times, initial, threshold):
+def test_geometric_brownian_motion_sample_at(
+    drift, volatility, t, times, initial, threshold
+):
     instance = GeometricBrownianMotion(drift, volatility, t)
     s = instance.sample_at(times, initial)
     assert len(s) == len(times)

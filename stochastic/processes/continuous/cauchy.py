@@ -28,7 +28,7 @@ class CauchyProcess(BrownianMotion):
         check_positive_integer(n)
 
         delta_t = 1.0 * self.t / n
-        times = np.cumsum(levy.rvs(loc=0, scale=delta_t ** 2 / 2, size=n))
+        times = np.cumsum(levy.rvs(loc=0, scale=delta_t**2 / 2, size=n))
         times = np.insert(times, 0, [0])
         return self._sample_brownian_motion_at(times)
 
@@ -41,7 +41,10 @@ class CauchyProcess(BrownianMotion):
             zero = True
 
         deltas = np.diff(times)
-        levys = [levy.rvs(loc=0, scale=d ** 2 / 2, size=1, random_state=self.rng) for d in deltas]
+        levys = [
+            levy.rvs(loc=0, scale=d**2 / 2, size=1, random_state=self.rng)
+            for d in deltas
+        ]
         ts = np.cumsum(levys)
 
         if zero:

@@ -49,7 +49,9 @@ class BernoulliProcess(BaseSequenceProcess):
         """Generate a Bernoulli process realization."""
         check_positive_integer(n)
 
-        return np.array([1 if trial < self.p else 0 for trial in self.rng.uniform(size=n)])
+        return np.array(
+            [1 if trial < self.p else 0 for trial in self.rng.uniform(size=n)]
+        )
 
     def sample(self, n):
         """Generate a Bernoulli process realization.
