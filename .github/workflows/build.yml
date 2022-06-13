@@ -27,9 +27,9 @@ jobs:
       uses: actions/cache@v1
       with:
         path: ~/.asdf
-        key: v1-${{ runner.os }}-asdf-${{ hashFiles(format('{0}{1}', github.workspace, '/poetry.lock')) }}
+        key: v2-${{ runner.os }}-asdf-${{ hashFiles(format('{0}{1}', github.workspace, '/poetry.lock')) }}
         restore-keys: |
-          v1-${{ runner.os }}-asdf-
+          v2-${{ runner.os }}-asdf-
 
     - name: Install tools
       run: |
@@ -56,7 +56,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.6.12, 3.7.9, 3.8.6]
+        python-version: [3.8.13, 3.9.13]
 
     steps:
     - name: Checkout
@@ -81,9 +81,9 @@ jobs:
       uses: actions/cache@v1
       with:
         path: ~/.asdf
-        key: v1-${{ runner.os }}-${{ matrix.python-version }}-asdf-${{ hashFiles(format('{0}{1}', github.workspace, '/poetry.lock')) }}
+        key: v2-${{ runner.os }}-${{ matrix.python-version }}-asdf-${{ hashFiles(format('{0}{1}', github.workspace, '/poetry.lock')) }}
         restore-keys: |
-          v1-${{ runner.os }}-${{ matrix.python-version }}-asdf-
+          v2-${{ runner.os }}-${{ matrix.python-version }}-asdf-
 
     - name: Install python
       if: steps.cache-deps.outputs.cache-hit != 'true'
@@ -118,7 +118,7 @@ jobs:
     runs-on: macos-latest
     strategy:
       matrix:
-        python-version: [3.6.12, 3.7.9, 3.8.6]
+        python-version: [3.8.13, 3.9.13]
 
     steps:
     - name: Checkout
@@ -137,9 +137,9 @@ jobs:
       uses: actions/cache@v1
       with:
         path: ~/.asdf
-        key: v1-${{ runner.os }}-${{ matrix.python-version }}-asdf-${{ hashFiles(format('{0}{1}', github.workspace, '/poetry.lock')) }}
+        key: v2-${{ runner.os }}-${{ matrix.python-version }}-asdf-${{ hashFiles(format('{0}{1}', github.workspace, '/poetry.lock')) }}
         restore-keys: |
-          v1-${{ runner.os }}-${{ matrix.python-version }}-asdf-
+          v2-${{ runner.os }}-${{ matrix.python-version }}-asdf-
 
     - name: Install python
       if: steps.cache-deps.outputs.cache-hit != 'true'

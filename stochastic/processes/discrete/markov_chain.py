@@ -37,7 +37,9 @@ class MarkovChain(BaseSequenceProcess):
         ) + "and initial state probabilities = {p}".format(p=str(self.initial))
 
     def __repr__(self):
-        return "MarkovChain(transition={t}, initial={i})".format(t=str(self.transition), i=str(self.initial))
+        return "MarkovChain(transition={t}, initial={i})".format(
+            t=str(self.transition), i=str(self.initial)
+        )
 
     @property
     def transition(self):
@@ -63,7 +65,9 @@ class MarkovChain(BaseSequenceProcess):
     def initial(self, values):
         values = np.array(values, copy=False)
         if values.ndim != 1 or len(values) != len(self.transition):
-            raise ValueError("Initial state probabilities must be one-to-one with states.")
+            raise ValueError(
+                "Initial state probabilities must be one-to-one with states."
+            )
         if sum(values) != 1:
             raise ValueError("Initial state probabilities must sum to 1.")
         self._initial = values
@@ -79,6 +83,8 @@ class MarkovChain(BaseSequenceProcess):
 
         markov_chain = [self.rng.choice(states, p=self.initial)]
         for _ in range(n - 1):
-            markov_chain.append(self.rng.choice(states, p=self.transition[markov_chain[-1]]))
+            markov_chain.append(
+                self.rng.choice(states, p=self.transition[markov_chain[-1]])
+            )
 
         return np.array(markov_chain)

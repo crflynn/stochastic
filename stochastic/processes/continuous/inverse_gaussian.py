@@ -98,15 +98,18 @@ class InverseGaussianProcess(BaseTimeProcess):
                 self._ms.append(self._check_mean(self._times[k], self._times[k + 1]))
             self._ms = np.array(self._ms)
 
-        ls = np.array([self.scale * m ** 2 for m in self._ms])
+        ls = np.array([self.scale * m**2 for m in self._ms])
 
         gn = self.rng.normal(size=n)
-        ys = gn ** 2
+        ys = gn**2
 
         xs = (
             self._ms
-            + self._ms ** 2 * ys / 2 / ls
-            - self._ms / 2 / ys * np.sqrt(4 * self._ms * ls * ys + self._ms ** 2 * ys ** 2)
+            + self._ms**2 * ys / 2 / ls
+            - self._ms
+            / 2
+            / ys
+            * np.sqrt(4 * self._ms * ls * ys + self._ms**2 * ys**2)
         )
 
         zs = self.rng.uniform(size=n)
@@ -116,7 +119,7 @@ class InverseGaussianProcess(BaseTimeProcess):
             if z <= m / (m + x):
                 ign.append(x)
             else:
-                ign.append(m ** 2 / x)
+                ign.append(m**2 / x)
 
         ig = np.array(ign).cumsum()
         ig = np.insert(ig, [0], 0)
@@ -140,12 +143,16 @@ class InverseGaussianProcess(BaseTimeProcess):
             ms.append(self._check_mean(times[k], times[k + 1]))
         ms = np.array(ms)
 
-        ls = np.array([self.scale * m ** 2 for m in ms])
+        ls = np.array([self.scale * m**2 for m in ms])
 
         gn = self.rng.normal(size=n)
-        ys = gn ** 2
+        ys = gn**2
 
-        xs = ms + ms ** 2 * ys / 2 / ls - ms / 2 / ys * np.sqrt(4 * ms * ls * ys + ms ** 2 * ys ** 2)
+        xs = (
+            ms
+            + ms**2 * ys / 2 / ls
+            - ms / 2 / ys * np.sqrt(4 * ms * ls * ys + ms**2 * ys**2)
+        )
 
         zs = self.rng.uniform(size=n)
 
@@ -154,7 +161,7 @@ class InverseGaussianProcess(BaseTimeProcess):
             if z <= m / (m + x):
                 ign.append(x)
             else:
-                ign.append(m ** 2 / x)
+                ign.append(m**2 / x)
 
         ig = np.array(ign).cumsum()
         if times[0] == 0:

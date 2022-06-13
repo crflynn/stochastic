@@ -9,7 +9,7 @@ docs:
 	open docs/_build/html/index.html
 
 fmt:
-	poetry run isort -y
+	poetry run isort .
 	poetry run black .
 
 setup:

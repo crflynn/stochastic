@@ -5,7 +5,7 @@ import scipy.stats as ss
 
 
 # Floating point arithmetic comparison threshold
-@pytest.fixture(params=[10 ** -10])
+@pytest.fixture(params=[10**-10])
 def threshold(request):
     return request.param
 

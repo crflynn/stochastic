@@ -75,10 +75,14 @@ class RandomWalk(BaseSequenceProcess):
         self._weights = values
 
     def __str__(self):
-        return "Random walk steps = {s} and weights = {w}".format(s=str(self.steps), w=str(self.weights))
+        return "Random walk steps = {s} and weights = {w}".format(
+            s=str(self.steps), w=str(self.weights)
+        )
 
     def __repr__(self):
-        return "RandomWalk(steps={s}, weights={w})".format(s=str(self.steps), w=str(self.weights))
+        return "RandomWalk(steps={s}, weights={w})".format(
+            s=str(self.steps), w=str(self.weights)
+        )
 
     def _sample_random_walk(self, n):
         """Generate a random walk."""

@@ -49,12 +49,20 @@ class DiffusionProcess(GaussianNoise):
 
     def __str__(self):
         return "Diffusion process with speed={s}, mean={m}, vol={v}, volexp={e} on [0, {t}]".format(
-            s=str(self.speed), m=str(self.mean), v=str(self.vol), e=str(self.volexp), t=str(self.t)
+            s=str(self.speed),
+            m=str(self.mean),
+            v=str(self.vol),
+            e=str(self.volexp),
+            t=str(self.t),
         )
 
     def __repr__(self):
         return "Diffusion(speed={s}, mean={m}, vol={v}, volexp={e} t={t})".format(
-            s=str(self.speed), m=str(self.mean), v=str(self.vol), e=str(self.volexp), t=str(self.t)
+            s=str(self.speed),
+            m=str(self.mean),
+            v=str(self.vol),
+            e=str(self.volexp),
+            t=str(self.t),
         )
 
     @property

@@ -1,11 +1,10 @@
 stochastic
 ==========
 
-|travis| |rtd| |codecov| |pypi| |pyversions|
+|build| |rtd| |codecov| |pypi| |pyversions|
 
-
-.. |travis| image:: https://img.shields.io/travis/crflynn/stochastic.svg
-    :target: https://travis-ci.org/crflynn/stochastic
+.. |build| image:: https://github.com/crflynn/stochastic/actions/workflows/build.yml/badge.svg
+    :target: https://github.com/crflynn/stochastic/actions
 
 .. |rtd| image:: https://img.shields.io/readthedocs/stochastic.svg
     :target: http://stochastic.readthedocs.io/en/latest/

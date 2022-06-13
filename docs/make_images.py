@@ -8,7 +8,9 @@ from stochastic.processes import *
 plt.style.use("bmh")
 
 
-def make_plot(title, fname, x, ys, xlabel="Time", ylabel="Value", scatter=False, alt=False):
+def make_plot(
+    title, fname, x, ys, xlabel="Time", ylabel="Value", scatter=False, alt=False
+):
     fig, ax = plt.subplots(1, 1, figsize=(8, 4))
     if alt:
         for y in ys:
@@ -124,7 +126,15 @@ def main():
     #
     process = DirichletProcess()
     ss = get_samples(1, process, {"n": 64})
-    make_plot("Dirichlet process", "dirichlet_process", list(range(64)), ss, "Time", "Value", scatter=True)
+    make_plot(
+        "Dirichlet process",
+        "dirichlet_process",
+        list(range(64)),
+        ss,
+        "Time",
+        "Value",
+        scatter=True,
+    )
 
     # process = MarkovChain([[0.2, 0.2, 0.2, 0.2, 0.2],[0.2, 0.2, 0.2, 0.2, 0.2],[0.2, 0.2, 0.2, 0.2, 0.2],[0.2, 0.2, 0.2, 0.2, 0.2],[0.2, 0.2, 0.2, 0.2, 0.2]])
     # ss = get_samples(1, process, {"n": 32})

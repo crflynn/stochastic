@@ -28,13 +28,13 @@ class SquaredBesselProcess(BesselProcess):
 
         samples = [self._sample_brownian_motion(n) for _ in range(self.dim)]
 
-        return np.array([sum(map(lambda x: x ** 2, coord)) for coord in zip(*samples)])
+        return np.array([sum(map(lambda x: x**2, coord)) for coord in zip(*samples)])
 
     def _sample_squared_bessel_process_at(self, times):
         """Generate a realization of a squared Bessel process."""
         samples = [self._sample_brownian_motion_at(times) for _ in range(self.dim)]
 
-        return np.array([sum(map(lambda x: x ** 2, coord)) for coord in zip(*samples)])
+        return np.array([sum(map(lambda x: x**2, coord)) for coord in zip(*samples)])
 
     def sample(self, n):
         """Generate a realization.

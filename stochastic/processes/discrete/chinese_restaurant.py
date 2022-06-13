@@ -50,7 +50,9 @@ class ChineseRestaurantProcess(BaseSequenceProcess):
         )
 
     def __repr__(self):
-        return "ChineseRestaurantProcess(discount={d}, strength={s})".format(d=str(self.discount), s=str(self.strength))
+        return "ChineseRestaurantProcess(discount={d}, strength={s})".format(
+            d=str(self.discount), s=str(self.strength)
+        )
 
     @property
     def discount(self):
@@ -96,8 +98,15 @@ class ChineseRestaurantProcess(BaseSequenceProcess):
         table_range = [0, 1]
 
         for k in range(2, n + 1):
-            p = [1.0 * (len(c[t]) - self.discount) / (k - 1 + self.strength) for t in table_range[:-1]]
-            p.append(1.0 * (self.strength + num_tables * self.discount) / (k - 1 + self.strength))
+            p = [
+                1.0 * (len(c[t]) - self.discount) / (k - 1 + self.strength)
+                for t in table_range[:-1]
+            ]
+            p.append(
+                1.0
+                * (self.strength + num_tables * self.discount)
+                / (k - 1 + self.strength)
+            )
             table = self.rng.choice(table_range, p=p)
             if table == num_tables:
                 num_tables += 1
