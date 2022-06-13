@@ -56,7 +56,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.7.13, 3.8.13, 3.9.13]
+        python-version: [3.8.13, 3.9.13]
 
     steps:
     - name: Checkout
@@ -118,7 +118,7 @@ jobs:
     runs-on: macos-latest
     strategy:
       matrix:
-        python-version: [3.7.13, 3.8.13, 3.9.13]
+        python-version: [3.8.13, 3.9.13]
 
     steps:
     - name: Checkout
