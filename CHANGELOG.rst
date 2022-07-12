@@ -1,10 +1,10 @@
 Release Changelog
 -----------------
 
-0.7.0 (tbd)
-~~~~~~~~~~~
+0.7.0 (2022-07-11)
+~~~~~~~~~~~~~~~~~~
 
-* Don't install package assets to ``site-packages`` folder
+* Don't install meta assets to ``site-packages`` folder
 * Pass GBM ``rng`` to underlying BrownianMotion
 * Update dependencies, and support Python 3.8+
 
